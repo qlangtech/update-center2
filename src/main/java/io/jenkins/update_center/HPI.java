@@ -25,6 +25,7 @@ package io.jenkins.update_center;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.google.common.annotations.VisibleForTesting;
+import com.qlangetch.tis.TISRepositoryImpl;
 import hudson.util.VersionNumber;
 import io.jenkins.update_center.util.JavaSpecificationVersion;
 import org.apache.commons.io.IOUtils;
@@ -83,10 +84,13 @@ public class HPI extends MavenArtifact {
     }
 
     /**
+     * https://mirror.qlangtech.com/2.3.0/tis-plugin/tis-aliyun-hdfs-plugin.tpi
      * Download a plugin via more intuitive URL. This also helps us track download counts.
      */
     public URL getDownloadUrl() throws MalformedURLException {
-        return new URL(StringUtils.removeEnd(DOWNLOADS_ROOT_URL, "/") + "/plugins/" + artifact.artifactId + "/" + version + "/" + artifact.artifactId + ".hpi");
+      //  return new URL(StringUtils.removeEnd(DOWNLOADS_ROOT_URL, "/") + "/plugins/" + artifact.artifactId + "/" + version + "/" + artifact.artifactId + ".hpi");
+        return new URL(StringUtils.removeEnd(DOWNLOADS_ROOT_URL, "/")  + "/" + version + "/tis-plugin/" + artifact.artifactId + TISRepositoryImpl.TIS_PACKAGE_EXTENSION);
+
     }
 
     public String getRequiredJenkinsVersion() throws IOException {
@@ -184,21 +188,21 @@ public class HPI extends MavenArtifact {
 
     public String getDescription() throws IOException {
         if (description == null) {
-            String description = plainText2html(readSingleValueFromXmlFile(resolvePOM(), "/project/description"));
-
-            ArtifactCoordinates coordinates = new ArtifactCoordinates(artifact.groupId, artifact.artifactId, artifact.version, "jar");
-            try (InputStream is = repository.getZipFileEntry(new MavenArtifact(repository, coordinates), "index.jelly")) {
-                StringBuilder b = new StringBuilder();
-                HtmlStreamRenderer renderer = HtmlStreamRenderer.create(b, Throwable::printStackTrace, html -> LOGGER.log(Level.INFO, "Bad HTML: '" + html + "' in " + artifact.getGav()));
-                HtmlSanitizer.sanitize(IOUtils.toString(is, StandardCharsets.UTF_8), HTML_POLICY.apply(renderer), PRE_PROCESSOR);
-                description = b.toString().trim().replaceAll("\\s+", " ");
-            } catch (IOException e) {
-                LOGGER.log(Level.FINE, () -> "Failed to read description from index.jelly: " + e.getMessage());
-            }
-            if (isAlphaOrBeta()) {
-                description = "<b>(This version is experimental and may change in backward-incompatible ways)</b><br><br>" + description;
-            }
-            this.description = description;
+//            String description = plainText2html(readSingleValueFromXmlFile(resolvePOM(), "/project/description"));
+//
+//            ArtifactCoordinates coordinates = new ArtifactCoordinates(artifact.groupId, artifact.artifactId, artifact.version, "jar");
+//            try (InputStream is = repository.getZipFileEntry(new MavenArtifact(repository, coordinates), "index.jelly")) {
+//                StringBuilder b = new StringBuilder();
+//                HtmlStreamRenderer renderer = HtmlStreamRenderer.create(b, Throwable::printStackTrace, html -> LOGGER.log(Level.INFO, "Bad HTML: '" + html + "' in " + artifact.getGav()));
+//                HtmlSanitizer.sanitize(IOUtils.toString(is, StandardCharsets.UTF_8), HTML_POLICY.apply(renderer), PRE_PROCESSOR);
+//                description = b.toString().trim().replaceAll("\\s+", " ");
+//            } catch (IOException e) {
+//                LOGGER.log(Level.FINE, () -> "Failed to read description from index.jelly: " + e.getMessage());
+//            }
+//            if (isAlphaOrBeta()) {
+//                description = "<b>(This version is experimental and may change in backward-incompatible ways)</b><br><br>" + description;
+//            }
+            this.description = "plugin description";
         }
         return description;
     }
@@ -503,7 +507,7 @@ public class HPI extends MavenArtifact {
         if (url == null) {
             return null;
         }
-        if (url.contains("github.com:jenkinsci/") || url.contains("github.com/jenkinsci/")) {
+        if (url.contains("github.com:jenkinsci/") || url.contains("github.com/qlangtech/")) {
             // We're only doing weird thing for GitHub URLs that map somewhat cleanly from developerConnection to browsable URL.
             // Also limit to jenkinsci because that's what people should be using anyway.
             String githubUrl = url.substring(url.indexOf("github.com"));
@@ -583,13 +587,14 @@ public class HPI extends MavenArtifact {
     }
 
     private OrgAndRepo getOrgAndRepo(String scmUrl) {
-        if (scmUrl == null || !scmUrl.startsWith("https://github.com/")) {
-            return null;
-        }
-        String[] parts = scmUrl.replaceFirst("https://github.com/", "").split("[/]");
-        if (parts.length >= 2) {
-            return new OrgAndRepo(parts[0], parts[1]);
-        }
+        // FIXME baisui comment for temp
+//        if (scmUrl == null || !scmUrl.startsWith("https://github.com/")) {
+//            return null;
+//        }
+//        String[] parts = scmUrl.replaceFirst("https://github.com/", "").split("[/]");
+//        if (parts.length >= 2) {
+//            return new OrgAndRepo(parts[0], parts[1]);
+//        }
         return null;
     }
 

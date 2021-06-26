@@ -248,7 +248,9 @@ public class Main {
         metadataWriter.writeMetadataFiles(repo, www);
 
         if (!skipUpdateCenter) {
-            final String signedUpdateCenterJson = new UpdateCenterRoot(repo, new File(Main.resourcesDir, WARNINGS_JSON_FILENAME)).encodeWithSignature(signer, prettyPrint);
+            final String signedUpdateCenterJson
+                    = new UpdateCenterRoot(repo, new File(Main.resourcesDir, WARNINGS_JSON_FILENAME))
+                    .encodeWithSignature(signer, prettyPrint);
             writeToFile(updateCenterPostCallJson(signedUpdateCenterJson), new File(www, UPDATE_CENTER_JSON_FILENAME));
             writeToFile(signedUpdateCenterJson, new File(www, UPDATE_CENTER_ACTUAL_JSON_FILENAME));
             writeToFile(updateCenterPostMessageHtml(signedUpdateCenterJson), new File(www, UPDATE_CENTER_JSON_HTML_FILENAME));
@@ -278,7 +280,8 @@ public class Main {
     }
 
     private String updateCenterPostCallJson(String updateCenterJson) {
-        return "updateCenter.post(" + EOL + updateCenterJson + EOL + ");";
+        return updateCenterJson;
+       // return "updateCenter.post(" + EOL + updateCenterJson + EOL + ");";
     }
 
     private String updateCenterPostMessageHtml(String updateCenterJson) {

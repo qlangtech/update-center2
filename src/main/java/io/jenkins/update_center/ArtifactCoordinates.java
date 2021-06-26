@@ -10,6 +10,9 @@ public class ArtifactCoordinates {
     public final String packaging;
 
     public ArtifactCoordinates(String groupId, String artifactId, String version, String packaging) {
+        if (groupId == null) {
+            throw new IllegalArgumentException("param groupId can not be null");
+        }
         this.groupId = groupId;
         this.artifactId = artifactId;
         this.version = version;

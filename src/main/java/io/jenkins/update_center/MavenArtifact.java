@@ -45,7 +45,7 @@ import java.util.jar.Manifest;
  * @author Kohsuke Kawaguchi
  */
 public class MavenArtifact {
-    protected static final String DOWNLOADS_ROOT_URL = Environment.getString("DOWNLOADS_ROOT_URL", "https://updates.jenkins.io/download");
+    protected static final String DOWNLOADS_ROOT_URL = Environment.getString("DOWNLOADS_ROOT_URL", "http://mirror.qlangtech.com");
     /**
      * Where did this plugin come from?
      */
@@ -74,7 +74,7 @@ public class MavenArtifact {
     }
 
     public File resolvePOM() throws IOException {
-        return repository.resolve(artifact,"pom", null);
+        return repository.resolve(artifact, "pom", null);
     }
 
     public MavenRepository.ArtifactMetadata getMetadata() throws IOException {
@@ -99,7 +99,7 @@ public class MavenArtifact {
 
     public Date getTimestampAsDate() throws IOException {
         long lastModified = getTimestamp();
-        
+
 
         Date lastModifiedDate = new Date(lastModified);
         Calendar cal = new GregorianCalendar();
@@ -110,7 +110,7 @@ public class MavenArtifact {
         cal.set(Calendar.MILLISECOND, 0);
         return cal.getTime();
     }
-    
+
     public static SimpleDateFormat getDateFormat() {
         return new SimpleDateFormat("MMM dd, yyyy", Locale.US);
     }
@@ -120,7 +120,7 @@ public class MavenArtifact {
     }
 
     public Manifest getManifest() throws IOException {
-        if (manifest==null) {
+        if (manifest == null) {
             manifest = repository.getManifest(this);
         }
         return manifest;
@@ -137,7 +137,7 @@ public class MavenArtifact {
      * @throws MalformedURLException if the resulting URL is invalid
      */
     public URL getDownloadUrl() throws MalformedURLException {
-        return new URL("repo.jenkins-ci.org/public/"+artifact.groupId.replace('.','/')+"/"+artifact.artifactId+"/"+artifact.version+"/"+artifact.artifactId+"-"+artifact.version+"."+artifact.packaging);
+        return new URL("repo.jenkins-ci.org/public/" + artifact.groupId.replace('.', '/') + "/" + artifact.artifactId + "/" + artifact.version + "/" + artifact.artifactId + "-" + artifact.version + "." + artifact.packaging);
     }
 
     @Override
@@ -146,7 +146,7 @@ public class MavenArtifact {
     }
 
     public String getGavId() {
-        return artifact.groupId+':'+artifact.artifactId+':'+artifact.version;
+        return artifact.groupId + ':' + artifact.artifactId + ':' + artifact.version;
     }
 
 
