@@ -1,4 +1,11 @@
 = Jenkins Update Center Generator
+== Make some modify for TIS update-center.json generation
+
+execute
+```
+  cd /opt/misc/update-center2
+  java  -DGITHUB_USERNAME=baisui1981 -DGITHUB_PASSWORD=**** io.jenkins.update_center.Main --id default --resources-dir /opt/misc/update-center2/resources
+```
 
 This project is primarily used to generate the jenkins.io update center layout.
 
