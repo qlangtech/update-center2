@@ -50,7 +50,7 @@ MAIN_DIR="$( readlink -f "$SIMPLE_SCRIPT_DIR/../" 2>/dev/null || greadlink -f "$
 echo "Main directory: $MAIN_DIR"
 mkdir -p "$MAIN_DIR"/tmp/
 
-version=3.8
+version=3.9
 coordinates=org/jenkins-ci/update-center2/$version/update-center2-$version-bin.zip
 
 if [[ -f "$MAIN_DIR"/tmp/generator-$version.zip ]] ; then
@@ -92,7 +92,7 @@ mkdir -p "$WWW_ROOT_DIR"
 echo "# one update site per line" > "$MAIN_DIR"/tmp/args.lst
 
 function generate {
-  echo "--key $SECRET/update-center.key --certificate $SECRET/update-center.cert --root-certificate $( dirname "$0" )/../resources/certificates/jenkins-update-center-root-ca-2.crt $EXTRA_ARGS $*" >> "$MAIN_DIR"/tmp/args.lst
+  echo "--key $SECRET/update-center.key --certificate $SECRET/update-center.cert --root-certificate $( dirname "$0" )/../resources/certificates/jenkins-update-center-root-ca-2.crt --index-template-url https://www.jenkins.io/templates/downloads/ $EXTRA_ARGS $*" >> "$MAIN_DIR"/tmp/args.lst
 }
 
 function sanity-check {

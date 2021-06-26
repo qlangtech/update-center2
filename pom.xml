@@ -8,7 +8,7 @@
 
   <artifactId>update-center2</artifactId>
   
-  <version>3.9-SNAPSHOT</version>
+  <version>3.10-SNAPSHOT</version>
   <name>Jenkins Update Center Generator</name>
   <description>Generates update sites for updates.jenkins.io</description>
 
@@ -16,8 +16,7 @@
     <java.level>8</java.level>
     <main.class>io.jenkins.update_center.Main</main.class>
     <spotbugs.failOnError>false</spotbugs.failOnError>
-    <spotbugs.threshold>High</spotbugs.threshold>
-    <!-- TODO reduce threshold and resolve further issues -->
+    <spotbugs.threshold>Low</spotbugs.threshold>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <project.build.outputEncoding>UTF-8</project.build.outputEncoding>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -122,6 +121,12 @@
           <redirectTestOutputToFile>true</redirectTestOutputToFile>
         </configuration>
       </plugin>
+      <plugin>
+        <groupId>com.github.spotbugs</groupId>
+        <artifactId>spotbugs-maven-plugin</artifactId>
+        <version>4.2.0</version>
+        <configuration><excludeFilterFile>${project.basedir}/spotbugs-excludes.xml</excludeFilterFile></configuration>
+      </plugin>
     </plugins>
   </build>
 
@@ -214,6 +219,12 @@
       <version>4.1.1</version>
       <scope>compile</scope>
     </dependency>
+    <dependency>
+      <groupId>org.jsoup</groupId>
+      <artifactId>jsoup</artifactId>
+      <version>1.13.1</version>
+    </dependency>
+
 
     <!-- for requireUpperBoundDeps -->
     <dependency>

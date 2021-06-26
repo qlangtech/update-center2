@@ -166,17 +166,6 @@ public class PluginUpdateCenterEntry {
         return latestOffered.getGavId();
     }
 
-    private static String fixEmptyAndTrim(String value) {
-        if (value == null) {
-            return null;
-        }
-        final String trim = value.trim();
-        if (trim.length() == 0) {
-            return null;
-        }
-        return trim;
-    }
-
     public List<MaintainersSource.Maintainer> getDevelopers() {
         return MaintainersSource.getInstance().getMaintainers(this.latestOffered.artifact);
     }
@@ -199,9 +188,6 @@ public class PluginUpdateCenterEntry {
 
     public String getLatest() {
         final LatestPluginVersions instance = LatestPluginVersions.getInstance();
-        if (instance == null) {
-            return null;
-        }
         final VersionNumber latestPublishedVersion = instance.getLatestVersion(artifactId);
         if (latestPublishedVersion == null || latestPublishedVersion.equals(latestOffered.getVersion())) {
             // only include latest version information if the currently published version isn't the latest
