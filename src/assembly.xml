@@ -34,6 +34,11 @@
       <outputDirectory>/</outputDirectory>
     </fileSet>
 
+    <fileSet>
+      <directory>${basedir}/resources/</directory>
+      <outputDirectory>/resources</outputDirectory>
+    </fileSet>
+
     <!-- resources
     <fileSet>
         <directory>${basedir}/${project.build.directory}/classes</directory>
