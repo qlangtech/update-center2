@@ -7,6 +7,8 @@
 /*.ipr
 /*.iws
 
+/*.tar.gz
+
 # Eclipse
 /.settings/
 /.classpath
