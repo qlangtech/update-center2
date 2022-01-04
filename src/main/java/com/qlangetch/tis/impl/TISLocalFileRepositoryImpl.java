@@ -11,6 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Map;
 
@@ -25,11 +26,12 @@ public class TISLocalFileRepositoryImpl extends AbstractTISRepository {
 
         File pluginDir = TIS.pluginDirRoot;
         if (!pluginDir.exists()) {
-            throw new IllegalStateException("plugin dir:" + pluginDir.getAbsolutePath() + " can not be exist");
+            throw new IllegalStateException("plugin dir:" + pluginDir.getAbsolutePath() + " must be exist");
         }
-
-//        Iterator<File> tpiFiles
-//                = FileUtils.iterateFiles(pluginDir, new String[]{AbstractTISRepository.TIS_PACKAGING_TPI}, false);
+        Collection<File> tpis = FileUtils.listFiles(pluginDir, new String[]{AbstractTISRepository.TIS_PACKAGING_TPI}, false);
+        if (tpis.size() < 1) {
+            throw new IllegalStateException("plugin dir:" + pluginDir.getAbsolutePath() + " must contain plugins");
+        }
         TISArtifactCoordinates coord = null;
         for (PluginWrapper plugin : TIS.get().getPluginManager().getPlugins()) {
             try {
