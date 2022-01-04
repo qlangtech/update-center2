@@ -7,6 +7,7 @@ import com.qlangtech.tis.TIS;
 import com.qlangtech.tis.extension.PluginWrapper;
 import io.jenkins.update_center.ArtifactCoordinates;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -31,9 +32,13 @@ public class TISLocalFileRepositoryImpl extends AbstractTISRepository {
 //                = FileUtils.iterateFiles(pluginDir, new String[]{AbstractTISRepository.TIS_PACKAGING_TPI}, false);
         TISArtifactCoordinates coord = null;
         for (PluginWrapper plugin : TIS.get().getPluginManager().getPlugins()) {
-            coord = new TISLocalPluginContextArtifactCoordinates(plugin, plugin.getGroupId(), plugin.getShortName(), plugin.getVersion()
-                    , AbstractTISRepository.TIS_PACKAGING_TPI, FileUtils.sizeOf(plugin.getArchive()), new Date(plugin.getLastModfiyTime()));
-            plugins.put(coord.getGav(), coord);
+            try {
+                coord = new TISLocalPluginContextArtifactCoordinates(plugin, plugin.getGroupId(), plugin.getShortName(), plugin.getVersion()
+                        , AbstractTISRepository.TIS_PACKAGING_TPI, FileUtils.sizeOf(plugin.getArchive()), new Date(plugin.getLastModfiyTime()));
+                plugins.put(coord.getGav(), coord);
+            } catch (Exception e) {
+                throw new IllegalStateException(plugin.getShortName(), e);
+            }
         }
 
 
@@ -41,7 +46,17 @@ public class TISLocalFileRepositoryImpl extends AbstractTISRepository {
     }
 
     @Override
+    protected void extraTpiZipEntry(ArtifactCoordinates artifact, String uri, String entryPath) throws IOException {
+
+    }
+
+    @Override
     protected File getFile(ArtifactCoordinates artifact, String url) throws IOException {
+        if (!StringUtils.equals(artifact.packaging, TIS_PACKAGING_TPI)) {
+            // throw new IllegalStateException(artifact.toString() + " must be type of " + TIS_PACKAGING_TPI);
+            File cacheFile = new File(cacheDirectory, url);
+            return cacheFile;
+        }
         TISLocalPluginContextArtifactCoordinates coord = (TISLocalPluginContextArtifactCoordinates) artifact;
         return coord.getArchiveFile();
     }

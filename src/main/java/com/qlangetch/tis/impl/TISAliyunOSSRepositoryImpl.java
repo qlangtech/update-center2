@@ -14,10 +14,13 @@ import org.apache.commons.lang3.StringUtils;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.Properties;
+import java.util.jar.JarFile;
 import java.util.logging.Level;
+import java.util.zip.ZipEntry;
 
 /**
  * @author: 百岁（baisui@qlangtech.com）
@@ -26,6 +29,22 @@ import java.util.logging.Level;
 public class TISAliyunOSSRepositoryImpl extends AbstractTISRepository {
     private OSS ossClient;
     private String ossBucketName;
+
+    protected void extraTpiZipEntry(ArtifactCoordinates artifact, String uri, String entryPath) throws IOException {
+        ArtifactCoordinates tpiCoord = new ArtifactCoordinates(artifact.groupId, artifact.artifactId, artifact.version, TIS_PACKAGING_TPI);
+        File tpi = getFile(tpiCoord, getUri(tpiCoord));
+        if (!tpi.exists()) {
+            throw new IllegalStateException("tpi is not exist:" + tpi.getAbsolutePath());
+        }
+        try (JarFile j = new JarFile(tpi)) {
+            ZipEntry entry = j.getEntry(entryPath);
+
+            try (OutputStream pomOut = FileUtils.openOutputStream(new File(cacheDirectory, uri));
+                 InputStream in = j.getInputStream(entry)) {
+                IOUtils.copy(in, pomOut);
+            }
+        }
+    }
 
     protected Map<String, TISArtifactCoordinates> initialize() throws IOException {
         if (initialized) {

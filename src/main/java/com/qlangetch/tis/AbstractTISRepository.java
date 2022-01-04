@@ -1,20 +1,15 @@
 package com.qlangetch.tis;
 
-import com.aliyun.oss.model.GetObjectRequest;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import io.jenkins.update_center.ArtifactCoordinates;
 import io.jenkins.update_center.BaseMavenRepository;
 import io.jenkins.update_center.MavenArtifact;
 import io.jenkins.update_center.util.Environment;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
@@ -129,27 +124,15 @@ public abstract class AbstractTISRepository extends BaseMavenRepository {
         return getFile(artifact, uri);
     }
 
-    private void extraTpiZipEntry(ArtifactCoordinates artifact, String uri, String entryPath) throws IOException {
-        ArtifactCoordinates tpiCoord = new ArtifactCoordinates(artifact.groupId, artifact.artifactId, artifact.version, TIS_PACKAGING_TPI);
-        File tpi = getFile(tpiCoord, getUri(tpiCoord));
-        if (!tpi.exists()) {
-            throw new IllegalStateException("tpi is not exist:" + tpi.getAbsolutePath());
-        }
-        try (JarFile j = new JarFile(tpi)) {
-            ZipEntry entry = j.getEntry(entryPath);
-
-            try (OutputStream pomOut = FileUtils.openOutputStream(new File(cacheDirectory, uri));
-                 InputStream in = j.getInputStream(entry)) {
-                IOUtils.copy(in, pomOut);
-            }
-        }
-    }
-    protected abstract File getFile(ArtifactCoordinates artifact, final String url) throws IOException ;
+    protected abstract void extraTpiZipEntry(ArtifactCoordinates artifact, String uri, String entryPath) throws IOException;
 
 
-    private String getUri(ArtifactCoordinates a) {
+    protected abstract File getFile(ArtifactCoordinates artifact, final String url) throws IOException;
+
+
+    protected String getUri(ArtifactCoordinates a) {
         String basename = a.artifactId + "-" + a.version;
-        String filename = filename = basename + "." + a.packaging;
+        String filename = basename + "." + a.packaging;
         return a.groupId.replace(".", "/") + "/" + a.artifactId + "/" + a.version + "/" + filename;
     }
 
