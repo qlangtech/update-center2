@@ -28,17 +28,17 @@
         <finalName>update-center2</finalName>
         <plugins>
 
-<!--            <plugin>-->
-<!--                <groupId>com.qlangtech.tis</groupId>-->
-<!--                <artifactId>tisasm-maven-plugin</artifactId>-->
-<!--                <version>1.0.4</version>-->
-<!--                <configuration>-->
-<!--                    <descriptor>./assembly.xml</descriptor>-->
-<!--                    <outputDirectory>.</outputDirectory>-->
-<!--                    <appendAssemblyId>false</appendAssemblyId>-->
-<!--                    <tarLongFileMode>posix</tarLongFileMode>-->
-<!--                </configuration>-->
-<!--            </plugin>-->
+            <!--            <plugin>-->
+            <!--                <groupId>com.qlangtech.tis</groupId>-->
+            <!--                <artifactId>tisasm-maven-plugin</artifactId>-->
+            <!--                <version>1.0.4</version>-->
+            <!--                <configuration>-->
+            <!--                    <descriptor>./assembly.xml</descriptor>-->
+            <!--                    <outputDirectory>.</outputDirectory>-->
+            <!--                    <appendAssemblyId>false</appendAssemblyId>-->
+            <!--                    <tarLongFileMode>posix</tarLongFileMode>-->
+            <!--                </configuration>-->
+            <!--            </plugin>-->
 
             <plugin>
                 <artifactId>maven-jar-plugin</artifactId>
@@ -181,6 +181,12 @@
             <groupId>commons-collections</groupId>
             <artifactId>commons-collections</artifactId>
             <version>3.2.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.32</version>
         </dependency>
 
         <dependency>
