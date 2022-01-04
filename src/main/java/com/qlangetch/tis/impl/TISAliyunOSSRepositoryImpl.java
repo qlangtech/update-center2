@@ -27,8 +27,8 @@ import java.util.zip.ZipEntry;
  * @create: 2022-01-04 10:18
  **/
 public class TISAliyunOSSRepositoryImpl extends AbstractTISRepository {
-    private OSS ossClient;
-    private String ossBucketName;
+    private AliyunOSS ossClient;
+    // private String ossBucketName;
 
     protected void extraTpiZipEntry(ArtifactCoordinates artifact, String uri, String entryPath) throws IOException {
         ArtifactCoordinates tpiCoord = new ArtifactCoordinates(artifact.groupId, artifact.artifactId, artifact.version, TIS_PACKAGING_TPI);
@@ -53,6 +53,36 @@ public class TISAliyunOSSRepositoryImpl extends AbstractTISRepository {
         Map<String, TISArtifactCoordinates> plugins = Maps.newHashMap();
         LOGGER.log(Level.INFO, "Initializing " + this.getClass().getName());
 
+        this.ossClient = getOSSClient();
+
+        ListObjectsRequest request = new ListObjectsRequest();
+        request.setBucketName(this.ossClient.ossBucketName);
+        request.setPrefix(getPluginParentPath());
+        request.setMaxKeys(1000);
+        ObjectListing objList = ossClient.listObjects(request);
+        String filePath = null;
+        plugins = Maps.newHashMap();
+        TISArtifactCoordinates coord = null;
+        ObjectMetadata objectMetadata = null;
+        for (OSSObjectSummary obj : objList.getObjectSummaries()) {
+            filePath = obj.getKey();
+            if (obj.getSize() > 0 && StringUtils.endsWith(filePath, TIS_PACKAGE_EXTENSION)) {
+                // String groupId, String artifactId, String version, String packaging
+                objectMetadata = ossClient.getObjectMetadata(ossClient.ossBucketName, filePath);
+                Map<String, String> userMeta = objectMetadata.getUserMetadata();
+
+                coord = new TISArtifactCoordinates(userMeta.get("groupId"), userMeta.get("artifactId"), userMeta.get("version")
+                        , userMeta.get("packaging"), objectMetadata.getContentLength(), objectMetadata.getLastModified());
+                //  plugins.add(coord);
+                plugins.put(coord.getGav(), coord);
+            }
+        }
+
+        LOGGER.log(Level.INFO, "Initialized " + this.getClass().getName());
+        return plugins;
+    }
+
+    public static AliyunOSS getOSSClient() {
         File cfgFile = new File(System.getProperty("user.home"), "aliyun-oss/config.properties");
         if (!cfgFile.exists()) {
             throw new IllegalStateException("oss config file is not exist:" + cfgFile.getAbsoluteFile() + "\n config.properties template is \n"
@@ -70,35 +100,40 @@ public class TISAliyunOSSRepositoryImpl extends AbstractTISRepository {
         String endpoint = getProp(props, "endpoint");
         String accessKeyId = getProp(props, "accessKey");
         String secretKey = getProp(props, "secretKey");
-        this.ossBucketName = getProp(props, "bucketName");
 
-        this.ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, secretKey);
+        return new AliyunOSS(new OSSClientBuilder().build(endpoint, accessKeyId, secretKey), getProp(props, "bucketName"));
+    }
 
-        ListObjectsRequest request = new ListObjectsRequest();
-        request.setBucketName(ossBucketName);
-        request.setPrefix(getPluginParentPath());
-        request.setMaxKeys(1000);
-        ObjectListing objList = ossClient.listObjects(request);
-        String filePath = null;
-        plugins = Maps.newHashMap();
-        TISArtifactCoordinates coord = null;
-        ObjectMetadata objectMetadata = null;
-        for (OSSObjectSummary obj : objList.getObjectSummaries()) {
-            filePath = obj.getKey();
-            if (obj.getSize() > 0 && StringUtils.endsWith(filePath, TIS_PACKAGE_EXTENSION)) {
-                // String groupId, String artifactId, String version, String packaging
-                objectMetadata = ossClient.getObjectMetadata(ossBucketName, filePath);
-                Map<String, String> userMeta = objectMetadata.getUserMetadata();
+    public static class AliyunOSS {
+        private final OSS ossClient;
+        private final String ossBucketName;
 
-                coord = new TISArtifactCoordinates(userMeta.get("groupId"), userMeta.get("artifactId"), userMeta.get("version")
-                        , userMeta.get("packaging"), objectMetadata.getContentLength(), objectMetadata.getLastModified());
-                //  plugins.add(coord);
-                plugins.put(coord.getGav(), coord);
+        public AliyunOSS(OSS ossClient, String ossBucketName) {
+            if (ossClient == null) {
+                throw new IllegalArgumentException("ossClient can not be null");
             }
+            if (StringUtils.isEmpty(ossBucketName)) {
+                throw new IllegalArgumentException("ossBucketName can not be null");
+            }
+            this.ossClient = ossClient;
+            this.ossBucketName = ossBucketName;
         }
 
-        LOGGER.log(Level.INFO, "Initialized " + this.getClass().getName());
-        return plugins;
+        public ObjectListing listObjects(ListObjectsRequest request) {
+            return this.ossClient.listObjects(request);
+        }
+
+        public void getObject(GetObjectRequest getObjRequest, File cacheFile) {
+            this.ossClient.getObject(getObjRequest, cacheFile);
+        }
+
+        public ObjectMetadata getObjectMetadata(String ossBucketName, String filePath) {
+            return this.ossClient.getObjectMetadata(ossBucketName, filePath);
+        }
+
+        public PutObjectResult writeFile(String ossPath, File updateCenterJson) {
+            return this.ossClient.putObject(this.ossBucketName, ossPath, updateCenterJson);
+        }
     }
 
     @Override
@@ -112,7 +147,7 @@ public class TISAliyunOSSRepositoryImpl extends AbstractTISRepository {
         FileUtils.touch(cacheFile);
         if (StringUtils.equals(artifact.packaging, TIS_PACKAGING_TPI)) {
             GetObjectRequest getObjRequest = new GetObjectRequest(
-                    this.ossBucketName, getPluginParentPath() + "/" + artifact.artifactId + TIS_PACKAGE_EXTENSION);
+                    this.ossClient.ossBucketName, getPluginParentPath() + "/" + artifact.artifactId + TIS_PACKAGE_EXTENSION);
             this.ossClient.getObject(getObjRequest, cacheFile);
         } else {
             throw new IllegalStateException("artifact has not match any get strategy:" + artifact.toString());
@@ -173,7 +208,7 @@ public class TISAliyunOSSRepositoryImpl extends AbstractTISRepository {
         // return cacheFile;
     }
 
-    private String getProp(Properties props, String key) {
+    private static String getProp(Properties props, String key) {
         String value = props.getProperty(key);
         if (StringUtils.isEmpty(value)) {
             throw new IllegalStateException("key:" + key + " relevant value can not be null");
@@ -181,7 +216,7 @@ public class TISAliyunOSSRepositoryImpl extends AbstractTISRepository {
         return value;
     }
 
-    private String getConfigTemplateContent() {
+    private static String getConfigTemplateContent() {
         try {
             return IOUtils.toString(AbstractTISRepository.class.getResourceAsStream("config.tpl"), StandardCharsets.UTF_8);
         } catch (IOException e) {

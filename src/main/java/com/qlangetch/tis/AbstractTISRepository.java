@@ -28,7 +28,7 @@ public abstract class AbstractTISRepository extends BaseMavenRepository {
     public static final String TIS_PACKAGING_TPI = "tpi";
     public static final String TIS_PACKAGING_JAR = "jar";
     public static final String TIS_PACKAGE_EXTENSION = "." + TIS_PACKAGING_TPI;
-    public static final String PLUGIN_RELEASE_VERSION = System.getProperty("tis.plugin.release.version", "3.0.0");
+    public static final String PLUGIN_RELEASE_VERSION = System.getProperty("tis.plugin.release.version");
 
     protected File cacheDirectory = new File(Environment.getString("ARTIFACTORY_CACHEDIR", "caches/artifactory"));
     private Map<String, TISArtifactCoordinates> plugins;
