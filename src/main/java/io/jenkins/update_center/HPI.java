@@ -25,48 +25,34 @@ package io.jenkins.update_center;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.google.common.annotations.VisibleForTesting;
-import com.qlangetch.tis.TISRepositoryImpl;
+import com.google.common.collect.Maps;
+import com.qlangetch.tis.AbstractTISRepository;
 import hudson.util.VersionNumber;
 import io.jenkins.update_center.util.JavaSpecificationVersion;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
-import org.dom4j.Document;
-import org.dom4j.DocumentException;
-import org.dom4j.DocumentFactory;
-import org.dom4j.Element;
-import org.dom4j.Node;
+import org.dom4j.*;
 import org.dom4j.io.SAXReader;
-import org.owasp.html.HtmlPolicyBuilder;
-import org.owasp.html.HtmlSanitizer;
-import org.owasp.html.HtmlStreamEventProcessor;
-import org.owasp.html.HtmlStreamEventReceiver;
-import org.owasp.html.HtmlStreamEventReceiverWrapper;
-import org.owasp.html.HtmlStreamRenderer;
-import org.owasp.html.Sanitizers;
+import org.owasp.html.*;
 import org.xml.sax.SAXException;
 
 import javax.annotation.CheckForNull;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Properties;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.net.URL;
-import java.net.MalformedURLException;
 
 /**
  * A particular version of a plugin and its metadata.
- *
+ * <p>
  * For version independent metadata, see {@link Plugin}.
  */
 public class HPI extends MavenArtifact {
@@ -87,20 +73,20 @@ public class HPI extends MavenArtifact {
      * Download a plugin via more intuitive URL. This also helps us track download counts.
      */
     public URL getDownloadUrl() throws MalformedURLException {
-      //  return new URL(StringUtils.removeEnd(DOWNLOADS_ROOT_URL, "/") + "/plugins/" + artifact.artifactId + "/" + version + "/" + artifact.artifactId + ".hpi");
-        return new URL(StringUtils.removeEnd(DOWNLOADS_ROOT_URL, "/")  + "/" + version + "/tis-plugin/" + artifact.artifactId + TISRepositoryImpl.TIS_PACKAGE_EXTENSION);
+        //  return new URL(StringUtils.removeEnd(DOWNLOADS_ROOT_URL, "/") + "/plugins/" + artifact.artifactId + "/" + version + "/" + artifact.artifactId + ".hpi");
+        return new URL(StringUtils.removeEnd(DOWNLOADS_ROOT_URL, "/") + "/" + version + "/tis-plugin/" + artifact.artifactId + AbstractTISRepository.TIS_PACKAGE_EXTENSION);
 
     }
 
     public String getRequiredJenkinsVersion() throws IOException {
         String v = getManifestAttributes().getValue("Jenkins-Version");
-        if (v!=null)        return v;
+        if (v != null) return v;
 
         v = getManifestAttributes().getValue("Hudson-Version");
         if (fixNull(v) != null) {
             try {
                 VersionNumber n = new VersionNumber(v);
-                if (n.compareTo(JenkinsWar.HUDSON_CUT_OFF)<=0)
+                if (n.compareTo(JenkinsWar.HUDSON_CUT_OFF) <= 0)
                     return v;   // Hudson <= 1.395 is treated as Jenkins
                 // TODO: Jenkins-Version started appearing from Jenkins 1.401 POM.
                 // so maybe Hudson > 1.400 shouldn't be considered as a Jenkins plugin?
@@ -117,7 +103,7 @@ public class HPI extends MavenArtifact {
      * Earlier versions of the maven-hpi-plugin put "null" string literal, so we need to treat it as real null.
      */
     private static String fixNull(String v) {
-        if("null".equals(v))    return null;
+        if ("null".equals(v)) return null;
         return v;
     }
 
@@ -128,6 +114,7 @@ public class HPI extends MavenArtifact {
     /**
      * Gets Minimum Java Version required by the plugin.
      * This uses the value of the {@code Minimum-Java-Version} manifest entry
+     *
      * @return Minimum Java Version or {@code null} if it is unknown
      * @throws IOException Manifest read error
      */
@@ -143,10 +130,10 @@ public class HPI extends MavenArtifact {
 
     public List<Dependency> getDependencies() throws IOException {
         String deps = getManifestAttributes().getValue("Plugin-Dependencies");
-        if(deps==null)  return Collections.emptyList();
+        if (deps == null) return Collections.emptyList();
 
         List<Dependency> r = new ArrayList<>();
-        for(String token : deps.split(","))
+        for (String token : deps.split(","))
             r.add(new Dependency(token));
         return r;
     }
@@ -155,7 +142,7 @@ public class HPI extends MavenArtifact {
         if (plainText == null || plainText.length() == 0) {
             return "";
         }
-        return plainText.replace("&","&amp;").replace("<","&lt;");
+        return plainText.replace("&", "&amp;").replace("<", "&lt;");
     }
 
     private static final Properties URL_OVERRIDES = new Properties();
@@ -164,9 +151,9 @@ public class HPI extends MavenArtifact {
 
     static {
         try (
-            InputStream overridesStream = Files.newInputStream(new File(Main.resourcesDir, "wiki-overrides.properties").toPath());
-            InputStream labelStream = Files.newInputStream(new File(Main.resourcesDir, "label-definitions.properties").toPath());
-            InputStream allowedTopicsStream = Files.newInputStream(new File(Main.resourcesDir, "allowed-github-topics.properties").toPath())) {
+                InputStream overridesStream = Files.newInputStream(new File(Main.resourcesDir, "wiki-overrides.properties").toPath());
+                InputStream labelStream = Files.newInputStream(new File(Main.resourcesDir, "label-definitions.properties").toPath());
+                InputStream allowedTopicsStream = Files.newInputStream(new File(Main.resourcesDir, "allowed-github-topics.properties").toPath())) {
             URL_OVERRIDES.load(overridesStream);
             LABEL_DEFINITIONS.load(labelStream);
             ALLOWED_GITHUB_LABELS.load(allowedTopicsStream);
@@ -177,24 +164,49 @@ public class HPI extends MavenArtifact {
     }
 
     private String description;
+    private Map<String, List<String>> extendpoints;
+
+    public Map<String, List<String>> getExtendpoints() {
+        try {
+            if (extendpoints == null) {
+                ArtifactCoordinates coordinates = new ArtifactCoordinates(artifact.groupId, artifact.artifactId, artifact.version, "jar");
+                // ref: com.qlangtech.tis.extension.TISExtendsionInterceptor
+                try (InputStream is = repository.getZipFileEntry(new MavenArtifact(repository, coordinates), "META-INF/annotations/extendpoints.txt")) {
+                    if (is != null) {
+                        ObjectInputStream o = new ObjectInputStream(is);// b.toString().trim().replaceAll("\\s+", " ");
+                        this.extendpoints = (Map<String, List<String>>) o.readObject();
+                    } else {
+                        this.extendpoints = Maps.newHashMap();
+                    }
+                } catch (IOException e) {
+                    LOGGER.log(Level.FINE, () -> "Failed to read description from index.jelly: " + e.getMessage());
+                }
+            }
+            return this.extendpoints;
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public String getDescription() throws IOException {
         if (description == null) {
-//            String description = plainText2html(readSingleValueFromXmlFile(resolvePOM(), "/project/description"));
-//
-//            ArtifactCoordinates coordinates = new ArtifactCoordinates(artifact.groupId, artifact.artifactId, artifact.version, "jar");
-//            try (InputStream is = repository.getZipFileEntry(new MavenArtifact(repository, coordinates), "index.jelly")) {
+            String description = plainText2html(readSingleValueFromXmlFile(resolvePOM(), "/project/description"));
+
+            ArtifactCoordinates coordinates = new ArtifactCoordinates(artifact.groupId, artifact.artifactId, artifact.version, "jar");
+            try (InputStream is = repository.getZipFileEntry(new MavenArtifact(repository, coordinates), "description.md")) {
 //                StringBuilder b = new StringBuilder();
 //                HtmlStreamRenderer renderer = HtmlStreamRenderer.create(b, Throwable::printStackTrace, html -> LOGGER.log(Level.INFO, "Bad HTML: '" + html + "' in " + artifact.getGav()));
 //                HtmlSanitizer.sanitize(IOUtils.toString(is, StandardCharsets.UTF_8), HTML_POLICY.apply(renderer), PRE_PROCESSOR);
-//                description = b.toString().trim().replaceAll("\\s+", " ");
-//            } catch (IOException e) {
-//                LOGGER.log(Level.FINE, () -> "Failed to read description from index.jelly: " + e.getMessage());
-//            }
+                if (is != null) {
+                    description = IOUtils.toString(is, StandardCharsets.UTF_8);// b.toString().trim().replaceAll("\\s+", " ");
+                }
+            } catch (IOException e) {
+                LOGGER.log(Level.FINE, () -> "Failed to read description from index.jelly: " + e.getMessage());
+            }
 //            if (isAlphaOrBeta()) {
 //                description = "<b>(This version is experimental and may change in backward-incompatible ways)</b><br><br>" + description;
 //            }
-            this.description = "plugin description";
+            this.description = description;
         }
         return description;
     }
@@ -209,8 +221,8 @@ public class HPI extends MavenArtifact {
 
         public Dependency(String token) {
             this.optional = token.endsWith(OPTIONAL_RESOLUTION);
-            if(optional)
-                token = token.substring(0, token.length()-OPTIONAL_RESOLUTION.length());
+            if (optional)
+                token = token.substring(0, token.length() - OPTIONAL_RESOLUTION.length());
 
             String[] pieces = token.split(":");
             name = pieces[0];
@@ -235,7 +247,7 @@ public class HPI extends MavenArtifact {
         }
 
         private boolean has(String s) {
-            return s!=null && s.length()>0;
+            return s != null && s.length() > 0;
         }
     }
 
@@ -375,7 +387,7 @@ public class HPI extends MavenArtifact {
             return null;
         }
         String[] parts = scmUrl.split("/");
-        if (parts.length > 5){
+        if (parts.length > 5) {
             return null;
         }
         return scmUrl;
@@ -642,8 +654,14 @@ public class HPI extends MavenArtifact {
 
     // declared type is generic here because return value of com.google.common.base.Function::apply
     // (and hence PolicyFactory) is considered nullable, triggering SpotBugs warnings
-    @VisibleForTesting
-    public static final Function<HtmlStreamEventReceiver, HtmlSanitizer.Policy> HTML_POLICY = Sanitizers.FORMATTING.and(Sanitizers.LINKS).and(new HtmlPolicyBuilder().allowElements("a").requireRelsOnLinks("noopener", "noreferrer").allowAttributes("target").matching(false, "_blank").onElements("a").toFactory());
+//    @VisibleForTesting
+//    public static final Function<HtmlStreamEventReceiver, HtmlSanitizer.Policy> HTML_POLICY
+//            = Sanitizers.FORMATTING.and(Sanitizers.LINKS)
+//            .and(new HtmlPolicyBuilder().allowElements("a")
+//                    .requireRelsOnLinks("noopener", "noreferrer")
+//                    .allowAttributes("target")
+//                    .matching(false, "_blank")
+//                    .onElements("a").toFactory());
 
     @VisibleForTesting
     public static final HtmlStreamEventProcessor PRE_PROCESSOR = receiver -> new HtmlStreamEventReceiverWrapper(receiver) {

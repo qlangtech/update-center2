@@ -11,7 +11,7 @@ import java.util.TreeMap;
 public class UpdateCenterCore {
 
     @JSONField
-    public String buildDate;
+    public long buildDate;
 
     @JSONField
     public String name = "core";
@@ -43,7 +43,7 @@ public class UpdateCenterCore {
         final MavenRepository.ArtifactMetadata artifactMetadata = war.getMetadata();
         sha1 = artifactMetadata.sha1;
         sha256 = artifactMetadata.sha256;
-        buildDate = war.getTimestampAsString();
+        buildDate = war.getTimestamp();
         size = artifactMetadata.size;
     }
 }

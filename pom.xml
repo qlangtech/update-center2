@@ -7,8 +7,8 @@
   </parent>
 
   <artifactId>update-center2</artifactId>
-  
-  <version>3.10-SNAPSHOT</version>
+
+  <version>3.4.0</version>
   <name>Jenkins Update Center Generator</name>
   <description>Generates update sites for updates.jenkins.io</description>
 
@@ -20,6 +20,7 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <project.build.outputEncoding>UTF-8</project.build.outputEncoding>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <tis.version>${project.version}</tis.version>
   </properties>
 
   <build>
@@ -137,6 +138,13 @@
       <artifactId>aliyun-sdk-oss</artifactId>
       <version>3.8.0</version>
     </dependency>
+
+    <dependency>
+      <groupId>com.qlangtech.tis</groupId>
+      <artifactId>tis-plugin</artifactId>
+      <version>${tis.version}</version>
+    </dependency>
+
 
     <dependency>
       <groupId>org.jvnet.hudson</groupId>
@@ -271,7 +279,7 @@
       <url>https://repo.jenkins-ci.org/public/</url>
     </repository>
   </repositories>
-  
+
   <scm>
     <connection>scm:git:git://github.com/jenkins-infra/update-center2.git</connection>
     <developerConnection>scm:git:ssh://git@github.com/jenkins-infra/update-center2.git</developerConnection>
@@ -284,7 +292,7 @@
       <url>https://repo.jenkins-ci.org/releases</url>
     </repository>
     <snapshotRepository>
-      <id>maven.jenkins-ci.org</id> 
+      <id>maven.jenkins-ci.org</id>
       <url>https://repo.jenkins-ci.org/snapshots</url>
     </snapshotRepository>
   </distributionManagement>

@@ -12,12 +12,12 @@ import java.text.SimpleDateFormat;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
  * An entry of a plugin in the update center metadata.
- *
  */
 public class PluginUpdateCenterEntry {
     /**
@@ -52,7 +52,7 @@ public class PluginUpdateCenterEntry {
             try {
                 h.getManifest();
             } catch (IOException e) {
-                LOGGER.log(Level.WARNING, "Failed to resolve "+h+". Dropping this version.",e);
+                LOGGER.log(Level.WARNING, "Failed to resolve " + h + ". Dropping this version.", e);
                 continue;
             }
             latest = h;
@@ -63,7 +63,7 @@ public class PluginUpdateCenterEntry {
             try {
                 h.getManifest();
             } catch (IOException e) {
-                LOGGER.log(Level.WARNING, "Failed to resolve "+h+". Dropping this version.",e);
+                LOGGER.log(Level.WARNING, "Failed to resolve " + h + ". Dropping this version.", e);
                 continue;
             }
             previous = h;
@@ -74,15 +74,15 @@ public class PluginUpdateCenterEntry {
     }
 
     public PluginUpdateCenterEntry(HPI hpi) {
-        this(hpi.artifact.artifactId, hpi,  null);
+        this(hpi.artifact.artifactId, hpi, null);
     }
 
     /**
-     *  Historical name for the plugin documentation URL field.
-     *
-     *  Now always links to plugins.jenkins.io, which in turn uses
-     *  {@link io.jenkins.update_center.json.PluginDocumentationUrlsRoot} to determine where the documentation is
-     *  actually located.
+     * Historical name for the plugin documentation URL field.
+     * <p>
+     * Now always links to plugins.jenkins.io, which in turn uses
+     * {@link io.jenkins.update_center.json.PluginDocumentationUrlsRoot} to determine where the documentation is
+     * actually located.
      *
      * @return a URL
      */
@@ -110,7 +110,7 @@ public class PluginUpdateCenterEntry {
     }
 
     public String getPreviousVersion() {
-        return previousOffered == null? null : previousOffered.version;
+        return previousOffered == null ? null : previousOffered.version;
     }
 
     public String getScm() throws IOException {
@@ -134,8 +134,8 @@ public class PluginUpdateCenterEntry {
         return minimumJavaVersion == null ? null : minimumJavaVersion.toString();
     }
 
-    public String getBuildDate() throws IOException {
-        return latestOffered.getTimestampAsString();
+    public long getBuildDate() throws IOException {
+        return latestOffered.getTimestamp();
     }
 
     public List<String> getLabels() throws IOException {
@@ -148,6 +148,10 @@ public class PluginUpdateCenterEntry {
 
     public List<HPI.Dependency> getDependencies() throws IOException {
         return latestOffered.getDependencies();
+    }
+
+    public Map<String, List<String>> getExtendPoints() {
+        return latestOffered.getExtendpoints();
     }
 
     public String getSha1() throws IOException {
@@ -196,7 +200,7 @@ public class PluginUpdateCenterEntry {
         return latestPublishedVersion.toString();
     }
 
-    private static final SimpleDateFormat TIMESTAMP_FORMATTER = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'.00Z'", Locale.US);
+    private static final SimpleDateFormat TIMESTAMP_FORMATTER = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
 
     private static final Logger LOGGER = Logger.getLogger(PluginUpdateCenterEntry.class.getName());
 }

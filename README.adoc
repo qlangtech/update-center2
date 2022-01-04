@@ -5,7 +5,7 @@
 execute
 ```
   cd /opt/misc/update-center2
-  java  -DGITHUB_USERNAME=baisui1981 -DGITHUB_PASSWORD=**** io.jenkins.update_center.Main --id default --resources-dir /opt/misc/update-center2/resources
+  java  -DGITHUB_USERNAME=baisui1981 -DGITHUB_PASSWORD=**** -Dtis.plugin.release.version=3.0.0 io.jenkins.update_center.Main --id default --resources-dir /opt/misc/update-center2/resources
 ```
 
 This project is primarily used to generate the jenkins.io update center layout.
@@ -68,7 +68,7 @@ Two ways can be used to define these labels:
 Add https://help.github.com/en/github/administering-a-repository/classifying-your-repository-with-topics[topics] to your GitHub repository.
 For a list of supported topics, see the link:resources/allowed-github-topics.properties[resource file] that contains all topics that can be set on GitHub repositories that will be reflected in update sites.
 Topics can be set with or without the prefix `jenkins-`. If a topics has that prefix, it is removed first:
-To add the label `matrix` for your plugin, you would add either `matrix` or `jenkins-matrix` on your repository. 
+To add the label `matrix` for your plugin, you would add either `matrix` or `jenkins-matrix` on your repository.
 
 ==== Resource File
 

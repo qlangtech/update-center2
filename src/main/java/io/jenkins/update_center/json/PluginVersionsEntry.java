@@ -9,7 +9,7 @@ import java.util.List;
 
 public class PluginVersionsEntry {
     @JSONField
-    public final String buildDate;
+    public final long buildDate;
     @JSONField
     public final String name;
     @JSONField
@@ -36,7 +36,7 @@ public class PluginVersionsEntry {
         sha256 = artifactMetadata.sha256;
         url = hpi.getDownloadUrl().toString();
         version = hpi.version;
-        buildDate = hpi.getTimestampAsString();
+        buildDate = hpi.getTimestamp();
         dependencies = hpi.getDependencies();
         compatibleSinceVersion = hpi.getCompatibleSinceVersion();
     }

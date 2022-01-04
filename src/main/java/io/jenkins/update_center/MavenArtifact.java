@@ -90,12 +90,12 @@ public class MavenArtifact {
         return s.contains("alpha") || s.contains("beta");
     }
 
-    public String getTimestampAsString() throws IOException {
-        long lastModified = getTimestamp();
-        SimpleDateFormat bdf = getDateFormat();
-
-        return bdf.format(lastModified);
-    }
+//    public String getTimestampAsString() throws IOException {
+//        long lastModified = getTimestamp();
+//        SimpleDateFormat bdf = getDateFormat();
+//
+//        return bdf.format(lastModified);
+//    }
 
     public Date getTimestampAsDate() throws IOException {
         long lastModified = getTimestamp();
@@ -112,7 +112,7 @@ public class MavenArtifact {
     }
 
     public static SimpleDateFormat getDateFormat() {
-        return new SimpleDateFormat("MMM dd, yyyy", Locale.US);
+        return new SimpleDateFormat("yyyy-MMM-dd,", Locale.CHINA);
     }
 
     public long getTimestamp() throws IOException {
