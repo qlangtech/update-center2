@@ -142,9 +142,9 @@ public class PluginUpdateCenterEntry {
         return latestOffered.getLabels();
     }
 
-    public String getDefaultBranch() throws IOException {
-        return latestOffered.getDefaultBranch();
-    }
+//    public String getDefaultBranch() throws IOException {
+//        return latestOffered.getDefaultBranch();
+//    }
 
     public List<HPI.Dependency> getDependencies() throws IOException {
         return latestOffered.getDependencies();
@@ -187,7 +187,8 @@ public class PluginUpdateCenterEntry {
     }
 
     public int getPopularity() throws IOException {
-        return Popularities.getInstance().getPopularity(artifactId);
+        //return Popularities.getInstance().getPopularity(artifactId);
+        return 1;
     }
 
     public String getLatest() {

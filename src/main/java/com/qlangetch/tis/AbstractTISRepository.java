@@ -6,10 +6,13 @@ import io.jenkins.update_center.ArtifactCoordinates;
 import io.jenkins.update_center.BaseMavenRepository;
 import io.jenkins.update_center.MavenArtifact;
 import io.jenkins.update_center.util.Environment;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
@@ -124,7 +127,28 @@ public abstract class AbstractTISRepository extends BaseMavenRepository {
         return getFile(artifact, uri);
     }
 
-    protected abstract void extraTpiZipEntry(ArtifactCoordinates artifact, String uri, String entryPath) throws IOException;
+    // protected abstract void extraTpiZipEntry(ArtifactCoordinates artifact, String uri, String entryPath) throws IOException;
+
+
+    protected final void extraTpiZipEntry(ArtifactCoordinates artifact, String uri, String entryPath) throws IOException {
+        ArtifactCoordinates tpiCoord = new ArtifactCoordinates(artifact.groupId, artifact.artifactId, artifact.version, TIS_PACKAGING_TPI, artifact.findParent);
+        File tpi = getFile(tpiCoord, getUri(tpiCoord));
+        if (!tpi.exists()) {
+            if (tpiCoord.findParent) {
+                // 如果是查找父亲组件的没有找到，则退出
+                return;
+            }
+            throw new IllegalStateException("tpi is not exist:" + tpi.getAbsolutePath());
+        }
+        try (JarFile j = new JarFile(tpi)) {
+            ZipEntry entry = j.getEntry(entryPath);
+
+            try (OutputStream pomOut = FileUtils.openOutputStream(new File(cacheDirectory, uri));
+                 InputStream in = j.getInputStream(entry)) {
+                IOUtils.copy(in, pomOut);
+            }
+        }
+    }
 
 
     protected abstract File getFile(ArtifactCoordinates artifact, final String url) throws IOException;

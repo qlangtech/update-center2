@@ -23,9 +23,20 @@
  */
 package io.jenkins.update_center;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.qlangetch.tis.AbstractTISRepository;
 import com.qlangetch.tis.impl.TISAliyunOSSRepositoryImpl;
+import com.qlangtech.tis.TIS;
+import com.qlangtech.tis.extension.Descriptor;
+import com.qlangtech.tis.extension.PluginFormProperties;
+import com.qlangtech.tis.extension.impl.PropertyType;
+import com.qlangtech.tis.extension.impl.RootFormProperties;
 import com.qlangtech.tis.extension.model.UpdateCenter;
+import com.qlangtech.tis.extension.util.PluginExtraProps;
+import com.qlangtech.tis.manage.common.TisUTF8;
+import com.qlangtech.tis.plugin.annotation.FormField;
+import com.qlangtech.tis.plugin.annotation.Validator;
 import edu.umd.cs.findbugs.annotations.NonNull;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import hudson.util.VersionNumber;
@@ -35,7 +46,10 @@ import io.jenkins.update_center.filters.JavaVersionPluginFilter;
 import io.jenkins.update_center.json.*;
 import io.jenkins.update_center.util.JavaSpecificationVersion;
 import io.jenkins.update_center.wrappers.*;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kohsuke.args4j.ClassParser;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
@@ -47,15 +61,15 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 /**
- * java -classpath ./lib/*:./update-center2.jar -Dplugin_dir_root=/tmp/release/tis-plugin -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=50001  io.jenkins.update_center.Main
+ * java -classpath ./lib/*:./update-center2.jar -Dplugin_dir_root=/tmp/release/tis-plugin -Dtis.plugin.release.version=3.4.0  io.jenkins.update_center.Main --www-dir=./dist
  */
 public class Main {
     /* Control meta-execution options */
@@ -268,6 +282,126 @@ public class Main {
             writeToFile(updateCenterPostMessageHtml(signedUpdateCenterJson), new File(www, UPDATE_CENTER_JSON_HTML_FILENAME));
         }
 
+        StringBuffer pluginList = new StringBuffer();
+
+        Map<String, List<PluginExtendsionImpl>> extendPoints = Maps.newHashMap();
+        List<PluginExtendsionImpl> extendImpls = null;
+        Collection<Plugin> artifacts = repo.listJenkinsPlugins();
+        HPI latest = null;
+        String excerpt = null;
+        for (Plugin plugin : artifacts) {
+
+            latest = plugin.getLatest();
+            pluginList.append("## 插件名：").append(latest.getArchiveFileName()).append("\n\n");
+            pluginList.append("* **下载地址：** ").append(latest.getDownloadUrl()).append("\n\n");
+            excerpt = latest.getDescription();
+            if (StringUtils.isNotBlank(excerpt)) {
+                pluginList.append("* **介绍：** \n\n");//.append(latest.getDescription()).append("\n\n");
+                appendRichMdContent(pluginList, 1, excerpt);
+            }
+
+
+            //latest.getScmUrl();
+            pluginList.append("* **扩展列表：** \n\n");
+            for (Map.Entry<String, List<String>> e : latest.getExtendpoints().entrySet()) {
+                extendImpls = extendPoints.get(e.getKey());
+                pluginList.append("\t* [").append(e.getKey()).append("]({{< relref \"./plugins/#扩展点").append(getExtendPointHtmlAnchor(e.getKey())).append("\">}})\n\n");
+                if (extendImpls == null) {
+                    extendImpls = Lists.newArrayList();
+                    extendPoints.put(e.getKey(), extendImpls);
+                }
+                extendImpls.addAll(e.getValue().stream().map((impl) -> {
+                    PluginExtendsionImpl eimpl = new PluginExtendsionImpl(impl, plugin.getLatest());
+                    pluginList.append("\t\t * [").append(impl).append("]({{< relref \"./plugins/#").append(eimpl.getHtmlAnchor()).append("\">}})\n\n");
+                    return eimpl;
+                }).collect(Collectors.toList()));
+            }
+        }
+
+
+        FileUtils.write(new File(www, PLUGIN_TPIS_MARK_DOWN_FILENAME), pluginList.toString(), TisUTF8.get());
+
+        StringBuffer extendsList = new StringBuffer();
+        Descriptor descriptor = null;
+        PluginFormProperties pluginFormPropertyTypes = null;
+        for (Map.Entry<String, List<PluginExtendsionImpl>> e : extendPoints.entrySet()) {
+            System.out.println(e.getKey());
+            extendsList.append("## 扩展点:").append(e.getKey()).append("\n\n");
+
+            for (PluginExtendsionImpl extendImpl : e.getValue()) {
+
+                descriptor = TIS.get().getDescriptor(extendImpl.extendImpl);
+                if (descriptor != null) {
+                    extendsList.append("### ").append(descriptor.clazz.getSimpleName()).append("\n\n");
+                    extendsList.append("* **显示名:** ").append(descriptor.getDisplayName()).append(" \n\n");
+                    extendsList.append("* **全路径名:** [").append(extendImpl.extendImpl).append("](").append(extendImpl.getExtendImplURL()).append(") \n\n");
+                } else {
+                    extendsList.append("### ").append(extendImpl.extendImpl).append("\n\n");
+                }
+                extendsList.append("* **费用:** `社区版(免费)`").append("\n\n");
+                extendsList.append("* **插件包:** [").append(extendImpl.getArchiveFileName())
+                        .append("]({{< relref \"./tpis/#插件名").append(extendImpl.getArchiveFileNameHtmlAnchor()).append("\">}})").append("\n\n");
+//                md.append("* 费用:");
+//                md.append("* 版本:");
+//                md.append("* 包大小:");
+//                md.append("* 打包时间:");
+
+
+                if (descriptor == null) {
+                    continue;
+                }
+                pluginFormPropertyTypes = descriptor.getPluginFormPropertyTypes();
+
+                final Set<Map.Entry<String, PropertyType>> props
+                        = pluginFormPropertyTypes.accept(new PluginFormProperties.IVisitor() {
+                    @Override
+                    public Set<Map.Entry<String, PropertyType>> visit(RootFormProperties props) {
+                        return props.getKVTuples();
+                    }
+                });
+                PropertyType ptype = null;
+                PluginExtraProps.Props extraProps = null;
+                if (CollectionUtils.isNotEmpty(props)) {
+                    extendsList.append("* **参数说明:** ").append("\n\n");
+//                    md.append("|  配置项    | 类型    | 必须     | 说明    |").append("\n\n");
+//                    md.append("|  :-----   | :-----  | :-----  | :-----  |").append("\n\n");
+                    int index = 1;
+                    for (Map.Entry<String, PropertyType> prop : props) {
+                        ptype = prop.getValue();
+                        extraProps = ptype.extraProp;
+
+                        extendsList.append(index++).append(". ");
+                        if (extraProps == null) {
+                            extendsList.append(prop.getKey()).append("\n\n");
+                        } else {
+                            extendsList.append(StringUtils.defaultString(extraProps.getLable(), prop.getKey())).append("\n\n");
+                        }
+
+                        extendsList.append("\t* **类型:** ").append(descFieldType(ptype.formField)).append("\n\n");
+                        extendsList.append("\t* **必须:** ").append(descRequire(ptype.formField)).append("\n\n");
+
+                        if (extraProps == null) {
+                            continue;
+                        }
+
+                        extendsList.append("\t* **说明:** ");//.append(StringUtils.defaultString(StringUtils.defaultString(extraProps.getAsynHelp(), extraProps.getHelpContent()), "无")).append("\n\n");
+
+                        if (StringUtils.isEmpty(extraProps.getAsynHelp())) {
+                            extendsList.append(StringUtils.defaultString(extraProps.getHelpContent(), "无")).append("\n");
+                        } else {
+                            extendsList.append("\n");
+                            appendRichMdContent(extendsList, 2, extraProps.getAsynHelp());
+                        }
+
+                        extendsList.append("\t* **默认值:** ").append(StringUtils.defaultString(extraProps.getDftVal(), "无")).append("\n\n");
+
+                    }
+                }
+            }
+        }
+
+        FileUtils.write(new File(www, PLUGIN_DESC_MARK_DOWN_FILENAME), extendsList.toString(), TisUTF8.get());
+
         if (generatePluginDocumentationUrls) {
             new PluginDocumentationUrlsRoot(repo).write(new File(www, PLUGIN_DOCUMENTATION_URLS_JSON_FILENAME), prettyPrint);
         }
@@ -291,9 +425,88 @@ public class Main {
         directoryTreeBuilder.build(repo);
     }
 
+    private String getExtendPointHtmlAnchor(String key) {
+        return StringUtils.remove(key, ".");
+    }
+
+    private void appendRichMdContent(StringBuffer extendsList, int indent, String content) throws IOException {
+        try (StringReader mdReader = new StringReader(content)) {
+            for (String line : IOUtils.readLines(mdReader)) {
+                for (int i = 0; i < indent; i++) {
+                    extendsList.append("\t");
+                }
+                extendsList.append(line).append("\n");
+            }
+        }
+    }
+
+    private static class PluginExtendsionImpl {
+        private final String extendImpl;
+        private final HPI hpi;
+
+        public PluginExtendsionImpl(String extendImpl, HPI hpi) {
+            this.extendImpl = extendImpl;
+            this.hpi = hpi;
+        }
+
+        public String getExtendImplURL() {
+            try {
+                final String scmUrl = hpi.getScmUrl();
+                boolean endWithSlash = StringUtils.endsWith(scmUrl, "/");
+                return scmUrl + (endWithSlash ? StringUtils.EMPTY : "/") + "src/main/java/" + StringUtils.replace(extendImpl, ".", "/") + ".java";
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        public String getHtmlAnchor() {
+            return StringUtils.substringAfterLast(extendImpl, ".");
+        }
+
+        public String getArchiveFileName() {
+            return hpi.getArchiveFileName();
+        }
+
+        public String getArchiveFileNameHtmlAnchor() {
+            return StringUtils.removeAll(hpi.getArchiveFileName(), "\\.|-");
+        }
+    }
+
+    private String descRequire(FormField formField) {
+        for (Validator v : formField.validate()) {
+            if (v == Validator.require) {
+                return "是";
+            }
+        }
+
+        return "否";
+    }
+
     private String updateCenterPostCallJson(String updateCenterJson) {
         return updateCenterJson;
         // return "updateCenter.post(" + EOL + updateCenterJson + EOL + ");";
+    }
+
+    private String descFieldType(FormField formField) {
+        switch (formField.type()) {
+            case DATE:
+                return "日期";
+            case PASSWORD:
+                return "密码";
+            case TEXTAREA:
+                return "富文本";
+            case INPUTTEXT:
+                return "单行文本";
+            case INT_NUMBER:
+                return "整型数字";
+            case SELECTABLE:
+            case ENUM:
+                return "单选";
+            case MULTI_SELECTABLE:
+                return "多选";
+            default:
+                throw new IllegalStateException("invalid type:" + formField.type());
+        }
     }
 
     private String updateCenterPostMessageHtml(String updateCenterJson) {
@@ -374,6 +587,8 @@ public class Main {
     private static final String UPDATE_CENTER_ACTUAL_JSON_FILENAME = "update-center.actual.json";
     private static final String UPDATE_CENTER_JSON_HTML_FILENAME = "update-center.json.html";
     private static final String PLUGIN_DOCUMENTATION_URLS_JSON_FILENAME = "plugin-documentation-urls.json";
+    private static final String PLUGIN_DESC_MARK_DOWN_FILENAME = "plugins.md";
+    private static final String PLUGIN_TPIS_MARK_DOWN_FILENAME = "tpis.md";
     private static final String PLUGIN_VERSIONS_JSON_FILENAME = "plugin-versions.json";
     private static final String RELEASE_HISTORY_JSON_FILENAME = "release-history.json";
     private static final String RECENT_RELEASES_JSON_FILENAME = "recent-releases.json";

@@ -9,7 +9,13 @@ public class ArtifactCoordinates {
     public final String version;
     public final String packaging;
 
+    public boolean findParent;
+
     public ArtifactCoordinates(String groupId, String artifactId, String version, String packaging) {
+        this(groupId, artifactId, version, packaging, false);
+    }
+
+    public ArtifactCoordinates(String groupId, String artifactId, String version, String packaging, boolean findParent) {
         if (groupId == null) {
             throw new IllegalArgumentException("param groupId can not be null");
         }
@@ -17,6 +23,7 @@ public class ArtifactCoordinates {
         this.artifactId = artifactId;
         this.version = version;
         this.packaging = packaging;
+        this.findParent = findParent;
     }
 
     public String getGav() {
