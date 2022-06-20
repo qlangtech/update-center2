@@ -6,21 +6,21 @@ import com.aliyun.oss.model.*;
 import com.google.common.collect.Maps;
 import com.qlangetch.tis.AbstractTISRepository;
 import com.qlangetch.tis.TISArtifactCoordinates;
+import com.qlangtech.tis.extension.PluginManager;
 import io.jenkins.update_center.ArtifactCoordinates;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Properties;
-import java.util.jar.JarFile;
 import java.util.logging.Level;
-import java.util.zip.ZipEntry;
 
 /**
  * @author: 百岁（baisui@qlangtech.com）
@@ -31,41 +31,52 @@ public class TISAliyunOSSRepositoryImpl extends AbstractTISRepository {
     // private String ossBucketName;
 
 
-
     protected Map<String, TISArtifactCoordinates> initialize() throws IOException {
         if (initialized) {
             throw new IllegalStateException("re-initialized");
         }
-        Map<String, TISArtifactCoordinates> plugins = Maps.newHashMap();
+
         LOGGER.log(Level.INFO, "Initializing " + this.getClass().getName());
 
         this.ossClient = getOSSClient();
+        Map<String, TISArtifactCoordinates> plugins = Maps.newHashMap();
+        getCreatePluginMetas(plugins, getPluginParentPath());
 
+        LOGGER.log(Level.INFO, "Initialized " + this.getClass().getName());
+        return plugins;
+    }
+
+    @NotNull
+    private void getCreatePluginMetas(Map<String, TISArtifactCoordinates> pluginMeta, String pluginParentPath) {
+        //Map<String, TISArtifactCoordinates> plugins;
         ListObjectsRequest request = new ListObjectsRequest();
         request.setBucketName(this.ossClient.ossBucketName);
-        request.setPrefix(getPluginParentPath());
+        request.setPrefix(pluginParentPath);
         request.setMaxKeys(1000);
         ObjectListing objList = ossClient.listObjects(request);
         String filePath = null;
-        plugins = Maps.newHashMap();
+        pluginMeta = Maps.newHashMap();
         TISArtifactCoordinates coord = null;
         ObjectMetadata objectMetadata = null;
         for (OSSObjectSummary obj : objList.getObjectSummaries()) {
             filePath = obj.getKey();
+
             if (obj.getSize() > 0 && StringUtils.endsWith(filePath, TIS_PACKAGE_EXTENSION)) {
                 // String groupId, String artifactId, String version, String packaging
                 objectMetadata = ossClient.getObjectMetadata(ossClient.ossBucketName, filePath);
                 Map<String, String> userMeta = objectMetadata.getUserMetadata();
 
+
                 coord = new TISArtifactCoordinates(userMeta.get("groupId"), userMeta.get("artifactId"), userMeta.get("version")
-                        , userMeta.get("packaging"), objectMetadata.getContentLength(), objectMetadata.getLastModified());
+                        , userMeta.get("packaging"), objectMetadata.getContentLength(), objectMetadata.getLastModified()
+                        , Optional.ofNullable(userMeta.get(PluginManager.PACAKGE_CLASSIFIER)));
                 //  plugins.add(coord);
-                plugins.put(coord.getGav(), coord);
+                pluginMeta.put(coord.getGav(), coord);
+            } else {
+                getCreatePluginMetas(pluginMeta, filePath);
             }
         }
-
-        LOGGER.log(Level.INFO, "Initialized " + this.getClass().getName());
-        return plugins;
+        //return plugins;
     }
 
     public static AliyunOSS getOSSClient() {

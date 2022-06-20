@@ -77,6 +77,17 @@ public class PluginUpdateCenterEntry {
         this(hpi.artifact.artifactId, hpi, null);
     }
 
+
+    /**
+     * "classifier":[
+     *                "hudi_${hudi.version};spark_${spark2.version};hive_${hive.version};hadoop_${hadoop-version}"
+     *             ],
+     * @return
+     */
+    public List<String> getClassifier(){
+
+    }
+
     /**
      * Historical name for the plugin documentation URL field.
      * <p>
