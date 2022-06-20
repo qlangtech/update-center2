@@ -13,8 +13,9 @@ import java.util.Date;
 public class TISLocalPluginContextArtifactCoordinates extends TISArtifactCoordinates {
     final PluginWrapper plugin;
 
-    public TISLocalPluginContextArtifactCoordinates(PluginWrapper plugin, String groupId, String artifactId, String version, String packaging, long contentSize, Date lastModified) {
-        super(groupId, artifactId, version, packaging, contentSize, lastModified);
+    public TISLocalPluginContextArtifactCoordinates(
+            PluginWrapper plugin, String groupId, String artifactId, String version, String packaging, long contentSize, Date lastModified) {
+        super(groupId, artifactId, version, packaging, contentSize, lastModified, plugin.getClassifier());
         this.plugin = plugin;
     }
 

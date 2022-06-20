@@ -84,6 +84,7 @@ public class PluginUpdateCenterEntry {
      *             ],
      * @return
      */
+    @JSONField(name = "classifier")
     public List<String> getClassifier(){
 
     }
