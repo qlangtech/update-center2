@@ -1,6 +1,7 @@
 package io.jenkins.update_center;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.google.common.collect.Lists;
 import hudson.util.VersionNumber;
 import io.jenkins.update_center.util.JavaSpecificationVersion;
 
@@ -77,16 +78,25 @@ public class PluginUpdateCenterEntry {
         this(hpi.artifact.artifactId, hpi, null);
     }
 
+    private List<String> _classifier;
 
     /**
      * "classifier":[
-     *                "hudi_${hudi.version};spark_${spark2.version};hive_${hive.version};hadoop_${hadoop-version}"
-     *             ],
+     * "hudi_${hudi.version};spark_${spark2.version};hive_${hive.version};hadoop_${hadoop-version}"
+     * ],
+     *
      * @return
      */
     @JSONField(name = "classifier")
-    public List<String> getClassifier(){
+    public List<String> getClassifier() {
+        return this._classifier;
+    }
 
+    public void addClassifier(String val) {
+        if (_classifier == null) {
+            this._classifier = Lists.newArrayList();
+        }
+        _classifier.add(val);
     }
 
     /**

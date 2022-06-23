@@ -19,45 +19,45 @@ import java.util.logging.Level;
  */
 public abstract class BaseMavenRepository implements MavenRepository {
 
-    private static final Properties IGNORE = new Properties();
+   // private static final Properties IGNORE = new Properties();
 
-    static {
-        try (InputStream stream = Files.newInputStream(new File(Main.resourcesDir,
-                "artifact-ignores.properties").toPath())) {
-            IGNORE.load(stream);
-        } catch (IOException e) {
-            throw new Error(e);
-        }
-    }
+//    static {
+//        try (InputStream stream = Files.newInputStream(new File(Main.resourcesDir,
+//                "artifact-ignores.properties").toPath())) {
+//            IGNORE.load(stream);
+//        } catch (IOException e) {
+//            throw new Error(e);
+//        }
+//    }
     public Collection<Plugin> listJenkinsPlugins() throws IOException {
 
         Map<String, Plugin> plugins =
                 new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 
-        Set<String> excluded = new HashSet<>();
+       // Set<String> excluded = new HashSet<>();
         final Collection<ArtifactCoordinates> results = listAllPlugins();
 
-        for (ArtifactCoordinates artifactCoordinates : results) {
-            if (artifactCoordinates.version.contains("SNAPSHOT"))     continue;       // ignore snapshots
-            if (artifactCoordinates.version.contains("JENKINS"))      continue;       // non-public releases for addressing specific bug fixes
+        for (ArtifactCoordinates artifact : results) {
+//            if (artifact.version.contains("SNAPSHOT"))     continue;       // ignore snapshots
+//            if (artifact.version.contains("JENKINS"))      continue;       // non-public releases for addressing specific bug fixes
             // Don't add blacklisted artifacts
-            if (IGNORE.containsKey(artifactCoordinates.artifactId)) {
-                if (excluded.add(artifactCoordinates.artifactId)) {
-                    LOGGER.log(Level.CONFIG, "Ignoring " + artifactCoordinates.artifactId + " because this artifact is blacklisted");
-                }
-                continue;
-            }
-            if (IGNORE.containsKey(artifactCoordinates.artifactId + "-" + artifactCoordinates.version)) {
-                LOGGER.log(Level.CONFIG, "Ignoring " + artifactCoordinates.artifactId + ", version " + artifactCoordinates.version + " because this version is blacklisted");
-                continue;
-            }
+//            if (IGNORE.containsKey(artifact.artifactId)) {
+//                if (excluded.add(artifact.artifactId)) {
+//                    LOGGER.log(Level.CONFIG, "Ignoring " + artifact.artifactId + " because this artifact is blacklisted");
+//                }
+//                continue;
+//            }
+//            if (IGNORE.containsKey(artifact.artifactId + "-" + artifact.version)) {
+//                LOGGER.log(Level.CONFIG, "Ignoring " + artifact.artifactId + ", version " + artifact.version + " because this version is blacklisted");
+//                continue;
+//            }
 
-            Plugin plugin = plugins.get(artifactCoordinates.artifactId);
+            Plugin plugin = plugins.get(artifact.artifactId);
             if (plugin == null) {
-                plugin = new Plugin(artifactCoordinates.artifactId);
-                plugins.put(artifactCoordinates.artifactId, plugin);
+                plugin = new Plugin(artifact.artifactId);
+                plugins.put(artifact.artifactId, plugin);
             }
-            HPI hpi = new HPI(this, artifactCoordinates, plugin);
+            HPI hpi = new HPI(this, artifact, plugin);
 
             plugin.addArtifact(hpi);
         }
@@ -85,10 +85,10 @@ public abstract class BaseMavenRepository implements MavenRepository {
             if (artifactCoordinates.version.contains("JENKINS"))      continue;       // non-public releases for addressing specific bug fixes
             if (!artifactCoordinates.artifactId.equals("jenkins-war")
                     && !artifactCoordinates.artifactId.equals("hudson-war"))  continue;      // somehow using this as a query results in 0 hits.
-            if (IGNORE.containsKey(artifactCoordinates.artifactId + "-" + artifactCoordinates.version)) {
-                LOGGER.log(Level.CONFIG, "Ignoring " + artifactCoordinates.artifactId + ", version " + artifactCoordinates.version + " because this version is blacklisted");
-                continue;
-            }
+//            if (IGNORE.containsKey(artifactCoordinates.artifactId + "-" + artifactCoordinates.version)) {
+//                LOGGER.log(Level.CONFIG, "Ignoring " + artifactCoordinates.artifactId + ", version " + artifactCoordinates.version + " because this version is blacklisted");
+//                continue;
+//            }
             if (cap != null && new VersionNumber(artifactCoordinates.version).compareTo(cap) > 0) continue;
 
             VersionNumber version = new VersionNumber(artifactCoordinates.version);

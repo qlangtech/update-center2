@@ -1,5 +1,6 @@
 package io.jenkins.update_center;
 
+import com.qlangtech.tis.maven.plugins.tpi.PluginClassifier;
 import hudson.util.VersionNumber;
 import org.apache.commons.io.IOUtils;
 import org.kohsuke.args4j.Option;
@@ -7,12 +8,7 @@ import org.kohsuke.args4j.Option;
 import javax.annotation.CheckForNull;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Locale;
-import java.util.TreeMap;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -27,7 +23,7 @@ public class DirectoryTreeBuilder {
 
     /**
      * Write a directory tree to the specified directory tree that contains all core (war) and plugin (hpi) releases.
-     *
+     * <p>
      * While we're not really using the war/ directory for download links, it is a good way for users to obtain SHA checksums for arbitrary releases.
      * war and plugin index pages are referenced on https://www.jenkins.io/download/verify/
      */
@@ -57,7 +53,7 @@ public class DirectoryTreeBuilder {
                     latestLinks.add(plugin.getArtifactId() + ".hpi", plugin.getLatest().getDownloadUrl().getPath());
                 }
 
-                final TreeMap<VersionNumber, HPI> artifacts = plugin.getArtifacts();
+                final TreeMap<PluginClassifier, HPI> artifacts = plugin.getArtifacts();
 
                 if (download != null) {
                     for (HPI v : artifacts.values()) {
@@ -140,7 +136,7 @@ public class DirectoryTreeBuilder {
     /**
      * Stages an artifact into the specified location.
      *
-     * @param a the artifact to stage
+     * @param a   the artifact to stage
      * @param dst the staging location
      * @throws IOException when a problem occurs during file operations
      */

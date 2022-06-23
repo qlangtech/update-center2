@@ -1,18 +1,13 @@
 package io.jenkins.update_center.wrappers;
 
+import com.qlangtech.tis.maven.plugins.tpi.PluginClassifier;
 import hudson.util.VersionNumber;
-import io.jenkins.update_center.JenkinsWar;
 import io.jenkins.update_center.HPI;
+import io.jenkins.update_center.JenkinsWar;
 import io.jenkins.update_center.Plugin;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.TreeMap;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -44,8 +39,8 @@ public class AllowedArtifactsListMavenRepository extends MavenRepositoryWrapper 
 
             final List<String> allowedVersions = Arrays.stream(listEntry.split("\\s+")).map(String::trim).collect(Collectors.toList());
 
-            for (Iterator<Map.Entry<VersionNumber, HPI>> versionIterator = plugin.getArtifacts().entrySet().iterator(); versionIterator.hasNext(); ) {
-                Map.Entry<VersionNumber, HPI> entry = versionIterator.next();
+            for (Iterator<Map.Entry<PluginClassifier, HPI>> versionIterator = plugin.getArtifacts().entrySet().iterator(); versionIterator.hasNext(); ) {
+                Map.Entry<PluginClassifier, HPI> entry = versionIterator.next();
                 HPI hpi = entry.getValue();
                 if (!allowedVersions.contains(hpi.version)) {
                     versionIterator.remove();

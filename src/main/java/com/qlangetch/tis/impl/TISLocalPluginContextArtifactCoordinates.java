@@ -14,7 +14,8 @@ public class TISLocalPluginContextArtifactCoordinates extends TISArtifactCoordin
     final PluginWrapper plugin;
 
     public TISLocalPluginContextArtifactCoordinates(
-            PluginWrapper plugin, String groupId, String artifactId, String version, String packaging, long contentSize, Date lastModified) {
+            PluginWrapper plugin, String groupId, String artifactId
+            , String version, String packaging, long contentSize, Date lastModified) {
         super(groupId, artifactId, version, packaging, contentSize, lastModified, plugin.getClassifier());
         this.plugin = plugin;
     }

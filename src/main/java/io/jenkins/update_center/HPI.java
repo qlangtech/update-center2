@@ -480,7 +480,7 @@ public class HPI extends MavenArtifact {
                         File parentPomFile = repository.resolve(
                                 new ArtifactCoordinates(parent.element("groupId").getTextTrim(),
                                         parent.element("artifactId").getTextTrim(),
-                                        parent.element("version").getTextTrim(), "pom", true));
+                                        parent.element("version").getTextTrim(), "pom", Optional.empty(), true));
                         scm = readSingleValueFromXmlFile(parentPomFile, "/project/scm/developerConnection");
                         if (scm == null) {
                             LOGGER.info("No SCM developerConnection found in parent POM for " + this.artifact.getGav());

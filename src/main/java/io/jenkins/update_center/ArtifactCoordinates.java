@@ -1,6 +1,9 @@
 package io.jenkins.update_center;
 
+import com.qlangtech.tis.maven.plugins.tpi.PluginClassifier;
+
 import java.util.Objects;
+import java.util.Optional;
 
 public class ArtifactCoordinates {
 
@@ -11,11 +14,14 @@ public class ArtifactCoordinates {
 
     public boolean findParent;
 
+    public final Optional<PluginClassifier> classifier;
+
     public ArtifactCoordinates(String groupId, String artifactId, String version, String packaging) {
-        this(groupId, artifactId, version, packaging, false);
+        this(groupId, artifactId, version, packaging, Optional.empty(), false);
     }
 
-    public ArtifactCoordinates(String groupId, String artifactId, String version, String packaging, boolean findParent) {
+    public ArtifactCoordinates(String groupId, String artifactId
+            , String version, String packaging, Optional<PluginClassifier> classifier, boolean findParent) {
         if (groupId == null) {
             throw new IllegalArgumentException("param groupId can not be null");
         }
@@ -24,14 +30,25 @@ public class ArtifactCoordinates {
         this.version = version;
         this.packaging = packaging;
         this.findParent = findParent;
+        this.classifier = classifier;
     }
 
     public String getGav() {
-        return groupId + ":" + artifactId + ":" + version;
+        StringBuffer gav = new StringBuffer();
+        gav.append(groupId);
+        gav.append(":");
+        gav.append(artifactId);
+        gav.append(":");
+        gav.append(version);
+        if (classifier.isPresent()) {
+            gav.append(":").append(classifier.get().getClassifier());
+        }
+        return gav.toString();
     }
 
     public String toString() {
-        return groupId + ":" + artifactId + ":" + version + ":" + packaging;
+        // return groupId + ":" + artifactId + ":" + version + ":" + packaging;
+        return getGav() + ":" + packaging;
     }
 
     @Override
@@ -39,10 +56,20 @@ public class ArtifactCoordinates {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ArtifactCoordinates that = (ArtifactCoordinates) o;
-        return Objects.equals(groupId, that.groupId) &&
+        boolean equal = Objects.equals(groupId, that.groupId) &&
                 Objects.equals(artifactId, that.artifactId) &&
                 Objects.equals(version, that.version) &&
                 Objects.equals(packaging, that.packaging);
+        if (equal) {
+            if (this.classifier.isPresent() && that.classifier.isPresent()) {
+                return Objects.equals(this.classifier.get(), that.classifier.get());
+            }
+            if (this.classifier.isPresent() ^ that.classifier.isPresent()) {
+                return false;
+            }
+        }
+
+        return equal;
     }
 
     @Override

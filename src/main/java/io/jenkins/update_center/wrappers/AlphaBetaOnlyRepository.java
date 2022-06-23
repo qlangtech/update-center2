@@ -1,6 +1,6 @@
 package io.jenkins.update_center.wrappers;
 
-import hudson.util.VersionNumber;
+import com.qlangtech.tis.maven.plugins.tpi.PluginClassifier;
 import io.jenkins.update_center.HPI;
 import io.jenkins.update_center.Plugin;
 
@@ -28,12 +28,12 @@ public class AlphaBetaOnlyRepository extends MavenRepositoryWrapper {
     @Override
     public Collection<Plugin> listJenkinsPlugins() throws IOException {
         Collection<Plugin> r = base.listJenkinsPlugins();
-        for (Iterator<Plugin> jtr = r.iterator(); jtr.hasNext();) {
+        for (Iterator<Plugin> jtr = r.iterator(); jtr.hasNext(); ) {
             Plugin h = jtr.next();
 
-            for (Iterator<Entry<VersionNumber, HPI>> itr = h.getArtifacts().entrySet().iterator(); itr.hasNext();) {
-                Entry<VersionNumber, HPI> e =  itr.next();
-                if (e.getValue().isAlphaOrBeta()^negative)
+            for (Iterator<Entry<PluginClassifier, HPI>> itr = h.getArtifacts().entrySet().iterator(); itr.hasNext(); ) {
+                Entry<PluginClassifier, HPI> e = itr.next();
+                if (e.getValue().isAlphaOrBeta() ^ negative)
                     continue;
                 itr.remove();
             }

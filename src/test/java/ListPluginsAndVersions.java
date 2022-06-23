@@ -14,7 +14,7 @@ public class ListPluginsAndVersions {
     public static void main(String[] args) throws Exception{
         MavenRepository r = DefaultMavenRepositoryBuilder.getInstance();
 
-        System.out.println(r.getJenkinsWarsByVersionNumber().firstKey());
+       // System.out.println(r.getJenkinsWarsByVersionNumber().firstKey());
 
         Collection<Plugin> all = r.listJenkinsPlugins();
         for (Plugin p : all) {

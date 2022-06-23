@@ -23,6 +23,7 @@
  */
 package io.jenkins.update_center;
 
+import com.qlangtech.tis.maven.plugins.tpi.PluginClassifier;
 import hudson.util.VersionNumber;
 import io.jenkins.update_center.util.Environment;
 
@@ -32,10 +33,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.Locale;
+import java.util.*;
 import java.util.jar.Attributes;
 import java.util.jar.Manifest;
 
@@ -72,6 +70,11 @@ public class MavenArtifact {
             throw new IOException("Failed to resolve artifact " + artifact, e);
         }
     }
+
+    public Optional<PluginClassifier> getClassifier() {
+        return this.artifact.classifier;
+    }
+
 
     public File resolvePOM() throws IOException {
         return repository.resolve(artifact, "pom", null);

@@ -3,6 +3,7 @@ package com.qlangetch.tis;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.qlangtech.tis.extension.PluginManager;
+import com.qlangtech.tis.maven.plugins.tpi.PluginClassifier;
 import io.jenkins.update_center.ArtifactCoordinates;
 import io.jenkins.update_center.BaseMavenRepository;
 import io.jenkins.update_center.MavenArtifact;
@@ -29,7 +30,7 @@ import java.util.zip.ZipFile;
  **/
 public abstract class AbstractTISRepository extends BaseMavenRepository {
     protected boolean initialized = false;
-    public static final String TIS_PACKAGING_TPI = PluginManager.PACAKGE_TPI_EXTENSION_NAME;
+    public static final String TIS_PACKAGING_TPI = PluginClassifier.PACAKGE_TPI_EXTENSION_NAME;
     public static final String TIS_PACKAGING_JAR = "jar";
     public static final String TIS_PACKAGE_EXTENSION = PluginManager.PACAKGE_TPI_EXTENSION;// "." + TIS_PACKAGING_TPI;
     public static final String PLUGIN_RELEASE_VERSION = System.getProperty("tis.plugin.release.version");
@@ -132,7 +133,8 @@ public abstract class AbstractTISRepository extends BaseMavenRepository {
 
 
     protected final void extraTpiZipEntry(ArtifactCoordinates artifact, String uri, String entryPath) throws IOException {
-        ArtifactCoordinates tpiCoord = new ArtifactCoordinates(artifact.groupId, artifact.artifactId, artifact.version, TIS_PACKAGING_TPI, artifact.findParent);
+        ArtifactCoordinates tpiCoord = new ArtifactCoordinates(
+                artifact.groupId, artifact.artifactId, artifact.version, TIS_PACKAGING_TPI, artifact.classifier, artifact.findParent);
         File tpi = getFile(tpiCoord, getUri(tpiCoord));
         if (!tpi.exists()) {
             if (tpiCoord.findParent) {

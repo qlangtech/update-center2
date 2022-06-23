@@ -1,5 +1,6 @@
 package com.qlangetch.tis;
 
+import com.qlangtech.tis.maven.plugins.tpi.PluginClassifier;
 import io.jenkins.update_center.ArtifactCoordinates;
 
 import java.util.Date;
@@ -13,13 +14,10 @@ public class TISArtifactCoordinates extends ArtifactCoordinates {
     public final long contentSize;
     public final Date lastModified;
 
-    public final Optional<String> classifier;
-
     public TISArtifactCoordinates(String groupId, String artifactId, String version
-            , String packaging, long contentSize, Date lastModified, Optional<String> classifier) {
-        super(groupId, artifactId, version, packaging);
+            , String packaging, long contentSize, Date lastModified, Optional<PluginClassifier> classifier) {
+        super(groupId, artifactId, version, packaging, classifier, false);
         this.contentSize = contentSize;
         this.lastModified = lastModified;
-        this.classifier = classifier;
     }
 }

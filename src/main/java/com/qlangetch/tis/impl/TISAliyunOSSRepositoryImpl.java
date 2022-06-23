@@ -7,11 +7,11 @@ import com.google.common.collect.Maps;
 import com.qlangetch.tis.AbstractTISRepository;
 import com.qlangetch.tis.TISArtifactCoordinates;
 import com.qlangtech.tis.extension.PluginManager;
+import com.qlangtech.tis.maven.plugins.tpi.PluginClassifier;
 import io.jenkins.update_center.ArtifactCoordinates;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
@@ -46,7 +46,7 @@ public class TISAliyunOSSRepositoryImpl extends AbstractTISRepository {
         return plugins;
     }
 
-    @NotNull
+
     private void getCreatePluginMetas(Map<String, TISArtifactCoordinates> pluginMeta, String pluginParentPath) {
         //Map<String, TISArtifactCoordinates> plugins;
         ListObjectsRequest request = new ListObjectsRequest();
@@ -69,7 +69,7 @@ public class TISAliyunOSSRepositoryImpl extends AbstractTISRepository {
 
                 coord = new TISArtifactCoordinates(userMeta.get("groupId"), userMeta.get("artifactId"), userMeta.get("version")
                         , userMeta.get("packaging"), objectMetadata.getContentLength(), objectMetadata.getLastModified()
-                        , Optional.ofNullable(userMeta.get(PluginManager.PACAKGE_CLASSIFIER)));
+                        , Optional.ofNullable(new PluginClassifier(userMeta.get(PluginManager.PACAKGE_CLASSIFIER))));
                 //  plugins.add(coord);
                 pluginMeta.put(coord.getGav(), coord);
             } else {

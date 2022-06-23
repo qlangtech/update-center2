@@ -47,13 +47,12 @@ public interface MavenRepository {
      * Only the latest release for a given release on a given day will be included.
      *
      * @return Nested maps, mapping release date (day only, at midnight), then plugin ID to plugin release.
-     *
      * @throws IOException when an exception contacting the artifacts repository occurs
      */
-    default Map<Date,Map<String,HPI>> listPluginsByReleaseDate() throws IOException {
+    default Map<Date, Map<String, HPI>> listPluginsByReleaseDate() throws IOException {
         Collection<Plugin> all = listJenkinsPlugins();
 
-        Map<Date, Map<String,HPI>> plugins = new TreeMap<>();
+        Map<Date, Map<String, HPI>> plugins = new TreeMap<>();
         // TODO this is weird, we only include one release per plugin and day, and it's random which one if there are multiple
 
         for (Plugin plugin : all) {
@@ -61,7 +60,7 @@ public interface MavenRepository {
                 Date releaseDate = hpi.getTimestampAsDate();
                 LOGGER.log(Level.FINE, "adding " + hpi.artifact.artifactId + ":" + hpi.version);
                 Map<String, HPI> pluginsOnDate = plugins.computeIfAbsent(releaseDate, k -> new TreeMap<>());
-                pluginsOnDate.put(plugin.getArtifactId(),hpi);
+                pluginsOnDate.put(plugin.getArtifactId(), hpi);
             }
         }
 
@@ -74,12 +73,10 @@ public interface MavenRepository {
 
         /**
          * Epoch seconds (Unix timestamp)
-         *
          */
         public long timestamp;
         /**
          * File size in bytes
-         *
          */
         public long size;
     }

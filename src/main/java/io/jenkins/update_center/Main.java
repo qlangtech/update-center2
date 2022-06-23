@@ -384,7 +384,7 @@ public class Main {
                             continue;
                         }
 
-                        extendsList.append("\t* **说明:** ");//.append(StringUtils.defaultString(StringUtils.defaultString(extraProps.getAsynHelp(), extraProps.getHelpContent()), "无")).append("\n\n");
+                        extendsList.append("\t* **说明:** ");
 
                         if (StringUtils.isEmpty(extraProps.getAsynHelp())) {
                             extendsList.append(StringUtils.defaultString(extraProps.getHelpContent(), "无")).append("\n");
@@ -393,7 +393,10 @@ public class Main {
                             appendRichMdContent(extendsList, 2, extraProps.getAsynHelp());
                         }
 
-                        extendsList.append("\t* **默认值:** ").append(StringUtils.defaultString(extraProps.getDftVal(), "无")).append("\n\n");
+                        Object dftVal = extraProps.getDftVal();
+
+                        extendsList.append("\t* **默认值:** ")
+                                .append((dftVal == null) ? "无" : dftVal).append("\n\n");
 
                     }
                 }
