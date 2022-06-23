@@ -16,7 +16,6 @@ import java.util.Date;
 import java.util.Map;
 
 /**
- *
  * @author: 百岁（baisui@qlangtech.com）
  * @create: 2022-01-04 10:16
  **/
@@ -63,6 +62,9 @@ public class TISLocalFileRepositoryImpl extends AbstractTISRepository {
 
         if (!(artifact instanceof TISLocalPluginContextArtifactCoordinates)) {
             File pluginDir = TIS.pluginDirRoot;
+            if (artifact.classifier.isPresent()) {
+                return new File(pluginDir, artifact.classifier.get().getTPIPluginName(artifact.artifactId, TIS_PACKAGE_EXTENSION));
+            }
             return new File(pluginDir, artifact.artifactId + TIS_PACKAGE_EXTENSION);
         }
 
