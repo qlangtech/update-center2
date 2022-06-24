@@ -27,6 +27,7 @@ import com.alibaba.fastjson.annotation.JSONField;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.Maps;
 import com.qlangetch.tis.AbstractTISRepository;
+import com.qlangtech.tis.maven.plugins.tpi.PluginClassifier;
 import hudson.util.VersionNumber;
 import io.jenkins.update_center.util.JavaSpecificationVersion;
 import org.apache.commons.io.IOUtils;
@@ -79,7 +80,13 @@ public class HPI extends MavenArtifact {
     }
 
     public final String getArchiveFileName() {
-        return artifact.getArtifactName() + AbstractTISRepository.TIS_PACKAGE_EXTENSION;
+        Optional<PluginClassifier> classifier = this.getClassifier();
+        String tpiName = artifact.getArtifactName() + AbstractTISRepository.TIS_PACKAGE_EXTENSION;
+        if (classifier.isPresent()) {
+            return artifact.getArtifactId() + "/" + tpiName;
+        }
+
+        return tpiName;
     }
 
     public String getRequiredJenkinsVersion() throws IOException {
@@ -197,7 +204,7 @@ public class HPI extends MavenArtifact {
             String description = plainText2html(readSingleValueFromXmlFile(resolvePOM(), "/project/description"));
 
             ArtifactCoordinates coordinates
-                    = ArtifactCoordinates.create(artifact,"jar");
+                    = ArtifactCoordinates.create(artifact, "jar");
 //                    new ArtifactCoordinates(
 //                    artifact.groupId, artifact.artifactId, artifact.version, "jar", artifact.classifier, false);
 

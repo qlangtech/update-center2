@@ -292,7 +292,7 @@ public class Main {
         for (Plugin plugin : artifacts) {
 
             latest = plugin.getLatest();
-            pluginList.append("## 插件名：").append(latest.getArchiveFileName()).append("\n\n");
+            pluginList.append("## 插件名：").append(latest.artifact.getArtifactName()).append("\n\n");
             pluginList.append("* **下载地址：** ").append(latest.getDownloadUrl()).append("\n\n");
             excerpt = latest.getDescription();
             if (StringUtils.isNotBlank(excerpt)) {
