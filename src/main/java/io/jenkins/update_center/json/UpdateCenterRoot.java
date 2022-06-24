@@ -47,7 +47,7 @@ public class UpdateCenterRoot extends WithSignature {
         warnings = Arrays.asList(JSON.parseObject(warningsJsonText, UpdateCenterWarning[].class));
 
         // load deprecations
-        deprecations = Maps.newHashMap(); //new TreeMap<>(Deprecations.getDeprecatedPlugins().stream().collect(Collectors.toMap(Functions.identity(), UpdateCenterRoot::deprecationForPlugin)));
+        deprecations = Maps.newHashMap();
 
         for (Plugin plugin : repo.listJenkinsPlugins()) {
             PluginUpdateCenterEntry entry = PluginUpdateCenterEntry.create(plugin);

@@ -40,7 +40,7 @@ public abstract class PluginUpdateCenterEntry {
             }
         }
 
-        if (artifacts.size() > 1) {
+        if (artifacts.size() > 0) {
             List<ICoord> coords = Lists.newArrayList();
             ICoord coord = null;
             HPI latest = null;
