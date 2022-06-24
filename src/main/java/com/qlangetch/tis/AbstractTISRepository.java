@@ -155,7 +155,7 @@ public abstract class AbstractTISRepository extends BaseMavenRepository {
                 }
             }
         } catch (Exception e) {
-            throw new IllegalStateException("\ncan not extra tpi:" + tpi.getAbsolutePath() + ",\n entryPath:" + entryPath + "\n to cache:" + cache.getAbsolutePath());
+            throw new IllegalStateException("\ncan not extra tpi:" + tpi.getAbsolutePath() + ",\n entryPath:" + entryPath + "\n to cache:" + cache.getAbsolutePath(), e);
         }
     }
 
@@ -169,7 +169,7 @@ public abstract class AbstractTISRepository extends BaseMavenRepository {
         String filename = basename + "." + a.packaging;
         Optional<PluginClassifier> classifier = a.classifier;
         if (classifier.isPresent()) {
-            filename = classifier.get().getTPIPluginName(a.getArtifactId(), a.packaging);
+            filename = classifier.get().getTPIPluginName(a.getArtifactId(), "." + a.packaging);
         }
 
         return a.groupId.replace(".", "/") + "/" + a.getArtifactId() + "/" + a.version + "/" + filename;
