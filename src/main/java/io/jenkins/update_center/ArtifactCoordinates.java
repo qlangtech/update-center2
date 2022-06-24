@@ -16,7 +16,15 @@ public class ArtifactCoordinates {
 
     public final Optional<PluginClassifier> classifier;
 
-    public ArtifactCoordinates(String groupId, String artifactId, String version, String packaging) {
+    public static ArtifactCoordinates create(String groupId, String artifactId, String version, String packaging) {
+        return new ArtifactCoordinates(groupId, artifactId, version, packaging);
+    }
+
+    public static ArtifactCoordinates create(ArtifactCoordinates artifact, String packaging) {
+        return new ArtifactCoordinates(artifact.groupId, artifact.artifactId, artifact.version, packaging, artifact.classifier, false);
+    }
+
+    private ArtifactCoordinates(String groupId, String artifactId, String version, String packaging) {
         this(groupId, artifactId, version, packaging, Optional.empty(), false);
     }
 

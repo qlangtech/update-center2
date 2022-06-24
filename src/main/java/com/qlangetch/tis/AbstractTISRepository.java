@@ -56,7 +56,7 @@ public abstract class AbstractTISRepository extends BaseMavenRepository {
 
     @Override
     protected Set<ArtifactCoordinates> listAllJenkinsWars(String groupId) throws IOException {
-        ArtifactCoordinates c = new ArtifactCoordinates("com.qlangtech.tis", "jenkins-war", "1.0.0", "war");
+        ArtifactCoordinates c = ArtifactCoordinates.create("com.qlangtech.tis", "jenkins-war", "1.0.0", "war");
         return Sets.newHashSet(c);
     }
 

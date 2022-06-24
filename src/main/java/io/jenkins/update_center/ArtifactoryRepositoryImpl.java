@@ -3,13 +3,7 @@ package io.jenkins.update_center;
 import com.alibaba.fastjson.JSON;
 import io.jenkins.update_center.util.Environment;
 import io.jenkins.update_center.util.HttpHelper;
-import okhttp3.Credentials;
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
-import okhttp3.ResponseBody;
+import okhttp3.*;
 import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.binary.Hex;
@@ -19,21 +13,10 @@ import org.apache.commons.io.output.TeeOutputStream;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.tools.ant.filters.StringInputStream;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.jar.Manifest;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -117,7 +100,7 @@ public class ArtifactoryRepositoryImpl extends BaseMavenRepository {
             LOGGER.log(Level.INFO, "Unexpectedly have classifier for path: " + path + " name: " + fileName);
             return null;
         }
-        return new ArtifactCoordinates(groupId, artifactId, version, extension);
+        return ArtifactCoordinates.create(groupId, artifactId, version, extension);
     }
 
     @Override

@@ -173,7 +173,7 @@ public class HPI extends MavenArtifact {
     public Map<String, List<String>> getExtendpoints() {
         try {
             if (extendpoints == null) {
-                ArtifactCoordinates coordinates = new ArtifactCoordinates(artifact.groupId, artifact.artifactId, artifact.version, "jar");
+                ArtifactCoordinates coordinates = ArtifactCoordinates.create(artifact, "jar");// new ArtifactCoordinates(artifact.groupId, artifact.artifactId, artifact.version, "jar", artifact.classifier, false);
                 // ref: com.qlangtech.tis.extension.TISExtendsionInterceptor
                 try (InputStream is = repository.getZipFileEntry(new MavenArtifact(repository, coordinates), "META-INF/annotations/extendpoints.txt")) {
                     if (is != null) {
@@ -196,7 +196,11 @@ public class HPI extends MavenArtifact {
         if (description == null) {
             String description = plainText2html(readSingleValueFromXmlFile(resolvePOM(), "/project/description"));
 
-            ArtifactCoordinates coordinates = new ArtifactCoordinates(artifact.groupId, artifact.artifactId, artifact.version, "jar");
+            ArtifactCoordinates coordinates
+                    = ArtifactCoordinates.create(artifact,"jar");
+//                    new ArtifactCoordinates(
+//                    artifact.groupId, artifact.artifactId, artifact.version, "jar", artifact.classifier, false);
+
             try (InputStream is = repository.getZipFileEntry(new MavenArtifact(repository, coordinates), "description.md")) {
 //                StringBuilder b = new StringBuilder();
 //                HtmlStreamRenderer renderer = HtmlStreamRenderer.create(b, Throwable::printStackTrace, html -> LOGGER.log(Level.INFO, "Bad HTML: '" + html + "' in " + artifact.getGav()));
