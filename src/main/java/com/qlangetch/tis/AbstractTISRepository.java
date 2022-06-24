@@ -143,13 +143,18 @@ public abstract class AbstractTISRepository extends BaseMavenRepository {
             }
             throw new IllegalStateException("tpi is not exist:" + tpi.getAbsolutePath());
         }
-        try (JarFile j = new JarFile(tpi)) {
-            ZipEntry entry = j.getEntry(entryPath);
+        final File cache = new File(cacheDirectory, uri);
+        try {
+            try (JarFile j = new JarFile(tpi)) {
+                ZipEntry entry = j.getEntry(entryPath);
 
-            try (OutputStream pomOut = FileUtils.openOutputStream(new File(cacheDirectory, uri));
-                 InputStream in = j.getInputStream(entry)) {
-                IOUtils.copy(in, pomOut);
+                try (OutputStream pomOut = FileUtils.openOutputStream(cache);
+                     InputStream in = j.getInputStream(entry)) {
+                    IOUtils.copy(in, pomOut);
+                }
             }
+        } catch (IOException e) {
+            throw new IllegalStateException("can not extra tpi:" + tpi.getAbsolutePath() + ", entryPath:" + entryPath + " to cache:" + cache.getAbsolutePath());
         }
     }
 
