@@ -79,7 +79,7 @@ public class HPI extends MavenArtifact {
     }
 
     public final String getArchiveFileName() {
-        return artifact.artifactId + AbstractTISRepository.TIS_PACKAGE_EXTENSION;
+        return artifact.getArtifactName() + AbstractTISRepository.TIS_PACKAGE_EXTENSION;
     }
 
     public String getRequiredJenkinsVersion() throws IOException {
@@ -269,7 +269,7 @@ public class HPI extends MavenArtifact {
         if (name == null) {
             String title = readSingleValueFromXmlFile(resolvePOM(), "/project/name");
             if (title == null || "".equals(title)) {
-                title = artifact.artifactId;
+                title = artifact.getArtifactName();
             } else {
                 title = simplifyPluginName(title);
             }
@@ -359,7 +359,7 @@ public class HPI extends MavenArtifact {
     public String getPluginUrl() throws IOException {
         if (pluginUrl == null) {
             // Check whether the plugin documentation URL should be overridden
-            String url = URL_OVERRIDES.getProperty(artifact.artifactId);
+            String url = URL_OVERRIDES.getProperty(artifact.getArtifactName());
 
             // Otherwise read *.hpi!/META-INF/MANIFEST.MF#Url, if defined
             if (url == null) {
@@ -512,8 +512,8 @@ public class HPI extends MavenArtifact {
         if (str == null) {
             return null;
         }
-        str = str.replace("${project.artifactId}", artifact.artifactId);
-        str = str.replace("${artifactId}", artifact.artifactId);
+        str = str.replace("${project.artifactId}", artifact.getArtifactName());
+        str = str.replace("${artifactId}", artifact.getArtifactName());
         return str;
     }
 
@@ -583,7 +583,7 @@ public class HPI extends MavenArtifact {
 //                    if (scm == null) {
 //                        LOGGER.info("Repository does not actually exist: " + checkedScm);
 //                    }
-                    throw new IllegalStateException("scm can not be null,artifactId:" + this.artifact.artifactId);
+                    throw new IllegalStateException("scm can not be null,artifactId:" + this.artifact.getArtifactName());
                 }
                 scmUrl = scm;
             }
@@ -637,7 +637,7 @@ public class HPI extends MavenArtifact {
                 }
 
                 if (!gitHubLabels.isEmpty()) {
-                    LOGGER.info(artifact.artifactId + " got the following labels contributed from GitHub: " + org.apache.commons.lang3.StringUtils.join(gitHubLabels, ", "));
+                    LOGGER.info(artifact.getArtifactName() + " got the following labels contributed from GitHub: " + org.apache.commons.lang3.StringUtils.join(gitHubLabels, ", "));
                 }
             }
 
@@ -687,7 +687,7 @@ public class HPI extends MavenArtifact {
     };
 
     private String[] getLabelsFromFile() {
-        Object ret = LABEL_DEFINITIONS.get(artifact.artifactId);
+        Object ret = LABEL_DEFINITIONS.get(artifact.getArtifactName());
         if (ret == null) {
             // handle missing entry in properties file
             return new String[0];

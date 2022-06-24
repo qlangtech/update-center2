@@ -30,7 +30,7 @@ public class PluginVersionsEntry {
 
     PluginVersionsEntry(HPI hpi) throws IOException {
         final MavenRepository.ArtifactMetadata artifactMetadata = hpi.getMetadata();
-        name = hpi.artifact.artifactId;
+        name = hpi.artifact.getArtifactName();
         requiredCore = hpi.getRequiredJenkinsVersion();
         sha1 = artifactMetadata.sha1;
         sha256 = artifactMetadata.sha256;

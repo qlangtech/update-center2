@@ -75,7 +75,7 @@ public class PluginUpdateCenterEntry {
     }
 
     public PluginUpdateCenterEntry(HPI hpi) {
-        this(hpi.artifact.artifactId, hpi, null);
+        this(hpi.artifact.getArtifactName(), hpi, null);
     }
 
     private List<String> _classifier;

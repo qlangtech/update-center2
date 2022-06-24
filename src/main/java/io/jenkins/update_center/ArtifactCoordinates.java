@@ -8,7 +8,7 @@ import java.util.Optional;
 public class ArtifactCoordinates {
 
     public final String groupId;
-    public final String artifactId;
+    private final String artifactId;
     public final String version;
     public final String packaging;
 
@@ -16,12 +16,28 @@ public class ArtifactCoordinates {
 
     public final Optional<PluginClassifier> classifier;
 
+    public String getArtifactName() {
+        if (classifier.isPresent()) {
+            return classifier.get().getTPIPluginName(this.artifactId);
+        } else {
+            return artifactId;
+        }
+    }
+
+    public String getArtifactId() {
+        return artifactId;
+    }
+
     public static ArtifactCoordinates create(String groupId, String artifactId, String version, String packaging) {
         return new ArtifactCoordinates(groupId, artifactId, version, packaging);
     }
 
     public static ArtifactCoordinates create(ArtifactCoordinates artifact, String packaging) {
-        return new ArtifactCoordinates(artifact.groupId, artifact.artifactId, artifact.version, packaging, artifact.classifier, false);
+        return create(artifact, packaging, false);
+    }
+
+    public static ArtifactCoordinates create(ArtifactCoordinates artifact, String packaging, boolean findParent) {
+        return new ArtifactCoordinates(artifact.groupId, artifact.artifactId, artifact.version, packaging, artifact.classifier, findParent);
     }
 
     private ArtifactCoordinates(String groupId, String artifactId, String version, String packaging) {

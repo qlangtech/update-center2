@@ -1,6 +1,7 @@
 package io.jenkins.update_center;
 
 import com.alibaba.fastjson.JSON;
+import com.qlangetch.tis.AbstractTISRepository;
 import io.jenkins.update_center.util.Environment;
 import io.jenkins.update_center.util.HttpHelper;
 import okhttp3.*;
@@ -185,9 +186,10 @@ public class ArtifactoryRepositoryImpl extends BaseMavenRepository {
     }
 
     private String getUri(ArtifactCoordinates a) {
-        String basename = a.artifactId + "-" + a.version;
-        String filename = basename + "." + a.packaging;
-        return a.groupId.replace(".", "/") + "/" + a.artifactId + "/" + a.version + "/" + filename;
+        return AbstractTISRepository.getUri(a);
+//        String basename = a.artifactId + "-" + a.version;
+//        String filename = basename + "." + a.packaging;
+//        return a.groupId.replace(".", "/") + "/" + a.artifactId + "/" + a.version + "/" + filename;
     }
 
     @Override

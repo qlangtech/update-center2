@@ -48,6 +48,6 @@ class ReleaseHistoryEntry {
         version = hpi.version;
         this.gav = hpi.artifact.getGav();
         timestamp = hpi.repository.getMetadata(hpi).timestamp;
-        url = "https://plugins.jenkins.io/" + hpi.artifact.artifactId;
+        url = "https://plugins.jenkins.io/" + hpi.artifact.getArtifactName();
     }
 }

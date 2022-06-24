@@ -140,7 +140,9 @@ public class MavenArtifact {
      * @throws MalformedURLException if the resulting URL is invalid
      */
     public URL getDownloadUrl() throws MalformedURLException {
-        return new URL("repo.jenkins-ci.org/public/" + artifact.groupId.replace('.', '/') + "/" + artifact.artifactId + "/" + artifact.version + "/" + artifact.artifactId + "-" + artifact.version + "." + artifact.packaging);
+//        return new URL("repo.jenkins-ci.org/public/" + artifact.groupId.replace('.', '/') + "/" + artifact.getArtifactId()
+//                + "/" + artifact.version + "/" + artifact.getArtifactName() + "-" + artifact.version + "." + artifact.packaging);
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -149,7 +151,7 @@ public class MavenArtifact {
     }
 
     public String getGavId() {
-        return artifact.groupId + ':' + artifact.artifactId + ':' + artifact.version;
+        return artifact.groupId + ':' + artifact.getArtifactName() + ':' + artifact.version;
     }
 
 

@@ -144,7 +144,7 @@ public class TISAliyunOSSRepositoryImpl extends AbstractTISRepository {
         FileUtils.touch(cacheFile);
         if (StringUtils.equals(artifact.packaging, TIS_PACKAGING_TPI)) {
             GetObjectRequest getObjRequest = new GetObjectRequest(
-                    this.ossClient.ossBucketName, getPluginParentPath() + "/" + artifact.artifactId + TIS_PACKAGE_EXTENSION);
+                    this.ossClient.ossBucketName, getPluginParentPath() + "/" + artifact.getArtifactName() + TIS_PACKAGE_EXTENSION);
             this.ossClient.getObject(getObjRequest, cacheFile);
         } else {
             throw new IllegalStateException("artifact has not match any get strategy:" + artifact.toString());

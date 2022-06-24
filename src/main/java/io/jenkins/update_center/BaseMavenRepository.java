@@ -52,10 +52,10 @@ public abstract class BaseMavenRepository implements MavenRepository {
 //                continue;
 //            }
 
-            Plugin plugin = plugins.get(artifact.artifactId);
+            Plugin plugin = plugins.get(artifact.getArtifactId());
             if (plugin == null) {
-                plugin = new Plugin(artifact.artifactId);
-                plugins.put(artifact.artifactId, plugin);
+                plugin = new Plugin(artifact.getArtifactId());
+                plugins.put(artifact.getArtifactId(), plugin);
             }
             HPI hpi = new HPI(this, artifact, plugin);
 
@@ -83,8 +83,8 @@ public abstract class BaseMavenRepository implements MavenRepository {
         for (ArtifactCoordinates artifactCoordinates : results) {
             if (artifactCoordinates.version.contains("SNAPSHOT"))     continue;       // ignore snapshots
             if (artifactCoordinates.version.contains("JENKINS"))      continue;       // non-public releases for addressing specific bug fixes
-            if (!artifactCoordinates.artifactId.equals("jenkins-war")
-                    && !artifactCoordinates.artifactId.equals("hudson-war"))  continue;      // somehow using this as a query results in 0 hits.
+//            if (!artifactCoordinates.artifactId.equals("jenkins-war")
+//                    && !artifactCoordinates.artifactId.equals("hudson-war"))  continue;      // somehow using this as a query results in 0 hits.
 //            if (IGNORE.containsKey(artifactCoordinates.artifactId + "-" + artifactCoordinates.version)) {
 //                LOGGER.log(Level.CONFIG, "Ignoring " + artifactCoordinates.artifactId + ", version " + artifactCoordinates.version + " because this version is blacklisted");
 //                continue;

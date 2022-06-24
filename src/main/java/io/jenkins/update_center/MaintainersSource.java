@@ -116,11 +116,11 @@ public class MaintainersSource {
     }
 
     private List<String> getMaintainerIDs(ArtifactCoordinates plugin) {
-        final String ga = plugin.groupId + ":" + plugin.artifactId;
+        final String ga = plugin.groupId + ":" + plugin.getArtifactName();
         if (pluginToMaintainers.containsKey(ga)) {
             return pluginToMaintainers.get(ga);
         }
-        final List<String> candidateGAs = pluginToMaintainers.keySet().stream().filter(s -> s.endsWith(":" + plugin.artifactId)).collect(Collectors.toList());
+        final List<String> candidateGAs = pluginToMaintainers.keySet().stream().filter(s -> s.endsWith(":" + plugin.getArtifactName())).collect(Collectors.toList());
         switch (candidateGAs.size()) {
             case 1:
                 final String key = candidateGAs.get(0);

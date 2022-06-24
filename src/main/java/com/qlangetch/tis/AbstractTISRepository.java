@@ -17,6 +17,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Collection;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
@@ -121,9 +122,9 @@ public abstract class AbstractTISRepository extends BaseMavenRepository {
 
         final String uri = getUri(artifact);
         if ("pom".equals(artifact.packaging)) {
-            extraTpiZipEntry(artifact, uri, "META-INF/maven/" + artifact.groupId + "/" + artifact.artifactId + "/pom.xml");
+            extraTpiZipEntry(artifact, uri, "META-INF/maven/" + artifact.groupId + "/" + artifact.getArtifactName() + "/pom.xml");
         } else if (TIS_PACKAGING_JAR.equals(artifact.packaging)) {
-            extraTpiZipEntry(artifact, uri, "WEB-INF/lib/" + artifact.artifactId + "." + TIS_PACKAGING_JAR);
+            extraTpiZipEntry(artifact, uri, "WEB-INF/lib/" + artifact.getArtifactName() + "." + TIS_PACKAGING_JAR);
         }
 
         return getFile(artifact, uri);
@@ -133,8 +134,8 @@ public abstract class AbstractTISRepository extends BaseMavenRepository {
 
 
     protected final void extraTpiZipEntry(ArtifactCoordinates artifact, String uri, String entryPath) throws IOException {
-        ArtifactCoordinates tpiCoord = new ArtifactCoordinates(
-                artifact.groupId, artifact.artifactId, artifact.version, TIS_PACKAGING_TPI, artifact.classifier, artifact.findParent);
+        ArtifactCoordinates tpiCoord = ArtifactCoordinates.create(artifact, TIS_PACKAGING_TPI, artifact.findParent);
+        //  artifact.groupId, artifact.artifactId, artifact.version, TIS_PACKAGING_TPI, artifact.classifier, artifact.findParent);
         File tpi = getFile(tpiCoord, getUri(tpiCoord));
         if (!tpi.exists()) {
             if (tpiCoord.findParent) {
@@ -154,7 +155,7 @@ public abstract class AbstractTISRepository extends BaseMavenRepository {
                 }
             }
         } catch (Exception e) {
-            throw new IllegalStateException("can not extra tpi:" + tpi.getAbsolutePath() + ", entryPath:" + entryPath + " to cache:" + cache.getAbsolutePath());
+            throw new IllegalStateException("\ncan not extra tpi:" + tpi.getAbsolutePath() + ",\n entryPath:" + entryPath + "\n to cache:" + cache.getAbsolutePath());
         }
     }
 
@@ -162,10 +163,16 @@ public abstract class AbstractTISRepository extends BaseMavenRepository {
     protected abstract File getFile(ArtifactCoordinates artifact, final String url) throws IOException;
 
 
-    protected String getUri(ArtifactCoordinates a) {
-        String basename = a.artifactId + "-" + a.version;
+    public static String getUri(ArtifactCoordinates a) {
+
+        String basename = a.getArtifactId();// + "-" + a.version;
         String filename = basename + "." + a.packaging;
-        return a.groupId.replace(".", "/") + "/" + a.artifactId + "/" + a.version + "/" + filename;
+        Optional<PluginClassifier> classifier = a.classifier;
+        if (classifier.isPresent()) {
+            filename = classifier.get().getTPIPluginName(a.getArtifactId(), a.packaging);
+        }
+
+        return a.groupId.replace(".", "/") + "/" + a.getArtifactId() + "/" + a.version + "/" + filename;
     }
 
     // private static final File LOCAL_REPO = new File(new File(System.getProperty("user.home")), ".m2/repository");

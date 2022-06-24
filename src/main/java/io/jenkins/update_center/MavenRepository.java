@@ -39,7 +39,8 @@ public interface MavenRepository {
     File resolve(ArtifactCoordinates artifact) throws IOException;
 
     default File resolve(ArtifactCoordinates a, String packaging, String classifier) throws IOException {
-        return resolve(new ArtifactCoordinates(a.groupId, a.artifactId, a.version, packaging, a.classifier, false));
+        //  return resolve(new ArtifactCoordinates(a.groupId, a.artifactId, a.version, packaging, a.classifier, false));
+        return resolve(ArtifactCoordinates.create(a, packaging));
     }
 
     /**
@@ -58,7 +59,7 @@ public interface MavenRepository {
         for (Plugin plugin : all) {
             for (HPI hpi : plugin.getArtifacts().values()) {
                 Date releaseDate = hpi.getTimestampAsDate();
-                LOGGER.log(Level.FINE, "adding " + hpi.artifact.artifactId + ":" + hpi.version);
+                LOGGER.log(Level.FINE, "adding " + hpi.artifact.getArtifactId() + ":" + hpi.version);
                 Map<String, HPI> pluginsOnDate = plugins.computeIfAbsent(releaseDate, k -> new TreeMap<>());
                 pluginsOnDate.put(plugin.getArtifactId(), hpi);
             }

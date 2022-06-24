@@ -30,7 +30,7 @@ class ReleaseHistoryDate {
                 ReleaseHistoryEntry releaseHistoryEntry = new ReleaseHistoryEntry(hpi);
                 list.add(releaseHistoryEntry);
             } catch (Exception ex) {
-                LOGGER.log(Level.INFO, "Failed to retrieve plugin info for " + hpi.artifact.artifactId, ex);
+                LOGGER.log(Level.INFO, "Failed to retrieve plugin info for " + hpi.artifact.getArtifactName(), ex);
             }
         }
         this.releases = list;

@@ -9,7 +9,7 @@ public class RecentReleasesEntry {
     }
 
     public String getName() {
-        return hpi.artifact.artifactId;
+        return hpi.artifact.getArtifactName();
     }
 
     public String getVersion() {

@@ -68,11 +68,11 @@ public class JavaVersionPluginFilter implements PluginFilter {
 
         if (javaVersion.isOlderThan(pluginJavaVersion)) {
             LOGGER.log(Level.INFO, "Ignoring {0}:{1}. Java version {2} is required, but it is newer than the target version {3}",
-                    new Object[] {hpi.artifact.artifactId, hpi.getVersion(), pluginJavaVersion, javaVersion});
+                    new Object[] {hpi.artifact.getArtifactId(), hpi.getVersion(), pluginJavaVersion, javaVersion});
             return true;
         }
         LOGGER.log(Level.FINEST, "Accepting {0}:{1}. It requires Java version {2}, which is compliant with {3}",
-                new Object[] {hpi.artifact.artifactId, hpi.getVersion(), pluginJavaVersion, javaVersion});
+                new Object[] {hpi.artifact.getArtifactId(), hpi.getVersion(), pluginJavaVersion, javaVersion});
         return false;
     }
 }

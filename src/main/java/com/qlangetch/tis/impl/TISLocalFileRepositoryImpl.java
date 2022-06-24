@@ -63,9 +63,9 @@ public class TISLocalFileRepositoryImpl extends AbstractTISRepository {
         if (!(artifact instanceof TISLocalPluginContextArtifactCoordinates)) {
             File pluginDir = TIS.pluginDirRoot;
             if (artifact.classifier.isPresent()) {
-                return new File(pluginDir, artifact.classifier.get().getTPIPluginName(artifact.artifactId, TIS_PACKAGE_EXTENSION));
+                return new File(pluginDir, artifact.classifier.get().getTPIPluginName(artifact.getArtifactId(), TIS_PACKAGE_EXTENSION));
             }
-            return new File(pluginDir, artifact.artifactId + TIS_PACKAGE_EXTENSION);
+            return new File(pluginDir, artifact.getArtifactId() + TIS_PACKAGE_EXTENSION);
         }
 
         TISLocalPluginContextArtifactCoordinates coord = (TISLocalPluginContextArtifactCoordinates) artifact;
