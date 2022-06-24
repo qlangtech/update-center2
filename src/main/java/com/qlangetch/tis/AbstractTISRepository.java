@@ -122,7 +122,7 @@ public abstract class AbstractTISRepository extends BaseMavenRepository {
 
         final String uri = getUri(artifact);
         if ("pom".equals(artifact.packaging)) {
-            extraTpiZipEntry(artifact, uri, "META-INF/maven/" + artifact.groupId + "/" + artifact.getArtifactName() + "/pom.xml");
+            extraTpiZipEntry(artifact, uri, "META-INF/maven/" + artifact.groupId + "/" + artifact.getArtifactId() + "/pom.xml");
         } else if (TIS_PACKAGING_JAR.equals(artifact.packaging)) {
             extraTpiZipEntry(artifact, uri, "WEB-INF/lib/" + artifact.getArtifactName() + "." + TIS_PACKAGING_JAR);
         }
