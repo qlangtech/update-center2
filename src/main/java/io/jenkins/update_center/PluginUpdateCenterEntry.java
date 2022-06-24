@@ -205,7 +205,7 @@ public abstract class PluginUpdateCenterEntry {
 
     @JSONField(name = "title")
     public String getName() throws IOException {
-        return latestOffered.getName();
+        return this.artifactId; //latestOffered.getName();
     }
 
     public String getVersion() {
