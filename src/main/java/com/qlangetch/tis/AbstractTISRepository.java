@@ -153,7 +153,7 @@ public abstract class AbstractTISRepository extends BaseMavenRepository {
                     IOUtils.copy(in, pomOut);
                 }
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             throw new IllegalStateException("can not extra tpi:" + tpi.getAbsolutePath() + ", entryPath:" + entryPath + " to cache:" + cache.getAbsolutePath());
         }
     }
