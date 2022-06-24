@@ -507,6 +507,8 @@ public class Main {
                 return "单选";
             case MULTI_SELECTABLE:
                 return "多选";
+            case FILE:
+                return "文件";
             default:
                 throw new IllegalStateException("invalid type:" + formField.type());
         }
