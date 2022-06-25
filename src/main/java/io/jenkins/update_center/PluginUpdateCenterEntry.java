@@ -28,6 +28,8 @@ public abstract class PluginUpdateCenterEntry {
      */
     private transient final HPI latestOffered;
 
+    public abstract boolean isSupportMultiClassifier();
+
     // private List<ICoord> _classifier;
     // private boolean _supportMultiClassifier;
     public static PluginUpdateCenterEntry create(Plugin plugin) {
@@ -66,6 +68,11 @@ public abstract class PluginUpdateCenterEntry {
             this.hpi = hpi;
         }
 
+        @Override
+        public boolean isSupportMultiClassifier() {
+            return false;
+        }
+
         @JSONField(name = "url")
         public URL getDownloadUrl() throws MalformedURLException {
             return hpi.getDownloadUrl();
@@ -100,6 +107,11 @@ public abstract class PluginUpdateCenterEntry {
         public MultiClassifierPluginUpdateCenterEntry(Plugin plugin, List<ICoord> coords, HPI latest) {
             super(plugin.getArtifactId(), latest);
             this.coords = coords;
+        }
+
+        @Override
+        public boolean isSupportMultiClassifier() {
+            return true;
         }
 
         @JSONField(name = "classifier")
