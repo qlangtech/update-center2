@@ -4,7 +4,8 @@ import com.google.common.collect.Maps;
 import com.qlangetch.tis.AbstractTISRepository;
 import com.qlangetch.tis.TISArtifactCoordinates;
 import com.qlangtech.tis.TIS;
-import com.qlangtech.tis.extension.PluginWrapper;
+import com.qlangtech.tis.extension.impl.PluginManifest;
+import com.qlangtech.tis.maven.plugins.tpi.PluginClassifier;
 import io.jenkins.update_center.ArtifactCoordinates;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -14,6 +15,7 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * @author: 百岁（baisui@qlangtech.com）
@@ -28,20 +30,39 @@ public class TISLocalFileRepositoryImpl extends AbstractTISRepository {
         if (!pluginDir.exists()) {
             throw new IllegalStateException("plugin dir:" + pluginDir.getAbsolutePath() + " must be exist");
         }
-        Collection<File> tpis = FileUtils.listFiles(pluginDir, new String[]{AbstractTISRepository.TIS_PACKAGING_TPI}, false);
+        Collection<File> tpis = FileUtils.listFiles(pluginDir
+                , new String[]{AbstractTISRepository.TIS_PACKAGING_TPI}, false);
         if (tpis.size() < 1) {
             throw new IllegalStateException("plugin dir:" + pluginDir.getAbsolutePath() + " must contain plugins");
         }
         TISArtifactCoordinates coord = null;
-        for (PluginWrapper plugin : TIS.get().getPluginManager().getPlugins()) {
+        PluginManifest manifest = null;
+        String shortName = null;
+        for (File tpi : tpis) {
+            manifest = PluginManifest.create(tpi);
+            shortName = manifest.computeShortName(tpi.getName());
             try {
-                coord = new TISLocalPluginContextArtifactCoordinates(plugin, plugin.getGroupId(), plugin.getShortName(), plugin.getVersion()
-                        , AbstractTISRepository.TIS_PACKAGING_TPI, FileUtils.sizeOf(plugin.getArchive()), new Date(plugin.getLastModfiyTime()));
+                Optional<PluginClassifier> classifier = manifest.parseClassifier();
+                coord = new TISLocalPluginContextArtifactCoordinates(tpi, manifest.getGroupId()
+                        , shortName, manifest.getVersionOf()
+                        , AbstractTISRepository.TIS_PACKAGING_TPI
+                        , FileUtils.sizeOf(tpi), new Date(manifest.getLastModfiyTime()), classifier);
                 plugins.put(coord.getGav(), coord);
             } catch (Exception e) {
-                throw new IllegalStateException(plugin.getShortName(), e);
+                throw new IllegalStateException(shortName, e);
             }
         }
+
+
+//        for (PluginWrapper plugin : TIS.get().getPluginManager().getPlugins()) {
+//            try {
+//                coord = new TISLocalPluginContextArtifactCoordinates(plugin, plugin.getGroupId(), plugin.getShortName(), plugin.getVersion()
+//                        , AbstractTISRepository.TIS_PACKAGING_TPI, FileUtils.sizeOf(plugin.getArchive()), new Date(plugin.getLastModfiyTime()));
+//                plugins.put(coord.getGav(), coord);
+//            } catch (Exception e) {
+//                throw new IllegalStateException(plugin.getShortName(), e);
+//            }
+//        }
 
 
         return plugins;
