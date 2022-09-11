@@ -24,7 +24,7 @@
 package io.jenkins.update_center;
 
 import com.qlangtech.tis.maven.plugins.tpi.PluginClassifier;
-import hudson.util.VersionNumber;
+import com.qlangtech.tis.extension.util.VersionNumber;
 import io.jenkins.update_center.util.Environment;
 
 import javax.annotation.Nonnull;

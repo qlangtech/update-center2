@@ -23,7 +23,7 @@
  */
 package io.jenkins.update_center;
 
-import hudson.util.VersionNumber;
+import com.qlangtech.tis.extension.util.VersionNumber;
 import io.jenkins.update_center.util.Environment;
 import org.apache.commons.lang.StringUtils;
 

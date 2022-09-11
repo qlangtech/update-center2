@@ -23,7 +23,7 @@
  */
 package io.jenkins.update_center.util;
 
-import hudson.util.VersionNumber;
+import com.qlangtech.tis.extension.util.VersionNumber;
 
 import javax.annotation.Nonnull;
 

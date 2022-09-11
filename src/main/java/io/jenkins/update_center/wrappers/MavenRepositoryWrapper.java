@@ -1,11 +1,7 @@
 package io.jenkins.update_center.wrappers;
 
-import hudson.util.VersionNumber;
-import io.jenkins.update_center.MavenRepository;
-import io.jenkins.update_center.ArtifactCoordinates;
-import io.jenkins.update_center.JenkinsWar;
-import io.jenkins.update_center.MavenArtifact;
-import io.jenkins.update_center.Plugin;
+import com.qlangtech.tis.extension.util.VersionNumber;
+import io.jenkins.update_center.*;
 
 import java.io.File;
 import java.io.IOException;

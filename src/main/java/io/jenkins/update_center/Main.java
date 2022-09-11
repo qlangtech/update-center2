@@ -28,18 +28,24 @@ import com.google.common.collect.Maps;
 import com.qlangetch.tis.AbstractTISRepository;
 import com.qlangetch.tis.impl.TISAliyunOSSRepositoryImpl;
 import com.qlangtech.tis.TIS;
+import com.qlangtech.tis.async.message.client.consumer.impl.MQListenerFactory;
+import com.qlangtech.tis.datax.impl.DataxReader;
+import com.qlangtech.tis.datax.impl.DataxWriter;
 import com.qlangtech.tis.extension.Descriptor;
 import com.qlangtech.tis.extension.PluginFormProperties;
 import com.qlangtech.tis.extension.impl.PropertyType;
 import com.qlangtech.tis.extension.impl.RootFormProperties;
 import com.qlangtech.tis.extension.model.UpdateCenter;
 import com.qlangtech.tis.extension.util.PluginExtraProps;
+import com.qlangtech.tis.extension.util.VersionNumber;
 import com.qlangtech.tis.manage.common.TisUTF8;
+import com.qlangtech.tis.plugin.IEndTypeGetter;
 import com.qlangtech.tis.plugin.annotation.FormField;
 import com.qlangtech.tis.plugin.annotation.Validator;
+import com.qlangtech.tis.plugin.incr.TISSinkFactory;
+import com.qlangtech.tis.util.Memoizer;
 import edu.umd.cs.findbugs.annotations.NonNull;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import hudson.util.VersionNumber;
 import io.jenkins.lib.support_log_formatter.SupportLogFormatter;
 import io.jenkins.update_center.args4j.LevelOptionHandler;
 import io.jenkins.update_center.filters.JavaVersionPluginFilter;
@@ -50,6 +56,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.tuple.Pair;
 import org.kohsuke.args4j.ClassParser;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
@@ -62,6 +69,8 @@ import java.lang.reflect.Modifier;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.*;
+import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
@@ -292,7 +301,7 @@ public class Main {
         for (Plugin plugin : artifacts) {
 
             latest = plugin.getLatest();
-            pluginList.append("## 插件名：").append(latest.artifact.getArtifactName()).append("\n\n");
+            pluginList.append("## ").append(latest.artifact.getArtifactName() + AbstractTISRepository.TIS_PACKAGE_EXTENSION).append("\n\n");
             pluginList.append("* **下载地址：** ").append(latest.getDownloadUrl()).append("\n\n");
             excerpt = latest.getDescription();
             if (StringUtils.isNotBlank(excerpt)) {
@@ -305,21 +314,27 @@ public class Main {
             pluginList.append("* **扩展列表：** \n\n");
             for (Map.Entry<String, List<String>> e : latest.getExtendpoints().entrySet()) {
                 extendImpls = extendPoints.get(e.getKey());
-                pluginList.append("\t* [").append(e.getKey()).append("]({{< relref \"./plugins/#扩展点").append(getExtendPointHtmlAnchor(e.getKey())).append("\">}})\n\n");
+                pluginList.append("\t* [").append(e.getKey()).append("]({{< relref \"./plugins/#扩展点")
+                        .append(getExtendPointHtmlAnchor(e.getKey())).append("\">}})\n\n");
                 if (extendImpls == null) {
                     extendImpls = Lists.newArrayList();
                     extendPoints.put(e.getKey(), extendImpls);
                 }
                 extendImpls.addAll(e.getValue().stream().map((impl) -> {
                     PluginExtendsionImpl eimpl = new PluginExtendsionImpl(impl, plugin.getLatest());
-                    pluginList.append("\t\t * [").append(impl).append("]({{< relref \"./plugins/#").append(eimpl.getHtmlAnchor()).append("\">}})\n\n");
+                    //pluginList.append("\t\t * [").append(impl).append("]({{< relref \"./plugins/#").append(eimpl.getHtmlAnchor()).append("\">}})\n\n");
+
+                    pluginList.append("\t\t * ");
+                    eimpl.appendExtendImplMDSsript(pluginList);
+                    pluginList.append("\n\n");
                     return eimpl;
                 }).collect(Collectors.toList()));
             }
         }
 
 
-        FileUtils.write(new File(www, PLUGIN_TPIS_MARK_DOWN_FILENAME), pluginList.toString(), TisUTF8.get());
+        FileUtils.write(new File(www, PLUGIN_TPIS_MARK_DOWN_FILENAME)
+                , (new MarkdownBuilder("header-tpis.txt", pluginList)).build(), TisUTF8.get());
 
         StringBuffer extendsList = new StringBuffer();
         Descriptor descriptor = null;
@@ -330,17 +345,23 @@ public class Main {
 
             for (PluginExtendsionImpl extendImpl : e.getValue()) {
 
-                descriptor = TIS.get().getDescriptor(extendImpl.extendImpl);
+                descriptor = extendImpl.getDesc();// TIS.get().getDescriptor(extendImpl.extendImpl);
                 if (descriptor != null) {
-                    extendsList.append("### ").append(descriptor.clazz.getSimpleName()).append("\n\n");
+                    extendsList.append("### ").append(descriptor.clazz.getName()).append("\n\n");
                     extendsList.append("* **显示名:** ").append(descriptor.getDisplayName()).append(" \n\n");
                     extendsList.append("* **全路径名:** [").append(extendImpl.extendImpl).append("](").append(extendImpl.getExtendImplURL()).append(") \n\n");
+                    if (descriptor instanceof IEndTypeGetter) {
+                        IEndTypeGetter endType = (IEndTypeGetter) descriptor;
+                        IEndTypeGetter.PluginVender vender = endType.getVender();
+                        extendsList.append("* **提供者:** [").append(vender.getName()).append("](").append(vender.getUrl()).append(") \n\n");
+                    }
+
                 } else {
                     extendsList.append("### ").append(extendImpl.extendImpl).append("\n\n");
                 }
                 extendsList.append("* **费用:** `社区版(免费)`").append("\n\n");
                 extendsList.append("* **插件包:** [").append(extendImpl.getArchiveFileName())
-                        .append("]({{< relref \"./tpis/#插件名").append(extendImpl.getArchiveFileNameHtmlAnchor()).append("\">}})").append("\n\n");
+                        .append("]({{< relref \"./tpis/#").append(extendImpl.getArchiveFileNameHtmlAnchor()).append("\">}})").append("\n\n");
 //                md.append("* 费用:");
 //                md.append("* 版本:");
 //                md.append("* 包大小:");
@@ -403,7 +424,13 @@ public class Main {
             }
         }
 
-        FileUtils.write(new File(www, PLUGIN_DESC_MARK_DOWN_FILENAME), extendsList.toString(), TisUTF8.get());
+        MarkdownBuilder tabView = new MarkdownBuilder(
+                "header-source-sink.txt", this.drawEndTypePluginTableView(extendPoints));
+
+        FileUtils.write(new File(www, PLUGIN_TABVIEW_MARK_DOWN_FILENAME), tabView.build(), TisUTF8.get());
+
+        FileUtils.write(new File(www, PLUGIN_DESC_MARK_DOWN_FILENAME)
+                , (new MarkdownBuilder("header-plugins.txt", extendsList)).build(), TisUTF8.get());
 
         if (generatePluginDocumentationUrls) {
             new PluginDocumentationUrlsRoot(repo).write(new File(www, PLUGIN_DOCUMENTATION_URLS_JSON_FILENAME), prettyPrint);
@@ -428,8 +455,186 @@ public class Main {
         directoryTreeBuilder.build(repo);
     }
 
+    /**
+     * 插件实现视图
+     *
+     * @param extendPoints
+     */
+    private StringBuffer drawEndTypePluginTableView(Map<String, List<PluginExtendsionImpl>> extendPoints) {
+        Memoizer<IEndTypeGetter.EndType, EndTypePluginStore> endTypePluginDescs
+                = new Memoizer<IEndTypeGetter.EndType, EndTypePluginStore>() {
+            @Override
+            public EndTypePluginStore compute(IEndTypeGetter.EndType key) {
+                return new EndTypePluginStore();
+            }
+        };
+        /**
+         * 生成reader/writer(batch/incr) 一览视图
+         */
+        Descriptor pluginDesc = null;
+        IEndTypeGetter endTypeGetter = null;
+        for (Map.Entry<String, List<PluginExtendsionImpl>> e : extendPoints.entrySet()) {
+            for (PluginExtendsionImpl impl : e.getValue()) {
+                pluginDesc = impl.getDesc();
+                if (pluginDesc == null) {
+                    continue;
+                }
+
+                if (DataxReader.class.isAssignableFrom(pluginDesc.clazz)) {
+                    addToEndTypeStore(endTypePluginDescs, pluginDesc, (store) -> store.dataXReaders);
+                    continue;
+                }
+
+                if (DataxWriter.class.isAssignableFrom(pluginDesc.clazz)) {
+                    //  endTypePluginDescs.get(((IEndTypeGetter) pluginDesc).getEndType()).dataXWriters.add(pluginDesc);
+                    addToEndTypeStore(endTypePluginDescs, pluginDesc, (store) -> store.dataXWriters);
+                    continue;
+                }
+
+                if (TISSinkFactory.class.isAssignableFrom(pluginDesc.clazz)) {
+                    // endTypePluginDescs.get(((IEndTypeGetter) pluginDesc).getEndType()).incrSinks.add(pluginDesc);
+                    addToEndTypeStore(endTypePluginDescs, pluginDesc, (store) -> store.incrSinks);
+                    continue;
+                }
+
+                if (MQListenerFactory.class.isAssignableFrom(pluginDesc.clazz)) {
+                    // endTypePluginDescs.get(((IEndTypeGetter) pluginDesc).getEndType()).incrSources.add(pluginDesc);
+                    addToEndTypeStore(endTypePluginDescs, pluginDesc, (store) -> store.incrSources);
+                    continue;
+                }
+            }
+        }
+
+        IEndTypeGetter.EndType endType = null;
+        EndTypePluginStore store = null;
+        StringBuffer tabView = new StringBuffer();
+        tabView.append("<table style='width:100%; display:table;'  border='1'>\n");
+        tabView.append("<thead>");
+        tabView.append("<tr><th rowspan='2'>类型</th><th colspan='2'>批量(DataX)</th><th colspan='2'>实时</th></tr>\n");
+        tabView.append("<tr><th width='20%'>读</th><th width='20%'>写</th><th width='20%'>Source</th><th width='20%'>Sink</th></tr>\n");
+        tabView.append("</thead>");
+        tabView.append("<tbody>\n");
+        for (Map.Entry<IEndTypeGetter.EndType, EndTypePluginStore> entry
+                : endTypePluginDescs.snapshot().entrySet()) {
+            endType = entry.getKey();
+            store = entry.getValue();
+            tabView.append("<tr>\n");
+            tabView.append("<td class='endtype-name'>").append(endType.getVal()).append("</td>");
+            drawPluginCell(tabView, store.dataXReaders);
+            drawPluginCell(tabView, store.dataXWriters);
+            drawPluginCell(tabView, store.incrSources);
+            drawPluginCell(tabView, store.incrSinks);
+
+            tabView.append("</tr>\n");
+        }
+        tabView.append("</tbody>");
+        tabView.append("\n</table>");
+
+        StringBuffer script = new StringBuffer("* 提供者: ");
+        venderColor.snapshot().forEach((key, color) -> {
+            buildPluginLink(script, color, (buffer) -> {
+                buffer.append("[").append(key.getName()).append("](").append(key.getUrl()).append(")");
+            });
+            // script.append("<i>[").append(key.getName()).append("](").append(key.getUrl()).append(")</i>");
+        });
+        //  private void buildPluginLink(StringBuffer script, String color, Consumer<StringBuffer> titleAppender) {
+
+        return script.append("\n\n").append(tabView);
+    }
+
+    private void addToEndTypeStore(Memoizer<IEndTypeGetter.EndType, EndTypePluginStore> endTypePluginDescs
+            , Descriptor pluginDesc, Function<EndTypePluginStore, List<Pair<IEndTypeGetter, Descriptor>>> func) {
+        IEndTypeGetter endTypeGetter;
+        endTypeGetter = (IEndTypeGetter) pluginDesc;
+
+        func.apply(endTypePluginDescs.get(endTypeGetter.getEndType())).add(Pair.of(endTypeGetter, pluginDesc));
+
+        // endTypePluginDescs.get(endTypeGetter.getEndType()).dataXReaders.add(Pair.of(endTypeGetter, pluginDesc));
+    }
+
+    private static final String CHECK_ICON = "<i class=\"fa fa-check fa-3x\" style=\"color: #1aad19\" aria-hidden=\"true\"></i>";
+
+//    private static final String startColor = "11cccc";
+//    private static final String endColor = "ffffff";
+
+    final static String[] colors = new String[]{"tomato", "orange", "dodgerblue", "MediumSeaGreen", "Gray", "SlateBlue", "Violet", "LightGray"};
+
+//    private static class HtmlColor {
+//        private final AtomicInteger val;
+//
+//        public HtmlColor(String val) {
+//            this(Integer.parseInt(val, 16));
+//        }
+//
+//        public HtmlColor(int val) {
+//            this.val = new AtomicInteger(val);
+//        }
+//
+//        public String nextColor() {
+//            this.val.compareAndSet(this.val.get(), this.val.get() + 7233);
+////            NumberFormat format = NumberFormat.getNumberInstance();
+////            return format.format(this.val);
+//            return Integer.toHexString(this.val.get());
+//        }
+//    }
+
+    // private final HtmlColor starColr = new HtmlColor(startColor);
+    private Memoizer<IEndTypeGetter.PluginVender, String> venderColor = new Memoizer<IEndTypeGetter.PluginVender, String>() {
+        int index = 0;
+
+        @Override
+        public String compute(IEndTypeGetter.PluginVender key) {
+            return colors[index++];
+        }
+    };
+
+    private void drawPluginCell(StringBuffer tabView, List<Pair<IEndTypeGetter, Descriptor>> plugins) {
+        tabView.append("<td>");
+
+        if (CollectionUtils.isNotEmpty(plugins)) {
+            tabView.append(CHECK_ICON);
+        }
+        final int[] index = new int[]{1};
+
+        //Descriptor desc = null;
+        for (Pair<IEndTypeGetter, Descriptor> p : plugins) {
+            //desc = p.getRight();
+
+//            tabView.append("<i class='plugin-link' style='background-color:" + venderColor.get(p.getLeft().getVender()) + "'>");
+//            eimpl.appendExtendImplMDSsript(String.valueOf(index++), true, tabView);
+//            tabView.append("</i>");
+
+            buildPluginLink(tabView, venderColor.get(p.getLeft().getVender()), (s) -> {
+                PluginExtendsionImpl eimpl = null;
+                eimpl = new PluginExtendsionImpl(p.getRight().clazz.getName(), null);
+                eimpl.appendExtendImplMDSsript(String.valueOf(index[0]++), true, s);
+            });
+
+            // tabView.append("<i>[").append(index++).append("]").append("()</i>");
+        }
+        tabView.append("</td>");
+    }
+
+    private void buildPluginLink(StringBuffer script, String color, Consumer<StringBuffer> titleAppender) {
+        script.append("<i class='plugin-link' style='background-color:" + color + "'>");
+        //eimpl.appendExtendImplMDSsript(String.valueOf(index++), true, tabView);
+        titleAppender.accept(script);
+        script.append("</i>");
+    }
+
+    private static class EndTypePluginStore {
+        List<Pair<IEndTypeGetter, Descriptor>> dataXReaders = Lists.newArrayList();
+        List<Pair<IEndTypeGetter, Descriptor>> dataXWriters = Lists.newArrayList();
+        List<Pair<IEndTypeGetter, Descriptor>> incrSources = Lists.newArrayList();
+        List<Pair<IEndTypeGetter, Descriptor>> incrSinks = Lists.newArrayList();
+    }
+
     private String getExtendPointHtmlAnchor(String key) {
-        return StringUtils.remove(key, ".");
+        return escapeHtmlAnchor(key);
+    }
+
+    private static String escapeHtmlAnchor(String key) {
+        return StringUtils.lowerCase(StringUtils.remove(key, "."));
     }
 
     private void appendRichMdContent(StringBuffer extendsList, int indent, String content) throws IOException {
@@ -447,6 +652,8 @@ public class Main {
         private final String extendImpl;
         private final HPI hpi;
 
+        private Descriptor descriptor;
+
         public PluginExtendsionImpl(String extendImpl, HPI hpi) {
             this.extendImpl = extendImpl;
             this.hpi = hpi;
@@ -462,16 +669,41 @@ public class Main {
             }
         }
 
-        public String getHtmlAnchor() {
-            return StringUtils.substringAfterLast(extendImpl, ".");
+        public Descriptor getDesc() {
+            if (this.descriptor == null) {
+                this.descriptor = TIS.get().getDescriptor(this.extendImpl);
+            }
+            return descriptor;
         }
+
+
+        public String getHtmlAnchor() {
+            return escapeHtmlAnchor(extendImpl);
+        }
+
+        public void appendExtendImplMDSsript(String linkTitle, boolean html, StringBuffer md) {
+
+            if (html) {
+                md.append("<a target='_blank' href='").append("../plugins/#").append(this.getHtmlAnchor()).append("'>").append(linkTitle).append("</a>");
+            } else {
+                md.append("[").append(linkTitle).append("]({{< relref \"./plugins/#").append(this.getHtmlAnchor()).append("\">}})");
+            }
+        }
+
+        public void appendExtendImplMDSsript(StringBuffer md) {
+            //md.append("[").append(extendImpl).append("]({{< relref \"./plugins/#").append(this.getHtmlAnchor()).append("\">}})");
+            appendExtendImplMDSsript(extendImpl, false, md);
+        }
+
 
         public String getArchiveFileName() {
             return hpi.getArchiveFileName();
         }
 
         public String getArchiveFileNameHtmlAnchor() {
-            return StringUtils.removeAll(hpi.getArchiveFileName(), "\\.|-");
+            // return StringUtils.removeAll(hpi.getArchiveFileName(), "\\.|-");
+            // return StringUtils.removeAll(hpi.getArchiveFileName(), "\\.");
+            return escapeHtmlAnchor(hpi.getArchiveFileName());
         }
     }
 
@@ -593,6 +825,7 @@ public class Main {
     private static final String UPDATE_CENTER_JSON_HTML_FILENAME = "update-center.json.html";
     private static final String PLUGIN_DOCUMENTATION_URLS_JSON_FILENAME = "plugin-documentation-urls.json";
     private static final String PLUGIN_DESC_MARK_DOWN_FILENAME = "plugins.md";
+    private static final String PLUGIN_TABVIEW_MARK_DOWN_FILENAME = "source-sink.md";
     private static final String PLUGIN_TPIS_MARK_DOWN_FILENAME = "tpis.md";
     private static final String PLUGIN_VERSIONS_JSON_FILENAME = "plugin-versions.json";
     private static final String RELEASE_HISTORY_JSON_FILENAME = "release-history.json";

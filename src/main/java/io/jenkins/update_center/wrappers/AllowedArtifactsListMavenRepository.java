@@ -1,7 +1,7 @@
 package io.jenkins.update_center.wrappers;
 
+import com.qlangtech.tis.extension.util.VersionNumber;
 import com.qlangtech.tis.maven.plugins.tpi.PluginClassifier;
-import hudson.util.VersionNumber;
 import io.jenkins.update_center.HPI;
 import io.jenkins.update_center.JenkinsWar;
 import io.jenkins.update_center.Plugin;

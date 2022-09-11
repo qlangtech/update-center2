@@ -28,7 +28,7 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.Maps;
 import com.qlangetch.tis.AbstractTISRepository;
 import com.qlangtech.tis.maven.plugins.tpi.PluginClassifier;
-import hudson.util.VersionNumber;
+import com.qlangtech.tis.extension.util.VersionNumber;
 import io.jenkins.update_center.util.JavaSpecificationVersion;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
@@ -177,6 +177,12 @@ public class HPI extends MavenArtifact {
     private String description;
     private Map<String, List<String>> extendpoints;
 
+    /**
+     * key:  扩展接口
+     * vals: 实现类
+     *
+     * @return
+     */
     public Map<String, List<String>> getExtendpoints() {
         try {
             if (extendpoints == null) {

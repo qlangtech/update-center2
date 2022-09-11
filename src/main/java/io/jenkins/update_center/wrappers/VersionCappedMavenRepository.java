@@ -1,6 +1,6 @@
 package io.jenkins.update_center.wrappers;
 
-import hudson.util.VersionNumber;
+import com.qlangtech.tis.extension.util.VersionNumber;
 import io.jenkins.update_center.BaseMavenRepository;
 import io.jenkins.update_center.JenkinsWar;
 import io.jenkins.update_center.Plugin;

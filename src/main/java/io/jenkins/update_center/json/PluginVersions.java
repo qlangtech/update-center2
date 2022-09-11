@@ -1,7 +1,7 @@
 package io.jenkins.update_center.json;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import hudson.util.VersionNumber;
+import com.qlangtech.tis.extension.util.VersionNumber;
 import io.jenkins.update_center.HPI;
 
 import java.io.IOException;

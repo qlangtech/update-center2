@@ -1,7 +1,7 @@
 package io.jenkins.update_center;
 
 import com.qlangtech.tis.maven.plugins.tpi.PluginClassifier;
-import hudson.util.VersionNumber;
+import com.qlangtech.tis.extension.util.VersionNumber;
 import org.apache.commons.io.IOUtils;
 import org.kohsuke.args4j.Option;
 

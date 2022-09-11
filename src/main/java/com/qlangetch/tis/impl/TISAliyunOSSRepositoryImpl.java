@@ -29,6 +29,7 @@ import java.util.logging.Level;
 public class TISAliyunOSSRepositoryImpl extends AbstractTISRepository {
     private AliyunOSS ossClient;
     // private String ossBucketName;
+    private static final boolean dryRun = Boolean.getBoolean("dryRun");
 
 
     protected Map<String, TISArtifactCoordinates> initialize() throws IOException {
@@ -67,9 +68,14 @@ public class TISAliyunOSSRepositoryImpl extends AbstractTISRepository {
                 Map<String, String> userMeta = objectMetadata.getUserMetadata();
 
 
-                coord = new TISArtifactCoordinates(userMeta.get("groupId"), userMeta.get("artifactId"), userMeta.get("version")
-                        , userMeta.get("packaging"), objectMetadata.getContentLength(), objectMetadata.getLastModified()
-                        , Optional.ofNullable(new PluginClassifier(userMeta.get(PluginManager.PACAKGE_CLASSIFIER))));
+                coord = new TISArtifactCoordinates( //
+                        userMeta.get("groupId") //
+                        , userMeta.get("artifactId") //
+                        , userMeta.get("version") //
+                        , userMeta.get("packaging") //
+                        , objectMetadata.getContentLength() //
+                        , objectMetadata.getLastModified() //
+                        , Optional.ofNullable(PluginClassifier.create(userMeta.get(PluginManager.PACAKGE_CLASSIFIER))));
                 //  plugins.add(coord);
                 pluginMeta.put(coord.getGav(), coord);
             } else {
@@ -129,6 +135,9 @@ public class TISAliyunOSSRepositoryImpl extends AbstractTISRepository {
         }
 
         public PutObjectResult writeFile(String ossPath, File updateCenterJson) {
+            if (dryRun) {
+                return null;
+            }
             return this.ossClient.putObject(this.ossBucketName, ossPath, updateCenterJson);
         }
     }

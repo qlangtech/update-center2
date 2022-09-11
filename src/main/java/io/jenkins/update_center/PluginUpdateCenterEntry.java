@@ -2,8 +2,9 @@ package io.jenkins.update_center;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.google.common.collect.Lists;
+import com.qlangtech.tis.maven.plugins.tpi.ICoord;
 import com.qlangtech.tis.maven.plugins.tpi.PluginClassifier;
-import hudson.util.VersionNumber;
+import com.qlangtech.tis.extension.util.VersionNumber;
 import io.jenkins.update_center.util.JavaSpecificationVersion;
 
 import java.io.IOException;
@@ -225,20 +226,20 @@ public abstract class PluginUpdateCenterEntry {
     }
 
 
-    interface ICoord {
-        //  public String getClassifier();
-
-        @JSONField(name = "url")
-        public URL getDownloadUrl() throws MalformedURLException;
-
-        public String getSha1() throws IOException;
-
-        public String getSha256() throws IOException;
-
-        public long getSize() throws IOException;
-
-        public String getGav();
-    }
+//    interface ICoord {
+//        //  public String getClassifier();
+//
+//        @JSONField(name = "url")
+//        public URL getDownloadUrl() throws MalformedURLException;
+//
+//        public String getSha1() throws IOException;
+//
+//        public String getSha256() throws IOException;
+//
+//        public long getSize() throws IOException;
+//
+//        public String getGav();
+//    }
 
     private static class DefaultCoord implements ICoord {
         private final HPI hpi;

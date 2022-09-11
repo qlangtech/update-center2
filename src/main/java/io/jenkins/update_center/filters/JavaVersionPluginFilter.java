@@ -23,7 +23,7 @@
  */
 package io.jenkins.update_center.filters;
 
-import hudson.util.VersionNumber;
+import com.qlangtech.tis.extension.util.VersionNumber;
 import io.jenkins.update_center.PluginFilter;
 import io.jenkins.update_center.HPI;
 import io.jenkins.update_center.util.JavaSpecificationVersion;

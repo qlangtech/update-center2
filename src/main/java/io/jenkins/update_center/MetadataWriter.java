@@ -1,6 +1,6 @@
 package io.jenkins.update_center;
 
-import hudson.util.VersionNumber;
+import com.qlangtech.tis.extension.util.VersionNumber;
 import org.apache.commons.io.IOUtils;
 import org.kohsuke.args4j.Option;
 

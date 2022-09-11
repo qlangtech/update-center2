@@ -1,6 +1,6 @@
 package io.jenkins.update_center.wrappers;
 
-import hudson.util.VersionNumber;
+import com.qlangtech.tis.extension.util.VersionNumber;
 import io.jenkins.update_center.JenkinsWar;
 
 import java.io.IOException;
@@ -16,7 +16,7 @@ public class StableWarMavenRepository extends MavenRepositoryWrapper {
     public TreeMap<VersionNumber, JenkinsWar> getJenkinsWarsByVersionNumber() throws IOException {
         TreeMap<VersionNumber, JenkinsWar> releases = base.getJenkinsWarsByVersionNumber();
 
-        releases.keySet().retainAll(releases.keySet().stream().filter(it -> it.getDigitAt(2) != -1).collect(Collectors.toSet()));
+        //releases.keySet().retainAll(releases.keySet().stream().filter(it -> it.getDigitAt(2) != -1).collect(Collectors.toSet()));
 
         return releases;
     }

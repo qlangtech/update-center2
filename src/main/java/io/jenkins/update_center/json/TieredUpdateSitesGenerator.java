@@ -24,7 +24,7 @@
 package io.jenkins.update_center.json;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import hudson.util.VersionNumber;
+import com.qlangtech.tis.extension.util.VersionNumber;
 import io.jenkins.update_center.HPI;
 import io.jenkins.update_center.JenkinsWar;
 import io.jenkins.update_center.MavenRepository;
@@ -32,14 +32,7 @@ import io.jenkins.update_center.MavenRepository;
 import java.io.IOException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
-import java.util.TreeMap;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -62,6 +55,7 @@ public class TieredUpdateSitesGenerator extends WithoutSignature {
 
     private static boolean isStableVersion(VersionNumber version) {
         return version.getDigitAt(2) != -1;
+       // return true
     }
 
     private static VersionNumber nextWeeklyReleaseAfterStableBaseline(VersionNumber version) {
@@ -83,7 +77,10 @@ public class TieredUpdateSitesGenerator extends WithoutSignature {
     public void update() throws IOException {
         Collection<HPI> allPluginReleases = this.repository.listJenkinsPlugins().stream()
                 .map(plugin -> plugin.getArtifacts().values())
-                .reduce(new HashSet<>(), (acc, els) -> { acc.addAll(els); return acc; });
+                .reduce(new HashSet<>(), (acc, els) -> {
+                    acc.addAll(els);
+                    return acc;
+                });
 
         final List<VersionNumber> coreDependencyVersions = allPluginReleases.stream().map(v -> {
             try {
@@ -104,7 +101,7 @@ public class TieredUpdateSitesGenerator extends WithoutSignature {
         for (VersionNumber dependencyVersion : coreDependencyVersions) {
             final JenkinsWar war = allJenkinsWarsByVersionNumber.get(dependencyVersion);
             if (war == null) {
-                LOGGER.log(Level.INFO, "Did not find declared core dependency version among all core releases: " + dependencyVersion.toString() + ". It is used by " + allPluginReleases.stream().filter( p -> {
+                LOGGER.log(Level.INFO, "Did not find declared core dependency version among all core releases: " + dependencyVersion.toString() + ". It is used by " + allPluginReleases.stream().filter(p -> {
                     try {
                         return p.getRequiredJenkinsVersion().equals(dependencyVersion.toString());
                     } catch (IOException e) {
