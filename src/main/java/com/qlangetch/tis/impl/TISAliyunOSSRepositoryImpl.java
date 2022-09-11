@@ -12,6 +12,8 @@ import io.jenkins.update_center.ArtifactCoordinates;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -27,6 +29,7 @@ import java.util.logging.Level;
  * @create: 2022-01-04 10:18
  **/
 public class TISAliyunOSSRepositoryImpl extends AbstractTISRepository {
+    private static final Logger logger = LoggerFactory.getLogger(TISAliyunOSSRepositoryImpl.class);
     private AliyunOSS ossClient;
     // private String ossBucketName;
     private static final boolean dryRun = Boolean.getBoolean("dryRun");
@@ -136,6 +139,7 @@ public class TISAliyunOSSRepositoryImpl extends AbstractTISRepository {
 
         public PutObjectResult writeFile(String ossPath, File updateCenterJson) {
             if (dryRun) {
+                logger.info("since dryRun ,skip deploy:" + ossPath);
                 return null;
             }
             return this.ossClient.putObject(this.ossBucketName, ossPath, updateCenterJson);
