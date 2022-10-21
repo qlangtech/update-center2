@@ -31,12 +31,13 @@ public class AlphaBetaOnlyRepository extends MavenRepositoryWrapper {
         for (Iterator<Plugin> jtr = r.iterator(); jtr.hasNext(); ) {
             Plugin h = jtr.next();
 
-            for (Iterator<Entry<PluginClassifier, HPI>> itr = h.getArtifacts().entrySet().iterator(); itr.hasNext(); ) {
-                Entry<PluginClassifier, HPI> e = itr.next();
-                if (e.getValue().isAlphaOrBeta() ^ negative)
-                    continue;
-                itr.remove();
-            }
+//            for (Iterator<Entry<PluginClassifier, HPI>> itr = h.getArtifacts().entrySet().iterator(); itr.hasNext(); ) {
+//                Entry<PluginClassifier, HPI> e = itr.next();
+//                if (e.getValue().isAlphaOrBeta() ^ negative){
+//                    continue;
+//                }
+//                itr.remove();
+//            }
 
             if (h.getArtifacts().isEmpty())
                 jtr.remove();
