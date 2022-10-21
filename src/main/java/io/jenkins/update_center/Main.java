@@ -486,23 +486,33 @@ public class Main {
                 }
 
                 if (DataxWriter.class.isAssignableFrom(pluginDesc.clazz)) {
-                    //  endTypePluginDescs.get(((IEndTypeGetter) pluginDesc).getEndType()).dataXWriters.add(pluginDesc);
                     addToEndTypeStore(endTypePluginDescs, pluginDesc, (store) -> store.dataXWriters);
                     continue;
                 }
 
                 if (TISSinkFactory.class.isAssignableFrom(pluginDesc.clazz)) {
-                    // endTypePluginDescs.get(((IEndTypeGetter) pluginDesc).getEndType()).incrSinks.add(pluginDesc);
                     addToEndTypeStore(endTypePluginDescs, pluginDesc, (store) -> store.incrSinks);
                     continue;
                 }
 
                 if (MQListenerFactory.class.isAssignableFrom(pluginDesc.clazz)) {
-                    // endTypePluginDescs.get(((IEndTypeGetter) pluginDesc).getEndType()).incrSources.add(pluginDesc);
                     addToEndTypeStore(endTypePluginDescs, pluginDesc, (store) -> store.incrSources);
                     continue;
                 }
             }
+        }
+
+        StringBuffer validateMsg = new StringBuffer();
+        // 校验 DataX（reader/writer）的isSupportIncr返回是否正确
+        for (Map.Entry<IEndTypeGetter.EndType, EndTypePluginStore> entry
+                : endTypePluginDescs.snapshot().entrySet()) {
+
+            EndTypePluginStore store = entry.getValue();
+            validateBatchIncrEndMatch(validateMsg, store.dataXReaders, store.incrSources);
+            validateBatchIncrEndMatch(validateMsg, store.dataXWriters, store.incrSinks);
+        }
+        if (validateMsg.length() > 0) {
+            throw new RuntimeException("\n" + validateMsg.toString());
         }
 
         IEndTypeGetter.EndType endType = null;
@@ -535,11 +545,16 @@ public class Main {
             buildPluginLink(script, color, (buffer) -> {
                 buffer.append("[").append(key.getName()).append("](").append(key.getUrl()).append(")");
             });
-            // script.append("<i>[").append(key.getName()).append("](").append(key.getUrl()).append(")</i>");
         });
-        //  private void buildPluginLink(StringBuffer script, String color, Consumer<StringBuffer> titleAppender) {
-
         return script.append("\n\n").append(tabView);
+    }
+
+    private void validateBatchIncrEndMatch(StringBuffer validateMsg, List<Pair<IEndTypeGetter, Descriptor>> batchs, List<Pair<IEndTypeGetter, Descriptor>> incrs) {
+        for (Pair<IEndTypeGetter, Descriptor> p : batchs) {
+            if (p.getLeft().isSupportIncr() ^ CollectionUtils.isNotEmpty(incrs)) {
+                validateMsg.append(p.getRight().clazz.getName()).append(",supportIncr:").append(p.getLeft().isSupportIncr()).append(",incr end size:" + incrs.size()).append("\n");
+            }
+        }
     }
 
     private void addToEndTypeStore(Memoizer<IEndTypeGetter.EndType, EndTypePluginStore> endTypePluginDescs
@@ -548,37 +563,12 @@ public class Main {
         endTypeGetter = (IEndTypeGetter) pluginDesc;
 
         func.apply(endTypePluginDescs.get(endTypeGetter.getEndType())).add(Pair.of(endTypeGetter, pluginDesc));
-
-        // endTypePluginDescs.get(endTypeGetter.getEndType()).dataXReaders.add(Pair.of(endTypeGetter, pluginDesc));
     }
 
     private static final String CHECK_ICON = "<i class=\"fa fa-check fa-3x\" style=\"color: #1aad19\" aria-hidden=\"true\"></i>";
 
-//    private static final String startColor = "11cccc";
-//    private static final String endColor = "ffffff";
-
     final static String[] colors = new String[]{"tomato", "orange", "dodgerblue", "MediumSeaGreen", "Gray", "SlateBlue", "Violet", "LightGray"};
 
-//    private static class HtmlColor {
-//        private final AtomicInteger val;
-//
-//        public HtmlColor(String val) {
-//            this(Integer.parseInt(val, 16));
-//        }
-//
-//        public HtmlColor(int val) {
-//            this.val = new AtomicInteger(val);
-//        }
-//
-//        public String nextColor() {
-//            this.val.compareAndSet(this.val.get(), this.val.get() + 7233);
-////            NumberFormat format = NumberFormat.getNumberInstance();
-////            return format.format(this.val);
-//            return Integer.toHexString(this.val.get());
-//        }
-//    }
-
-    // private final HtmlColor starColr = new HtmlColor(startColor);
     private Memoizer<IEndTypeGetter.PluginVender, String> venderColor = new Memoizer<IEndTypeGetter.PluginVender, String>() {
         int index = 0;
 
@@ -684,7 +674,7 @@ public class Main {
         public void appendExtendImplMDSsript(String linkTitle, boolean html, StringBuffer md) {
 
             if (html) {
-                md.append("<a target='_blank' href='").append("../plugins/#").append(this.getHtmlAnchor()).append("'>").append(linkTitle).append("</a>");
+                md.append("<a target='_blank' href='").append("{{$pt}}/plugins/#").append(this.getHtmlAnchor()).append("'>").append(linkTitle).append("</a>");
             } else {
                 md.append("[").append(linkTitle).append("]({{< relref \"./plugins/#").append(this.getHtmlAnchor()).append("\">}})");
             }
@@ -825,7 +815,7 @@ public class Main {
     private static final String UPDATE_CENTER_JSON_HTML_FILENAME = "update-center.json.html";
     private static final String PLUGIN_DOCUMENTATION_URLS_JSON_FILENAME = "plugin-documentation-urls.json";
     private static final String PLUGIN_DESC_MARK_DOWN_FILENAME = "plugins.md";
-    private static final String PLUGIN_TABVIEW_MARK_DOWN_FILENAME = "source-sink.md";
+    private static final String PLUGIN_TABVIEW_MARK_DOWN_FILENAME = "support-source-sink.html";
     private static final String PLUGIN_TPIS_MARK_DOWN_FILENAME = "tpis.md";
     private static final String PLUGIN_VERSIONS_JSON_FILENAME = "plugin-versions.json";
     private static final String RELEASE_HISTORY_JSON_FILENAME = "release-history.json";
