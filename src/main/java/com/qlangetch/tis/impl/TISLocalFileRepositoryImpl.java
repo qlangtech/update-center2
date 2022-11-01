@@ -40,6 +40,9 @@ public class TISLocalFileRepositoryImpl extends AbstractTISRepository {
         String shortName = null;
         for (File tpi : tpis) {
             manifest = PluginManifest.create(tpi);
+            if (manifest == null) {
+                throw new IllegalStateException("tpi file:" + tpi.getAbsolutePath() + " must exist");
+            }
             shortName = manifest.computeShortName(tpi.getName());
             try {
                 Optional<PluginClassifier> classifier = manifest.parseClassifier();
