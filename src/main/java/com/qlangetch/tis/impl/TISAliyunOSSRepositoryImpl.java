@@ -7,6 +7,7 @@ import com.google.common.collect.Maps;
 import com.qlangetch.tis.AbstractTISRepository;
 import com.qlangetch.tis.TISArtifactCoordinates;
 import com.qlangtech.tis.extension.PluginManager;
+import com.qlangtech.tis.manage.common.TisUTF8;
 import com.qlangtech.tis.maven.plugins.tpi.PluginClassifier;
 import io.jenkins.update_center.ArtifactCoordinates;
 import org.apache.commons.io.FileUtils;
@@ -49,6 +50,13 @@ public class TISAliyunOSSRepositoryImpl extends AbstractTISRepository {
         LOGGER.log(Level.INFO, "Initialized " + this.getClass().getName());
         return plugins;
     }
+
+//    public static void main(String[] args) throws Exception {
+//        AliyunOSS oss = TISAliyunOSSRepositoryImpl.getOSSClient();
+//        File f = new File("text.txt");
+//        FileUtils.write(f, "hello", TisUTF8.get());
+//        oss.writeFile("3.6.0-alpha/test.txt", f);
+//    }
 
 
     private void getCreatePluginMetas(Map<String, TISArtifactCoordinates> pluginMeta, String pluginParentPath) {
