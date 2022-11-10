@@ -3,5 +3,9 @@ title: TIS扩展点列表
 linktitle: TIS扩展点列表
 date: 2022-09-11
 type: book
-weight : 11
+sidebar_position: 1
 ---
+
+import TOCInline from '@theme/TOCInline';
+
+<TOCInline toc={toc} />

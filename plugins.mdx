@@ -3,11 +3,87 @@ title: TIS扩展点列表
 linktitle: TIS扩展点列表
 date: 2022-09-11
 type: book
-weight : 11
+sidebar_position: 1
 ---
 
+import TOCInline from '@theme/TOCInline';
 
-## 扩展点:com.qlangtech.tis.manage.IAppSource
+<TOCInline toc={toc} />
+
+
+## com.qlangtech.tis.plugin.AuthToken
+
+### com.qlangtech.tis.plugin.aliyun.UsernamePassword
+
+* **显示名:** user 
+
+* **全路径名:** [com.qlangtech.tis.plugin.aliyun.UsernamePassword](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-common-plugin/src/main/java/com/qlangtech/tis/plugin/aliyun/UsernamePassword.java) 
+
+* **费用:** `社区版(免费)`
+
+* **插件包:** [tis-datax-common-plugin.tpi](./tpis#tis-datax-common-plugintpi)
+
+* **参数说明:** 
+
+1. 密码
+
+	* **类型:** 密码
+
+	* **必须:** 否
+
+	* **说明:** 用在私有云环境下，例如自建Elasticsearch，服务端如不需要连接凭证，则该项可为空
+	* **默认值:** 无
+
+2. 用户名
+
+	* **类型:** 单行文本
+
+	* **必须:** 是
+
+	* **说明:** 用在私有云环境下，例如自建Elasticsearch，服务端如不需要连接凭证，则该项可为空
+	* **默认值:** 无
+
+### com.qlangtech.tis.plugin.aliyun.AccessKey
+
+* **显示名:** accessKey 
+
+* **全路径名:** [com.qlangtech.tis.plugin.aliyun.AccessKey](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-common-plugin/src/main/java/com/qlangtech/tis/plugin/aliyun/AccessKey.java) 
+
+* **费用:** `社区版(免费)`
+
+* **插件包:** [tis-datax-common-plugin.tpi](./tpis#tis-datax-common-plugintpi)
+
+* **参数说明:** 
+
+1. keyId
+
+	* **类型:** 单行文本
+
+	* **必须:** 是
+
+	* **说明:** aliyun服务的accessId
+	* **默认值:** 无
+
+2. 密码
+
+	* **类型:** 密码
+
+	* **必须:** 是
+
+	* **说明:** aliyun服务的accessKeySecret
+	* **默认值:** 无
+
+### com.qlangtech.tis.plugin.aliyun.NoneToken
+
+* **显示名:** none 
+
+* **全路径名:** [com.qlangtech.tis.plugin.aliyun.NoneToken](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-common-plugin/src/main/java/com/qlangtech/tis/plugin/aliyun/NoneToken.java) 
+
+* **费用:** `社区版(免费)`
+
+* **插件包:** [tis-datax-common-plugin.tpi](./tpis#tis-datax-common-plugintpi)
+
+## com.qlangtech.tis.manage.IAppSource
 
 ### com.qlangtech.tis.plugin.datax.DefaultDataxProcessor
 
@@ -17,7 +93,7 @@ weight : 11
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-datax-common-plugin.tpi]({{< relref "./tpis/#tis-datax-common-plugintpi">}})
+* **插件包:** [tis-datax-common-plugin.tpi](./tpis#tis-datax-common-plugintpi)
 
 * **参数说明:** 
 
@@ -57,7 +133,7 @@ weight : 11
 	* **说明:** 无
 	* **默认值:** 无
 
-## 扩展点:com.qlangtech.plugins.incr.flink.launch.CheckpointFactory
+## com.qlangtech.plugins.incr.flink.launch.CheckpointFactory
 
 ### com.qlangtech.plugins.incr.flink.launch.ckpt.CKOn
 
@@ -67,7 +143,7 @@ weight : 11
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-realtime-flink.tpi]({{< relref "./tpis/#tis-realtime-flinktpi">}})
+* **插件包:** [tis-realtime-flink.tpi](./tpis#tis-realtime-flinktpi)
 
 * **参数说明:** 
 
@@ -175,9 +251,9 @@ weight : 11
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-realtime-flink.tpi]({{< relref "./tpis/#tis-realtime-flinktpi">}})
+* **插件包:** [tis-realtime-flink.tpi](./tpis#tis-realtime-flinktpi)
 
-## 扩展点:com.qlangtech.tis.config.ParamsConfig
+## com.qlangtech.tis.config.ParamsConfig
 
 ### com.qlangtech.tis.plugin.datax.DataXGlobalConfig
 
@@ -187,7 +263,7 @@ weight : 11
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-datax-common-plugin.tpi]({{< relref "./tpis/#tis-datax-common-plugintpi">}})
+* **插件包:** [tis-datax-common-plugin.tpi](./tpis#tis-datax-common-plugintpi)
 
 * **参数说明:** 
 
@@ -236,37 +312,19 @@ weight : 11
 	* **说明:** 无
 	* **默认值:** 无
 
-### com.qlangtech.tis.plugin.aliyun.HttpEndpoint
+### com.qlangtech.tis.plugin.HttpEndpoint
 
 * **显示名:** httpToken 
 
-* **全路径名:** [com.qlangtech.tis.plugin.aliyun.HttpEndpoint](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-common-plugin/src/main/java/com/qlangtech/tis/plugin/aliyun/HttpEndpoint.java) 
+* **全路径名:** [com.qlangtech.tis.plugin.HttpEndpoint](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-common-plugin/src/main/java/com/qlangtech/tis/plugin/HttpEndpoint.java) 
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-datax-common-plugin.tpi]({{< relref "./tpis/#tis-datax-common-plugintpi">}})
+* **插件包:** [tis-datax-common-plugin.tpi](./tpis#tis-datax-common-plugintpi)
 
 * **参数说明:** 
 
-1. keyId
-
-	* **类型:** 单行文本
-
-	* **必须:** 否
-
-	* **说明:** aliyun服务的accessId，用在私有云环境下，例如自建Elasticsearch，服务端如不需要连接凭证，则该项可为空
-	* **默认值:** 无
-
-2. 密码
-
-	* **类型:** 密码
-
-	* **必须:** 否
-
-	* **说明:** aliyun服务的accessKeySecret，用在私有云环境下，例如自建Elasticsearch，服务端如不需要连接凭证，则该项可为空
-	* **默认值:** 无
-
-3. endpoint
+1. endpoint
 
 	* **类型:** 单行文本
 
@@ -275,7 +333,49 @@ weight : 11
 	* **说明:** Server的EndPoint地址，例如http://oss.aliyuncs.com
 	* **默认值:** http://oss.aliyuncs.com
 
-4. name
+2. authToken
+
+	* **类型:** 单行文本
+
+	* **必须:** 否
+
+3. name
+
+	* **类型:** 单行文本
+
+	* **必须:** 是
+
+### com.qlangtech.tis.plugin.datax.elastic.ElasticEndpoint
+
+* **显示名:** elasticToken 
+
+* **全路径名:** [com.qlangtech.tis.plugin.datax.elastic.ElasticEndpoint](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-elasticsearch-plugin/src/main/java/com/qlangtech/tis/plugin/datax/elastic/ElasticEndpoint.java) 
+
+* **费用:** `社区版(免费)`
+
+* **插件包:** [tis-datax-elasticsearch-plugin.tpi](./tpis#tis-datax-elasticsearch-plugintpi)
+
+* **参数说明:** 
+
+1. endpoint
+
+	* **类型:** 单行文本
+
+	* **必须:** 是
+
+	* **说明:** Server的EndPoint地址，例如http://oss.aliyuncs.com
+	* **默认值:** http://oss.aliyuncs.com
+
+2. authToken
+
+	* **类型:** 单行文本
+
+	* **必须:** 否
+
+	* **说明:** 无
+	* **默认值:** none
+
+3. name
 
 	* **类型:** 单行文本
 
@@ -289,7 +389,7 @@ weight : 11
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-datax-hdfs-plugin/tis-datax-hdfs-plugin_hadoop_2.7.3.tpi]({{< relref "./tpis/#tis-datax-hdfs-plugin/tis-datax-hdfs-plugin_hadoop_273tpi">}})
+* **插件包:** [tis-datax-hdfs-plugin/tis-datax-hdfs-plugin_hadoop_2.7.3.tpi](./tpis#tis-datax-hdfs-plugin/tis-datax-hdfs-plugin_hadoop_273tpi)
 
 * **参数说明:** 
 
@@ -340,7 +440,7 @@ weight : 11
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-hive-flat-table-builder-plugin/tis-hive-flat-table-builder-plugin_hive_2.3.1_hadoop_2.7.3.tpi]({{< relref "./tpis/#tis-hive-flat-table-builder-plugin/tis-hive-flat-table-builder-plugin_hive_231_hadoop_273tpi">}})
+* **插件包:** [tis-hive-flat-table-builder-plugin/tis-hive-flat-table-builder-plugin_hive_2.3.1_hadoop_2.7.3.tpi](./tpis#tis-hive-flat-table-builder-plugin/tis-hive-flat-table-builder-plugin_hive_231_hadoop_273tpi)
 
 * **参数说明:** 
 
@@ -377,7 +477,7 @@ weight : 11
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-hive-flat-table-builder-plugin/tis-hive-flat-table-builder-plugin_hive_2.3.1_hadoop_2.7.3.tpi]({{< relref "./tpis/#tis-hive-flat-table-builder-plugin/tis-hive-flat-table-builder-plugin_hive_231_hadoop_273tpi">}})
+* **插件包:** [tis-hive-flat-table-builder-plugin/tis-hive-flat-table-builder-plugin_hive_2.3.1_hadoop_2.7.3.tpi](./tpis#tis-hive-flat-table-builder-plugin/tis-hive-flat-table-builder-plugin_hive_231_hadoop_273tpi)
 
 * **参数说明:** 
 
@@ -407,7 +507,7 @@ weight : 11
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-hive-flat-table-builder-plugin/tis-hive-flat-table-builder-plugin_hive_2.3.1_hadoop_2.7.3.tpi]({{< relref "./tpis/#tis-hive-flat-table-builder-plugin/tis-hive-flat-table-builder-plugin_hive_231_hadoop_273tpi">}})
+* **插件包:** [tis-hive-flat-table-builder-plugin/tis-hive-flat-table-builder-plugin_hive_2.3.1_hadoop_2.7.3.tpi](./tpis#tis-hive-flat-table-builder-plugin/tis-hive-flat-table-builder-plugin_hive_231_hadoop_273tpi)
 
 * **参数说明:** 
 
@@ -465,7 +565,7 @@ weight : 11
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-k8s-plugin.tpi]({{< relref "./tpis/#tis-k8s-plugintpi">}})
+* **插件包:** [tis-k8s-plugin.tpi](./tpis#tis-k8s-plugintpi)
 
 * **参数说明:** 
 
@@ -512,7 +612,7 @@ weight : 11
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-realtime-flink.tpi]({{< relref "./tpis/#tis-realtime-flinktpi">}})
+* **插件包:** [tis-realtime-flink.tpi](./tpis#tis-realtime-flinktpi)
 
 * **参数说明:** 
 
@@ -552,7 +652,7 @@ weight : 11
 		the control of input textbox shall input the value what system `-Dkubernetes.cluster-id` setted
 	* **默认值:** my-first-flink-cluster
 
-## 扩展点:com.qlangtech.tis.plugin.datax.hudi.spark.SparkSubmitParams
+## com.qlangtech.tis.plugin.datax.hudi.spark.SparkSubmitParams
 
 ### com.qlangtech.tis.plugin.datax.hudi.spark.SparkSubmitParams
 
@@ -562,7 +662,7 @@ weight : 11
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-datax-hudi-plugin/tis-datax-hudi-plugin_hudi_0.10.1_spark_2.4.4_hive_2.3.1_hadoop_2.7.3.tpi]({{< relref "./tpis/#tis-datax-hudi-plugin/tis-datax-hudi-plugin_hudi_0101_spark_244_hive_231_hadoop_273tpi">}})
+* **插件包:** [tis-datax-hudi-plugin/tis-datax-hudi-plugin_hudi_0.10.1_spark_2.4.4_hive_2.3.1_hadoop_2.7.3.tpi](./tpis#tis-datax-hudi-plugin/tis-datax-hudi-plugin_hudi_0101_spark_244_hive_231_hadoop_273tpi)
 
 * **参数说明:** 
 
@@ -608,7 +708,74 @@ weight : 11
 	* **说明:** Configuration key for the number of executor CPU cores
 	* **默认值:** 2
 
-## 扩展点:com.qlangtech.tis.datax.job.DataXJobWorker
+## com.qlangtech.tis.plugins.incr.flink.chunjun.poll.Polling
+
+### com.qlangtech.tis.plugins.incr.flink.chunjun.poll.RunInterval
+
+* **显示名:** RunInterval 
+
+* **全路径名:** [com.qlangtech.tis.plugins.incr.flink.chunjun.poll.RunInterval](https://github.com/qlangtech/plugins/tree/master/tis-incr/tis-chunjun-base-plugin/src/main/java/com/qlangtech/tis/plugins/incr/flink/chunjun/poll/RunInterval.java) 
+
+* **费用:** `社区版(免费)`
+
+* **插件包:** [tis-chunjun-base-plugin.tpi](./tpis#tis-chunjun-base-plugintpi)
+
+* **参数说明:** 
+
+1. 起始位点
+
+	* **类型:** 单行文本
+
+	* **必须:** 是
+
+	* **说明:** 
+		
+		Chunjun 增量消费启动起始位点支持三种模式：
+		
+		* `Latest`:
+		* `Initial`:
+		* `Designated`:
+	* **默认值:** Latest
+
+2. useMaxFunc
+
+	* **类型:** 单选
+
+	* **必须:** 是
+
+	* **说明:** 
+		
+		描述：用于标记是否保存endLocation位置的一条或多条数据，true：不保存，false(默认)：保存， 某些情况下可能出现最后几条数据被重复记录的情况，可以将此参数配置为true
+		
+		useMaxFunc的使用场景
+		​ 考虑可能存在这样的场景：某一次增量同步后的endLocation为x，在下一次增量同步作业启动的间隙中，表内又写入了增量键的值=x的数据。按照默认的情况，假设增量键为id，下一次作业会拼接例如SELECT id,name,age FROM table WHERE id > x。此时在间隙中插入的id=x的数据将会丢失。
+		
+		​ 为了对应上述场景，chunjun增量同步提供了配置项useMaxFunc（默认值为false）。在设置useMaxFunc=true时，chunjun会在增量作业启动时获取当前数据库中增量键的最大值作为本次作业的endLocation，并且将用于startLocation的运算符号从'>'改为'>='。例如：
+		
+		某一次增量启动时上次作业的endLocation为10，id最大值为100，那么将会拼接SQL语句 SELECT id,name,age FROM table WHERE id >= 10 AND id < 100
+		下一次增量作业启动时id的最大值为200，那么将会拼接SQL语句 SELECT id,name,age FROM table WHERE id >=100 AND id < 200
+		
+	* **默认值:** true
+
+3. 轮询间隔
+
+	* **类型:** 整型数字
+
+	* **必须:** 是
+
+	* **说明:** 轮询间隔时间，从数据库中拉取数据的间隔时间，默认为5000毫秒
+	* **默认值:** 5000
+
+4. incrColumn
+
+	* **类型:** 单选
+
+	* **必须:** 是
+
+	* **说明:** 增量字段，可以是对应的增量字段名
+	* **默认值:** 无
+
+## com.qlangtech.tis.datax.job.DataXJobWorker
 
 ### com.qlangtech.tis.plugin.datax.K8SDataXJobWorker
 
@@ -618,7 +785,7 @@ weight : 11
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-k8s-plugin.tpi]({{< relref "./tpis/#tis-k8s-plugintpi">}})
+* **插件包:** [tis-k8s-plugin.tpi](./tpis#tis-k8s-plugintpi)
 
 * **参数说明:** 
 
@@ -667,7 +834,7 @@ weight : 11
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-realtime-flink.tpi]({{< relref "./tpis/#tis-realtime-flinktpi">}})
+* **插件包:** [tis-realtime-flink.tpi](./tpis#tis-realtime-flinktpi)
 
 * **参数说明:** 
 
@@ -727,87 +894,27 @@ weight : 11
 		
 	* **默认值:** 1600
 
-## 扩展点:com.qlangtech.tis.datax.DataXJobSubmit
+## com.qlangtech.tis.datax.DataXJobSubmit
 
 ### com.qlangtech.tis.plugin.datax.EmbeddedDataXJobSubmit
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-datax-local-embedded-executor.tpi]({{< relref "./tpis/#tis-datax-local-embedded-executortpi">}})
+* **插件包:** [tis-datax-local-embedded-executor.tpi](./tpis#tis-datax-local-embedded-executortpi)
 
 ### com.qlangtech.tis.plugin.datax.DistributedOverseerDataXJobSubmit
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-datax-local-executor.tpi]({{< relref "./tpis/#tis-datax-local-executortpi">}})
+* **插件包:** [tis-datax-local-executor.tpi](./tpis#tis-datax-local-executortpi)
 
 ### com.qlangtech.tis.plugin.datax.LocalDataXJobSubmit
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-datax-local-executor.tpi]({{< relref "./tpis/#tis-datax-local-executortpi">}})
+* **插件包:** [tis-datax-local-executor.tpi](./tpis#tis-datax-local-executortpi)
 
-## 扩展点:com.qlangtech.plugins.incr.flink.chunjun.poll.Polling
-
-### com.qlangtech.plugins.incr.flink.chunjun.poll.RunInterval
-
-* **显示名:** RunInterval 
-
-* **全路径名:** [com.qlangtech.plugins.incr.flink.chunjun.poll.RunInterval](https://github.com/qlangtech/plugins/tree/master/tis-incr/tis-chunjun-base-plugin/src/main/java/com/qlangtech/plugins/incr/flink/chunjun/poll/RunInterval.java) 
-
-* **费用:** `社区版(免费)`
-
-* **插件包:** [tis-chunjun-base-plugin.tpi]({{< relref "./tpis/#tis-chunjun-base-plugintpi">}})
-
-* **参数说明:** 
-
-1. startLocation
-
-	* **类型:** 单行文本
-
-	* **必须:** 否
-
-	* **说明:** 增量查询起始位置
-	* **默认值:** 无
-
-2. useMaxFunc
-
-	* **类型:** 单选
-
-	* **必须:** 是
-
-	* **说明:** 
-		
-		描述：用于标记是否保存endLocation位置的一条或多条数据，true：不保存，false(默认)：保存， 某些情况下可能出现最后几条数据被重复记录的情况，可以将此参数配置为true
-		
-		useMaxFunc的使用场景
-		​ 考虑可能存在这样的场景：某一次增量同步后的endLocation为x，在下一次增量同步作业启动的间隙中，表内又写入了增量键的值=x的数据。按照默认的情况，假设增量键为id，下一次作业会拼接例如SELECT id,name,age FROM table WHERE id > x。此时在间隙中插入的id=x的数据将会丢失。
-		
-		​ 为了对应上述场景，chunjun增量同步提供了配置项useMaxFunc（默认值为false）。在设置useMaxFunc=true时，chunjun会在增量作业启动时获取当前数据库中增量键的最大值作为本次作业的endLocation，并且将用于startLocation的运算符号从'>'改为'>='。例如：
-		
-		某一次增量启动时上次作业的endLocation为10，id最大值为100，那么将会拼接SQL语句 SELECT id,name,age FROM table WHERE id >= 10 AND id < 100
-		下一次增量作业启动时id的最大值为200，那么将会拼接SQL语句 SELECT id,name,age FROM table WHERE id >=100 AND id < 200
-	* **默认值:** true
-
-3. 轮询间隔
-
-	* **类型:** 整型数字
-
-	* **必须:** 是
-
-	* **说明:** 轮询间隔时间，从数据库中拉取数据的间隔时间，默认为5000毫秒
-	* **默认值:** 5000
-
-4. incrColumn
-
-	* **类型:** 单选
-
-	* **必须:** 是
-
-	* **说明:** 增量字段，可以是对应的增量字段名
-	* **默认值:** 无
-
-## 扩展点:com.qlangtech.tis.plugin.ds.oracle.ConnEntity
+## com.qlangtech.tis.plugin.ds.oracle.ConnEntity
 
 ### com.qlangtech.tis.plugin.ds.oracle.impl.SIDConnEntity
 
@@ -817,7 +924,7 @@ weight : 11
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-datax-oracle-plugin.tpi]({{< relref "./tpis/#tis-datax-oracle-plugintpi">}})
+* **插件包:** [tis-datax-oracle-plugin.tpi](./tpis#tis-datax-oracle-plugintpi)
 
 * **参数说明:** 
 
@@ -838,7 +945,7 @@ weight : 11
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-datax-oracle-plugin.tpi]({{< relref "./tpis/#tis-datax-oracle-plugintpi">}})
+* **插件包:** [tis-datax-oracle-plugin.tpi](./tpis#tis-datax-oracle-plugintpi)
 
 * **参数说明:** 
 
@@ -857,7 +964,7 @@ weight : 11
 		"jdbc:oracle:thin:@" + hostname + ":" + port + **"/"** + dbname
 	* **默认值:** 无
 
-## 扩展点:com.qlangtech.tis.plugins.incr.flink.connector.hudi.scripttype.ScriptType
+## com.qlangtech.tis.plugins.incr.flink.connector.hudi.scripttype.ScriptType
 
 ### com.qlangtech.tis.plugins.incr.flink.connector.hudi.scripttype.StreamApiType
 
@@ -867,9 +974,9 @@ weight : 11
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-sink-hudi-plugin/tis-sink-hudi-plugin_hudi_0.10.1_spark_2.4.4_hive_2.3.1_hadoop_2.7.3.tpi]({{< relref "./tpis/#tis-sink-hudi-plugin/tis-sink-hudi-plugin_hudi_0101_spark_244_hive_231_hadoop_273tpi">}})
+* **插件包:** [tis-sink-hudi-plugin/tis-sink-hudi-plugin_hudi_0.10.1_spark_2.4.4_hive_2.3.1_hadoop_2.7.3.tpi](./tpis#tis-sink-hudi-plugin/tis-sink-hudi-plugin_hudi_0101_spark_244_hive_231_hadoop_273tpi)
 
-## 扩展点:com.qlangtech.tis.async.message.client.consumer.impl.MQListenerFactory
+## com.qlangtech.tis.async.message.client.consumer.impl.MQListenerFactory
 
 ### com.qlangtech.async.message.client.consumer.RocketMQListenerFactory
 
@@ -877,11 +984,11 @@ weight : 11
 
 * **全路径名:** [com.qlangtech.async.message.client.consumer.RocketMQListenerFactory](https://github.com/qlangtech/plugins/tree/master/tis-asyncmsg-rocketmq-plugin/src/main/java/com/qlangtech/async/message/client/consumer/RocketMQListenerFactory.java) 
 
-* **提供者:** [TIS](https://tis.pub/) 
+* **提供者:** [TIS](https://github.com/qlangtech/tis) 
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-asyncmsg-rocketmq-plugin.tpi]({{< relref "./tpis/#tis-asyncmsg-rocketmq-plugintpi">}})
+* **插件包:** [tis-asyncmsg-rocketmq-plugin.tpi](./tpis#tis-asyncmsg-rocketmq-plugintpi)
 
 * **参数说明:** 
 
@@ -970,11 +1077,11 @@ weight : 11
 
 * **全路径名:** [com.qlangtech.plugins.incr.flink.cdc.mongdb.FlinkCDCMongoDBSourceFactory](https://github.com/qlangtech/plugins/tree/master/tis-incr/tis-flink-cdc-mongdb-plugin/src/main/java/com/qlangtech/plugins/incr/flink/cdc/mongdb/FlinkCDCMongoDBSourceFactory.java) 
 
-* **提供者:** [FlinkCDC](https://ververica.github.io/flink-cdc-connectors/) 
+* **提供者:** [FlinkCDC](https://ververica.github.io/flink-cdc-connectors) 
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-flink-cdc-mongdb-plugin.tpi]({{< relref "./tpis/#tis-flink-cdc-mongdb-plugintpi">}})
+* **插件包:** [tis-flink-cdc-mongdb-plugin.tpi](./tpis#tis-flink-cdc-mongdb-plugintpi)
 
 * **参数说明:** 
 
@@ -1131,11 +1238,11 @@ weight : 11
 
 * **全路径名:** [com.qlangtech.plugins.incr.flink.cdc.mysql.FlinkCDCMySQLSourceFactory](https://github.com/qlangtech/plugins/tree/master/tis-incr/tis-flink-cdc-mysql-plugin/src/main/java/com/qlangtech/plugins/incr/flink/cdc/mysql/FlinkCDCMySQLSourceFactory.java) 
 
-* **提供者:** [FlinkCDC](https://ververica.github.io/flink-cdc-connectors/) 
+* **提供者:** [FlinkCDC](https://ververica.github.io/flink-cdc-connectors) 
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-flink-cdc-mysql-plugin.tpi]({{< relref "./tpis/#tis-flink-cdc-mysql-plugintpi">}})
+* **插件包:** [tis-flink-cdc-mysql-plugin.tpi](./tpis#tis-flink-cdc-mysql-plugintpi)
 
 * **参数说明:** 
 
@@ -1164,45 +1271,6 @@ weight : 11
 		     
 	* **默认值:** latest
 
-### com.qlangtech.plugins.incr.flink.cdc.oracle.FlinkCDCOracleSourceFactory
-
-* **显示名:** Flink-CDC-Oracle 
-
-* **全路径名:** [com.qlangtech.plugins.incr.flink.cdc.oracle.FlinkCDCOracleSourceFactory](https://github.com/qlangtech/plugins/tree/master/tis-incr/tis-flink-cdc-oracle-plugin/src/main/java/com/qlangtech/plugins/incr/flink/cdc/oracle/FlinkCDCOracleSourceFactory.java) 
-
-* **提供者:** [FlinkCDC](https://ververica.github.io/flink-cdc-connectors/) 
-
-* **费用:** `社区版(免费)`
-
-* **插件包:** [tis-flink-cdc-oracle-plugin.tpi]({{< relref "./tpis/#tis-flink-cdc-oracle-plugintpi">}})
-
-* **参数说明:** 
-
-1. startupOptions
-
-	* **类型:** 单选
-
-	* **必须:** 是
-
-	* **说明:** 
-		
-		Optional startup mode for Oracle CDC consumer, valid enumerations are "initial" and "latest-offset". Please see Startup Reading Positionsection for more detailed information.
-		
-		参数详细请参考：[https://ververica.github.io/flink-cdc-connectors/master/content/connectors/oracle-cdc.html#connector-options](https://ververica.github.io/flink-cdc-connectors/master/content/connectors/oracle-cdc.html#connector-options)
-		，[https://debezium.io/documentation/reference/1.5/connectors/oracle.html#oracle-connector-properties](https://debezium.io/documentation/reference/1.5/connectors/oracle.html#oracle-connector-properties)
-		
-		* `Initial`:
-		  Performs an initial snapshot on the monitored database tables upon first startup, and continue to read the latest binlog.
-		     
-		* `Latest`:
-		 Never to perform a snapshot on the monitored database tables upon first startup, just read from the change since the connector was started.
-		 
-		 **Note**: the mechanism of `scan.startup.mode` option relying on Debezium’s `snapshot.mode` configuration. So please do not use them together. 
-		 If you specific both `scan.startup.mode` and `debezium.snapshot.mode` options in the table DDL, it may make `scan.startup.mode` doesn’t work.
-		
-		     
-	* **默认值:** latest
-
 ### com.qlangtech.tis.plugins.incr.flink.connector.source.MySQLSourceFactory
 
 * **显示名:** Flink-Chunjun-MySQL 
@@ -1213,7 +1281,60 @@ weight : 11
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-flink-chunjun-mysql-plugin.tpi]({{< relref "./tpis/#tis-flink-chunjun-mysql-plugintpi">}})
+* **插件包:** [tis-flink-chunjun-mysql-plugin.tpi](./tpis#tis-flink-chunjun-mysql-plugintpi)
+
+* **参数说明:** 
+
+1. queryTimeOut
+
+	* **类型:** 整型数字
+
+	* **必须:** 是
+
+	* **说明:** 
+		
+		描述：查询超时时间，单位秒。
+		
+		注意：当数据量很大，或者从视图查询，或者自定义sql查询时，可通过此参数指定超时时间。
+		
+		必选：否
+		
+		参数类型：int
+		
+		默认值：1000
+	* **默认值:** 1000
+
+2. fetchSize
+
+	* **类型:** 整型数字
+
+	* **必须:** 是
+
+	* **说明:** 
+		
+		描述：一次性从数据库中读取多少条数据，默认一次将所有结果都读取到内存中，在数据量很大时可能会造成OOM，设置这个参数可以控制每次读取fetchSize条数据，而不是默认的把所有数据一次读取出来；开启fetchSize需要满足：数据库版本要高于5.0.2，连接参数useCursorFetch=true。
+		
+		注意：此参数的值不可设置过大，否则会读取超时，导致任务失败。
+		
+		必选：否
+		
+		参数类型：int
+		
+		默认值：1024
+		
+	* **默认值:** 1024
+
+### com.qlangtech.plugins.incr.flink.chunjun.oracle.source.ChunjunOracleSourceFactory
+
+* **显示名:** Flink-Chunjun-Oracle 
+
+* **全路径名:** [com.qlangtech.plugins.incr.flink.chunjun.oracle.source.ChunjunOracleSourceFactory](https://github.com/qlangtech/plugins/tree/master/tis-incr/tis-flink-chunjun-oracle-plugin/src/main/java/com/qlangtech/plugins/incr/flink/chunjun/oracle/source/ChunjunOracleSourceFactory.java) 
+
+* **提供者:** [Chunjun](https://dtstack.github.io/chunjun) 
+
+* **费用:** `社区版(免费)`
+
+* **插件包:** [tis-flink-chunjun-oracle-plugin.tpi](./tpis#tis-flink-chunjun-oracle-plugintpi)
 
 * **参数说明:** 
 
@@ -1266,7 +1387,7 @@ weight : 11
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-flink-chunjun-postgresql-plugin.tpi]({{< relref "./tpis/#tis-flink-chunjun-postgresql-plugintpi">}})
+* **插件包:** [tis-flink-chunjun-postgresql-plugin.tpi](./tpis#tis-flink-chunjun-postgresql-plugintpi)
 
 * **参数说明:** 
 
@@ -1315,11 +1436,11 @@ weight : 11
 
 * **全路径名:** [com.qlangtech.async.message.client.kafka.TiKVKafkaMQListenerFactory](https://github.com/qlangtech/plugins/tree/master/tis-kafka-plugin/src/main/java/com/qlangtech/async/message/client/kafka/TiKVKafkaMQListenerFactory.java) 
 
-* **提供者:** [TIS](https://tis.pub/) 
+* **提供者:** [TIS](https://github.com/qlangtech/tis) 
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-kafka-plugin.tpi]({{< relref "./tpis/#tis-kafka-plugintpi">}})
+* **插件包:** [tis-kafka-plugin.tpi](./tpis#tis-kafka-plugintpi)
 
 * **参数说明:** 
 
@@ -1359,7 +1480,7 @@ weight : 11
 	* **说明:** 无
 	* **默认值:** 无
 
-## 扩展点:com.qlangtech.tis.plugin.datax.hudi.keygenerator.HudiKeyGenerator
+## com.qlangtech.tis.plugin.datax.hudi.keygenerator.HudiKeyGenerator
 
 ### com.qlangtech.tis.plugin.datax.hudi.keygenerator.impl.ComplexKeyGenerator
 
@@ -1369,7 +1490,7 @@ weight : 11
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-datax-hudi-plugin/tis-datax-hudi-plugin_hudi_0.10.1_spark_2.4.4_hive_2.3.1_hadoop_2.7.3.tpi]({{< relref "./tpis/#tis-datax-hudi-plugin/tis-datax-hudi-plugin_hudi_0101_spark_244_hive_231_hadoop_273tpi">}})
+* **插件包:** [tis-datax-hudi-plugin/tis-datax-hudi-plugin_hudi_0.10.1_spark_2.4.4_hive_2.3.1_hadoop_2.7.3.tpi](./tpis#tis-datax-hudi-plugin/tis-datax-hudi-plugin_hudi_0101_spark_244_hive_231_hadoop_273tpi)
 
 * **参数说明:** 
 
@@ -1380,7 +1501,7 @@ weight : 11
 	* **必须:** 是
 
 	* **说明:** 无
-	* **默认值:** com.qlangtech.tis.trigger.util.JsonUtil$UnCacheString@475646d4
+	* **默认值:** com.qlangtech.tis.trigger.util.JsonUtil$UnCacheString@7051777c
 
 2. 分区值析取
 
@@ -1464,7 +1585,7 @@ weight : 11
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-datax-hudi-plugin/tis-datax-hudi-plugin_hudi_0.10.1_spark_2.4.4_hive_2.3.1_hadoop_2.7.3.tpi]({{< relref "./tpis/#tis-datax-hudi-plugin/tis-datax-hudi-plugin_hudi_0101_spark_244_hive_231_hadoop_273tpi">}})
+* **插件包:** [tis-datax-hudi-plugin/tis-datax-hudi-plugin_hudi_0.10.1_spark_2.4.4_hive_2.3.1_hadoop_2.7.3.tpi](./tpis#tis-datax-hudi-plugin/tis-datax-hudi-plugin_hudi_0101_spark_244_hive_231_hadoop_273tpi)
 
 * **参数说明:** 
 
@@ -1475,7 +1596,7 @@ weight : 11
 	* **必须:** 是
 
 	* **说明:** 无
-	* **默认值:** com.qlangtech.tis.trigger.util.JsonUtil$UnCacheString@2d272b0d
+	* **默认值:** com.qlangtech.tis.trigger.util.JsonUtil$UnCacheString@2b97cc1f
 
 ### com.qlangtech.tis.plugin.datax.hudi.keygenerator.impl.SimpleKeyGenerator
 
@@ -1485,7 +1606,7 @@ weight : 11
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-datax-hudi-plugin/tis-datax-hudi-plugin_hudi_0.10.1_spark_2.4.4_hive_2.3.1_hadoop_2.7.3.tpi]({{< relref "./tpis/#tis-datax-hudi-plugin/tis-datax-hudi-plugin_hudi_0101_spark_244_hive_231_hadoop_273tpi">}})
+* **插件包:** [tis-datax-hudi-plugin/tis-datax-hudi-plugin_hudi_0.10.1_spark_2.4.4_hive_2.3.1_hadoop_2.7.3.tpi](./tpis#tis-datax-hudi-plugin/tis-datax-hudi-plugin_hudi_0101_spark_244_hive_231_hadoop_273tpi)
 
 * **参数说明:** 
 
@@ -1580,7 +1701,7 @@ weight : 11
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-datax-hudi-plugin/tis-datax-hudi-plugin_hudi_0.10.1_spark_2.4.4_hive_2.3.1_hadoop_2.7.3.tpi]({{< relref "./tpis/#tis-datax-hudi-plugin/tis-datax-hudi-plugin_hudi_0101_spark_244_hive_231_hadoop_273tpi">}})
+* **插件包:** [tis-datax-hudi-plugin/tis-datax-hudi-plugin_hudi_0.10.1_spark_2.4.4_hive_2.3.1_hadoop_2.7.3.tpi](./tpis#tis-datax-hudi-plugin/tis-datax-hudi-plugin_hudi_0101_spark_244_hive_231_hadoop_273tpi)
 
 * **参数说明:** 
 
@@ -1705,7 +1826,7 @@ weight : 11
 		When set to true, consistent value will be generated for a logical timestamp type column, like timestamp-millis and timestamp-micros, irrespective of whether row-writer is enabled. Disabled by default so as not to break the pipeline that deploy either fully row-writer path or non row-writer path. For example, if it is kept disabled then record key of timestamp type with value `2016-12-29 09:54:00` will be written as timestamp `2016-12-29 09:54:00.0` in row-writer path, while it will be written as long value `1483023240000000` in non row-writer path. If enabled, then the timestamp value will be written in both the cases.
 	* **默认值:** false
 
-## 扩展点:com.qlangtech.tis.plugin.ds.DataSourceFactory
+## com.qlangtech.tis.plugin.ds.DataSourceFactory
 
 ### com.qlangtech.tis.plugin.ds.cassandra.CassandraDatasourceFactory
 
@@ -1715,7 +1836,7 @@ weight : 11
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-datax-cassandra-plugin.tpi]({{< relref "./tpis/#tis-datax-cassandra-plugintpi">}})
+* **插件包:** [tis-datax-cassandra-plugin.tpi](./tpis#tis-datax-cassandra-plugintpi)
 
 * **参数说明:** 
 
@@ -1781,7 +1902,7 @@ weight : 11
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-datax-clickhouse-plugin.tpi]({{< relref "./tpis/#tis-datax-clickhouse-plugintpi">}})
+* **插件包:** [tis-datax-clickhouse-plugin.tpi](./tpis#tis-datax-clickhouse-plugintpi)
 
 * **参数说明:** 
 
@@ -1843,11 +1964,11 @@ weight : 11
 
 * **显示名:** StarRocks 
 
-* **全路径名:** [com.qlangtech.tis.plugin.ds.starrocks.StarRocksSourceFactory](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-doris-plugin/src/main/java/com/qlangtech/tis/plugin/ds/starrocks/StarRocksSourceFactory.java) 
+* **全路径名:** [com.qlangtech.tis.plugin.ds.starrocks.StarRocksSourceFactory](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-doris-starrocks-plugin/src/main/java/com/qlangtech/tis/plugin/ds/starrocks/StarRocksSourceFactory.java) 
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-datax-doris-plugin.tpi]({{< relref "./tpis/#tis-datax-doris-plugintpi">}})
+* **插件包:** [tis-datax-doris-starrocks-plugin.tpi](./tpis#tis-datax-doris-starrocks-plugintpi)
 
 * **参数说明:** 
 
@@ -1925,11 +2046,11 @@ weight : 11
 
 * **显示名:** Doris 
 
-* **全路径名:** [com.qlangtech.tis.plugin.ds.doris.DorisSourceFactory](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-doris-plugin/src/main/java/com/qlangtech/tis/plugin/ds/doris/DorisSourceFactory.java) 
+* **全路径名:** [com.qlangtech.tis.plugin.ds.doris.DorisSourceFactory](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-doris-starrocks-plugin/src/main/java/com/qlangtech/tis/plugin/ds/doris/DorisSourceFactory.java) 
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-datax-doris-plugin.tpi]({{< relref "./tpis/#tis-datax-doris-plugintpi">}})
+* **插件包:** [tis-datax-doris-starrocks-plugin.tpi](./tpis#tis-datax-doris-starrocks-plugintpi)
 
 * **参数说明:** 
 
@@ -2011,7 +2132,7 @@ weight : 11
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-datax-mongodb-plugin.tpi]({{< relref "./tpis/#tis-datax-mongodb-plugintpi">}})
+* **插件包:** [tis-datax-mongodb-plugin.tpi](./tpis#tis-datax-mongodb-plugintpi)
 
 * **参数说明:** 
 
@@ -2031,7 +2152,7 @@ weight : 11
 	* **必须:** 是
 
 	* **说明:** MongoDB的数据地址信息，因为MonogDB可能是个集群，则ip端口信息需要以Json数组的形式给出,可填写多个每个address中间可用';'分隔【必填】
-	* **默认值:** <host>:27017[;<host>:27017]
+	* **默认值:** host:27017[;host:27017]
 
 3. 授权机制
 
@@ -2086,7 +2207,7 @@ weight : 11
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-datax-oracle-plugin.tpi]({{< relref "./tpis/#tis-datax-oracle-plugintpi">}})
+* **插件包:** [tis-datax-oracle-plugin.tpi](./tpis#tis-datax-oracle-plugintpi)
 
 * **参数说明:** 
 
@@ -2170,7 +2291,7 @@ weight : 11
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-datax-postgresql-plugin.tpi]({{< relref "./tpis/#tis-datax-postgresql-plugintpi">}})
+* **插件包:** [tis-datax-postgresql-plugin.tpi](./tpis#tis-datax-postgresql-plugintpi)
 
 * **参数说明:** 
 
@@ -2263,7 +2384,7 @@ weight : 11
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-datax-sqlserver-plugin.tpi]({{< relref "./tpis/#tis-datax-sqlserver-plugintpi">}})
+* **插件包:** [tis-datax-sqlserver-plugin.tpi](./tpis#tis-datax-sqlserver-plugintpi)
 
 * **参数说明:** 
 
@@ -2338,7 +2459,7 @@ weight : 11
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-ds-mysql-v5-plugin.tpi]({{< relref "./tpis/#tis-ds-mysql-v5-plugintpi">}})
+* **插件包:** [tis-ds-mysql-v5-plugin.tpi](./tpis#tis-ds-mysql-v5-plugintpi)
 
 * **参数说明:** 
 
@@ -2435,7 +2556,7 @@ weight : 11
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-ds-mysql-v8-plugin.tpi]({{< relref "./tpis/#tis-ds-mysql-v8-plugintpi">}})
+* **插件包:** [tis-ds-mysql-v8-plugin.tpi](./tpis#tis-ds-mysql-v8-plugintpi)
 
 * **参数说明:** 
 
@@ -2532,7 +2653,7 @@ weight : 11
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-ds-tidb-plugin.tpi]({{< relref "./tpis/#tis-ds-tidb-plugintpi">}})
+* **插件包:** [tis-ds-tidb-plugin.tpi](./tpis#tis-ds-tidb-plugintpi)
 
 * **参数说明:** 
 
@@ -2563,7 +2684,7 @@ weight : 11
 	* **说明:** 无
 	* **默认值:** 无
 
-## 扩展点:com.qlangtech.tis.plugin.incr.TISSinkFactory
+## com.qlangtech.tis.plugin.incr.TISSinkFactory
 
 ### com.qlangtech.plugins.incr.flink.chunjun.clickhouse.sink.ChunjunClickhouseSinkFactory
 
@@ -2575,7 +2696,7 @@ weight : 11
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-flink-chunjun-clickhouse-plugin.tpi]({{< relref "./tpis/#tis-flink-chunjun-clickhouse-plugintpi">}})
+* **插件包:** [tis-flink-chunjun-clickhouse-plugin.tpi](./tpis#tis-flink-chunjun-clickhouse-plugintpi)
 
 * **参数说明:** 
 
@@ -2634,7 +2755,7 @@ weight : 11
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-flink-chunjun-doris-plugin.tpi]({{< relref "./tpis/#tis-flink-chunjun-doris-plugintpi">}})
+* **插件包:** [tis-flink-chunjun-doris-plugin.tpi](./tpis#tis-flink-chunjun-doris-plugintpi)
 
 * **参数说明:** 
 
@@ -2693,7 +2814,7 @@ weight : 11
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-flink-chunjun-mysql-plugin.tpi]({{< relref "./tpis/#tis-flink-chunjun-mysql-plugintpi">}})
+* **插件包:** [tis-flink-chunjun-mysql-plugin.tpi](./tpis#tis-flink-chunjun-mysql-plugintpi)
 
 * **参数说明:** 
 
@@ -2752,7 +2873,7 @@ weight : 11
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-flink-chunjun-oracle-plugin.tpi]({{< relref "./tpis/#tis-flink-chunjun-oracle-plugintpi">}})
+* **插件包:** [tis-flink-chunjun-oracle-plugin.tpi](./tpis#tis-flink-chunjun-oracle-plugintpi)
 
 * **参数说明:** 
 
@@ -2811,7 +2932,7 @@ weight : 11
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-flink-chunjun-postgresql-plugin.tpi]({{< relref "./tpis/#tis-flink-chunjun-postgresql-plugintpi">}})
+* **插件包:** [tis-flink-chunjun-postgresql-plugin.tpi](./tpis#tis-flink-chunjun-postgresql-plugintpi)
 
 * **参数说明:** 
 
@@ -2866,11 +2987,11 @@ weight : 11
 
 * **全路径名:** [com.qlangtech.tis.plugins.incr.flink.connector.elasticsearch7.ElasticSearchSinkFactory](https://github.com/qlangtech/plugins/tree/master/tis-incr/tis-sink-elasticsearch7-plugin/src/main/java/com/qlangtech/tis/plugins/incr/flink/connector/elasticsearch7/ElasticSearchSinkFactory.java) 
 
-* **提供者:** [TIS](https://tis.pub/) 
+* **提供者:** [TIS](https://github.com/qlangtech/tis) 
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-sink-elasticsearch7-plugin.tpi]({{< relref "./tpis/#tis-sink-elasticsearch7-plugintpi">}})
+* **插件包:** [tis-sink-elasticsearch7-plugin.tpi](./tpis#tis-sink-elasticsearch7-plugintpi)
 
 * **参数说明:** 
 
@@ -2916,11 +3037,11 @@ weight : 11
 
 * **全路径名:** [com.qlangtech.tis.plugins.incr.flink.connector.hudi.HudiSinkFactory](https://github.com/qlangtech/plugins/tree/master/tis-incr/tis-sink-hudi-plugin/src/main/java/com/qlangtech/tis/plugins/incr/flink/connector/hudi/HudiSinkFactory.java) 
 
-* **提供者:** [TIS](https://tis.pub/) 
+* **提供者:** [TIS](https://github.com/qlangtech/tis) 
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-sink-hudi-plugin/tis-sink-hudi-plugin_hudi_0.10.1_spark_2.4.4_hive_2.3.1_hadoop_2.7.3.tpi]({{< relref "./tpis/#tis-sink-hudi-plugin/tis-sink-hudi-plugin_hudi_0101_spark_244_hive_231_hadoop_273tpi">}})
+* **插件包:** [tis-sink-hudi-plugin/tis-sink-hudi-plugin_hudi_0.10.1_spark_2.4.4_hive_2.3.1_hadoop_2.7.3.tpi](./tpis#tis-sink-hudi-plugin/tis-sink-hudi-plugin_hudi_0101_spark_244_hive_231_hadoop_273tpi)
 
 * **参数说明:** 
 
@@ -2992,17 +3113,17 @@ weight : 11
 		
 	* **默认值:** 200
 
-### com.qlangtech.tis.plugins.incr.flink.connector.starrocks.StarRocksSinkFactory2
+### com.qlangtech.tis.plugins.incr.flink.connector.starrocks.StarRocksSinkFactory
 
 * **显示名:** Flink-StarRocks-Sink 
 
-* **全路径名:** [com.qlangtech.tis.plugins.incr.flink.connector.starrocks.StarRocksSinkFactory2](https://github.com/qlangtech/plugins/tree/master/tis-incr/tis-sink-starrocks-plugin/src/main/java/com/qlangtech/tis/plugins/incr/flink/connector/starrocks/StarRocksSinkFactory2.java) 
+* **全路径名:** [com.qlangtech.tis.plugins.incr.flink.connector.starrocks.StarRocksSinkFactory](https://github.com/qlangtech/plugins/tree/master/tis-incr/tis-sink-starrocks-plugin/src/main/java/com/qlangtech/tis/plugins/incr/flink/connector/starrocks/StarRocksSinkFactory.java) 
 
-* **提供者:** [TIS](https://tis.pub/) 
+* **提供者:** [TIS](https://github.com/qlangtech/tis) 
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-sink-starrocks-plugin.tpi]({{< relref "./tpis/#tis-sink-starrocks-plugintpi">}})
+* **插件包:** [tis-sink-starrocks-plugin.tpi](./tpis#tis-sink-starrocks-plugintpi)
 
 * **参数说明:** 
 
@@ -3012,11 +3133,17 @@ weight : 11
 
 	* **必须:** 否
 
+	* **说明:** 无
+	* **默认值:** 10000
+
 2. sinkBatchMaxSize
 
 	* **类型:** 整型数字
 
 	* **必须:** 否
+
+	* **说明:** 无
+	* **默认值:** 无
 
 3. sinkConnectTimeout
 
@@ -3024,11 +3151,17 @@ weight : 11
 
 	* **必须:** 否
 
+	* **说明:** 无
+	* **默认值:** 无
+
 4. sinkMaxRetries
 
 	* **类型:** 整型数字
 
 	* **必须:** 否
+
+	* **说明:** 无
+	* **默认值:** 无
 
 5. sinkBatchMaxRows
 
@@ -3036,13 +3169,19 @@ weight : 11
 
 	* **必须:** 否
 
+	* **说明:** 无
+	* **默认值:** 无
+
 6. sinkSemantic
 
 	* **类型:** 单选
 
 	* **必须:** 是
 
-## 扩展点:com.qlangtech.tis.plugin.incr.IncrStreamFactory
+	* **说明:** 无
+	* **默认值:** 无
+
+## com.qlangtech.tis.plugin.incr.IncrStreamFactory
 
 ### com.qlangtech.plugins.incr.flink.launch.TISFlinkCDCStreamFactory
 
@@ -3052,7 +3191,7 @@ weight : 11
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-realtime-flink.tpi]({{< relref "./tpis/#tis-realtime-flinktpi">}})
+* **插件包:** [tis-realtime-flink.tpi](./tpis#tis-realtime-flinktpi)
 
 * **参数说明:** 
 
@@ -3094,7 +3233,7 @@ weight : 11
 		   [安装说明](http://tis.pub/docs/install/flink-cluster/standalone/):
 		      - 下载、解压
 		        ```shell script
-		         wget http://tis-release.oss-cn-beijing.aliyuncs.com/3.6.0/tis/flink-tis-1.13.1-bin.tar.gz && rm -rf flink-tis-1.13.1 && mkdir flink-tis-1.13.1 && tar xvf flink-tis-1.13.1-bin.tar.gz -C ./flink-tis-1.13.1
+		         wget http://tis-release.oss-cn-beijing.aliyuncs.com/3.6.0-alpha/tis/flink-tis-1.13.1-bin.tar.gz && rm -rf flink-tis-1.13.1 && mkdir flink-tis-1.13.1 && tar xvf flink-tis-1.13.1-bin.tar.gz -C ./flink-tis-1.13.1
 		        ```
 		      - 启动Flink-Cluster：
 		         ```shell script
@@ -3162,7 +3301,17 @@ weight : 11
 		
 	* **默认值:** off
 
-## 扩展点:com.qlangtech.tis.plugins.incr.flink.connector.UpdateMode
+## com.qlangtech.tis.plugins.incr.flink.connector.UpdateMode
+
+### com.qlangtech.tis.plugins.incr.flink.connector.impl.UpsertType
+
+* **显示名:** Upsert 
+
+* **全路径名:** [com.qlangtech.tis.plugins.incr.flink.connector.impl.UpsertType](https://github.com/qlangtech/plugins/tree/master/tis-incr/tis-chunjun-base-plugin/src/main/java/com/qlangtech/tis/plugins/incr/flink/connector/impl/UpsertType.java) 
+
+* **费用:** `社区版(免费)`
+
+* **插件包:** [tis-chunjun-base-plugin.tpi](./tpis#tis-chunjun-base-plugintpi)
 
 ### com.qlangtech.tis.plugins.incr.flink.connector.impl.ReplaceType
 
@@ -3172,23 +3321,7 @@ weight : 11
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-chunjun-base-plugin.tpi]({{< relref "./tpis/#tis-chunjun-base-plugintpi">}})
-
-* **参数说明:** 
-
-1. updateKey
-
-	* **类型:** 单选
-
-	* **必须:** 是
-
-	* **说明:** 
-		
-		* 描述：当写入模式为 update 和 replace 时，需要指定此参数的值为唯一索引字段
-		* 注意：如果此参数为空，并且写入模式为 update 和 replace 时，应用会自动获取数据库中的唯一索引；
-		如果数据表没有唯一索引，但是写入模式配置为 update 和 replace，应用会以 insert 的方式写入数据；
-		
-	* **默认值:** com.qlangtech.tis.trigger.util.JsonUtil$UnCacheString@3414a8c3
+* **插件包:** [tis-chunjun-base-plugin.tpi](./tpis#tis-chunjun-base-plugintpi)
 
 ### com.qlangtech.tis.plugins.incr.flink.connector.impl.UpdateType
 
@@ -3198,23 +3331,7 @@ weight : 11
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-chunjun-base-plugin.tpi]({{< relref "./tpis/#tis-chunjun-base-plugintpi">}})
-
-* **参数说明:** 
-
-1. updateKey
-
-	* **类型:** 单选
-
-	* **必须:** 是
-
-	* **说明:** 
-		
-		* 描述：当写入模式为 update 和 replace 时，需要指定此参数的值为唯一索引字段
-		* 注意：如果此参数为空，并且写入模式为 update 和 replace 时，应用会自动获取数据库中的唯一索引；
-		如果数据表没有唯一索引，但是写入模式配置为 update 和 replace，应用会以 insert 的方式写入数据；
-		
-	* **默认值:** com.qlangtech.tis.trigger.util.JsonUtil$UnCacheString@3ad4a7d6
+* **插件包:** [tis-chunjun-base-plugin.tpi](./tpis#tis-chunjun-base-plugintpi)
 
 ### com.qlangtech.tis.plugins.incr.flink.connector.impl.InsertType
 
@@ -3224,9 +3341,115 @@ weight : 11
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-chunjun-base-plugin.tpi]({{< relref "./tpis/#tis-chunjun-base-plugintpi">}})
+* **插件包:** [tis-chunjun-base-plugin.tpi](./tpis#tis-chunjun-base-plugintpi)
 
-## 扩展点:com.qlangtech.tis.datax.impl.DataxWriter
+## com.qlangtech.tis.plugin.datax.server.FTPServer
+
+### com.qlangtech.tis.plugin.datax.server.FTPServer
+
+* **显示名:** Server 
+
+* **全路径名:** [com.qlangtech.tis.plugin.datax.server.FTPServer](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-ftp-plugin/src/main/java/com/qlangtech/tis/plugin/datax/server/FTPServer.java) 
+
+* **费用:** `社区版(免费)`
+
+* **插件包:** [tis-datax-ftp-plugin.tpi](./tpis#tis-datax-ftp-plugintpi)
+
+* **参数说明:** 
+
+1. password
+
+	* **类型:** 密码
+
+	* **必须:** 是
+
+	* **说明:** 描述：ftp服务器访问密码。 
+	* **默认值:** 无
+
+2. protocol
+
+	* **类型:** 单选
+
+	* **必须:** 是
+
+	* **说明:** 
+		
+		SFTP 和 FTP 非常相似，都支持批量传输（一次传输多个文件），文件夹 / 目录导航，文件移动，文件夹 / 目录创建，文件删除等。但还是存在着差异，SFTP 和 FTP 之间的区别：
+		
+		* 链接方式不同
+		
+		    FTP 使用 TCP 端口 21 上的控制连接建立连接。而 SFTP 是在客户端和服务器之间通过 SSH 协议 (TCP 端口 22) 建立的安全连接来传输文件。
+		
+		* 安全性不同
+		
+		    SFTP 使用加密传输认证信息和传输的数据，所以使用 SFTP 相对于 FTP 是非常安全。
+		
+		* 效率不同
+		
+		    SFTP 这种传输方式使用了加密解密技术，所以传输效率比普通的 FTP 要低得多。
+		
+		* 使用的协议不同
+		
+		    FTP 使用 TCP / IP 协议。而，SFTP 是 SSH 协议的一部分，它是一种远程登录信息。
+		
+		* 安全通道
+		
+		    FTP 不提供任何安全通道来在主机之间传输文件；而 SFTP 协议提供了一个安全通道，用于在网络上的主机之间传输文件。 
+	* **默认值:** ftp
+
+3. port
+
+	* **类型:** 整型数字
+
+	* **必须:** 否
+
+	* **说明:** 描述：ftp服务器端口。 
+	* **默认值:** 21
+
+4. host
+
+	* **类型:** 单行文本
+
+	* **必须:** 是
+
+	* **说明:** 描述：ftp服务器地址。 
+	* **默认值:** 无
+
+5. timeout
+
+	* **类型:** 整型数字
+
+	* **必须:** 否
+
+	* **说明:** 描述：连接ftp服务器连接超时时间，单位毫秒。默认值：60000（1分钟）
+	* **默认值:** 60000
+
+6. username
+
+	* **类型:** 单行文本
+
+	* **必须:** 是
+
+	* **说明:** 描述：ftp服务器访问用户名。 
+	* **默认值:** 无
+
+7. 连接模式
+
+	* **类型:** 单选
+
+	* **必须:** 否
+
+	* **说明:** 
+		
+		 连接模式（主动模式或者被动模式）。该参数只在传输协议是标准ftp协议时使用，值只能为：**PORT (主动)**，**PASV（被动）**。两种模式主要的不同是数据连接建立的不同。
+		
+		 1. 对于Port模式，是客户端在本地打开一个端口等服务器去连接建立数据连接，
+		
+		 2. 而Pasv模式就是服务器打开一个端口等待客户端去建立一个数据连接。
+		 
+	* **默认值:** PASV
+
+## com.qlangtech.tis.datax.impl.DataxWriter
 
 ### com.qlangtech.tis.plugin.datax.DataXCassandraWriter
 
@@ -3238,7 +3461,7 @@ weight : 11
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-datax-cassandra-plugin.tpi]({{< relref "./tpis/#tis-datax-cassandra-plugintpi">}})
+* **插件包:** [tis-datax-cassandra-plugin.tpi](./tpis#tis-datax-cassandra-plugintpi)
 
 * **参数说明:** 
 
@@ -3309,7 +3532,7 @@ weight : 11
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-datax-clickhouse-plugin.tpi]({{< relref "./tpis/#tis-datax-clickhouse-plugintpi">}})
+* **插件包:** [tis-datax-clickhouse-plugin.tpi](./tpis#tis-datax-clickhouse-plugintpi)
 
 * **参数说明:** 
 
@@ -3386,13 +3609,13 @@ weight : 11
 
 * **显示名:** StarRocks 
 
-* **全路径名:** [com.qlangtech.tis.plugin.datax.starrocks.DataXStarRocksWriter](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-doris-plugin/src/main/java/com/qlangtech/tis/plugin/datax/starrocks/DataXStarRocksWriter.java) 
+* **全路径名:** [com.qlangtech.tis.plugin.datax.starrocks.DataXStarRocksWriter](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-doris-starrocks-plugin/src/main/java/com/qlangtech/tis/plugin/datax/starrocks/DataXStarRocksWriter.java) 
 
 * **提供者:** [DataX](https://github.com/alibaba/DataX) 
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-datax-doris-plugin.tpi]({{< relref "./tpis/#tis-datax-doris-plugintpi">}})
+* **插件包:** [tis-datax-doris-starrocks-plugin.tpi](./tpis#tis-datax-doris-starrocks-plugintpi)
 
 * **参数说明:** 
 
@@ -3497,13 +3720,13 @@ weight : 11
 
 * **显示名:** Doris 
 
-* **全路径名:** [com.qlangtech.tis.plugin.datax.doris.DataXDorisWriter](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-doris-plugin/src/main/java/com/qlangtech/tis/plugin/datax/doris/DataXDorisWriter.java) 
+* **全路径名:** [com.qlangtech.tis.plugin.datax.doris.DataXDorisWriter](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-doris-starrocks-plugin/src/main/java/com/qlangtech/tis/plugin/datax/doris/DataXDorisWriter.java) 
 
 * **提供者:** [DataX](https://github.com/alibaba/DataX) 
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-datax-doris-plugin.tpi]({{< relref "./tpis/#tis-datax-doris-plugintpi">}})
+* **插件包:** [tis-datax-doris-starrocks-plugin.tpi](./tpis#tis-datax-doris-starrocks-plugintpi)
 
 * **参数说明:** 
 
@@ -3614,7 +3837,7 @@ weight : 11
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-datax-elasticsearch-plugin.tpi]({{< relref "./tpis/#tis-datax-elasticsearch-plugintpi">}})
+* **插件包:** [tis-datax-elasticsearch-plugin.tpi](./tpis#tis-datax-elasticsearch-plugintpi)
 
 * **参数说明:** 
 
@@ -3654,7 +3877,7 @@ weight : 11
 	* **必须:** 是
 
 	* **说明:** Elasticsearch中的index名
-	* **默认值:** com.qlangtech.tis.trigger.util.JsonUtil$UnCacheString@612e21b9
+	* **默认值:** com.qlangtech.tis.trigger.util.JsonUtil$UnCacheString@226b143b
 
 5. splitter
 
@@ -3783,7 +4006,7 @@ weight : 11
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-datax-ftp-plugin.tpi]({{< relref "./tpis/#tis-datax-ftp-plugintpi">}})
+* **插件包:** [tis-datax-ftp-plugin.tpi](./tpis#tis-datax-ftp-plugintpi)
 
 * **参数说明:** 
 
@@ -3796,7 +4019,25 @@ weight : 11
 	* **说明:** 无特殊情况请不要修改模版内容，避免不必要的错误
 	* **默认值:** 无
 
-2. nullFormat
+2. path
+
+	* **类型:** 单行文本
+
+	* **必须:** 是
+
+	* **说明:** 描述：FTP文件系统的路径信息，FtpWriter会写入Path目录下属多个文件。 
+	* **默认值:** 无
+
+3. 远端连接
+
+	* **类型:** 单行文本
+
+	* **必须:** 是
+
+	* **说明:** 无
+	* **默认值:** Server
+
+4. nullFormat
 
 	* **类型:** 单行文本
 
@@ -3805,7 +4046,7 @@ weight : 11
 	* **说明:** 描述：文本文件中无法使用标准字符串定义null(空指针)，DataX提供nullFormat定义哪些字符串可以表示为null。例如如果用户配置: nullFormat="\N"，那么如果源头数据是"\N"，DataX视作null字段。
 	* **默认值:** 无
 
-3. dateFormat
+5. dateFormat
 
 	* **类型:** 单行文本
 
@@ -3814,7 +4055,16 @@ weight : 11
 	* **说明:** 描述：日期类型的数据序列化到文件中时的格式，例如 "dateFormat": "yyyy-MM-dd"。
 	* **默认值:** 无
 
-4. writeMode
+6. compress
+
+	* **类型:** 单选
+
+	* **必须:** 是
+
+	* **说明:** 描述：文本压缩类型，默认不填写意味着没有压缩。支持压缩类型为zip、gzip、bzip2。 
+	* **默认值:** none
+
+7. writeMode
 
 	* **类型:** 单选
 
@@ -3830,18 +4080,9 @@ weight : 11
 		  
 		 3. **nonConflict**: 如果目录下有fileName前缀的文件，直接报错。
 		 
-	* **默认值:** 无
+	* **默认值:** truncate
 
-5. suffix
-
-	* **类型:** 单行文本
-
-	* **必须:** 否
-
-	* **说明:** 描述：最后输出文件的后缀，当前支持 ".text"以及".csv"
-	* **默认值:** 无
-
-6. encoding
+8. encoding
 
 	* **类型:** 单选
 
@@ -3850,100 +4091,20 @@ weight : 11
 	* **说明:** 描述：读取文件的编码配置。
 	* **默认值:** utf-8
 
-7. fieldDelimiter
-
-	* **类型:** 单行文本
-
-	* **必须:** 否
-
-	* **说明:** 描述：读取的字段分隔符，可以用'\t','\001'等字符 默认值：,
-	* **默认值:** 无
-
-8. timeout
-
-	* **类型:** 整型数字
-
-	* **必须:** 否
-
-	* **说明:** 描述：连接ftp服务器连接超时时间，单位毫秒。默认值：60000（1分钟） 
-	* **默认值:** 无
-
-9. path
+9. fileFormat
 
 	* **类型:** 单行文本
 
 	* **必须:** 是
-
-	* **说明:** 描述：FTP文件系统的路径信息，FtpWriter会写入Path目录下属多个文件。 
-	* **默认值:** 无
-
-10. password
-
-	* **类型:** 密码
-
-	* **必须:** 是
-
-	* **说明:** 描述：ftp服务器访问密码。 
-	* **默认值:** 无
-
-11. protocol
-
-	* **类型:** 单选
-
-	* **必须:** 是
-
-	* **说明:** 描述：ftp服务器协议，目前支持传输协议有ftp和sftp。 
-	* **默认值:** 无
-
-12. port
-
-	* **类型:** 整型数字
-
-	* **必须:** 否
-
-	* **说明:** ftp服务器端口。若传输协议是sftp协议，默认值是22；若传输协议是标准ftp协议，默认值是21 
-	* **默认值:** 无
-
-13. host
-
-	* **类型:** 单行文本
-
-	* **必须:** 是
-
-	* **说明:** 描述：ftp服务器地址。 
-	* **默认值:** 无
-
-14. header
-
-	* **类型:** 单选
-
-	* **必须:** 否
-
-	* **说明:** 描述：txt写出时的表头，是否在文件头将key写入
-	* **默认值:** false
-
-15. fileFormat
-
-	* **类型:** 单选
-
-	* **必须:** 否
 
 	* **说明:** 
 		
 		 文件写出的格式，包括[csv](http://zh.wikipedia.org/wiki/%E9%80%97%E5%8F%B7%E5%88%86%E9%9A%94%E5%80%BC) 和**text**两种，**csv**是严格的**csv**格式，如果待写数据包括列分隔符，则会按照**csv**的转义语法转义，转义符号为双引号。**text**格式是用列分隔符简单分割待写数据，对于待写数据包括列分隔符情况下不做转义。
+		 
+		
 		    
 		
-		  
-	* **默认值:** 无
-
-16. username
-
-	* **类型:** 单行文本
-
-	* **必须:** 是
-
-	* **说明:** 描述：ftp服务器访问用户名。 
-	* **默认值:** 无
+	* **默认值:** TEXT
 
 ### com.qlangtech.tis.plugin.datax.DataXHdfsWriter
 
@@ -3955,7 +4116,7 @@ weight : 11
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-datax-hdfs-reader-writer-plugin/tis-datax-hdfs-reader-writer-plugin_hadoop_2.7.3.tpi]({{< relref "./tpis/#tis-datax-hdfs-reader-writer-plugin/tis-datax-hdfs-reader-writer-plugin_hadoop_273tpi">}})
+* **插件包:** [tis-datax-hdfs-reader-writer-plugin/tis-datax-hdfs-reader-writer-plugin_hadoop_2.7.3.tpi](./tpis#tis-datax-hdfs-reader-writer-plugin/tis-datax-hdfs-reader-writer-plugin_hadoop_273tpi)
 
 * **参数说明:** 
 
@@ -4047,11 +4208,11 @@ weight : 11
 
 * **全路径名:** [com.qlangtech.tis.plugin.datax.hudi.DataXHudiWriter](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-hudi-plugin/src/main/java/com/qlangtech/tis/plugin/datax/hudi/DataXHudiWriter.java) 
 
-* **提供者:** [TIS](https://tis.pub/) 
+* **提供者:** [TIS](https://github.com/qlangtech/tis) 
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-datax-hudi-plugin/tis-datax-hudi-plugin_hudi_0.10.1_spark_2.4.4_hive_2.3.1_hadoop_2.7.3.tpi]({{< relref "./tpis/#tis-datax-hudi-plugin/tis-datax-hudi-plugin_hudi_0101_spark_244_hive_231_hadoop_273tpi">}})
+* **插件包:** [tis-datax-hudi-plugin/tis-datax-hudi-plugin_hudi_0.10.1_spark_2.4.4_hive_2.3.1_hadoop_2.7.3.tpi](./tpis#tis-datax-hudi-plugin/tis-datax-hudi-plugin_hudi_0101_spark_244_hive_231_hadoop_273tpi)
 
 * **参数说明:** 
 
@@ -4217,7 +4378,7 @@ weight : 11
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-datax-mongodb-plugin.tpi]({{< relref "./tpis/#tis-datax-mongodb-plugintpi">}})
+* **插件包:** [tis-datax-mongodb-plugin.tpi](./tpis#tis-datax-mongodb-plugintpi)
 
 * **参数说明:** 
 
@@ -4276,7 +4437,7 @@ weight : 11
 		 | Date     | date  |
 		 | Boolean  | boolean |
 		 | Bytes    | bytes |
-	* **默认值:** com.qlangtech.tis.trigger.util.JsonUtil$UnCacheString@5300cac
+	* **默认值:** com.qlangtech.tis.trigger.util.JsonUtil$UnCacheString@1d12b024
 
 5. collectionName
 
@@ -4285,7 +4446,7 @@ weight : 11
 	* **必须:** 是
 
 	* **说明:** MonogoDB的集合名。【必填】
-	* **默认值:** com.qlangtech.tis.trigger.util.JsonUtil$UnCacheString@4110765e
+	* **默认值:** com.qlangtech.tis.trigger.util.JsonUtil$UnCacheString@72fe8a4f
 
 ### com.qlangtech.tis.plugin.datax.DataXOracleWriter
 
@@ -4297,7 +4458,7 @@ weight : 11
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-datax-oracle-plugin.tpi]({{< relref "./tpis/#tis-datax-oracle-plugintpi">}})
+* **插件包:** [tis-datax-oracle-plugin.tpi](./tpis#tis-datax-oracle-plugintpi)
 
 * **参数说明:** 
 
@@ -4320,7 +4481,16 @@ weight : 11
 		 写入数据到目的表后，会执行这里的标准语句。（原理同 preSql ）
 	* **默认值:** 无
 
-3. session
+3. 自动建表
+
+	* **类型:** 单选
+
+	* **必须:** 是
+
+	* **说明:** 解析Reader的元数据，自动生成Writer create table DDL语句
+	* **默认值:** true
+
+4. session
 
 	* **类型:** 富文本
 
@@ -4330,7 +4500,7 @@ weight : 11
 		  DataX在获取Mysql连接时，执行session指定的SQL语句，修改当前connection session属性 
 	* **默认值:** 无
 
-4. 数据库名
+5. 数据库名
 
 	* **类型:** 单选
 
@@ -4339,7 +4509,7 @@ weight : 11
 	* **说明:** 无
 	* **默认值:** 无
 
-5. batchSize
+6. batchSize
 
 	* **类型:** 整型数字
 
@@ -4349,7 +4519,7 @@ weight : 11
 		 * 描述：一次性批量提交的记录数大小，该值可以极大减少DataX与Mysql的网络交互次数，并提升整体吞吐量。但是该值设置过大可能会造成DataX运行进程OOM情况。
 	* **默认值:** 1000
 
-6. preSql
+7. preSql
 
 	* **类型:** 富文本
 
@@ -4369,7 +4539,7 @@ weight : 11
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-datax-oss-plugin.tpi]({{< relref "./tpis/#tis-datax-oss-plugintpi">}})
+* **插件包:** [tis-datax-oss-plugin.tpi](./tpis#tis-datax-oss-plugintpi)
 
 * **参数说明:** 
 
@@ -4493,7 +4663,7 @@ nonConflict，如果指定路径出现前缀匹配的object，直接报错。例
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-datax-postgresql-plugin.tpi]({{< relref "./tpis/#tis-datax-postgresql-plugintpi">}})
+* **插件包:** [tis-datax-postgresql-plugin.tpi](./tpis#tis-datax-postgresql-plugintpi)
 
 * **参数说明:** 
 
@@ -4564,7 +4734,7 @@ nonConflict，如果指定路径出现前缀匹配的object，直接报错。例
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-datax-sqlserver-plugin.tpi]({{< relref "./tpis/#tis-datax-sqlserver-plugintpi">}})
+* **插件包:** [tis-datax-sqlserver-plugin.tpi](./tpis#tis-datax-sqlserver-plugintpi)
 
 * **参数说明:** 
 
@@ -4635,7 +4805,7 @@ nonConflict，如果指定路径出现前缀匹配的object，直接报错。例
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-ds-mysql-plugin.tpi]({{< relref "./tpis/#tis-ds-mysql-plugintpi">}})
+* **插件包:** [tis-ds-mysql-plugin.tpi](./tpis#tis-ds-mysql-plugintpi)
 
 * **参数说明:** 
 
@@ -4727,7 +4897,7 @@ nonConflict，如果指定路径出现前缀匹配的object，直接报错。例
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-hive-flat-table-builder-plugin/tis-hive-flat-table-builder-plugin_hive_2.3.1_hadoop_2.7.3.tpi]({{< relref "./tpis/#tis-hive-flat-table-builder-plugin/tis-hive-flat-table-builder-plugin_hive_231_hadoop_273tpi">}})
+* **插件包:** [tis-hive-flat-table-builder-plugin/tis-hive-flat-table-builder-plugin_hive_2.3.1_hadoop_2.7.3.tpi](./tpis#tis-hive-flat-table-builder-plugin/tis-hive-flat-table-builder-plugin_hive_231_hadoop_273tpi)
 
 * **参数说明:** 
 
@@ -4844,7 +5014,7 @@ nonConflict，如果指定路径出现前缀匹配的object，直接报错。例
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-hive-flat-table-builder-plugin/tis-hive-flat-table-builder-plugin_hive_2.3.1_hadoop_2.7.3.tpi]({{< relref "./tpis/#tis-hive-flat-table-builder-plugin/tis-hive-flat-table-builder-plugin_hive_231_hadoop_273tpi">}})
+* **插件包:** [tis-hive-flat-table-builder-plugin/tis-hive-flat-table-builder-plugin_hive_2.3.1_hadoop_2.7.3.tpi](./tpis#tis-hive-flat-table-builder-plugin/tis-hive-flat-table-builder-plugin_hive_231_hadoop_273tpi)
 
 * **参数说明:** 
 
@@ -4951,7 +5121,7 @@ nonConflict，如果指定路径出现前缀匹配的object，直接报错。例
 	* **说明:** 描述：Hadoop hdfs文件系统namenode节点地址。格式：hdfs://ip:端口；例如：hdfs://127.0.0.1:9000
 	* **默认值:** 无
 
-## 扩展点:com.qlangtech.tis.config.spark.SparkConnStrategy
+## com.qlangtech.tis.config.spark.SparkConnStrategy
 
 ### com.qlangtech.tis.config.spark.impl.YarnConnStrategy
 
@@ -4961,7 +5131,7 @@ nonConflict，如果指定路径出现前缀匹配的object，直接报错。例
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-hive-flat-table-builder-plugin/tis-hive-flat-table-builder-plugin_hive_2.3.1_hadoop_2.7.3.tpi]({{< relref "./tpis/#tis-hive-flat-table-builder-plugin/tis-hive-flat-table-builder-plugin_hive_231_hadoop_273tpi">}})
+* **插件包:** [tis-hive-flat-table-builder-plugin/tis-hive-flat-table-builder-plugin_hive_2.3.1_hadoop_2.7.3.tpi](./tpis#tis-hive-flat-table-builder-plugin/tis-hive-flat-table-builder-plugin_hive_231_hadoop_273tpi)
 
 * **参数说明:** 
 
@@ -5024,7 +5194,7 @@ nonConflict，如果指定路径出现前缀匹配的object，直接报错。例
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-hive-flat-table-builder-plugin/tis-hive-flat-table-builder-plugin_hive_2.3.1_hadoop_2.7.3.tpi]({{< relref "./tpis/#tis-hive-flat-table-builder-plugin/tis-hive-flat-table-builder-plugin_hive_231_hadoop_273tpi">}})
+* **插件包:** [tis-hive-flat-table-builder-plugin/tis-hive-flat-table-builder-plugin_hive_2.3.1_hadoop_2.7.3.tpi](./tpis#tis-hive-flat-table-builder-plugin/tis-hive-flat-table-builder-plugin_hive_231_hadoop_273tpi)
 
 * **参数说明:** 
 
@@ -5037,7 +5207,7 @@ nonConflict，如果指定路径出现前缀匹配的object，直接报错。例
 	* **说明:** 无
 	* **默认值:** 无
 
-## 扩展点:com.qlangtech.tis.plugin.k8s.K8sImage
+## com.qlangtech.tis.plugin.k8s.K8sImage
 
 ### com.qlangtech.tis.config.k8s.impl.DefaultK8SImage
 
@@ -5047,7 +5217,7 @@ nonConflict，如果指定路径出现前缀匹配的object，直接报错。例
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-k8s-plugin.tpi]({{< relref "./tpis/#tis-k8s-plugintpi">}})
+* **插件包:** [tis-k8s-plugin.tpi](./tpis#tis-k8s-plugintpi)
 
 * **参数说明:** 
 
@@ -5100,7 +5270,7 @@ nonConflict，如果指定路径出现前缀匹配的object，直接报错。例
 	* **说明:** 无
 	* **默认值:** 无
 
-## 扩展点:com.qlangtech.tis.plugin.datax.hudi.partition.HudiTablePartition
+## com.qlangtech.tis.plugin.datax.hudi.partition.HudiTablePartition
 
 ### com.qlangtech.tis.plugin.datax.hudi.partition.SlashEncodedHourPartition
 
@@ -5110,7 +5280,7 @@ nonConflict，如果指定路径出现前缀匹配的object，直接报错。例
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-datax-hudi-plugin/tis-datax-hudi-plugin_hudi_0.10.1_spark_2.4.4_hive_2.3.1_hadoop_2.7.3.tpi]({{< relref "./tpis/#tis-datax-hudi-plugin/tis-datax-hudi-plugin_hudi_0101_spark_244_hive_231_hadoop_273tpi">}})
+* **插件包:** [tis-datax-hudi-plugin/tis-datax-hudi-plugin_hudi_0.10.1_spark_2.4.4_hive_2.3.1_hadoop_2.7.3.tpi](./tpis#tis-datax-hudi-plugin/tis-datax-hudi-plugin_hudi_0101_spark_244_hive_231_hadoop_273tpi)
 
 ### com.qlangtech.tis.plugin.datax.hudi.partition.SlashEncodedDayPartition
 
@@ -5120,7 +5290,7 @@ nonConflict，如果指定路径出现前缀匹配的object，直接报错。例
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-datax-hudi-plugin/tis-datax-hudi-plugin_hudi_0.10.1_spark_2.4.4_hive_2.3.1_hadoop_2.7.3.tpi]({{< relref "./tpis/#tis-datax-hudi-plugin/tis-datax-hudi-plugin_hudi_0101_spark_244_hive_231_hadoop_273tpi">}})
+* **插件包:** [tis-datax-hudi-plugin/tis-datax-hudi-plugin_hudi_0.10.1_spark_2.4.4_hive_2.3.1_hadoop_2.7.3.tpi](./tpis#tis-datax-hudi-plugin/tis-datax-hudi-plugin_hudi_0101_spark_244_hive_231_hadoop_273tpi)
 
 ### com.qlangtech.tis.plugin.datax.hudi.partition.FieldValBasedPartition
 
@@ -5130,9 +5300,9 @@ nonConflict，如果指定路径出现前缀匹配的object，直接报错。例
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-datax-hudi-plugin/tis-datax-hudi-plugin_hudi_0.10.1_spark_2.4.4_hive_2.3.1_hadoop_2.7.3.tpi]({{< relref "./tpis/#tis-datax-hudi-plugin/tis-datax-hudi-plugin_hudi_0101_spark_244_hive_231_hadoop_273tpi">}})
+* **插件包:** [tis-datax-hudi-plugin/tis-datax-hudi-plugin_hudi_0.10.1_spark_2.4.4_hive_2.3.1_hadoop_2.7.3.tpi](./tpis#tis-datax-hudi-plugin/tis-datax-hudi-plugin_hudi_0101_spark_244_hive_231_hadoop_273tpi)
 
-## 扩展点:com.qlangtech.tis.plugins.incr.flink.connector.hudi.compaction.CompactionConfig
+## com.qlangtech.tis.plugins.incr.flink.connector.hudi.compaction.CompactionConfig
 
 ### com.qlangtech.tis.plugins.incr.flink.connector.hudi.compaction.CompactionConfig
 
@@ -5142,7 +5312,7 @@ nonConflict，如果指定路径出现前缀匹配的object，直接报错。例
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-sink-hudi-plugin/tis-sink-hudi-plugin_hudi_0.10.1_spark_2.4.4_hive_2.3.1_hadoop_2.7.3.tpi]({{< relref "./tpis/#tis-sink-hudi-plugin/tis-sink-hudi-plugin_hudi_0101_spark_244_hive_231_hadoop_273tpi">}})
+* **插件包:** [tis-sink-hudi-plugin/tis-sink-hudi-plugin_hudi_0.10.1_spark_2.4.4_hive_2.3.1_hadoop_2.7.3.tpi](./tpis#tis-sink-hudi-plugin/tis-sink-hudi-plugin_hudi_0101_spark_244_hive_231_hadoop_273tpi)
 
 * **参数说明:** 
 
@@ -5242,17 +5412,60 @@ nonConflict，如果指定路径出现前缀匹配的object，直接报错。例
 		Target IO per compaction (both read and write), default 500 GB
 	* **默认值:** 512000
 
-## 扩展点:com.qlangtech.tis.plugin.datax.IncrSelectedTabExtend
+## com.qlangtech.tis.plugin.datax.IncrSelectedTabExtend
 
-### com.qlangtech.plugins.incr.flink.chunjun.source.SelectedTabPropsExtends
+### com.qlangtech.tis.plugins.incr.flink.chunjun.sink.SinkTabPropsExtends
 
-* **显示名:** SelectedTabPropsExtends 
+* **显示名:** SinkTabPropsExtends 
 
-* **全路径名:** [com.qlangtech.plugins.incr.flink.chunjun.source.SelectedTabPropsExtends](https://github.com/qlangtech/plugins/tree/master/tis-incr/tis-chunjun-base-plugin/src/main/java/com/qlangtech/plugins/incr/flink/chunjun/source/SelectedTabPropsExtends.java) 
+* **全路径名:** [com.qlangtech.tis.plugins.incr.flink.chunjun.sink.SinkTabPropsExtends](https://github.com/qlangtech/plugins/tree/master/tis-incr/tis-chunjun-base-plugin/src/main/java/com/qlangtech/tis/plugins/incr/flink/chunjun/sink/SinkTabPropsExtends.java) 
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-chunjun-base-plugin.tpi]({{< relref "./tpis/#tis-chunjun-base-plugintpi">}})
+* **插件包:** [tis-chunjun-base-plugin.tpi](./tpis#tis-chunjun-base-plugintpi)
+
+* **参数说明:** 
+
+1. tabName
+
+	* **类型:** 单行文本
+
+	* **必须:** 是
+
+2. incrMode
+
+	* **类型:** 单选
+
+	* **必须:** 是
+
+	* **说明:** 
+		
+		控制写入数据到目标表采用 insert into 或者 replace into 或者 ON DUPLICATE KEY UPDATE 语句
+		
+	* **默认值:** Insert
+
+3. uniqueKey
+
+	* **类型:** 单选
+
+	* **必须:** 是
+
+	* **说明:** 
+		
+		* 描述：当写入模式为 update 和 replace 时，需要指定此参数的值为唯一索引字段
+		* 注意：如果此参数为空，并且写入模式为 update 和 replace 时，应用会自动获取数据库中的唯一索引；
+		如果数据表没有唯一索引，但是写入模式配置为 update 和 replace，应用会以 insert 的方式写入数据；
+	* **默认值:** com.qlangtech.tis.trigger.util.JsonUtil$UnCacheString@5f13be1
+
+### com.qlangtech.tis.plugins.incr.flink.chunjun.source.SelectedTabPropsExtends
+
+* **显示名:** SelectedTabPropsExtends 
+
+* **全路径名:** [com.qlangtech.tis.plugins.incr.flink.chunjun.source.SelectedTabPropsExtends](https://github.com/qlangtech/plugins/tree/master/tis-incr/tis-chunjun-base-plugin/src/main/java/com/qlangtech/tis/plugins/incr/flink/chunjun/source/SelectedTabPropsExtends.java) 
+
+* **费用:** `社区版(免费)`
+
+* **插件包:** [tis-chunjun-base-plugin.tpi](./tpis#tis-chunjun-base-plugintpi)
 
 * **参数说明:** 
 
@@ -5310,15 +5523,15 @@ nonConflict，如果指定路径出现前缀匹配的object，直接报错。例
 		
 	* **默认值:** RunInterval
 
-### com.qlangtech.plugins.incr.flink.chunjun.sink.SinkTabPropsExtends
+### com.qlangtech.tis.plugins.incr.flink.chunjun.sink.UniqueKeySetter
 
-* **显示名:** SinkTabPropsExtends 
+* **显示名:** UniqueKeySetter 
 
-* **全路径名:** [com.qlangtech.plugins.incr.flink.chunjun.sink.SinkTabPropsExtends](https://github.com/qlangtech/plugins/tree/master/tis-incr/tis-chunjun-base-plugin/src/main/java/com/qlangtech/plugins/incr/flink/chunjun/sink/SinkTabPropsExtends.java) 
+* **全路径名:** [com.qlangtech.tis.plugins.incr.flink.chunjun.sink.UniqueKeySetter](https://github.com/qlangtech/plugins/tree/master/tis-incr/tis-chunjun-base-plugin/src/main/java/com/qlangtech/tis/plugins/incr/flink/chunjun/sink/UniqueKeySetter.java) 
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-chunjun-base-plugin.tpi]({{< relref "./tpis/#tis-chunjun-base-plugintpi">}})
+* **插件包:** [tis-chunjun-base-plugin.tpi](./tpis#tis-chunjun-base-plugintpi)
 
 * **参数说明:** 
 
@@ -5328,7 +5541,7 @@ nonConflict，如果指定路径出现前缀匹配的object，直接报错。例
 
 	* **必须:** 是
 
-2. incrMode
+2. uniqueKey
 
 	* **类型:** 单选
 
@@ -5336,10 +5549,12 @@ nonConflict，如果指定路径出现前缀匹配的object，直接报错。例
 
 	* **说明:** 
 		
-		控制写入数据到目标表采用 insert into 或者 replace into 或者 ON DUPLICATE KEY UPDATE 语句
-	* **默认值:** Replace
+		* 描述：当写入模式为 update 和 replace 时，需要指定此参数的值为唯一索引字段
+		* 注意：如果此参数为空，并且写入模式为 update 和 replace 时，应用会自动获取数据库中的唯一索引；
+		如果数据表没有唯一索引，但是写入模式配置为 update 和 replace，应用会以 insert 的方式写入数据；
+	* **默认值:** com.qlangtech.tis.trigger.util.JsonUtil$UnCacheString@3be4f71
 
-## 扩展点:com.qlangtech.tis.offline.FileSystemFactory
+## com.qlangtech.tis.offline.FileSystemFactory
 
 ### com.qlangtech.tis.hdfs.impl.HdfsFileSystemFactory
 
@@ -5349,7 +5564,7 @@ nonConflict，如果指定路径出现前缀匹配的object，直接报错。例
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-datax-hdfs-plugin/tis-datax-hdfs-plugin_hadoop_2.7.3.tpi]({{< relref "./tpis/#tis-datax-hdfs-plugin/tis-datax-hdfs-plugin_hadoop_273tpi">}})
+* **插件包:** [tis-datax-hdfs-plugin/tis-datax-hdfs-plugin_hadoop_2.7.3.tpi](./tpis#tis-datax-hdfs-plugin/tis-datax-hdfs-plugin_hadoop_273tpi)
 
 * **参数说明:** 
 
@@ -5507,7 +5722,7 @@ nonConflict，如果指定路径出现前缀匹配的object，直接报错。例
 		
 	* **默认值:** 无
 
-## 扩展点:com.qlangtech.tis.config.hive.HiveUserToken
+## com.qlangtech.tis.config.hive.HiveUserToken
 
 ### com.qlangtech.tis.config.hive.impl.DefaultHiveUserToken
 
@@ -5517,7 +5732,7 @@ nonConflict，如果指定路径出现前缀匹配的object，直接报错。例
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-hive-flat-table-builder-plugin/tis-hive-flat-table-builder-plugin_hive_2.3.1_hadoop_2.7.3.tpi]({{< relref "./tpis/#tis-hive-flat-table-builder-plugin/tis-hive-flat-table-builder-plugin_hive_231_hadoop_273tpi">}})
+* **插件包:** [tis-hive-flat-table-builder-plugin/tis-hive-flat-table-builder-plugin_hive_2.3.1_hadoop_2.7.3.tpi](./tpis#tis-hive-flat-table-builder-plugin/tis-hive-flat-table-builder-plugin_hive_231_hadoop_273tpi)
 
 * **参数说明:** 
 
@@ -5541,7 +5756,7 @@ nonConflict，如果指定路径出现前缀匹配的object，直接报错。例
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-hive-flat-table-builder-plugin/tis-hive-flat-table-builder-plugin_hive_2.3.1_hadoop_2.7.3.tpi]({{< relref "./tpis/#tis-hive-flat-table-builder-plugin/tis-hive-flat-table-builder-plugin_hive_231_hadoop_273tpi">}})
+* **插件包:** [tis-hive-flat-table-builder-plugin/tis-hive-flat-table-builder-plugin_hive_2.3.1_hadoop_2.7.3.tpi](./tpis#tis-hive-flat-table-builder-plugin/tis-hive-flat-table-builder-plugin_hive_231_hadoop_273tpi)
 
 * **参数说明:** 
 
@@ -5562,9 +5777,9 @@ nonConflict，如果指定路径出现前缀匹配的object，直接报错。例
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-hive-flat-table-builder-plugin/tis-hive-flat-table-builder-plugin_hive_2.3.1_hadoop_2.7.3.tpi]({{< relref "./tpis/#tis-hive-flat-table-builder-plugin/tis-hive-flat-table-builder-plugin_hive_231_hadoop_273tpi">}})
+* **插件包:** [tis-hive-flat-table-builder-plugin/tis-hive-flat-table-builder-plugin_hive_2.3.1_hadoop_2.7.3.tpi](./tpis#tis-hive-flat-table-builder-plugin/tis-hive-flat-table-builder-plugin_hive_231_hadoop_273tpi)
 
-## 扩展点:com.qlangtech.plugins.incr.flink.launch.StateBackendFactory
+## com.qlangtech.plugins.incr.flink.launch.StateBackendFactory
 
 ### com.qlangtech.plugins.incr.flink.launch.statbackend.OFF
 
@@ -5574,7 +5789,7 @@ nonConflict，如果指定路径出现前缀匹配的object，直接报错。例
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-realtime-flink.tpi]({{< relref "./tpis/#tis-realtime-flinktpi">}})
+* **插件包:** [tis-realtime-flink.tpi](./tpis#tis-realtime-flinktpi)
 
 ### com.qlangtech.plugins.incr.flink.launch.statbackend.FileSystemState
 
@@ -5584,7 +5799,7 @@ nonConflict，如果指定路径出现前缀匹配的object，直接报错。例
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-realtime-flink.tpi]({{< relref "./tpis/#tis-realtime-flinktpi">}})
+* **插件包:** [tis-realtime-flink.tpi](./tpis#tis-realtime-flinktpi)
 
 * **参数说明:** 
 
@@ -5641,7 +5856,7 @@ nonConflict，如果指定路径出现前缀匹配的object，直接报错。例
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-realtime-flink.tpi]({{< relref "./tpis/#tis-realtime-flinktpi">}})
+* **插件包:** [tis-realtime-flink.tpi](./tpis#tis-realtime-flinktpi)
 
 * **参数说明:** 
 
@@ -5675,7 +5890,7 @@ nonConflict，如果指定路径出现前缀匹配的object，直接报错。例
 		Defines the number of measured latencies to maintain at each state access operation.
 	* **默认值:** 128
 
-## 扩展点:com.qlangtech.tis.plugin.datax.SelectedTab
+## com.qlangtech.tis.plugin.datax.SelectedTab
 
 ### com.qlangtech.tis.plugin.datax.hudi.HudiSelectedTab
 
@@ -5685,7 +5900,7 @@ nonConflict，如果指定路径出现前缀匹配的object，直接报错。例
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-datax-hudi-common/tis-datax-hudi-common_hudi_0.10.1_spark_2.4.4_hive_2.3.1_hadoop_2.7.3.tpi]({{< relref "./tpis/#tis-datax-hudi-common/tis-datax-hudi-common_hudi_0101_spark_244_hive_231_hadoop_273tpi">}})
+* **插件包:** [tis-datax-hudi-common/tis-datax-hudi-common_hudi_0.10.1_spark_2.4.4_hive_2.3.1_hadoop_2.7.3.tpi](./tpis#tis-datax-hudi-common/tis-datax-hudi-common_hudi_0101_spark_244_hive_231_hadoop_273tpi)
 
 * **参数说明:** 
 
@@ -5744,7 +5959,7 @@ nonConflict，如果指定路径出现前缀匹配的object，直接报错。例
 	* **说明:** 需要同步的数据列
 	* **默认值:** 无
 
-## 扩展点:com.qlangtech.tis.datax.impl.DataxReader
+## com.qlangtech.tis.datax.impl.DataxReader
 
 ### com.qlangtech.tis.plugin.datax.DataXCassandraReader
 
@@ -5756,7 +5971,7 @@ nonConflict，如果指定路径出现前缀匹配的object，直接报错。例
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-datax-cassandra-plugin.tpi]({{< relref "./tpis/#tis-datax-cassandra-plugintpi">}})
+* **插件包:** [tis-datax-cassandra-plugin.tpi](./tpis#tis-datax-cassandra-plugintpi)
 
 * **参数说明:** 
 
@@ -5815,7 +6030,7 @@ nonConflict，如果指定路径出现前缀匹配的object，直接报错。例
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-datax-ftp-plugin.tpi]({{< relref "./tpis/#tis-datax-ftp-plugintpi">}})
+* **插件包:** [tis-datax-ftp-plugin.tpi](./tpis#tis-datax-ftp-plugintpi)
 
 * **参数说明:** 
 
@@ -5828,7 +6043,38 @@ nonConflict，如果指定路径出现前缀匹配的object，直接报错。例
 	* **说明:** 无特殊情况请不要修改模版内容，避免不必要的错误
 	* **默认值:** 无
 
-2. nullFormat
+2. path
+
+	* **类型:** 单行文本
+
+	* **必须:** 是
+
+	* **说明:** 
+		  
+		  远程FTP文件系统的路径信息，注意这里可以支持填写多个路径。
+		  
+		  当指定单个远程FTP文件，FtpReader暂时只能使用单线程进行数据抽取。二期考虑在非压缩文件情况下针对单个File可以进行多线程并发读取。
+		  
+		  当指定多个远程FTP文件，FtpReader支持使用多线程进行数据抽取。线程并发数通过通道数指定。
+		  
+		  当指定通配符，FtpReader尝试遍历出多个文件信息。例如: 指定`/*`代表读取/目录下所有的文件，指定`/bazhen/*`代表读取bazhen目录下游所有的文件。FtpReader目前只支持*作为文件通配符。
+		  
+		  特别需要注意的是，DataX会将一个作业下同步的所有Text File视作同一张数据表。用户必须自己保证所有的File能够适配同一套schema信息。读取文件用户必须保证为类CSV格式，并且提供给DataX权限可读。
+		  
+		  特别需要注意的是，如果Path指定的路径下没有符合匹配的文件抽取，DataX将报错
+		  
+	* **默认值:** 无
+
+3. 远端连接
+
+	* **类型:** 单行文本
+
+	* **必须:** 是
+
+	* **说明:** 无
+	* **默认值:** Server
+
+4. nullFormat
 
 	* **类型:** 单行文本
 
@@ -5838,19 +6084,19 @@ nonConflict，如果指定路径出现前缀匹配的object，直接报错。例
 		
 		 描述：文本文件中无法使用标准字符串定义null(空指针)，DataX提供nullFormat定义哪些字符串可以表示为null。
 		 例如如果用户配置: nullFormat:"\N"，那么如果源头数据是"\N"，DataX视作null字段。默认值：\N
-		  
+		 
 	* **默认值:** 无
 
-3. compress
+5. compress
 
 	* **类型:** 单选
 
-	* **必须:** 否
+	* **必须:** 是
 
 	* **说明:** 描述：文本压缩类型，默认不填写意味着没有压缩。支持压缩类型为zip、gzip、bzip2。 
-	* **默认值:** 无
+	* **默认值:** none
 
-4. maxTraversalLevel
+6. maxTraversalLevel
 
 	* **类型:** 整型数字
 
@@ -5859,7 +6105,7 @@ nonConflict，如果指定路径出现前缀匹配的object，直接报错。例
 	* **说明:** 描述：允许遍历文件夹的最大层数。
 	* **默认值:** 无
 
-5. column
+7. column
 
 	* **类型:** 富文本
 
@@ -5898,18 +6144,10 @@ nonConflict，如果指定路径出现前缀匹配的object，直接报错。例
 		  ]
 		  ```
 		
+		
 	* **默认值:** 无
 
-6. skipHeader
-
-	* **类型:** 单选
-
-	* **必须:** 否
-
-	* **说明:** 描述：类CSV格式文件可能存在表头为标题情况，需要跳过。默认不跳过。
-	* **默认值:** 无
-
-7. encoding
+8. encoding
 
 	* **类型:** 单选
 
@@ -5918,139 +6156,11 @@ nonConflict，如果指定路径出现前缀匹配的object，直接报错。例
 	* **说明:** 描述：读取文件的编码配置。
 	* **默认值:** utf-8
 
-8. fieldDelimiter
+9. fileFormat
 
 	* **类型:** 单行文本
 
 	* **必须:** 是
-
-	* **说明:** 描述：读取的字段分隔符，可以用'\t','\001'等字符 
-	* **默认值:** ,
-
-9. timeout
-
-	* **类型:** 整型数字
-
-	* **必须:** 否
-
-	* **说明:** 描述：连接ftp服务器连接超时时间，单位毫秒。默认值：60000（1分钟）
-	* **默认值:** 60000
-
-10. path
-
-	* **类型:** 单行文本
-
-	* **必须:** 是
-
-	* **说明:** 
-		  
-		  远程FTP文件系统的路径信息，注意这里可以支持填写多个路径。
-		  
-		  当指定单个远程FTP文件，FtpReader暂时只能使用单线程进行数据抽取。二期考虑在非压缩文件情况下针对单个File可以进行多线程并发读取。
-		  
-		  当指定多个远程FTP文件，FtpReader支持使用多线程进行数据抽取。线程并发数通过通道数指定。
-		  
-		  当指定通配符，FtpReader尝试遍历出多个文件信息。例如: 指定`/*`代表读取/目录下所有的文件，指定`/bazhen/*`代表读取bazhen目录下游所有的文件。FtpReader目前只支持*作为文件通配符。
-		  
-		  特别需要注意的是，DataX会将一个作业下同步的所有Text File视作同一张数据表。用户必须自己保证所有的File能够适配同一套schema信息。读取文件用户必须保证为类CSV格式，并且提供给DataX权限可读。
-		  
-		  特别需要注意的是，如果Path指定的路径下没有符合匹配的文件抽取，DataX将报错
-		  
-	* **默认值:** 无
-
-11. password
-
-	* **类型:** 密码
-
-	* **必须:** 是
-
-	* **说明:** 描述：ftp服务器访问密码。 
-	* **默认值:** 无
-
-12. protocol
-
-	* **类型:** 单选
-
-	* **必须:** 是
-
-	* **说明:** 描述：ftp服务器协议，目前支持传输协议有ftp和sftp。 
-	* **默认值:** 无
-
-13. port
-
-	* **类型:** 整型数字
-
-	* **必须:** 否
-
-	* **说明:** 描述：ftp服务器端口。 
-	* **默认值:** 无
-
-14. host
-
-	* **类型:** 单行文本
-
-	* **必须:** 是
-
-	* **说明:** 描述：ftp服务器地址。 
-	* **默认值:** 无
-
-15. csvReaderConfig
-
-	* **类型:** 富文本
-
-	* **必须:** 否
-
-	* **说明:** 
-		
-		 描述：读取CSV类型文件参数配置，Map类型。读取CSV类型文件使用的CsvReader进行读取，会有很多配置，不配置则使用默认值。
-		 
-		 ```json
-		{ "safetySwitch": false,  
-		  "skipEmptyRecords": false,       
-		  "useTextQualifier": false} 
-		 ```
-		 所有配置项及默认值,配置时 csvReaderConfig 的map中请严格按照以下字段名字进行配置：
-		 ```java
-		 boolean caseSensitive = true;
-		 char textQualifier = 34;
-		 boolean trimWhitespace = true;
-		 boolean useTextQualifier = true;//是否使用csv转义字符
-		 char delimiter = 44;//分隔符
-		 char recordDelimiter = 0;
-		 char comment = 35;
-		 boolean useComments = false;
-		 int escapeMode = 1;
-		 boolean safetySwitch = true;//单列长度是否限制100000字符
-		 boolean skipEmptyRecords = true;//是否跳过空行
-		 boolean captureRawRecord = true;
-		 ```
-		
-	* **默认值:** 无
-
-16. username
-
-	* **类型:** 单行文本
-
-	* **必须:** 是
-
-	* **说明:** 描述：ftp服务器访问用户名。 
-	* **默认值:** 无
-
-17. 连接模式
-
-	* **类型:** 单选
-
-	* **必须:** 否
-
-	* **说明:** 
-		
-		 连接模式（主动模式或者被动模式）。该参数只在传输协议是标准ftp协议时使用，值只能为：**PORT (主动)**，**PASV（被动）**。两种模式主要的不同是数据连接建立的不同。
-		
-		 1. 对于Port模式，是客户端在本地打开一个端口等服务器去连接建立数据连接，
-		
-		 2. 而Pasv模式就是服务器打开一个端口等待客户端去建立一个数据连接。
-		    
-	* **默认值:** PASV
 
 ### com.qlangtech.tis.plugin.datax.DataXHdfsReader
 
@@ -6062,7 +6172,7 @@ nonConflict，如果指定路径出现前缀匹配的object，直接报错。例
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-datax-hdfs-reader-writer-plugin/tis-datax-hdfs-reader-writer-plugin_hadoop_2.7.3.tpi]({{< relref "./tpis/#tis-datax-hdfs-reader-writer-plugin/tis-datax-hdfs-reader-writer-plugin_hadoop_273tpi">}})
+* **插件包:** [tis-datax-hdfs-reader-writer-plugin/tis-datax-hdfs-reader-writer-plugin_hadoop_2.7.3.tpi](./tpis#tis-datax-hdfs-reader-writer-plugin/tis-datax-hdfs-reader-writer-plugin_hadoop_273tpi)
 
 * **参数说明:** 
 
@@ -6222,7 +6332,7 @@ nonConflict，如果指定路径出现前缀匹配的object，直接报错。例
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-datax-mongodb-plugin.tpi]({{< relref "./tpis/#tis-datax-mongodb-plugintpi">}})
+* **插件包:** [tis-datax-mongodb-plugin.tpi](./tpis#tis-datax-mongodb-plugintpi)
 
 * **参数说明:** 
 
@@ -6302,7 +6412,7 @@ nonConflict，如果指定路径出现前缀匹配的object，直接报错。例
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-datax-oracle-plugin.tpi]({{< relref "./tpis/#tis-datax-oracle-plugintpi">}})
+* **插件包:** [tis-datax-oracle-plugin.tpi](./tpis#tis-datax-oracle-plugintpi)
 
 * **参数说明:** 
 
@@ -6366,7 +6476,7 @@ nonConflict，如果指定路径出现前缀匹配的object，直接报错。例
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-datax-oss-plugin.tpi]({{< relref "./tpis/#tis-datax-oss-plugintpi">}})
+* **插件包:** [tis-datax-oss-plugin.tpi](./tpis#tis-datax-oss-plugintpi)
 
 * **参数说明:** 
 
@@ -6490,7 +6600,7 @@ nonConflict，如果指定路径出现前缀匹配的object，直接报错。例
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-datax-postgresql-plugin.tpi]({{< relref "./tpis/#tis-datax-postgresql-plugintpi">}})
+* **插件包:** [tis-datax-postgresql-plugin.tpi](./tpis#tis-datax-postgresql-plugintpi)
 
 * **参数说明:** 
 
@@ -6544,7 +6654,7 @@ splitPk设置为空，底层将视作用户不允许对单表进行切分，因�
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-datax-sqlserver-plugin.tpi]({{< relref "./tpis/#tis-datax-sqlserver-plugintpi">}})
+* **插件包:** [tis-datax-sqlserver-plugin.tpi](./tpis#tis-datax-sqlserver-plugintpi)
 
 * **参数说明:** 
 
@@ -6600,7 +6710,7 @@ splitPk设置为空，底层将视作用户不允许对单表进行切分，因�
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-ds-mysql-plugin.tpi]({{< relref "./tpis/#tis-ds-mysql-plugintpi">}})
+* **插件包:** [tis-ds-mysql-plugin.tpi](./tpis#tis-ds-mysql-plugintpi)
 
 * **参数说明:** 
 
@@ -6655,7 +6765,7 @@ splitPk设置为空，底层将视作用户不允许对单表进行切分，因�
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-ds-tidb-plugin.tpi]({{< relref "./tpis/#tis-ds-tidb-plugintpi">}})
+* **插件包:** [tis-ds-tidb-plugin.tpi](./tpis#tis-ds-tidb-plugintpi)
 
 * **参数说明:** 
 
@@ -6686,7 +6796,126 @@ splitPk设置为空，底层将视作用户不允许对单表进行切分，因�
 	* **说明:** 无
 	* **默认值:** 无
 
-## 扩展点:com.qlangtech.tis.async.message.client.consumer.impl.AbstractAsyncMsgDeserialize
+## com.qlangtech.tis.plugins.incr.flink.chunjun.offset.StartLocation
+
+### com.qlangtech.tis.plugins.incr.flink.chunjun.offset.ScanAll
+
+* **显示名:** Initial 
+
+* **全路径名:** [com.qlangtech.tis.plugins.incr.flink.chunjun.offset.ScanAll](https://github.com/qlangtech/plugins/tree/master/tis-incr/tis-chunjun-base-plugin/src/main/java/com/qlangtech/tis/plugins/incr/flink/chunjun/offset/ScanAll.java) 
+
+* **费用:** `社区版(免费)`
+
+* **插件包:** [tis-chunjun-base-plugin.tpi](./tpis#tis-chunjun-base-plugintpi)
+
+### com.qlangtech.tis.plugins.incr.flink.chunjun.offset.DesignatedLocation
+
+* **显示名:** Designated 
+
+* **全路径名:** [com.qlangtech.tis.plugins.incr.flink.chunjun.offset.DesignatedLocation](https://github.com/qlangtech/plugins/tree/master/tis-incr/tis-chunjun-base-plugin/src/main/java/com/qlangtech/tis/plugins/incr/flink/chunjun/offset/DesignatedLocation.java) 
+
+* **费用:** `社区版(免费)`
+
+* **插件包:** [tis-chunjun-base-plugin.tpi](./tpis#tis-chunjun-base-plugintpi)
+
+* **参数说明:** 
+
+1. startLocation
+
+	* **类型:** 单行文本
+
+	* **必须:** 是
+
+	* **说明:** 增量查询起始位置
+	* **默认值:** 无
+
+### com.qlangtech.tis.plugins.incr.flink.chunjun.offset.LatestLocation
+
+* **显示名:** Latest 
+
+* **全路径名:** [com.qlangtech.tis.plugins.incr.flink.chunjun.offset.LatestLocation](https://github.com/qlangtech/plugins/tree/master/tis-incr/tis-chunjun-base-plugin/src/main/java/com/qlangtech/tis/plugins/incr/flink/chunjun/offset/LatestLocation.java) 
+
+* **费用:** `社区版(免费)`
+
+* **插件包:** [tis-chunjun-base-plugin.tpi](./tpis#tis-chunjun-base-plugintpi)
+
+## com.qlangtech.tis.plugin.datax.format.FileFormat
+
+### com.qlangtech.tis.plugin.datax.format.TextFormat
+
+* **显示名:** TEXT 
+
+* **全路径名:** [com.qlangtech.tis.plugin.datax.format.TextFormat](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-ftp-plugin/src/main/java/com/qlangtech/tis/plugin/datax/format/TextFormat.java) 
+
+* **费用:** `社区版(免费)`
+
+* **插件包:** [tis-datax-ftp-plugin.tpi](./tpis#tis-datax-ftp-plugintpi)
+
+* **参数说明:** 
+
+1. header
+
+	* **类型:** 单选
+
+	* **必须:** 否
+
+	* **说明:** 描述：txt写出时的表头，是否在文件头将key写入
+	* **默认值:** true
+
+2. fieldDelimiter
+
+	* **类型:** 单选
+
+	* **必须:** 是
+
+	* **说明:** 描述：读取的字段分隔符，可以用'\t','\001'等字符 
+	* **默认值:** comma
+
+### com.qlangtech.tis.plugin.datax.format.CSVFormat
+
+* **显示名:** CSV 
+
+* **全路径名:** [com.qlangtech.tis.plugin.datax.format.CSVFormat](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-ftp-plugin/src/main/java/com/qlangtech/tis/plugin/datax/format/CSVFormat.java) 
+
+* **费用:** `社区版(免费)`
+
+* **插件包:** [tis-datax-ftp-plugin.tpi](./tpis#tis-datax-ftp-plugintpi)
+
+* **参数说明:** 
+
+1. csvReaderConfig
+
+	* **类型:** 富文本
+
+	* **必须:** 否
+
+	* **说明:** 
+		
+		 描述：读取CSV类型文件参数配置，Map类型。读取CSV类型文件使用的CsvReader进行读取，会有很多配置，不配置则使用默认值。
+		 
+		 ```json
+		{ "safetySwitch": false,  
+		  "skipEmptyRecords": false,       
+		  "useTextQualifier": false} 
+		 ```
+		 所有配置项及默认值,配置时 csvReaderConfig 的map中请严格按照以下字段名字进行配置：
+		 ```java
+		 boolean caseSensitive = true;
+		 char textQualifier = 34;
+		 boolean trimWhitespace = true;
+		 boolean useTextQualifier = true;//是否使用csv转义字符
+		 char delimiter = 44;//分隔符
+		 char recordDelimiter = 0;
+		 char comment = 35;
+		 boolean useComments = false;
+		 int escapeMode = 1;
+		 boolean safetySwitch = true;//单列长度是否限制100000字符
+		 boolean skipEmptyRecords = true;//是否跳过空行
+		 boolean captureRawRecord = true;
+		 ```
+	* **默认值:** 无
+
+## com.qlangtech.tis.async.message.client.consumer.impl.AbstractAsyncMsgDeserialize
 
 ### com.qlangtech.async.message.client.to.impl.DefaultJSONFormatDeserialize
 
@@ -6696,9 +6925,9 @@ splitPk设置为空，底层将视作用户不允许对单表进行切分，因�
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-asyncmsg-rocketmq-plugin.tpi]({{< relref "./tpis/#tis-asyncmsg-rocketmq-plugintpi">}})
+* **插件包:** [tis-asyncmsg-rocketmq-plugin.tpi](./tpis#tis-asyncmsg-rocketmq-plugintpi)
 
-## 扩展点:com.qlangtech.plugins.incr.flink.launch.RestartStrategyFactory
+## com.qlangtech.plugins.incr.flink.launch.RestartStrategyFactory
 
 ### com.qlangtech.plugins.incr.flink.launch.restart.FixedDelay
 
@@ -6708,7 +6937,7 @@ splitPk设置为空，底层将视作用户不允许对单表进行切分，因�
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-realtime-flink.tpi]({{< relref "./tpis/#tis-realtime-flinktpi">}})
+* **插件包:** [tis-realtime-flink.tpi](./tpis#tis-realtime-flinktpi)
 
 * **参数说明:** 
 
@@ -6742,7 +6971,7 @@ splitPk设置为空，底层将视作用户不允许对单表进行切分，因�
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-realtime-flink.tpi]({{< relref "./tpis/#tis-realtime-flinktpi">}})
+* **插件包:** [tis-realtime-flink.tpi](./tpis#tis-realtime-flinktpi)
 
 * **参数说明:** 
 
@@ -6810,7 +7039,7 @@ splitPk设置为空，底层将视作用户不允许对单表进行切分，因�
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-realtime-flink.tpi]({{< relref "./tpis/#tis-realtime-flinktpi">}})
+* **插件包:** [tis-realtime-flink.tpi](./tpis#tis-realtime-flinktpi)
 
 * **参数说明:** 
 
@@ -6856,5 +7085,5 @@ splitPk设置为空，底层将视作用户不允许对单表进行切分，因�
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-realtime-flink.tpi]({{< relref "./tpis/#tis-realtime-flinktpi">}})
+* **插件包:** [tis-realtime-flink.tpi](./tpis#tis-realtime-flinktpi)
 

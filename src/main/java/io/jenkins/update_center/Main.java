@@ -309,21 +309,16 @@ public class Main {
                 appendRichMdContent(pluginList, 1, excerpt);
             }
 
-
-            //latest.getScmUrl();
             pluginList.append("* **扩展列表：** \n\n");
             for (Map.Entry<String, List<String>> e : latest.getExtendpoints().entrySet()) {
                 extendImpls = extendPoints.get(e.getKey());
-                pluginList.append("\t* [").append(e.getKey()).append("]({{< relref \"./plugins/#扩展点")
-                        .append(getExtendPointHtmlAnchor(e.getKey())).append("\">}})\n\n");
+                pluginList.append("\t* [").append(e.getKey()).append("](./plugins#").append(getExtendPointHtmlAnchor(e.getKey())).append(")\n\n");
                 if (extendImpls == null) {
                     extendImpls = Lists.newArrayList();
                     extendPoints.put(e.getKey(), extendImpls);
                 }
                 extendImpls.addAll(e.getValue().stream().map((impl) -> {
                     PluginExtendsionImpl eimpl = new PluginExtendsionImpl(impl, plugin.getLatest());
-                    //pluginList.append("\t\t * [").append(impl).append("]({{< relref \"./plugins/#").append(eimpl.getHtmlAnchor()).append("\">}})\n\n");
-
                     pluginList.append("\t\t * ");
                     eimpl.appendExtendImplMDSsript(pluginList);
                     pluginList.append("\n\n");
@@ -332,7 +327,7 @@ public class Main {
             }
         }
 
-
+        // tpis.mdx
         FileUtils.write(new File(www, PLUGIN_TPIS_MARK_DOWN_FILENAME)
                 , (new MarkdownBuilder("header-tpis.txt", pluginList)).build(), TisUTF8.get());
 
@@ -341,7 +336,7 @@ public class Main {
         PluginFormProperties pluginFormPropertyTypes = null;
         for (Map.Entry<String, List<PluginExtendsionImpl>> e : extendPoints.entrySet()) {
             System.out.println(e.getKey());
-            extendsList.append("## 扩展点:").append(e.getKey()).append("\n\n");
+            extendsList.append("## ").append(e.getKey()).append("\n\n");
 
             for (PluginExtendsionImpl extendImpl : e.getValue()) {
 
@@ -361,7 +356,7 @@ public class Main {
                 }
                 extendsList.append("* **费用:** `社区版(免费)`").append("\n\n");
                 extendsList.append("* **插件包:** [").append(extendImpl.getArchiveFileName())
-                        .append("]({{< relref \"./tpis/#").append(extendImpl.getArchiveFileNameHtmlAnchor()).append("\">}})").append("\n\n");
+                        .append("](./tpis#").append(extendImpl.getArchiveFileNameHtmlAnchor()).append(")").append("\n\n");
 //                md.append("* 费用:");
 //                md.append("* 版本:");
 //                md.append("* 包大小:");
@@ -424,11 +419,13 @@ public class Main {
             }
         }
 
-        MarkdownBuilder tabView = new MarkdownBuilder(
-                "header-source-sink.txt", this.drawEndTypePluginTableView(extendPoints));
+        final MarkdownBuilder tabView = new MarkdownBuilder(
+                "header-source-sink.txt"
+                , this.drawEndTypePluginTableView(extendPoints)
+                , Optional.of("footer-source-sink.txt"));
 
         FileUtils.write(new File(www, PLUGIN_TABVIEW_MARK_DOWN_FILENAME), tabView.build(), TisUTF8.get());
-
+        // plugins.mdx
         FileUtils.write(new File(www, PLUGIN_DESC_MARK_DOWN_FILENAME)
                 , (new MarkdownBuilder("header-plugins.txt", extendsList)).build(), TisUTF8.get());
 
@@ -503,7 +500,6 @@ public class Main {
         }
 
         StringBuffer validateMsg = new StringBuffer();
-        // 校验 DataX（reader/writer）的isSupportIncr返回是否正确
         for (Map.Entry<IEndTypeGetter.EndType, EndTypePluginStore> entry
                 : endTypePluginDescs.snapshot().entrySet()) {
 
@@ -518,7 +514,7 @@ public class Main {
         IEndTypeGetter.EndType endType = null;
         EndTypePluginStore store = null;
         StringBuffer tabView = new StringBuffer();
-        tabView.append("<table style='width:100%; display:table;'  border='1'>\n");
+        tabView.append("<table style={{width: '100%', display: 'table'}}  border='1'>\n");
         tabView.append("<thead>");
         tabView.append("<tr><th rowspan='2'>类型</th><th colspan='2'>批量(DataX)</th><th colspan='2'>实时</th></tr>\n");
         tabView.append("<tr><th width='20%'>读</th><th width='20%'>写</th><th width='20%'>Source</th><th width='20%'>Sink</th></tr>\n");
@@ -529,7 +525,7 @@ public class Main {
             endType = entry.getKey();
             store = entry.getValue();
             tabView.append("<tr>\n");
-            tabView.append("<td class='endtype-name'>").append(endType.getVal()).append("</td>");
+            tabView.append("<td class='endtype-name").append("'>").append(endType.name()).append("</td>");
             drawPluginCell(tabView, store.dataXReaders);
             drawPluginCell(tabView, store.dataXWriters);
             drawPluginCell(tabView, store.incrSources);
@@ -540,12 +536,14 @@ public class Main {
         tabView.append("</tbody>");
         tabView.append("\n</table>");
 
-        StringBuffer script = new StringBuffer("* 提供者: ");
-        venderColor.snapshot().forEach((key, color) -> {
-            buildPluginLink(script, color, (buffer) -> {
-                buffer.append("[").append(key.getName()).append("](").append(key.getUrl()).append(")");
+        StringBuffer script = new StringBuffer("<p><strong>Provider:</strong> ");
+
+        for (IEndTypeGetter.PluginVender vender : IEndTypeGetter.PluginVender.values()) {
+            buildPluginLink(script, vender, (buffer) -> {
+                buffer.append("<a target='_blank' href='").append(vender.getUrl()).append("'>").append(vender.getName()).append("</a>");
             });
-        });
+        }
+        script.append("</p>");
         return script.append("\n\n").append(tabView);
     }
 
@@ -565,18 +563,18 @@ public class Main {
         func.apply(endTypePluginDescs.get(endTypeGetter.getEndType())).add(Pair.of(endTypeGetter, pluginDesc));
     }
 
-    private static final String CHECK_ICON = "<i class=\"fa fa-check fa-3x\" style=\"color: #1aad19\" aria-hidden=\"true\"></i>";
+    private static final String CHECK_ICON = "<i className={clsx('tis-check')}></i>";
 
     final static String[] colors = new String[]{"tomato", "orange", "dodgerblue", "MediumSeaGreen", "Gray", "SlateBlue", "Violet", "LightGray"};
 
-    private Memoizer<IEndTypeGetter.PluginVender, String> venderColor = new Memoizer<IEndTypeGetter.PluginVender, String>() {
-        int index = 0;
-
-        @Override
-        public String compute(IEndTypeGetter.PluginVender key) {
-            return colors[index++];
-        }
-    };
+//    private Memoizer<IEndTypeGetter.PluginVender, String> venderColor = new Memoizer<IEndTypeGetter.PluginVender, String>() {
+//        int index = 0;
+//
+//        @Override
+//        public String compute(IEndTypeGetter.PluginVender key) {
+//            return colors[index++];
+//        }
+//    };
 
     private void drawPluginCell(StringBuffer tabView, List<Pair<IEndTypeGetter, Descriptor>> plugins) {
         tabView.append("<td>");
@@ -586,28 +584,18 @@ public class Main {
         }
         final int[] index = new int[]{1};
 
-        //Descriptor desc = null;
         for (Pair<IEndTypeGetter, Descriptor> p : plugins) {
-            //desc = p.getRight();
-
-//            tabView.append("<i class='plugin-link' style='background-color:" + venderColor.get(p.getLeft().getVender()) + "'>");
-//            eimpl.appendExtendImplMDSsript(String.valueOf(index++), true, tabView);
-//            tabView.append("</i>");
-
-            buildPluginLink(tabView, venderColor.get(p.getLeft().getVender()), (s) -> {
+            buildPluginLink(tabView, p.getLeft().getVender(), (s) -> {
                 PluginExtendsionImpl eimpl = null;
                 eimpl = new PluginExtendsionImpl(p.getRight().clazz.getName(), null);
                 eimpl.appendExtendImplMDSsript(String.valueOf(index[0]++), true, s);
             });
-
-            // tabView.append("<i>[").append(index++).append("]").append("()</i>");
         }
         tabView.append("</td>");
     }
 
-    private void buildPluginLink(StringBuffer script, String color, Consumer<StringBuffer> titleAppender) {
-        script.append("<i class='plugin-link' style='background-color:" + color + "'>");
-        //eimpl.appendExtendImplMDSsript(String.valueOf(index++), true, tabView);
+    private void buildPluginLink(StringBuffer script, IEndTypeGetter.PluginVender vender, Consumer<StringBuffer> titleAppender) {
+        script.append("<i className='plugin-link ").append(vender.getTokenId()).append("-color'>");
         titleAppender.accept(script);
         script.append("</i>");
     }
@@ -617,6 +605,13 @@ public class Main {
         List<Pair<IEndTypeGetter, Descriptor>> dataXWriters = Lists.newArrayList();
         List<Pair<IEndTypeGetter, Descriptor>> incrSources = Lists.newArrayList();
         List<Pair<IEndTypeGetter, Descriptor>> incrSinks = Lists.newArrayList();
+
+//        public final boolean isChecked() {
+//            return CollectionUtils.isNotEmpty(dataXReaders)
+//                    || CollectionUtils.isNotEmpty(dataXWriters)
+//                    || CollectionUtils.isNotEmpty(incrSources)
+//                    || CollectionUtils.isNotEmpty(incrSinks);
+//        }
     }
 
     private String getExtendPointHtmlAnchor(String key) {
@@ -674,14 +669,13 @@ public class Main {
         public void appendExtendImplMDSsript(String linkTitle, boolean html, StringBuffer md) {
 
             if (html) {
-                md.append("<a target='_blank' href='").append("{{$pt}}/plugins/#").append(this.getHtmlAnchor()).append("'>").append(linkTitle).append("</a>");
+                md.append("<Link to={plugins.metadata.permalink+'").append("#").append(this.getHtmlAnchor()).append("'}>").append(linkTitle).append("</Link>");
             } else {
-                md.append("[").append(linkTitle).append("]({{< relref \"./plugins/#").append(this.getHtmlAnchor()).append("\">}})");
+                md.append("[").append(linkTitle).append("](./plugins#").append(this.getHtmlAnchor()).append(")");
             }
         }
 
         public void appendExtendImplMDSsript(StringBuffer md) {
-            //md.append("[").append(extendImpl).append("]({{< relref \"./plugins/#").append(this.getHtmlAnchor()).append("\">}})");
             appendExtendImplMDSsript(extendImpl, false, md);
         }
 
@@ -814,9 +808,9 @@ public class Main {
     private static final String UPDATE_CENTER_ACTUAL_JSON_FILENAME = "update-center.actual.json";
     private static final String UPDATE_CENTER_JSON_HTML_FILENAME = "update-center.json.html";
     private static final String PLUGIN_DOCUMENTATION_URLS_JSON_FILENAME = "plugin-documentation-urls.json";
-    private static final String PLUGIN_DESC_MARK_DOWN_FILENAME = "plugins.md";
-    private static final String PLUGIN_TABVIEW_MARK_DOWN_FILENAME = "support-source-sink.html";
-    private static final String PLUGIN_TPIS_MARK_DOWN_FILENAME = "tpis.md";
+    private static final String PLUGIN_DESC_MARK_DOWN_FILENAME = "plugins.mdx";
+    private static final String PLUGIN_TABVIEW_MARK_DOWN_FILENAME = "source-sink-table.js";
+    private static final String PLUGIN_TPIS_MARK_DOWN_FILENAME = "tpis.mdx";
     private static final String PLUGIN_VERSIONS_JSON_FILENAME = "plugin-versions.json";
     private static final String RELEASE_HISTORY_JSON_FILENAME = "release-history.json";
     private static final String RECENT_RELEASES_JSON_FILENAME = "recent-releases.json";

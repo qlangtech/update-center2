@@ -3,5 +3,9 @@ title: TIS插件包列表
 linktitle: TIS插件包列表
 date: 2022-09-11
 type: book
-weight : 10
+sidebar_position: 2
 ---
+
+import TOCInline from '@theme/TOCInline';
+
+<TOCInline toc={toc} />

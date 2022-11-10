@@ -1,1 +1,7 @@
-{{- $pt := .Get 0 -}}
+import React from 'react';
+import clsx from "clsx";
+import Link from '@docusaurus/Link';
+
+export default function SourceSinkTable() {
+    let plugins = require('./plugins.mdx');
+    return ( <div>
