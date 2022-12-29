@@ -75,6 +75,8 @@ import java.util.logging.ConsoleHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 /**
@@ -622,11 +624,23 @@ public class Main {
         return StringUtils.lowerCase(StringUtils.remove(key, "."));
     }
 
+    private static Pattern MARKDOWN_LINK = Pattern.compile("\\[(.+)\\]\\((.+)\\)");
+
     private void appendRichMdContent(StringBuffer extendsList, int indent, String content) throws IOException {
         try (StringReader mdReader = new StringReader(content)) {
             for (String line : IOUtils.readLines(mdReader)) {
                 for (int i = 0; i < indent; i++) {
                     extendsList.append("\t");
+                }
+                // 需要将文档中 有如下链接 [xxx](/base/ddd) 需要转化成[xxx](.) 这样文档在编译时候才不会出错
+                Matcher match = MARKDOWN_LINK.matcher(line);
+                String link = null;
+                if (match.find()) {
+                    link = match.group(2);
+                    if (!StringUtils.startsWith(link, "http")) {
+                        link = ".";
+                    }
+                    line = match.replaceAll("[$1](" + link + ")");
                 }
                 extendsList.append(line).append("\n");
             }
