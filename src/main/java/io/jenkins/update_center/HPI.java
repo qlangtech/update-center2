@@ -26,9 +26,13 @@ package io.jenkins.update_center;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import com.qlangetch.tis.AbstractTISRepository;
-import com.qlangtech.tis.maven.plugins.tpi.PluginClassifier;
+import com.qlangtech.tis.TIS;
+import com.qlangtech.tis.extension.Descriptor;
 import com.qlangtech.tis.extension.util.VersionNumber;
+import com.qlangtech.tis.maven.plugins.tpi.PluginClassifier;
+import com.qlangtech.tis.plugin.IEndTypeGetter;
 import io.jenkins.update_center.util.JavaSpecificationVersion;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
@@ -50,6 +54,7 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 /**
@@ -203,6 +208,24 @@ public class HPI extends MavenArtifact {
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public Set<String> getEndTypes() {
+        Set<IEndTypeGetter.EndType> endTypes = Sets.newHashSet();
+        Descriptor desc = null;
+        for (Map.Entry<String, List<String>> entry : this.getExtendpoints().entrySet()) {
+            for (String extendImpl : entry.getValue()) {
+                try {
+                    desc = TIS.get().getDescriptor(extendImpl);
+                    if (desc instanceof IEndTypeGetter) {
+                        endTypes.add(((IEndTypeGetter) desc).getEndType());
+                    }
+                } catch (Throwable e) {
+                    throw new RuntimeException(desc.clazz.getName(), e);
+                }
+            }
+        }
+        return endTypes.stream().map((type) -> type.getVal()).collect(Collectors.toSet());
     }
 
     public String getDescription() throws IOException {

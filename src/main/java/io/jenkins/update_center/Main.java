@@ -39,7 +39,9 @@ import com.qlangtech.tis.extension.model.UpdateCenter;
 import com.qlangtech.tis.extension.util.PluginExtraProps;
 import com.qlangtech.tis.extension.util.VersionNumber;
 import com.qlangtech.tis.manage.common.TisUTF8;
+import com.qlangtech.tis.plugin.IDataXEndTypeGetter;
 import com.qlangtech.tis.plugin.IEndTypeGetter;
+import com.qlangtech.tis.plugin.IPluginVenderGetter;
 import com.qlangtech.tis.plugin.annotation.FormField;
 import com.qlangtech.tis.plugin.annotation.Validator;
 import com.qlangtech.tis.plugin.incr.TISSinkFactory;
@@ -342,14 +344,14 @@ public class Main {
 
             for (PluginExtendsionImpl extendImpl : e.getValue()) {
 
-                descriptor = extendImpl.getDesc();// TIS.get().getDescriptor(extendImpl.extendImpl);
+                descriptor = extendImpl.getDesc();
                 if (descriptor != null) {
                     extendsList.append("### ").append(descriptor.clazz.getName()).append("\n\n");
                     extendsList.append("* **显示名:** ").append(descriptor.getDisplayName()).append(" \n\n");
                     extendsList.append("* **全路径名:** [").append(extendImpl.extendImpl).append("](").append(extendImpl.getExtendImplURL()).append(") \n\n");
-                    if (descriptor instanceof IEndTypeGetter) {
-                        IEndTypeGetter endType = (IEndTypeGetter) descriptor;
-                        IEndTypeGetter.PluginVender vender = endType.getVender();
+                    if (descriptor instanceof IPluginVenderGetter) {
+                        IPluginVenderGetter endType = (IPluginVenderGetter) descriptor;
+                        IPluginVenderGetter.PluginVender vender = endType.getVender();
                         extendsList.append("* **提供者:** [").append(vender.getName()).append("](").append(vender.getUrl()).append(") \n\n");
                     }
 
@@ -480,12 +482,12 @@ public class Main {
                 }
 
                 if (DataxReader.class.isAssignableFrom(pluginDesc.clazz)) {
-                    addToEndTypeStore(endTypePluginDescs, pluginDesc, (store) -> store.dataXReaders);
+                    addToEndTypeStore(endTypePluginDescs, pluginDesc, (store) -> store.convertDataXReaders());
                     continue;
                 }
 
                 if (DataxWriter.class.isAssignableFrom(pluginDesc.clazz)) {
-                    addToEndTypeStore(endTypePluginDescs, pluginDesc, (store) -> store.dataXWriters);
+                    addToEndTypeStore(endTypePluginDescs, pluginDesc, (store) -> store.convertDataXWriters());
                     continue;
                 }
 
@@ -528,8 +530,8 @@ public class Main {
             store = entry.getValue();
             tabView.append("<tr>\n");
             tabView.append("<td class='endtype-name").append("'>").append(endType.name()).append("</td>");
-            drawPluginCell(tabView, store.dataXReaders);
-            drawPluginCell(tabView, store.dataXWriters);
+            drawPluginCell(tabView, store.convertDataXReaders());
+            drawPluginCell(tabView, store.convertDataXWriters());
             drawPluginCell(tabView, store.incrSources);
             drawPluginCell(tabView, store.incrSinks);
 
@@ -540,7 +542,7 @@ public class Main {
 
         StringBuffer script = new StringBuffer("<p><strong>Provider:</strong> ");
 
-        for (IEndTypeGetter.PluginVender vender : IEndTypeGetter.PluginVender.values()) {
+        for (IPluginVenderGetter.PluginVender vender : IPluginVenderGetter.PluginVender.values()) {
             buildPluginLink(script, vender, (buffer) -> {
                 buffer.append("<a target='_blank' href='").append(vender.getUrl()).append("'>").append(vender.getName()).append("</a>");
             });
@@ -549,20 +551,24 @@ public class Main {
         return script.append("\n\n").append(tabView);
     }
 
-    private void validateBatchIncrEndMatch(StringBuffer validateMsg, List<Pair<IEndTypeGetter, Descriptor>> batchs, List<Pair<IEndTypeGetter, Descriptor>> incrs) {
-        for (Pair<IEndTypeGetter, Descriptor> p : batchs) {
+    private void validateBatchIncrEndMatch(StringBuffer validateMsg
+            , List<Pair<IDataXEndTypeGetter, Descriptor>> batchs, List<Pair<IPluginVenderGetter, Descriptor>> incrs) {
+        for (Pair<IDataXEndTypeGetter, Descriptor> p : batchs) {
             if (p.getLeft().isSupportIncr() ^ CollectionUtils.isNotEmpty(incrs)) {
-                validateMsg.append(p.getRight().clazz.getName()).append(",supportIncr:").append(p.getLeft().isSupportIncr()).append(",incr end size:" + incrs.size()).append("\n");
+                validateMsg.append(p.getRight().clazz.getName())
+                        .append(",supportIncr:").append(p.getLeft().isSupportIncr())
+                        .append(",incr end size:" + incrs.size()).append("\n");
             }
         }
     }
 
     private void addToEndTypeStore(Memoizer<IEndTypeGetter.EndType, EndTypePluginStore> endTypePluginDescs
-            , Descriptor pluginDesc, Function<EndTypePluginStore, List<Pair<IEndTypeGetter, Descriptor>>> func) {
-        IEndTypeGetter endTypeGetter;
-        endTypeGetter = (IEndTypeGetter) pluginDesc;
+            , Descriptor pluginDesc, Function<EndTypePluginStore, List<Pair<IPluginVenderGetter, Descriptor>>> func) {
+        IPluginVenderGetter endTypeGetter;
+        endTypeGetter = (IPluginVenderGetter) pluginDesc;
 
-        func.apply(endTypePluginDescs.get(endTypeGetter.getEndType())).add(Pair.of(endTypeGetter, pluginDesc));
+        func.apply(endTypePluginDescs.get(endTypeGetter.getEndType()))
+                .add(Pair.of(endTypeGetter, pluginDesc));
     }
 
     private static final String CHECK_ICON = "<i className={clsx('tis-check')}></i>";
@@ -578,7 +584,8 @@ public class Main {
 //        }
 //    };
 
-    private void drawPluginCell(StringBuffer tabView, List<Pair<IEndTypeGetter, Descriptor>> plugins) {
+
+    private void drawPluginCell(StringBuffer tabView, List<Pair<IPluginVenderGetter, Descriptor>> plugins) {
         tabView.append("<td>");
 
         if (CollectionUtils.isNotEmpty(plugins)) {
@@ -586,7 +593,7 @@ public class Main {
         }
         final int[] index = new int[]{1};
 
-        for (Pair<IEndTypeGetter, Descriptor> p : plugins) {
+        for (Pair<IPluginVenderGetter, Descriptor> p : plugins) {
             buildPluginLink(tabView, p.getLeft().getVender(), (s) -> {
                 PluginExtendsionImpl eimpl = null;
                 eimpl = new PluginExtendsionImpl(p.getRight().clazz.getName(), null);
@@ -596,17 +603,32 @@ public class Main {
         tabView.append("</td>");
     }
 
-    private void buildPluginLink(StringBuffer script, IEndTypeGetter.PluginVender vender, Consumer<StringBuffer> titleAppender) {
+    private void buildPluginLink(StringBuffer script, IPluginVenderGetter.PluginVender vender, Consumer<StringBuffer> titleAppender) {
         script.append("<i className='plugin-link ").append(vender.getTokenId()).append("-color'>");
         titleAppender.accept(script);
         script.append("</i>");
     }
 
     private static class EndTypePluginStore {
-        List<Pair<IEndTypeGetter, Descriptor>> dataXReaders = Lists.newArrayList();
-        List<Pair<IEndTypeGetter, Descriptor>> dataXWriters = Lists.newArrayList();
-        List<Pair<IEndTypeGetter, Descriptor>> incrSources = Lists.newArrayList();
-        List<Pair<IEndTypeGetter, Descriptor>> incrSinks = Lists.newArrayList();
+        List<Pair<IDataXEndTypeGetter, Descriptor>> dataXReaders = Lists.newArrayList();
+        List<Pair<IDataXEndTypeGetter, Descriptor>> dataXWriters = Lists.newArrayList();
+        List<Pair<IPluginVenderGetter, Descriptor>> incrSources = Lists.newArrayList();
+        List<Pair<IPluginVenderGetter, Descriptor>> incrSinks = Lists.newArrayList();
+
+        List<Pair<IPluginVenderGetter, Descriptor>> convertDataXReaders() {
+            return this.convert(this.dataXReaders);
+        }
+
+        List<Pair<IPluginVenderGetter, Descriptor>> convertDataXWriters() {
+            return this.convert(this.dataXWriters);
+        }
+
+
+        private List<Pair<IPluginVenderGetter, Descriptor>> convert(List<Pair<IDataXEndTypeGetter, Descriptor>> dataxComponents) {
+            return dataxComponents.stream()
+                    .map((pair) -> Pair.of((IPluginVenderGetter) pair.getLeft(), pair.getRight())).collect(Collectors.toList());
+        }
+
 
 //        public final boolean isChecked() {
 //            return CollectionUtils.isNotEmpty(dataXReaders)
@@ -662,7 +684,8 @@ public class Main {
             try {
                 final String scmUrl = hpi.getScmUrl();
                 boolean endWithSlash = StringUtils.endsWith(scmUrl, "/");
-                return scmUrl + (endWithSlash ? StringUtils.EMPTY : "/") + "src/main/java/" + StringUtils.replace(extendImpl, ".", "/") + ".java";
+                return scmUrl + (endWithSlash ? StringUtils.EMPTY : "/") + "src/main/java/"
+                        + StringUtils.replace(extendImpl, ".", "/") + ".java";
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }

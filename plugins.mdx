@@ -61,7 +61,7 @@ import TOCInline from '@theme/TOCInline';
 
 	* **必须:** 是
 
-	* **说明:** aliyun服务的accessId
+	* **说明:** aliyun服务的accessId，用在私有云环境下，例如自建Elasticsearch，服务端如不需要连接凭证，则该项可为空
 	* **默认值:** 无
 
 2. 密码
@@ -70,7 +70,7 @@ import TOCInline from '@theme/TOCInline';
 
 	* **必须:** 是
 
-	* **说明:** aliyun服务的accessKeySecret
+	* **说明:** aliyun服务的accessKeySecret，用在私有云环境下，例如自建Elasticsearch，服务端如不需要连接凭证，则该项可为空
 	* **默认值:** 无
 
 ### com.qlangtech.tis.plugin.aliyun.NoneToken
@@ -132,6 +132,12 @@ import TOCInline from '@theme/TOCInline';
 
 	* **说明:** 无
 	* **默认值:** 无
+
+### com.qlangtech.tis.plugin.datax.DataFlowDataXProcessor
+
+* **费用:** `社区版(免费)`
+
+* **插件包:** [tis-datax-common-plugin.tpi](./tpis#tis-datax-common-plugintpi)
 
 ## com.qlangtech.plugins.incr.flink.launch.CheckpointFactory
 
@@ -333,11 +339,14 @@ import TOCInline from '@theme/TOCInline';
 	* **说明:** Server的EndPoint地址，例如http://oss.aliyuncs.com
 	* **默认值:** http://oss.aliyuncs.com
 
-2. authToken
+2. 认证方式
 
 	* **类型:** 单行文本
 
 	* **必须:** 否
+
+	* **说明:** 无
+	* **默认值:** none
 
 3. name
 
@@ -366,7 +375,7 @@ import TOCInline from '@theme/TOCInline';
 	* **说明:** Server的EndPoint地址，例如http://oss.aliyuncs.com
 	* **默认值:** http://oss.aliyuncs.com
 
-2. authToken
+2. 认证方式
 
 	* **类型:** 单行文本
 
@@ -503,11 +512,11 @@ import TOCInline from '@theme/TOCInline';
 
 * **显示名:** HiveConn 
 
-* **全路径名:** [com.qlangtech.tis.hive.DefaultHiveConnGetter](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-hive-flat-table-builder-plugin/src/main/java/com/qlangtech/tis/hive/DefaultHiveConnGetter.java) 
+* **全路径名:** [com.qlangtech.tis.hive.DefaultHiveConnGetter](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-hive-plugin/src/main/java/com/qlangtech/tis/hive/DefaultHiveConnGetter.java) 
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-hive-flat-table-builder-plugin/tis-hive-flat-table-builder-plugin_hive_2.3.1_hadoop_2.7.3.tpi](./tpis#tis-hive-flat-table-builder-plugin/tis-hive-flat-table-builder-plugin_hive_231_hadoop_273tpi)
+* **插件包:** [tis-hive-plugin/tis-hive-plugin_hive_2.3.1_hadoop_2.7.3.tpi](./tpis#tis-hive-plugin/tis-hive-plugin_hive_231_hadoop_273tpi)
 
 * **参数说明:** 
 
@@ -775,6 +784,28 @@ import TOCInline from '@theme/TOCInline';
 	* **说明:** 增量字段，可以是对应的增量字段名
 	* **默认值:** 无
 
+## com.qlangtech.tis.plugins.incr.flink.chunjun.script.ChunjunStreamScriptType
+
+### com.qlangtech.tis.plugins.incr.flink.chunjun.script.ChunjunSqlType
+
+* **显示名:** SQL 
+
+* **全路径名:** [com.qlangtech.tis.plugins.incr.flink.chunjun.script.ChunjunSqlType](https://github.com/qlangtech/plugins/tree/master/tis-incr/tis-chunjun-base-plugin/src/main/java/com/qlangtech/tis/plugins/incr/flink/chunjun/script/ChunjunSqlType.java) 
+
+* **费用:** `社区版(免费)`
+
+* **插件包:** [tis-chunjun-base-plugin.tpi](./tpis#tis-chunjun-base-plugintpi)
+
+### com.qlangtech.tis.plugins.incr.flink.chunjun.script.StreamApiScript
+
+* **显示名:** StreamAPI 
+
+* **全路径名:** [com.qlangtech.tis.plugins.incr.flink.chunjun.script.StreamApiScript](https://github.com/qlangtech/plugins/tree/master/tis-incr/tis-chunjun-base-plugin/src/main/java/com/qlangtech/tis/plugins/incr/flink/chunjun/script/StreamApiScript.java) 
+
+* **费用:** `社区版(免费)`
+
+* **插件包:** [tis-chunjun-base-plugin.tpi](./tpis#tis-chunjun-base-plugintpi)
+
 ## com.qlangtech.tis.datax.job.DataXJobWorker
 
 ### com.qlangtech.tis.plugin.datax.K8SDataXJobWorker
@@ -964,521 +995,49 @@ import TOCInline from '@theme/TOCInline';
 		"jdbc:oracle:thin:@" + hostname + ":" + port + **"/"** + dbname
 	* **默认值:** 无
 
-## com.qlangtech.tis.plugins.incr.flink.connector.hudi.scripttype.ScriptType
-
-### com.qlangtech.tis.plugins.incr.flink.connector.hudi.scripttype.StreamApiType
-
-* **显示名:** StreamAPI 
-
-* **全路径名:** [com.qlangtech.tis.plugins.incr.flink.connector.hudi.scripttype.StreamApiType](https://github.com/qlangtech/plugins/tree/master/tis-incr/tis-sink-hudi-plugin/src/main/java/com/qlangtech/tis/plugins/incr/flink/connector/hudi/scripttype/StreamApiType.java) 
-
-* **费用:** `社区版(免费)`
-
-* **插件包:** [tis-sink-hudi-plugin/tis-sink-hudi-plugin_hudi_0.10.1_spark_2.4.4_hive_2.3.1_hadoop_2.7.3.tpi](./tpis#tis-sink-hudi-plugin/tis-sink-hudi-plugin_hudi_0101_spark_244_hive_231_hadoop_273tpi)
-
 ## com.qlangtech.tis.async.message.client.consumer.impl.MQListenerFactory
 
 ### com.qlangtech.async.message.client.consumer.RocketMQListenerFactory
-
-* **显示名:** RocketMq 
-
-* **全路径名:** [com.qlangtech.async.message.client.consumer.RocketMQListenerFactory](https://github.com/qlangtech/plugins/tree/master/tis-asyncmsg-rocketmq-plugin/src/main/java/com/qlangtech/async/message/client/consumer/RocketMQListenerFactory.java) 
-
-* **提供者:** [TIS](https://github.com/qlangtech/tis) 
 
 * **费用:** `社区版(免费)`
 
 * **插件包:** [tis-asyncmsg-rocketmq-plugin.tpi](./tpis#tis-asyncmsg-rocketmq-plugintpi)
 
-* **参数说明:** 
-
-1. ConsumeGroup
-
-	* **类型:** 单行文本
-
-	* **必须:** 是
-
-	* **说明:** 
-		 用于标示消费客户端，当消费者重启之后可以利用该标示所对应的服务端游标，重新从上次消费点消费消息
-		 
-	* **默认值:** 无
-
-2. mqTopic
-
-	* **类型:** 单行文本
-
-	* **必须:** 是
-
-3. 服务端地址
-
-	* **类型:** 单行文本
-
-	* **必须:** 是
-
-	* **说明:** 
-		
-		  通过封装[rocketmq-client](https://github.com/apache/rocketmq/tree/master/client)，消费RocketMQ中的消息。
-		  
-		  样例代码[simple-example](https://rocketmq.apache.org/docs/simple-example/)
-		  
-		  ```java
-		public class Consumer {
-		
-		    public static void main(String[] args) throws InterruptedException, MQClientException {
-		
-		        // Instantiate with specified consumer group name.
-		        DefaultMQPushConsumer consumer = new DefaultMQPushConsumer("please_rename_unique_group_name");
-		         
-		        // Specify name server addresses.
-		        consumer.setNamesrvAddr("localhost:9876");
-		        
-		        // Subscribe one more more topics to consume.
-		        consumer.subscribe("TopicTest", "*");
-		        // Register callback to execute on arrival of messages fetched from brokers.
-		        consumer.registerMessageListener(new MessageListenerConcurrently() {
-		
-		            @Override
-		            public ConsumeConcurrentlyStatus consumeMessage(List<MessageExt> msgs,
-		                ConsumeConcurrentlyContext context) {
-		                System.out.printf("%s Receive New Messages: %s %n", Thread.currentThread().getName(), msgs);
-		                return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
-		            }
-		        });
-		
-		        //Launch the consumer instance.
-		        consumer.start();
-		
-		        System.out.printf("Consumer Started.%n");
-		    }
-		}
-		  ```
-		 
-		
-	* **默认值:** 无
-
-4. 反序列化器
-
-	* **类型:** 单行文本
-
-	* **必须:** 是
-
-	* **说明:** 
-		
-		* defaultJson
-		
-		    默认反序列化方式，从MQ中读取到字节流之后通过Alibaba FastJson反序列化成[DTO对象](https://github.com/qlangtech/tis-solr/blob/master/tis-plugin/src/main/java/com/qlangtech/tis/realtime/transfer/DTO.java)
-		    
-		    
-	* **默认值:** 无
-
 ### com.qlangtech.plugins.incr.flink.cdc.mongdb.FlinkCDCMongoDBSourceFactory
-
-* **显示名:** Flink-CDC-MongoDB 
-
-* **全路径名:** [com.qlangtech.plugins.incr.flink.cdc.mongdb.FlinkCDCMongoDBSourceFactory](https://github.com/qlangtech/plugins/tree/master/tis-incr/tis-flink-cdc-mongdb-plugin/src/main/java/com/qlangtech/plugins/incr/flink/cdc/mongdb/FlinkCDCMongoDBSourceFactory.java) 
-
-* **提供者:** [FlinkCDC](https://ververica.github.io/flink-cdc-connectors) 
 
 * **费用:** `社区版(免费)`
 
 * **插件包:** [tis-flink-cdc-mongdb-plugin.tpi](./tpis#tis-flink-cdc-mongdb-plugintpi)
 
-* **参数说明:** 
-
-1. copyExistingMaxThreads
-
-	* **类型:** 整型数字
-
-	* **必须:** 否
-
-	* **说明:** 
-		
-		The number of threads to use when performing the data copy.
-		
-		Default: `Processors Count`
-		
-	* **默认值:** 无
-
-2. copyExistingPipeline
-
-	* **类型:** 富文本
-
-	* **必须:** 否
-
-	* **说明:** 
-		
-		An array of JSON objects describing the pipeline operations to run when copying existing data.
-		
-		This can improve the use of indexes by the copying manager and make copying more efficient. 
-		eg. 
-		```json
-		[{"$match": {"closed": "false"}}] 
-		```
-		ensures that only documents in which the closed field is set to false are copied.
-		
-	* **默认值:** 无
-
-3. errorsLogEnable
-
-	* **类型:** 单选
-
-	* **必须:** 否
-
-	* **说明:** 
-		
-		Whether details of failed operations should be written to the log file.
-		
-		Default: `true`
-		
-	* **默认值:** 无
-
-4. connectionOptions
-
-	* **类型:** 单行文本
-
-	* **必须:** 否
-
-	* **说明:** 
-		
-		The ampersand-separated connection options of MongoDB. eg: `replicaSet=test&connectTimeoutMS=300000`
-		
-		Default: none
-		
-	* **默认值:** 无
-
-5. copyExistingQueueSize
-
-	* **类型:** 整型数字
-
-	* **必须:** 否
-
-	* **说明:** 
-		
-		The max size of the queue to use when copying data.
-		
-		Default: `16000`
-		
-	* **默认值:** 无
-
-6. pollAwaitTimeMillis
-
-	* **类型:** 整型数字
-
-	* **必须:** 否
-
-	* **说明:** 
-		
-		The amount of time to wait before checking for new results on the change stream.
-		
-		Default: `1500`
-		
-	* **默认值:** 无
-
-7. copyExisting
-
-	* **类型:** 单选
-
-	* **必须:** 否
-
-	* **说明:** 
-		
-		Whether copy existing data from source collections.
-		
-	* **默认值:** 无
-
-8. errorsTolerance
-
-	* **类型:** 单选
-
-	* **必须:** 否
-
-	* **说明:** 
-		
-		Whether to continue processing messages if an error is encountered. 
-		Accept `none` or `all`. 
-		
-		* `none`: the connector reports an error and blocks further processing of the rest of the records when it encounters an error. 
-		
-		* `all`: the connector silently ignores any bad messages.
-		
-		Default: `none`
-		
-	* **默认值:** 无
-
-9. heartbeatIntervalMillis
-
-	* **类型:** 整型数字
-
-	* **必须:** 否
-
-	* **说明:** 
-		
-		The length of time in milliseconds between sending heartbeat messages. Use 0 to disable.
-		
-		Default: `0` 
-	* **默认值:** 无
-
-10. pollMaxBatchSize
-
-	* **类型:** 整型数字
-
-	* **必须:** 否
-
-	* **说明:** 
-		
-		Maximum number of change stream documents to include in a single batch when polling for new data.
-		
-		Default: `1000`
-		
-	* **默认值:** 无
-
 ### com.qlangtech.plugins.incr.flink.cdc.mysql.FlinkCDCMySQLSourceFactory
-
-* **显示名:** Flink-CDC-MySQL 
-
-* **全路径名:** [com.qlangtech.plugins.incr.flink.cdc.mysql.FlinkCDCMySQLSourceFactory](https://github.com/qlangtech/plugins/tree/master/tis-incr/tis-flink-cdc-mysql-plugin/src/main/java/com/qlangtech/plugins/incr/flink/cdc/mysql/FlinkCDCMySQLSourceFactory.java) 
-
-* **提供者:** [FlinkCDC](https://ververica.github.io/flink-cdc-connectors) 
 
 * **费用:** `社区版(免费)`
 
 * **插件包:** [tis-flink-cdc-mysql-plugin.tpi](./tpis#tis-flink-cdc-mysql-plugintpi)
 
-* **参数说明:** 
-
-1. startupOptions
-
-	* **类型:** 单选
-
-	* **必须:** 是
-
-	* **说明:** 
-		
-		Debezium startup options
-		
-		参数详细请参考：[https://ververica.github.io/flink-cdc-connectors/master/content/connectors/mysql-cdc.html#connector-options](https://ververica.github.io/flink-cdc-connectors/master/content/connectors/mysql-cdc.html#connector-options)
-		，[https://debezium.io/documentation/reference/1.5/connectors/mysql.html#mysql-property-snapshot-mode](https://debezium.io/documentation/reference/1.5/connectors/mysql.html#mysql-property-snapshot-mode)
-		
-		* `Initial`:
-		  Performs an initial snapshot on the monitored database tables upon first startup, and continue to read the latest binlog.
-		     
-		* `Earliest`:
-		  Never to perform snapshot on the monitored database tables upon first startup, just read from the beginning of the binlog. This should be used with care, as it is only valid when the binlog is guaranteed to contain the entire history of the database.
-		
-		* `Latest`:
-		  Never to perform snapshot on the monitored database tables upon first startup, just read from the end of the binlog which means only have the changes since the connector was started.
-		
-		     
-	* **默认值:** latest
-
 ### com.qlangtech.tis.plugins.incr.flink.connector.source.MySQLSourceFactory
-
-* **显示名:** Flink-Chunjun-MySQL 
-
-* **全路径名:** [com.qlangtech.tis.plugins.incr.flink.connector.source.MySQLSourceFactory](https://github.com/qlangtech/plugins/tree/master/tis-incr/tis-flink-chunjun-mysql-plugin/src/main/java/com/qlangtech/tis/plugins/incr/flink/connector/source/MySQLSourceFactory.java) 
-
-* **提供者:** [Chunjun](https://dtstack.github.io/chunjun) 
 
 * **费用:** `社区版(免费)`
 
 * **插件包:** [tis-flink-chunjun-mysql-plugin.tpi](./tpis#tis-flink-chunjun-mysql-plugintpi)
 
-* **参数说明:** 
-
-1. queryTimeOut
-
-	* **类型:** 整型数字
-
-	* **必须:** 是
-
-	* **说明:** 
-		
-		描述：查询超时时间，单位秒。
-		
-		注意：当数据量很大，或者从视图查询，或者自定义sql查询时，可通过此参数指定超时时间。
-		
-		必选：否
-		
-		参数类型：int
-		
-		默认值：1000
-	* **默认值:** 1000
-
-2. fetchSize
-
-	* **类型:** 整型数字
-
-	* **必须:** 是
-
-	* **说明:** 
-		
-		描述：一次性从数据库中读取多少条数据，默认一次将所有结果都读取到内存中，在数据量很大时可能会造成OOM，设置这个参数可以控制每次读取fetchSize条数据，而不是默认的把所有数据一次读取出来；开启fetchSize需要满足：数据库版本要高于5.0.2，连接参数useCursorFetch=true。
-		
-		注意：此参数的值不可设置过大，否则会读取超时，导致任务失败。
-		
-		必选：否
-		
-		参数类型：int
-		
-		默认值：1024
-		
-	* **默认值:** 1024
-
 ### com.qlangtech.plugins.incr.flink.chunjun.oracle.source.ChunjunOracleSourceFactory
-
-* **显示名:** Flink-Chunjun-Oracle 
-
-* **全路径名:** [com.qlangtech.plugins.incr.flink.chunjun.oracle.source.ChunjunOracleSourceFactory](https://github.com/qlangtech/plugins/tree/master/tis-incr/tis-flink-chunjun-oracle-plugin/src/main/java/com/qlangtech/plugins/incr/flink/chunjun/oracle/source/ChunjunOracleSourceFactory.java) 
-
-* **提供者:** [Chunjun](https://dtstack.github.io/chunjun) 
 
 * **费用:** `社区版(免费)`
 
 * **插件包:** [tis-flink-chunjun-oracle-plugin.tpi](./tpis#tis-flink-chunjun-oracle-plugintpi)
 
-* **参数说明:** 
-
-1. queryTimeOut
-
-	* **类型:** 整型数字
-
-	* **必须:** 是
-
-	* **说明:** 
-		
-		描述：查询超时时间，单位秒。
-		
-		注意：当数据量很大，或者从视图查询，或者自定义sql查询时，可通过此参数指定超时时间。
-		
-		必选：否
-		
-		参数类型：int
-		
-		默认值：1000
-	* **默认值:** 1000
-
-2. fetchSize
-
-	* **类型:** 整型数字
-
-	* **必须:** 是
-
-	* **说明:** 
-		
-		描述：一次性从数据库中读取多少条数据，默认一次将所有结果都读取到内存中，在数据量很大时可能会造成OOM，设置这个参数可以控制每次读取fetchSize条数据，而不是默认的把所有数据一次读取出来；开启fetchSize需要满足：数据库版本要高于5.0.2，连接参数useCursorFetch=true。
-		
-		注意：此参数的值不可设置过大，否则会读取超时，导致任务失败。
-		
-		必选：否
-		
-		参数类型：int
-		
-		默认值：1024
-		
-	* **默认值:** 1024
-
 ### com.qlangtech.plugins.incr.flink.chunjun.postgresql.source.ChunjunPostgreSQLSourceFactory
-
-* **显示名:** Flink-Chunjun-Postgres 
-
-* **全路径名:** [com.qlangtech.plugins.incr.flink.chunjun.postgresql.source.ChunjunPostgreSQLSourceFactory](https://github.com/qlangtech/plugins/tree/master/tis-incr/tis-flink-chunjun-postgresql-plugin/src/main/java/com/qlangtech/plugins/incr/flink/chunjun/postgresql/source/ChunjunPostgreSQLSourceFactory.java) 
-
-* **提供者:** [Chunjun](https://dtstack.github.io/chunjun) 
 
 * **费用:** `社区版(免费)`
 
 * **插件包:** [tis-flink-chunjun-postgresql-plugin.tpi](./tpis#tis-flink-chunjun-postgresql-plugintpi)
 
-* **参数说明:** 
-
-1. queryTimeOut
-
-	* **类型:** 整型数字
-
-	* **必须:** 是
-
-	* **说明:** 
-		
-		描述：查询超时时间，单位秒。
-		
-		注意：当数据量很大，或者从视图查询，或者自定义sql查询时，可通过此参数指定超时时间。
-		
-		必选：否
-		
-		参数类型：int
-		
-		默认值：1000
-	* **默认值:** 1000
-
-2. fetchSize
-
-	* **类型:** 整型数字
-
-	* **必须:** 是
-
-	* **说明:** 
-		
-		描述：一次性从数据库中读取多少条数据，默认一次将所有结果都读取到内存中，在数据量很大时可能会造成OOM，设置这个参数可以控制每次读取fetchSize条数据，而不是默认的把所有数据一次读取出来；开启fetchSize需要满足：数据库版本要高于5.0.2，连接参数useCursorFetch=true。
-		
-		注意：此参数的值不可设置过大，否则会读取超时，导致任务失败。
-		
-		必选：否
-		
-		参数类型：int
-		
-		默认值：1024
-		
-	* **默认值:** 1024
-
 ### com.qlangtech.async.message.client.kafka.TiKVKafkaMQListenerFactory
-
-* **显示名:** TiCDC-Kafka 
-
-* **全路径名:** [com.qlangtech.async.message.client.kafka.TiKVKafkaMQListenerFactory](https://github.com/qlangtech/plugins/tree/master/tis-kafka-plugin/src/main/java/com/qlangtech/async/message/client/kafka/TiKVKafkaMQListenerFactory.java) 
-
-* **提供者:** [TIS](https://github.com/qlangtech/tis) 
 
 * **费用:** `社区版(免费)`
 
 * **插件包:** [tis-kafka-plugin.tpi](./tpis#tis-kafka-plugintpi)
-
-* **参数说明:** 
-
-1. 消费端ID
-
-	* **类型:** 单行文本
-
-	* **必须:** 是
-
-	* **说明:** 无
-	* **默认值:** 无
-
-2. MQ服务端地址
-
-	* **类型:** 单行文本
-
-	* **必须:** 是
-
-	* **说明:** 无
-	* **默认值:** 无
-
-3. 偏移量策略
-
-	* **类型:** 单选
-
-	* **必须:** 是
-
-	* **说明:** 无
-	* **默认值:** 无
-
-4. 主题
-
-	* **类型:** 单行文本
-
-	* **必须:** 是
-
-	* **说明:** 无
-	* **默认值:** 无
 
 ## com.qlangtech.tis.plugin.datax.hudi.keygenerator.HudiKeyGenerator
 
@@ -1501,7 +1060,7 @@ import TOCInline from '@theme/TOCInline';
 	* **必须:** 是
 
 	* **说明:** 无
-	* **默认值:** com.qlangtech.tis.trigger.util.JsonUtil$UnCacheString@7051777c
+	* **默认值:** com.qlangtech.tis.trigger.util.JsonUtil$UnCacheString@963176
 
 2. 分区值析取
 
@@ -1596,7 +1155,7 @@ import TOCInline from '@theme/TOCInline';
 	* **必须:** 是
 
 	* **说明:** 无
-	* **默认值:** com.qlangtech.tis.trigger.util.JsonUtil$UnCacheString@2b97cc1f
+	* **默认值:** com.qlangtech.tis.trigger.util.JsonUtil$UnCacheString@3eed0f5
 
 ### com.qlangtech.tis.plugin.datax.hudi.keygenerator.impl.SimpleKeyGenerator
 
@@ -2199,6 +1758,80 @@ import TOCInline from '@theme/TOCInline';
 	* **说明:** MongoDB的用户名。【选填】
 	* **默认值:** 无
 
+### com.qlangtech.tis.plugin.datax.odps.OdpsDataSourceFactory
+
+* **显示名:** AliyunODPS 
+
+* **全路径名:** [com.qlangtech.tis.plugin.datax.odps.OdpsDataSourceFactory](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-odps-plugin/src/main/java/com/qlangtech/tis/plugin/datax/odps/OdpsDataSourceFactory.java) 
+
+* **费用:** `社区版(免费)`
+
+* **插件包:** [tis-datax-odps-plugin.tpi](./tpis#tis-datax-odps-plugintpi)
+
+* **参数说明:** 
+
+1. odpsServer
+
+	* **类型:** 单行文本
+
+	* **必须:** 是
+
+	* **说明:** 
+		 描述：ODPS的server地址，例如，线上地址为 http://service.odps.aliyun.com/api 
+		 
+		 [具体各地域Endpoint对照表](https://help.aliyun.com/document_detail/34951.html#section-f2d-51y-5db)
+	* **默认值:** 无
+
+2. useProjectTimeZone
+
+	* **类型:** 单选
+
+	* **必须:** 是
+
+	* **说明:** 是否使用MaxCompute项目空间的时区
+	* **默认值:** true
+
+3. tunnelServer
+
+	* **类型:** 单行文本
+
+	* **必须:** 是
+
+	* **说明:** 
+		
+		 ODPS的tunnelserver地址，例如，线上地址为 http://dt.odps.aliyun.com
+		 
+		 [具体各地域Endpoint对照表](https://help.aliyun.com/document_detail/34951.html#section-f2d-51y-5db)
+		
+	* **默认值:** 无
+
+4. authToken
+
+	* **类型:** 单行文本
+
+	* **必须:** 否
+
+	* **说明:** 无
+	* **默认值:** 无
+
+5. 实例ID
+
+	* **类型:** 单行文本
+
+	* **必须:** 是
+
+	* **说明:** 数据源实例名称，请起一个有意义且唯一的名称
+	* **默认值:** 无
+
+6. project
+
+	* **类型:** 单行文本
+
+	* **必须:** 是
+
+	* **说明:** 描述：ODPS表所属的project，注意:Project只能是字母+数字组合，请填写英文名称。在云端等用户看到的ODPS项目中文名只是显示名，请务必填写底层真实地Project英文标识名。
+	* **默认值:** 无
+
 ### com.qlangtech.tis.plugin.ds.oracle.OracleDataSourceFactory
 
 * **显示名:** Oracle 
@@ -2490,7 +2123,25 @@ import TOCInline from '@theme/TOCInline';
 	* **说明:** 无
 	* **默认值:** 3306
 
-4. 数据库名
+4. 表分区策略
+
+	* **类型:** 单行文本
+
+	* **必须:** 是
+
+	* **说明:** 
+		
+		如数据库中采用分表存放，可以开启此选项，默认为： `off`(不启用)
+		
+		`on`: 分表策略支持海量数据存放，每张表的数据结构需要保证相同，且有规则的后缀作为物理表的分区规则，逻辑层面视为同一张表。
+		如逻辑表`order` 对应的物理分表为：  `order_01`,`order_02`,`order_03`,`order_04`
+		
+		
+		
+		
+	* **默认值:** off
+
+5. 数据库名
 
 	* **类型:** 单行文本
 
@@ -2499,7 +2150,7 @@ import TOCInline from '@theme/TOCInline';
 	* **说明:** 数据库名,创建JDBC实例时用
 	* **默认值:** 无
 
-5. 实例ID
+6. 实例ID
 
 	* **类型:** 单行文本
 
@@ -2508,7 +2159,7 @@ import TOCInline from '@theme/TOCInline';
 	* **说明:** 数据源实例名称，请起一个有意义且唯一的名称
 	* **默认值:** 无
 
-6. 附加参数
+7. 附加参数
 
 	* **类型:** 单行文本
 
@@ -2517,7 +2168,7 @@ import TOCInline from '@theme/TOCInline';
 	* **说明:** 无
 	* **默认值:** 无
 
-7. 节点描述
+8. 节点描述
 
 	* **类型:** 富文本
 
@@ -2526,7 +2177,7 @@ import TOCInline from '@theme/TOCInline';
 	* **说明:** 无
 	* **默认值:** 无
 
-8. 传输压缩
+9. 传输压缩
 
 	* **类型:** 单选
 
@@ -2536,10 +2187,9 @@ import TOCInline from '@theme/TOCInline';
 		
 		与服务端通信时采用zlib进行压缩，效果请参考[https://blog.csdn.net/Shadow_Light/article/details/100749537](https://blog.csdn.net/Shadow_Light/article/details/100749537)
 		
-		
 	* **默认值:** true
 
-9. 用户名
+10. 用户名
 
 	* **类型:** 单行文本
 
@@ -2587,7 +2237,25 @@ import TOCInline from '@theme/TOCInline';
 	* **说明:** 无
 	* **默认值:** 3306
 
-4. 数据库名
+4. 表分区策略
+
+	* **类型:** 单行文本
+
+	* **必须:** 是
+
+	* **说明:** 
+		
+		如数据库中采用分表存放，可以开启此选项，默认为： `off`(不启用)
+		
+		`on`: 分表策略支持海量数据存放，每张表的数据结构需要保证相同，且有规则的后缀作为物理表的分区规则，逻辑层面视为同一张表。
+		如逻辑表`order` 对应的物理分表为：  `order_01`,`order_02`,`order_03`,`order_04`
+		
+		
+		
+		
+	* **默认值:** off
+
+5. 数据库名
 
 	* **类型:** 单行文本
 
@@ -2596,7 +2264,7 @@ import TOCInline from '@theme/TOCInline';
 	* **说明:** 数据库名,创建JDBC实例时用
 	* **默认值:** 无
 
-5. 实例ID
+6. 实例ID
 
 	* **类型:** 单行文本
 
@@ -2605,7 +2273,7 @@ import TOCInline from '@theme/TOCInline';
 	* **说明:** 数据源实例名称，请起一个有意义且唯一的名称
 	* **默认值:** 无
 
-6. 附加参数
+7. 附加参数
 
 	* **类型:** 单行文本
 
@@ -2614,7 +2282,7 @@ import TOCInline from '@theme/TOCInline';
 	* **说明:** 无
 	* **默认值:** 无
 
-7. 节点描述
+8. 节点描述
 
 	* **类型:** 富文本
 
@@ -2623,7 +2291,7 @@ import TOCInline from '@theme/TOCInline';
 	* **说明:** 无
 	* **默认值:** 无
 
-8. 传输压缩
+9. 传输压缩
 
 	* **类型:** 单选
 
@@ -2633,10 +2301,9 @@ import TOCInline from '@theme/TOCInline';
 		
 		与服务端通信时采用zlib进行压缩，效果请参考[https://blog.csdn.net/Shadow_Light/article/details/100749537](https://blog.csdn.net/Shadow_Light/article/details/100749537)
 		
-		
 	* **默认值:** true
 
-9. 用户名
+10. 用户名
 
 	* **类型:** 单行文本
 
@@ -2684,502 +2351,134 @@ import TOCInline from '@theme/TOCInline';
 	* **说明:** 无
 	* **默认值:** 无
 
+### com.qlangtech.tis.hive.Hiveserver2DataSourceFactory
+
+* **显示名:** Hiveserver2 
+
+* **全路径名:** [com.qlangtech.tis.hive.Hiveserver2DataSourceFactory](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-hive-plugin/src/main/java/com/qlangtech/tis/hive/Hiveserver2DataSourceFactory.java) 
+
+* **费用:** `社区版(免费)`
+
+* **插件包:** [tis-hive-plugin/tis-hive-plugin_hive_2.3.1_hadoop_2.7.3.tpi](./tpis#tis-hive-plugin/tis-hive-plugin_hive_231_hadoop_273tpi)
+
+* **参数说明:** 
+
+1. 元数据地址
+
+	* **类型:** 单行文本
+
+	* **必须:** 是
+
+	* **说明:** 
+		
+		Hive元数据服务地址，用于获取Hive中存放的表的元数据信息
+		
+		地址格式如：`thrift://{{hiveserver}}:9083`
+	* **默认值:** thrift://{{hiveserver}}:9083
+
+2. userToken
+
+	* **类型:** 单行文本
+
+	* **必须:** 是
+
+	* **说明:** 当选择为'on', 用户需要填写用户名和密码
+	* **默认值:** off
+
+3. 数据库名
+
+	* **类型:** 单行文本
+
+	* **必须:** 是
+
+	* **说明:** Hive 数据库使用的库名，请在执行任务前先创建完成
+	* **默认值:** default
+
+4. 实例ID
+
+	* **类型:** 单行文本
+
+	* **必须:** 是
+
+	* **说明:** 数据源实例名称，请起一个有意义且唯一的名称
+	* **默认值:** 无
+
+5. hiveAddress
+
+	* **类型:** 单行文本
+
+	* **必须:** 是
+
+	* **说明:** 描述：Hive Thrift Server2。格式：ip:端口；例如：127.0.0.1:9000
+	* **默认值:** {ip|host}:10000
+
 ## com.qlangtech.tis.plugin.incr.TISSinkFactory
 
 ### com.qlangtech.plugins.incr.flink.chunjun.clickhouse.sink.ChunjunClickhouseSinkFactory
-
-* **显示名:** Chunjun-Sink-Clickhouse 
-
-* **全路径名:** [com.qlangtech.plugins.incr.flink.chunjun.clickhouse.sink.ChunjunClickhouseSinkFactory](https://github.com/qlangtech/plugins/tree/master/tis-incr/tis-flink-chunjun-clickhouse-plugin/src/main/java/com/qlangtech/plugins/incr/flink/chunjun/clickhouse/sink/ChunjunClickhouseSinkFactory.java) 
-
-* **提供者:** [Chunjun](https://dtstack.github.io/chunjun) 
 
 * **费用:** `社区版(免费)`
 
 * **插件包:** [tis-flink-chunjun-clickhouse-plugin.tpi](./tpis#tis-flink-chunjun-clickhouse-plugintpi)
 
-* **参数说明:** 
-
-1. semantic
-
-	* **类型:** 单选
-
-	* **必须:** 是
-
-	* **说明:** 
-		**描述：** sink 端是否支持二阶段提交
-		
-		**注意：**
-		    如果此参数为空，默认不开启二阶段提交，即 sink 端不支持 exactly_once 语义；
-		    当前只支持 exactly-once 和 at-least-once
-		    
-	* **默认值:** at-least-once
-
-2. parallelism
-
-	* **类型:** 整型数字
-
-	* **必须:** 是
-
-	* **说明:** sink 并行度
-	* **默认值:** 1
-
-3. flushIntervalMills
-
-	* **类型:** 整型数字
-
-	* **必须:** 是
-
-	* **说明:** "the flush interval mills, over this time, asynchronous threads will flush data. The default value is 10s.
-	* **默认值:** 10000
-
-4. batchSize
-
-	* **类型:** 整型数字
-
-	* **必须:** 是
-
-	* **说明:** 
-		
-		描述：一次性批量提交的记录数大小，该值可以极大减少 ChunJun 与数据库的网络交互次数，并提升整体吞吐量。但是该值设置过大可能会造成 ChunJun 运行进程 OOM 情况
-		    
-	* **默认值:** 1
-
 ### com.qlangtech.plugins.incr.flink.chunjun.doris.sink.ChunjunDorisSinkFactory
-
-* **显示名:** Chunjun-Sink-Doris 
-
-* **全路径名:** [com.qlangtech.plugins.incr.flink.chunjun.doris.sink.ChunjunDorisSinkFactory](https://github.com/qlangtech/plugins/tree/master/tis-incr/tis-flink-chunjun-doris-plugin/src/main/java/com/qlangtech/plugins/incr/flink/chunjun/doris/sink/ChunjunDorisSinkFactory.java) 
-
-* **提供者:** [Chunjun](https://dtstack.github.io/chunjun) 
 
 * **费用:** `社区版(免费)`
 
 * **插件包:** [tis-flink-chunjun-doris-plugin.tpi](./tpis#tis-flink-chunjun-doris-plugintpi)
 
-* **参数说明:** 
-
-1. semantic
-
-	* **类型:** 单选
-
-	* **必须:** 是
-
-	* **说明:** 
-		**描述：** sink 端是否支持二阶段提交
-		
-		**注意：**
-		    如果此参数为空，默认不开启二阶段提交，即 sink 端不支持 exactly_once 语义；
-		    当前只支持 exactly-once 和 at-least-once
-		    
-	* **默认值:** at-least-once
-
-2. parallelism
-
-	* **类型:** 整型数字
-
-	* **必须:** 是
-
-	* **说明:** sink 并行度
-	* **默认值:** 1
-
-3. flushIntervalMills
-
-	* **类型:** 整型数字
-
-	* **必须:** 是
-
-	* **说明:** "the flush interval mills, over this time, asynchronous threads will flush data. The default value is 10s.
-	* **默认值:** 10000
-
-4. batchSize
-
-	* **类型:** 整型数字
-
-	* **必须:** 是
-
-	* **说明:** 
-		
-		描述：一次性批量提交的记录数大小，该值可以极大减少 ChunJun 与数据库的网络交互次数，并提升整体吞吐量。但是该值设置过大可能会造成 ChunJun 运行进程 OOM 情况
-		    
-	* **默认值:** 1
-
 ### com.qlangtech.tis.plugins.incr.flink.connector.sink.MySQLSinkFactory
-
-* **显示名:** Chunjun-Sink-MySQL 
-
-* **全路径名:** [com.qlangtech.tis.plugins.incr.flink.connector.sink.MySQLSinkFactory](https://github.com/qlangtech/plugins/tree/master/tis-incr/tis-flink-chunjun-mysql-plugin/src/main/java/com/qlangtech/tis/plugins/incr/flink/connector/sink/MySQLSinkFactory.java) 
-
-* **提供者:** [Chunjun](https://dtstack.github.io/chunjun) 
 
 * **费用:** `社区版(免费)`
 
 * **插件包:** [tis-flink-chunjun-mysql-plugin.tpi](./tpis#tis-flink-chunjun-mysql-plugintpi)
 
-* **参数说明:** 
-
-1. semantic
-
-	* **类型:** 单选
-
-	* **必须:** 是
-
-	* **说明:** 
-		**描述：** sink 端是否支持二阶段提交
-		
-		**注意：**
-		    如果此参数为空，默认不开启二阶段提交，即 sink 端不支持 exactly_once 语义；
-		    当前只支持 exactly-once 和 at-least-once
-		    
-	* **默认值:** at-least-once
-
-2. parallelism
-
-	* **类型:** 整型数字
-
-	* **必须:** 是
-
-	* **说明:** sink 并行度
-	* **默认值:** 1
-
-3. flushIntervalMills
-
-	* **类型:** 整型数字
-
-	* **必须:** 是
-
-	* **说明:** "the flush interval mills, over this time, asynchronous threads will flush data. The default value is 10s.
-	* **默认值:** 10000
-
-4. batchSize
-
-	* **类型:** 整型数字
-
-	* **必须:** 是
-
-	* **说明:** 
-		
-		描述：一次性批量提交的记录数大小，该值可以极大减少 ChunJun 与数据库的网络交互次数，并提升整体吞吐量。但是该值设置过大可能会造成 ChunJun 运行进程 OOM 情况
-		    
-	* **默认值:** 1
-
 ### com.qlangtech.plugins.incr.flink.chunjun.oracle.sink.ChunjunOracleSinkFactory
-
-* **显示名:** Chunjun-Sink-Oracle 
-
-* **全路径名:** [com.qlangtech.plugins.incr.flink.chunjun.oracle.sink.ChunjunOracleSinkFactory](https://github.com/qlangtech/plugins/tree/master/tis-incr/tis-flink-chunjun-oracle-plugin/src/main/java/com/qlangtech/plugins/incr/flink/chunjun/oracle/sink/ChunjunOracleSinkFactory.java) 
-
-* **提供者:** [Chunjun](https://dtstack.github.io/chunjun) 
 
 * **费用:** `社区版(免费)`
 
 * **插件包:** [tis-flink-chunjun-oracle-plugin.tpi](./tpis#tis-flink-chunjun-oracle-plugintpi)
 
-* **参数说明:** 
-
-1. semantic
-
-	* **类型:** 单选
-
-	* **必须:** 是
-
-	* **说明:** 
-		**描述：** sink 端是否支持二阶段提交
-		
-		**注意：**
-		    如果此参数为空，默认不开启二阶段提交，即 sink 端不支持 exactly_once 语义；
-		    当前只支持 exactly-once 和 at-least-once
-		    
-	* **默认值:** at-least-once
-
-2. parallelism
-
-	* **类型:** 整型数字
-
-	* **必须:** 是
-
-	* **说明:** sink 并行度
-	* **默认值:** 1
-
-3. flushIntervalMills
-
-	* **类型:** 整型数字
-
-	* **必须:** 是
-
-	* **说明:** "the flush interval mills, over this time, asynchronous threads will flush data. The default value is 10s.
-	* **默认值:** 10000
-
-4. batchSize
-
-	* **类型:** 整型数字
-
-	* **必须:** 是
-
-	* **说明:** 
-		
-		描述：一次性批量提交的记录数大小，该值可以极大减少 ChunJun 与数据库的网络交互次数，并提升整体吞吐量。但是该值设置过大可能会造成 ChunJun 运行进程 OOM 情况
-		    
-	* **默认值:** 1
-
 ### com.qlangtech.plugins.incr.flink.chunjun.postgresql.sink.ChunjunPostgreSQLSinkFactory
-
-* **显示名:** Chunjun-Sink-Postgres 
-
-* **全路径名:** [com.qlangtech.plugins.incr.flink.chunjun.postgresql.sink.ChunjunPostgreSQLSinkFactory](https://github.com/qlangtech/plugins/tree/master/tis-incr/tis-flink-chunjun-postgresql-plugin/src/main/java/com/qlangtech/plugins/incr/flink/chunjun/postgresql/sink/ChunjunPostgreSQLSinkFactory.java) 
-
-* **提供者:** [Chunjun](https://dtstack.github.io/chunjun) 
 
 * **费用:** `社区版(免费)`
 
 * **插件包:** [tis-flink-chunjun-postgresql-plugin.tpi](./tpis#tis-flink-chunjun-postgresql-plugintpi)
 
-* **参数说明:** 
+### com.qlangtech.tis.plugins.incr.flink.chunjun.starrocks.sink.ChunjunStarRocksSinkFactory
 
-1. semantic
+* **费用:** `社区版(免费)`
 
-	* **类型:** 单选
-
-	* **必须:** 是
-
-	* **说明:** 
-		**描述：** sink 端是否支持二阶段提交
-		
-		**注意：**
-		    如果此参数为空，默认不开启二阶段提交，即 sink 端不支持 exactly_once 语义；
-		    当前只支持 exactly-once 和 at-least-once
-		    
-	* **默认值:** at-least-once
-
-2. parallelism
-
-	* **类型:** 整型数字
-
-	* **必须:** 是
-
-	* **说明:** sink 并行度
-	* **默认值:** 1
-
-3. flushIntervalMills
-
-	* **类型:** 整型数字
-
-	* **必须:** 是
-
-	* **说明:** "the flush interval mills, over this time, asynchronous threads will flush data. The default value is 10s.
-	* **默认值:** 10000
-
-4. batchSize
-
-	* **类型:** 整型数字
-
-	* **必须:** 是
-
-	* **说明:** 
-		
-		描述：一次性批量提交的记录数大小，该值可以极大减少 ChunJun 与数据库的网络交互次数，并提升整体吞吐量。但是该值设置过大可能会造成 ChunJun 运行进程 OOM 情况
-		    
-	* **默认值:** 1
+* **插件包:** [tis-flink-chunjun-starrocks-plugin.tpi](./tpis#tis-flink-chunjun-starrocks-plugintpi)
 
 ### com.qlangtech.tis.plugins.incr.flink.connector.elasticsearch7.ElasticSearchSinkFactory
-
-* **显示名:** Flink-ElasticSearch-Sink 
-
-* **全路径名:** [com.qlangtech.tis.plugins.incr.flink.connector.elasticsearch7.ElasticSearchSinkFactory](https://github.com/qlangtech/plugins/tree/master/tis-incr/tis-sink-elasticsearch7-plugin/src/main/java/com/qlangtech/tis/plugins/incr/flink/connector/elasticsearch7/ElasticSearchSinkFactory.java) 
-
-* **提供者:** [TIS](https://github.com/qlangtech/tis) 
 
 * **费用:** `社区版(免费)`
 
 * **插件包:** [tis-sink-elasticsearch7-plugin.tpi](./tpis#tis-sink-elasticsearch7-plugintpi)
 
-* **参数说明:** 
-
-1. bulkFlushMaxActions
-
-	* **类型:** 整型数字
-
-	* **必须:** 否
-
-	* **说明:** 
-		
-		设置使 sink 在接收每个元素之后立即提交，否则这些元素将被缓存起来，官方文档：
-		[https://nightlies.apache.org/flink/flink-docs-master/zh/docs/connectors/datastream/elasticsearch/#%e9%85%8d%e7%bd%ae%e5%86%85%e9%83%a8%e6%89%b9%e9%87%8f%e5%a4%84%e7%90%86%e5%99%a8](https://nightlies.apache.org/flink/flink-docs-master/zh/docs/connectors/datastream/elasticsearch/#%e9%85%8d%e7%bd%ae%e5%86%85%e9%83%a8%e6%89%b9%e9%87%8f%e5%a4%84%e7%90%86%e5%99%a8)
-		
-	* **默认值:** 无
-
-2. bulkFlushMaxSizeMb
-
-	* **类型:** 整型数字
-
-	* **必须:** 否
-
-	* **说明:** 
-		
-		刷新前最大缓存的数据量（以兆字节为单位）
-		
-	* **默认值:** 无
-
-3. bulkFlushIntervalMs
-
-	* **类型:** 整型数字
-
-	* **必须:** 否
-
-	* **说明:** 
-		
-		刷新的时间间隔（不论缓存操作的数量或大小如何）
-	* **默认值:** 无
-
 ### com.qlangtech.tis.plugins.incr.flink.connector.hudi.HudiSinkFactory
-
-* **显示名:** Flink-Hudi-Sink 
-
-* **全路径名:** [com.qlangtech.tis.plugins.incr.flink.connector.hudi.HudiSinkFactory](https://github.com/qlangtech/plugins/tree/master/tis-incr/tis-sink-hudi-plugin/src/main/java/com/qlangtech/tis/plugins/incr/flink/connector/hudi/HudiSinkFactory.java) 
-
-* **提供者:** [TIS](https://github.com/qlangtech/tis) 
 
 * **费用:** `社区版(免费)`
 
 * **插件包:** [tis-sink-hudi-plugin/tis-sink-hudi-plugin_hudi_0.10.1_spark_2.4.4_hive_2.3.1_hadoop_2.7.3.tpi](./tpis#tis-sink-hudi-plugin/tis-sink-hudi-plugin_hudi_0101_spark_244_hive_231_hadoop_273tpi)
 
-* **参数说明:** 
-
-1. baseOnBach
-
-	* **类型:** 单选
-
-	* **必须:** 是
-
-	* **说明:** 强制要求增量执行逻辑是基于之前已经成功的批量导入基础之上，不然增量通道启动过程会报错
-	* **默认值:** true
-
-2. 操作类型
-
-	* **类型:** 单选
-
-	* **必须:** 是
-
-	* **说明:** 
-		
-		Detailed description:[https://hudi.apache.org/docs/write_operations](https://hudi.apache.org/docs/write_operations)
-		
-		
-	* **默认值:** UPSERT
-
-3. 脚本类型
-
-	* **类型:** 单行文本
-
-	* **必须:** 是
-
-	* **说明:** 
-		
-		Hudi Flink实时同步脚本支持两种类型：
-		
-		1. **SQL**: 敬请期待
-		
-		2. **StreamAPI**: HoodieFlinkStreamer(推荐)
-		
-	* **默认值:** streamApi
-
-4. compaction
-
-	* **类型:** 单行文本
-
-	* **必须:** 是
-
-	* **说明:** 
-		
-		Background activity to reconcile differential data structures within Hudi 
-		
-		e.g: moving updates from row based log files to columnar formats. Internally, compaction manifests as a special commit on the timeline
-		
-		About compaction conception: [https://hudi.apache.org/docs/compaction/](https://hudi.apache.org/docs/compaction/)
-		
-		Detailed configuration description: [https://hudi.apache.org/docs/configurations#Compaction-Configs](https://hudi.apache.org/docs/configurations#Compaction-Configs)
-		
-	* **默认值:** default
-
-5. 限流
-
-	* **类型:** 整型数字
-
-	* **必须:** 是
-
-	* **说明:** 
-		
-		如通过Flink-CDC Snapshot导入全量历史数据，由于一个checkpoint周期内的数据量巨大，导致执行checkpoint超时，可以通过限流的方式避免checkpoint超时
-		
-	* **默认值:** 200
-
 ### com.qlangtech.tis.plugins.incr.flink.connector.starrocks.StarRocksSinkFactory
-
-* **显示名:** Flink-StarRocks-Sink 
-
-* **全路径名:** [com.qlangtech.tis.plugins.incr.flink.connector.starrocks.StarRocksSinkFactory](https://github.com/qlangtech/plugins/tree/master/tis-incr/tis-sink-starrocks-plugin/src/main/java/com/qlangtech/tis/plugins/incr/flink/connector/starrocks/StarRocksSinkFactory.java) 
-
-* **提供者:** [TIS](https://github.com/qlangtech/tis) 
 
 * **费用:** `社区版(免费)`
 
 * **插件包:** [tis-sink-starrocks-plugin.tpi](./tpis#tis-sink-starrocks-plugintpi)
 
-* **参数说明:** 
+## com.qlangtech.tis.plugins.incr.flink.connector.hudi.scripttype.HudiStreamScriptType
 
-1. sinkBatchFlushInterval
+### com.qlangtech.tis.plugins.incr.flink.connector.hudi.scripttype.StreamApiType
 
-	* **类型:** 整型数字
+* **显示名:** StreamAPI 
 
-	* **必须:** 否
+* **全路径名:** [com.qlangtech.tis.plugins.incr.flink.connector.hudi.scripttype.StreamApiType](https://github.com/qlangtech/plugins/tree/master/tis-incr/tis-sink-hudi-plugin/src/main/java/com/qlangtech/tis/plugins/incr/flink/connector/hudi/scripttype/StreamApiType.java) 
 
-	* **说明:** 无
-	* **默认值:** 10000
+* **费用:** `社区版(免费)`
 
-2. sinkBatchMaxSize
-
-	* **类型:** 整型数字
-
-	* **必须:** 否
-
-	* **说明:** 无
-	* **默认值:** 无
-
-3. sinkConnectTimeout
-
-	* **类型:** 整型数字
-
-	* **必须:** 否
-
-	* **说明:** 无
-	* **默认值:** 无
-
-4. sinkMaxRetries
-
-	* **类型:** 整型数字
-
-	* **必须:** 否
-
-	* **说明:** 无
-	* **默认值:** 无
-
-5. sinkBatchMaxRows
-
-	* **类型:** 整型数字
-
-	* **必须:** 否
-
-	* **说明:** 无
-	* **默认值:** 无
-
-6. sinkSemantic
-
-	* **类型:** 单选
-
-	* **必须:** 是
-
-	* **说明:** 无
-	* **默认值:** 无
+* **插件包:** [tis-sink-hudi-plugin/tis-sink-hudi-plugin_hudi_0.10.1_spark_2.4.4_hive_2.3.1_hadoop_2.7.3.tpi](./tpis#tis-sink-hudi-plugin/tis-sink-hudi-plugin_hudi_0101_spark_244_hive_231_hadoop_273tpi)
 
 ## com.qlangtech.tis.plugin.incr.IncrStreamFactory
 
@@ -3226,14 +2525,14 @@ import TOCInline from '@theme/TOCInline';
 		1. Native Kubernetes: [详细请查看](https://nightlies.apache.org/flink/flink-docs-release-1.14/docs/deployment/resource-providers/native_kubernetes/)
 		   [安装说明](http://tis.pub/docs/install/flink-cluster/)：
 		      - 在本地局域网中安装k8s环境
-		      - 在TIS中部署Flink-Cluster，[入口](/base/flink-cluster)
+		      - 在TIS中部署Flink-Cluster，[入口](.)
 		
 		2. Standalone: [详细请查看](https://nightlies.apache.org/flink/flink-docs-release-1.14/docs/deployment/resource-providers/standalone/overview/)
 		   
 		   [安装说明](http://tis.pub/docs/install/flink-cluster/standalone/):
 		      - 下载、解压
 		        ```shell script
-		         wget http://tis-release.oss-cn-beijing.aliyuncs.com/3.6.0-alpha/tis/flink-tis-1.13.1-bin.tar.gz && rm -rf flink-tis-1.13.1 && mkdir flink-tis-1.13.1 && tar xvf flink-tis-1.13.1-bin.tar.gz -C ./flink-tis-1.13.1
+		         wget http://tis-release.oss-cn-beijing.aliyuncs.com/3.7.0/tis/flink-tis-1.13.1-bin.tar.gz && rm -rf flink-tis-1.13.1 && mkdir flink-tis-1.13.1 && tar xvf flink-tis-1.13.1-bin.tar.gz -C ./flink-tis-1.13.1
 		        ```
 		      - 启动Flink-Cluster：
 		         ```shell script
@@ -3303,16 +2602,6 @@ import TOCInline from '@theme/TOCInline';
 
 ## com.qlangtech.tis.plugins.incr.flink.connector.UpdateMode
 
-### com.qlangtech.tis.plugins.incr.flink.connector.impl.UpsertType
-
-* **显示名:** Upsert 
-
-* **全路径名:** [com.qlangtech.tis.plugins.incr.flink.connector.impl.UpsertType](https://github.com/qlangtech/plugins/tree/master/tis-incr/tis-chunjun-base-plugin/src/main/java/com/qlangtech/tis/plugins/incr/flink/connector/impl/UpsertType.java) 
-
-* **费用:** `社区版(免费)`
-
-* **插件包:** [tis-chunjun-base-plugin.tpi](./tpis#tis-chunjun-base-plugintpi)
-
 ### com.qlangtech.tis.plugins.incr.flink.connector.impl.ReplaceType
 
 * **显示名:** Replace 
@@ -3338,6 +2627,16 @@ import TOCInline from '@theme/TOCInline';
 * **显示名:** Insert 
 
 * **全路径名:** [com.qlangtech.tis.plugins.incr.flink.connector.impl.InsertType](https://github.com/qlangtech/plugins/tree/master/tis-incr/tis-chunjun-base-plugin/src/main/java/com/qlangtech/tis/plugins/incr/flink/connector/impl/InsertType.java) 
+
+* **费用:** `社区版(免费)`
+
+* **插件包:** [tis-chunjun-base-plugin.tpi](./tpis#tis-chunjun-base-plugintpi)
+
+### com.qlangtech.tis.plugins.incr.flink.connector.impl.UpsertType
+
+* **显示名:** Upsert 
+
+* **全路径名:** [com.qlangtech.tis.plugins.incr.flink.connector.impl.UpsertType](https://github.com/qlangtech/plugins/tree/master/tis-incr/tis-chunjun-base-plugin/src/main/java/com/qlangtech/tis/plugins/incr/flink/connector/impl/UpsertType.java) 
 
 * **费用:** `社区版(免费)`
 
@@ -3448,6 +2747,29 @@ import TOCInline from '@theme/TOCInline';
 		 2. 而Pasv模式就是服务器打开一个端口等待客户端去建立一个数据连接。
 		 
 	* **默认值:** PASV
+
+## com.qlangtech.tis.plugin.datax.FSFormat
+
+### com.qlangtech.tis.plugin.datax.impl.TextFSFormat
+
+* **显示名:** TEXT 
+
+* **全路径名:** [com.qlangtech.tis.plugin.datax.impl.TextFSFormat](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-hdfs-plugin/src/main/java/com/qlangtech/tis/plugin/datax/impl/TextFSFormat.java) 
+
+* **费用:** `社区版(免费)`
+
+* **插件包:** [tis-datax-hdfs-plugin/tis-datax-hdfs-plugin_hadoop_2.7.3.tpi](./tpis#tis-datax-hdfs-plugin/tis-datax-hdfs-plugin_hadoop_273tpi)
+
+* **参数说明:** 
+
+1. 列分割符
+
+	* **类型:** 单选
+
+	* **必须:** 是
+
+	* **说明:** 描述：读取的字段分隔符，可以用'\t','\001'等字符 
+	* **默认值:** char001
 
 ## com.qlangtech.tis.datax.impl.DataxWriter
 
@@ -3655,9 +2977,7 @@ import TOCInline from '@theme/TOCInline';
 
 	* **说明:** 
 		
-		StreamLoad 的请求参数，详情参照[StreamLoad介绍页面](http://doris.apache.org/master/zh-CN/administrator-guide/load-data/stream-load-manual.html#%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86)
-		
-		默认传入的数据均会被转为字符串，并以 **\t** 作为列分隔符，**\n** 作为行分隔符，组成csv文件进行 [StreamLoad导入参数说明](http://doris.apache.org/master/zh-CN/administrator-guide/load-data/stream-load-manual.html#%E5%AF%BC%E5%85%A5%E4%BB%BB%E5%8A%A1%E5%8F%82%E6%95%B0)。 如需更改列分隔符， 则正确配置 loadProps 即可：
+		StreamLoad 的请求参数，默认传入的数据均会被转为字符串，并以 **\t** 作为列分隔符，**\n** 作为行分隔符，组成csv文件进行 [StreamLoad导入参数说明](https://docs.starrocks.io/zh-cn/latest/loading/stream_load_transaction_interface)。 如需更改列分隔符， 则正确配置 loadProps 即可：
 		
 		```json
 		 {
@@ -3665,7 +2985,6 @@ import TOCInline from '@theme/TOCInline';
 		    "row_delimiter": "\\x02"
 		}
 		```
-		
 	* **默认值:** 无
 
 5. 数据库名
@@ -3766,17 +3085,14 @@ import TOCInline from '@theme/TOCInline';
 
 	* **说明:** 
 		
-		StreamLoad 的请求参数，详情参照[StreamLoad介绍页面](http://doris.apache.org/master/zh-CN/administrator-guide/load-data/stream-load-manual.html#%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86)
-		
-		默认传入的数据均会被转为字符串，并以 **\t** 作为列分隔符，**\n** 作为行分隔符，组成csv文件进行 [StreamLoad导入参数说明](http://doris.apache.org/master/zh-CN/administrator-guide/load-data/stream-load-manual.html#%E5%AF%BC%E5%85%A5%E4%BB%BB%E5%8A%A1%E5%8F%82%E6%95%B0)。 如需更改列分隔符， 则正确配置 loadProps 即可：
+		StreamLoad 的请求参数,默认传入的数据均会被转为字符串，并以 **\t** 作为列分隔符，**\n** 作为行分隔符，组成csv文件进行 [StreamLoad导入参数说明](http://doris.apache.org/master/zh-CN/administrator-guide/load-data/stream-load-manual.html#%E5%AF%BC%E5%85%A5%E4%BB%BB%E5%8A%A1%E5%8F%82%E6%95%B0)。 如需更改列分隔符， 则正确配置 loadProps 即可：
 		
 		```json
 		 {
-		    "column_separator": "\\x01",
-		    "row_delimiter": "\\x02"
+		  "column_separator": "\\x01",
+		  "line_delimiter": "\\x02"
 		}
 		```
-		
 	* **默认值:** 无
 
 5. 数据库名
@@ -3877,7 +3193,7 @@ import TOCInline from '@theme/TOCInline';
 	* **必须:** 是
 
 	* **说明:** Elasticsearch中的index名
-	* **默认值:** com.qlangtech.tis.trigger.util.JsonUtil$UnCacheString@226b143b
+	* **默认值:** com.qlangtech.tis.trigger.util.JsonUtil$UnCacheString@70242f38
 
 5. splitter
 
@@ -4175,25 +3491,16 @@ import TOCInline from '@theme/TOCInline';
 	* **说明:** 描述：写文件的编码配置。
 	* **默认值:** utf-8
 
-6. fieldDelimiter
+6. fileType
 
 	* **类型:** 单行文本
-
-	* **必须:** 是
-
-	* **说明:** 描述：hdfswriter写入时的字段分隔符,
-	* **默认值:** 	
-
-7. fileType
-
-	* **类型:** 单选
 
 	* **必须:** 是
 
 	* **说明:** 描述：文件的类型，目前只支持用户配置为"text"或"orc" 
 	* **默认值:** 无
 
-8. fsName
+7. fsName
 
 	* **类型:** 单选
 
@@ -4204,169 +3511,9 @@ import TOCInline from '@theme/TOCInline';
 
 ### com.qlangtech.tis.plugin.datax.hudi.DataXHudiWriter
 
-* **显示名:** Hudi 
-
-* **全路径名:** [com.qlangtech.tis.plugin.datax.hudi.DataXHudiWriter](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-hudi-plugin/src/main/java/com/qlangtech/tis/plugin/datax/hudi/DataXHudiWriter.java) 
-
-* **提供者:** [TIS](https://github.com/qlangtech/tis) 
-
 * **费用:** `社区版(免费)`
 
 * **插件包:** [tis-datax-hudi-plugin/tis-datax-hudi-plugin_hudi_0.10.1_spark_2.4.4_hive_2.3.1_hadoop_2.7.3.tpi](./tpis#tis-datax-hudi-plugin/tis-datax-hudi-plugin_hudi_0101_spark_244_hive_231_hadoop_273tpi)
-
-* **参数说明:** 
-
-1. 配置模版
-
-	* **类型:** 富文本
-
-	* **必须:** 是
-
-	* **说明:** 无特殊情况请不要修改模版内容，避免不必要的错误
-	* **默认值:** 无
-
-2. 分区字段
-
-	* **类型:** 单行文本
-
-	* **必须:** 是
-
-	* **说明:** 
-		
-		Field in the table to use for determining hive partition columns, [详细](https://hudi.apache.org/docs/configurations#hoodiedatasourcehive_syncpartition_fields)
-		
-	* **默认值:** pt
-
-3. 重分区数
-
-	* **类型:** 整型数字
-
-	* **必须:** 是
-
-	* **说明:** 
-		
-		For any Hudi job using Spark, parallelism equals to the number of spark partitions that should be generated for a particular stage in the DAG
-		[detail](https://hudi.apache.org/docs/faq/#how-to-tune-shuffle-parallelism-of-hudi-jobs-)
-		
-	* **默认值:** 2
-
-4. 批量操作
-
-	* **类型:** 单选
-
-	* **必须:** 是
-
-	* **说明:** 
-		
-		* Takes one of these values : UPSERT (default), INSERT (use when input is  purely new data/inserts to gain speed)
-		* Default: `BULK_INSERT`
-		* Possible Values: `UPSERT`, `INSERT`, `BULK_INSERT`
-		
-	* **默认值:** BULK_INSERT
-
-5. sparkConn
-
-	* **类型:** 单选
-
-	* **必须:** 是
-
-	* **说明:** 
-		
-		指定Spark服务端连接地址
-		
-	* **默认值:** 无
-
-6. 表类型
-
-	* **类型:** 单选
-
-	* **必须:** 是
-
-	* **说明:** 
-		
-		Hudi 支持以下两种表类型：
-		
-		* [COPY_ON_WRITE](https://hudi.apache.org/docs/table_types#copy-on-write-table) ：Stores data using exclusively columnar file formats (e.g parquet). Updates simply version & rewrite the files by performing a synchronous merge during write.
-		* [MERGE_ON_READ](https://hudi.apache.org/docs/table_types#merge-on-read-table) ：Stores data using a combination of columnar (e.g parquet) + row based (e.g avro) file formats. Updates are logged to delta files & later compacted to produce new versions of columnar files synchronously or asynchronously.
-		
-		详细请参考 [https://hudi.apache.org/docs/table_types](https://hudi.apache.org/docs/table_types)
-		
-		**How do I choose a storage type for my workload**
-		
-		A key goal of Hudi is to provide upsert functionality that is orders of magnitude faster than rewriting entire tables or partitions. 
-		
-		Choose Copy-on-write storage if : 
-		
-		- You are looking for a simple alternative, that replaces your existing parquet tables without any need for real-time data.
-		- Your current job is rewriting entire table/partition to deal with updates, while only a few files actually change in each partition.
-		- You are happy keeping things operationally simpler (no compaction etc), with the ingestion/write performance bound by the parquet file size and the number of such files affected/dirtied by updates
-		- Your workload is fairly well-understood and does not have sudden bursts of large amount of update or inserts to older partitions. COW absorbs all the merging cost on the writer side and thus these sudden changes can clog up your ingestion and interfere with meeting normal mode ingest latency targets.
-		
-		Choose merge-on-read storage if :
-		
-		- You want the data to be ingested as quickly & queryable as much as possible.
-		- Your workload can have sudden spikes/changes in pattern (e.g bulk updates to older transactions in upstream database causing lots of updates to old partitions on DFS). Asynchronous compaction helps amortize the write amplification caused by such scenarios, while normal ingestion keeps up with incoming stream of changes.
-		Immaterial of what you choose, Hudi provides 
-		
-		Snapshot isolation and atomic write of batch of records
-		- Incremental pulls
-		- Ability to de-duplicate data
-		
-		Find more [here](https://hudi.apache.org/docs/concepts/).
-		
-		
-		
-	* **默认值:** COPY_ON_WRITE
-
-7. writeMode
-
-	* **类型:** 单选
-
-	* **必须:** 是
-
-	* **说明:** 
-		
-		hdfswriter写入前数据清理处理模式：
-		
-		- **append**: 写入前不做任何处理，DataX hdfswriter直接使用filename写入，并保证文件名不冲突，
-		- **nonConflict**：如果目录下有fileName前缀的文件，直接报错
-	* **默认值:** append
-
-8. sparkSubmitParam
-
-	* **类型:** 单行文本
-
-	* **必须:** 是
-
-	* **说明:** 
-		Spark服务端执行`HoodieDeltaStreamer`对内存有一定要求，太小容易产生OOM导致终止运行
-		
-	* **默认值:** 无
-
-9. hiveConn
-
-	* **类型:** 单选
-
-	* **必须:** 是
-
-	* **说明:** 
-		
-		Hive连接实例配置
-		
-	* **默认值:** 无
-
-10. fsName
-
-	* **类型:** 单选
-
-	* **必须:** 是
-
-	* **说明:** 
-		分布式文件系统源引用，
-		
-		`注`：实例名称必须为**hudi_hdfs**
-		
-	* **默认值:** 无
 
 ### com.qlangtech.tis.plugin.datax.DataXMongodbWriter
 
@@ -4437,7 +3584,7 @@ import TOCInline from '@theme/TOCInline';
 		 | Date     | date  |
 		 | Boolean  | boolean |
 		 | Bytes    | bytes |
-	* **默认值:** com.qlangtech.tis.trigger.util.JsonUtil$UnCacheString@1d12b024
+	* **默认值:** com.qlangtech.tis.trigger.util.JsonUtil$UnCacheString@2bf94401
 
 5. collectionName
 
@@ -4446,7 +3593,111 @@ import TOCInline from '@theme/TOCInline';
 	* **必须:** 是
 
 	* **说明:** MonogoDB的集合名。【必填】
-	* **默认值:** com.qlangtech.tis.trigger.util.JsonUtil$UnCacheString@72fe8a4f
+	* **默认值:** com.qlangtech.tis.trigger.util.JsonUtil$UnCacheString@2532b351
+
+### com.qlangtech.tis.plugin.datax.DataXOdpsWriter
+
+* **显示名:** Aliyun-ODPS 
+
+* **全路径名:** [com.qlangtech.tis.plugin.datax.DataXOdpsWriter](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-odps-plugin/src/main/java/com/qlangtech/tis/plugin/datax/DataXOdpsWriter.java) 
+
+* **提供者:** [DataX](https://github.com/alibaba/DataX) 
+
+* **费用:** `社区版(免费)`
+
+* **插件包:** [tis-datax-odps-plugin.tpi](./tpis#tis-datax-odps-plugintpi)
+
+* **参数说明:** 
+
+1. 生命周期
+
+	* **类型:** 整型数字
+
+	* **必须:** 是
+
+	* **说明:** 
+		
+		表的生命周期，仅支持正整数。单位：天
+		
+		* `非分区表`：自最后一次修改表数据开始计算，经过days天后数据无改动，则您无需干预此表，MaxCompute会自动回收（类似drop table操作）。
+		* `分区表`：系统根据各分区的LastModifiedTime判断是否需要回收分区。不同于非分区表，分区表的最后一个分区被回收后，该表不会被删除。生命周期只能设定到表级别，不支持在分区级别设置生命周期。
+	* **默认值:** 2
+
+2. 配置模版
+
+	* **类型:** 富文本
+
+	* **必须:** 是
+
+	* **说明:** 无特殊情况请不要修改模版内容，避免不必要的错误
+	* **默认值:** 无
+
+3. postSql
+
+	* **类型:** 富文本
+
+	* **必须:** 否
+
+	* **说明:** 
+		 写入数据到目的表后，会执行这里的标准语句。（原理同 preSql ）
+	* **默认值:** 无
+
+4. truncate
+
+	* **类型:** 单选
+
+	* **必须:** 是
+
+	* **说明:** 描述：ODPSWriter通过配置"truncate": true，保证写入的幂等性，即当出现写入失败再次运行时，ODPSWriter将清理前述数据，并导入新数据，这样可以保证每次重跑之后的数据都保持一致。 
+	* **默认值:** true
+
+5. session
+
+	* **类型:** 富文本
+
+	* **必须:** 否
+
+	* **说明:** 
+		  DataX在获取Mysql连接时，执行session指定的SQL语句，修改当前connection session属性 
+	* **默认值:** 无
+
+6. 数据库名
+
+	* **类型:** 单选
+
+	* **必须:** 是
+
+	* **说明:** 无
+	* **默认值:** 无
+
+7. partitionFormat
+
+	* **类型:** 单选
+
+	* **必须:** 是
+
+	* **说明:** 每进行一次DataX导入在Hive表中会生成一个新的分区，现在系统分区名称为'pt'格式为开始导入数据的时间戳，格式为'yyyyMMddHHmmss'或者'yyyyMMdd' 
+	* **默认值:** yyyyMMddHHmmss
+
+8. batchSize
+
+	* **类型:** 整型数字
+
+	* **必须:** 否
+
+	* **说明:** 
+		 * 描述：一次性批量提交的记录数大小，该值可以极大减少DataX与Mysql的网络交互次数，并提升整体吞吐量。但是该值设置过大可能会造成DataX运行进程OOM情况。
+	* **默认值:** 1000
+
+9. preSql
+
+	* **类型:** 富文本
+
+	* **必须:** 否
+
+	* **说明:** 
+		 描述：写入数据到目的表前，会先执行这里的标准语句。如果 Sql 中有你需要操作到的表名称，请使用 `@table` 表示，这样在实际执行 Sql 语句时，会对变量按照实际表名称进行替换。比如你的任务是要写入到目的端的100个同构分表(表名称为:datax_00,datax01, ... datax_98,datax_99)，并且你希望导入数据前，先对表中数据进行删除操作，那么你可以这样配置：`"preSql":["delete from 表名"]`，效果是：在执行到每个表写入数据前，会先执行对应的 delete from 对应表名称
+	* **默认值:** 无
 
 ### com.qlangtech.tis.plugin.datax.DataXOracleWriter
 
@@ -4920,9 +4171,18 @@ nonConflict，如果指定路径出现前缀匹配的object，直接报错。例
 		
 		每进行一次DataX导入在Hive表中会生成一个新的分区，现在系统分区名称为`pt`格式为开始导入数据的时间戳
 		
+	* **默认值:** 2
+
+3. hiveserver2
+
+	* **类型:** 单选
+
+	* **必须:** 是
+
+	* **说明:** 无
 	* **默认值:** 无
 
-3. tabPrefix
+4. 表别名
 
 	* **类型:** 单行文本
 
@@ -4930,11 +4190,14 @@ nonConflict，如果指定路径出现前缀匹配的object，直接报错。例
 
 	* **说明:** 
 		
-		每次导入Hive表，会在对应源表前加一个后缀，这样更加符合数据仓库的规范，一般是加`ods_`, 用户也可以修改成其他值
+		进入离线计算引擎的表有时候需要对原始表进行别名处理
 		
-	* **默认值:** ods_
+		* `off`: 保留原始表名称
+		* `tabPrefix`: 在原始表之前添加一个前缀，例如：`ods_`
+		
+	* **默认值:** off
 
-4. partitionFormat
+5. partitionFormat
 
 	* **类型:** 单选
 
@@ -4943,9 +4206,9 @@ nonConflict，如果指定路径出现前缀匹配的object，直接报错。例
 	* **说明:** 
 		
 		每进行一次DataX导入在Hive表中会生成一个新的分区，现在系统分区名称为'pt'格式为开始导入数据的当前时间戳，格式为`yyyyMMddHHmmss`或者`yyyyMMdd`     
-	* **默认值:** 无
+	* **默认值:** yyyyMMddHHmmss
 
-5. writeMode
+6. writeMode
 
 	* **类型:** 单选
 
@@ -4959,7 +4222,7 @@ nonConflict，如果指定路径出现前缀匹配的object，直接报错。例
 		- **nonConflict**：如果目录下有fileName前缀的文件，直接报错
 	* **默认值:** append
 
-6. encoding
+7. encoding
 
 	* **类型:** 单选
 
@@ -4968,34 +4231,16 @@ nonConflict，如果指定路径出现前缀匹配的object，直接报错。例
 	* **说明:** 描述：写文件的编码配置。
 	* **默认值:** utf-8
 
-7. fieldDelimiter
+8. fileType
 
 	* **类型:** 单行文本
 
 	* **必须:** 是
 
-	* **说明:** 描述：hdfswriter写入时的字段分隔符,
-	* **默认值:** 	
-
-8. fileType
-
-	* **类型:** 单选
-
-	* **必须:** 是
-
 	* **说明:** 描述：文件的类型，目前只支持用户配置为"text"
-	* **默认值:** 无
+	* **默认值:** TEXT
 
-9. hiveConn
-
-	* **类型:** 单选
-
-	* **必须:** 是
-
-	* **说明:** 无
-	* **默认值:** 无
-
-10. fsName
+9. fsName
 
 	* **类型:** 单选
 
@@ -5037,9 +4282,18 @@ nonConflict，如果指定路径出现前缀匹配的object，直接报错。例
 		
 		每进行一次DataX导入在Hive表中会生成一个新的分区，现在系统分区名称为`pt`格式为开始导入数据的时间戳
 		
+	* **默认值:** 2
+
+3. hiveserver2
+
+	* **类型:** 单选
+
+	* **必须:** 是
+
+	* **说明:** 无
 	* **默认值:** 无
 
-3. tabPrefix
+4. 表别名
 
 	* **类型:** 单行文本
 
@@ -5047,11 +4301,14 @@ nonConflict，如果指定路径出现前缀匹配的object，直接报错。例
 
 	* **说明:** 
 		
-		每次导入Hive表，会在对应源表前加一个后缀，这样更加符合数据仓库的规范，一般是加`ods_`, 用户也可以修改成其他值
+		进入离线计算引擎的表有时候需要对原始表进行别名处理
 		
-	* **默认值:** ods_
+		* `off`: 保留原始表名称
+		* `tabPrefix`: 在原始表之前添加一个前缀，例如：`ods_`
+		
+	* **默认值:** off
 
-4. partitionFormat
+5. partitionFormat
 
 	* **类型:** 单选
 
@@ -5060,9 +4317,9 @@ nonConflict，如果指定路径出现前缀匹配的object，直接报错。例
 	* **说明:** 
 		
 		每进行一次DataX导入在Hive表中会生成一个新的分区，现在系统分区名称为'pt'格式为开始导入数据的当前时间戳，格式为`yyyyMMddHHmmss`或者`yyyyMMdd`     
-	* **默认值:** 无
+	* **默认值:** yyyyMMddHHmmss
 
-5. writeMode
+6. writeMode
 
 	* **类型:** 单选
 
@@ -5076,7 +4333,7 @@ nonConflict，如果指定路径出现前缀匹配的object，直接报错。例
 		- **nonConflict**：如果目录下有fileName前缀的文件，直接报错
 	* **默认值:** append
 
-6. encoding
+7. encoding
 
 	* **类型:** 单选
 
@@ -5085,34 +4342,16 @@ nonConflict，如果指定路径出现前缀匹配的object，直接报错。例
 	* **说明:** 描述：写文件的编码配置。
 	* **默认值:** utf-8
 
-7. fieldDelimiter
+8. fileType
 
 	* **类型:** 单行文本
 
 	* **必须:** 是
 
-	* **说明:** 描述：hdfswriter写入时的字段分隔符,
-	* **默认值:** 	
-
-8. fileType
-
-	* **类型:** 单选
-
-	* **必须:** 是
-
 	* **说明:** 描述：文件的类型，目前只支持用户配置为"text"
-	* **默认值:** 无
+	* **默认值:** TEXT
 
-9. hiveConn
-
-	* **类型:** 单选
-
-	* **必须:** 是
-
-	* **说明:** 无
-	* **默认值:** 无
-
-10. fsName
+9. fsName
 
 	* **类型:** 单选
 
@@ -5414,6 +4653,37 @@ nonConflict，如果指定路径出现前缀匹配的object，直接报错。例
 
 ## com.qlangtech.tis.plugin.datax.IncrSelectedTabExtend
 
+### com.qlangtech.tis.plugins.incr.flink.chunjun.sink.UniqueKeySetter
+
+* **显示名:** UniqueKeySetter 
+
+* **全路径名:** [com.qlangtech.tis.plugins.incr.flink.chunjun.sink.UniqueKeySetter](https://github.com/qlangtech/plugins/tree/master/tis-incr/tis-chunjun-base-plugin/src/main/java/com/qlangtech/tis/plugins/incr/flink/chunjun/sink/UniqueKeySetter.java) 
+
+* **费用:** `社区版(免费)`
+
+* **插件包:** [tis-chunjun-base-plugin.tpi](./tpis#tis-chunjun-base-plugintpi)
+
+* **参数说明:** 
+
+1. tabName
+
+	* **类型:** 单行文本
+
+	* **必须:** 是
+
+2. uniqueKey
+
+	* **类型:** 单选
+
+	* **必须:** 是
+
+	* **说明:** 
+		
+		* 描述：当写入模式为 update 和 replace 时，需要指定此参数的值为唯一索引字段
+		* 注意：如果此参数为空，并且写入模式为 update 和 replace 时，应用会自动获取数据库中的唯一索引；
+		如果数据表没有唯一索引，但是写入模式配置为 update 和 replace，应用会以 insert 的方式写入数据；
+	* **默认值:** com.qlangtech.tis.trigger.util.JsonUtil$UnCacheString@3cbcd8f3
+
 ### com.qlangtech.tis.plugins.incr.flink.chunjun.sink.SinkTabPropsExtends
 
 * **显示名:** SinkTabPropsExtends 
@@ -5455,7 +4725,7 @@ nonConflict，如果指定路径出现前缀匹配的object，直接报错。例
 		* 描述：当写入模式为 update 和 replace 时，需要指定此参数的值为唯一索引字段
 		* 注意：如果此参数为空，并且写入模式为 update 和 replace 时，应用会自动获取数据库中的唯一索引；
 		如果数据表没有唯一索引，但是写入模式配置为 update 和 replace，应用会以 insert 的方式写入数据；
-	* **默认值:** com.qlangtech.tis.trigger.util.JsonUtil$UnCacheString@5f13be1
+	* **默认值:** com.qlangtech.tis.trigger.util.JsonUtil$UnCacheString@3104f7bd
 
 ### com.qlangtech.tis.plugins.incr.flink.chunjun.source.SelectedTabPropsExtends
 
@@ -5522,37 +4792,6 @@ nonConflict，如果指定路径出现前缀匹配的object，直接报错。例
 		间隔轮询，开启后会根据pollingInterval轮询间隔时间周期性的从数据库拉取数据。开启间隔轮询还需配置参数pollingInterval，increColumn，可以选择配置参数startLocation。若不配置参数startLocation，任务启动时将会从数据库中查询增量字段最大值作为轮询的起始位置。
 		
 	* **默认值:** RunInterval
-
-### com.qlangtech.tis.plugins.incr.flink.chunjun.sink.UniqueKeySetter
-
-* **显示名:** UniqueKeySetter 
-
-* **全路径名:** [com.qlangtech.tis.plugins.incr.flink.chunjun.sink.UniqueKeySetter](https://github.com/qlangtech/plugins/tree/master/tis-incr/tis-chunjun-base-plugin/src/main/java/com/qlangtech/tis/plugins/incr/flink/chunjun/sink/UniqueKeySetter.java) 
-
-* **费用:** `社区版(免费)`
-
-* **插件包:** [tis-chunjun-base-plugin.tpi](./tpis#tis-chunjun-base-plugintpi)
-
-* **参数说明:** 
-
-1. tabName
-
-	* **类型:** 单行文本
-
-	* **必须:** 是
-
-2. uniqueKey
-
-	* **类型:** 单选
-
-	* **必须:** 是
-
-	* **说明:** 
-		
-		* 描述：当写入模式为 update 和 replace 时，需要指定此参数的值为唯一索引字段
-		* 注意：如果此参数为空，并且写入模式为 update 和 replace 时，应用会自动获取数据库中的唯一索引；
-		如果数据表没有唯一索引，但是写入模式配置为 update 和 replace，应用会以 insert 的方式写入数据；
-	* **默认值:** com.qlangtech.tis.trigger.util.JsonUtil$UnCacheString@3be4f71
 
 ## com.qlangtech.tis.offline.FileSystemFactory
 
@@ -5722,6 +4961,42 @@ nonConflict，如果指定路径出现前缀匹配的object，直接报错。例
 		
 	* **默认值:** 无
 
+## com.qlangtech.tis.plugin.ds.SplitTableStrategy
+
+### com.qlangtech.tis.plugin.ds.split.DefaultSplitTableStrategy
+
+* **显示名:** on 
+
+* **全路径名:** [com.qlangtech.tis.plugin.ds.split.DefaultSplitTableStrategy](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-ds-mysql-plugin/src/main/java/com/qlangtech/tis/plugin/ds/split/DefaultSplitTableStrategy.java) 
+
+* **费用:** `社区版(免费)`
+
+* **插件包:** [tis-ds-mysql-plugin.tpi](./tpis#tis-ds-mysql-plugintpi)
+
+* **参数说明:** 
+
+1. 分表识别
+
+	* **类型:** 单行文本
+
+	* **必须:** 否
+
+	* **说明:** 
+		
+		识别分表的正则式，默认识别分表策略为 `tabname_\d+` , 如需使用其他分表策略，如带字母[a-z]的后缀则需要用户自定义
+		
+	* **默认值:** 无
+
+### com.qlangtech.tis.plugin.ds.split.NoneSplitTableStrategy
+
+* **显示名:** off 
+
+* **全路径名:** [com.qlangtech.tis.plugin.ds.split.NoneSplitTableStrategy](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-ds-mysql-plugin/src/main/java/com/qlangtech/tis/plugin/ds/split/NoneSplitTableStrategy.java) 
+
+* **费用:** `社区版(免费)`
+
+* **插件包:** [tis-ds-mysql-plugin.tpi](./tpis#tis-ds-mysql-plugintpi)
+
 ## com.qlangtech.tis.config.hive.HiveUserToken
 
 ### com.qlangtech.tis.config.hive.impl.DefaultHiveUserToken
@@ -5773,7 +5048,43 @@ nonConflict，如果指定路径出现前缀匹配的object，直接报错。例
 
 * **显示名:** off 
 
-* **全路径名:** [com.qlangtech.tis.config.hive.impl.OffHiveUserToken](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-hive-flat-table-builder-plugin/src/main/java/com/qlangtech/tis/config/hive/impl/OffHiveUserToken.java) 
+* **全路径名:** [com.qlangtech.tis.config.hive.impl.OffHiveUserToken](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-hive-plugin/src/main/java/com/qlangtech/tis/config/hive/impl/OffHiveUserToken.java) 
+
+* **费用:** `社区版(免费)`
+
+* **插件包:** [tis-hive-plugin/tis-hive-plugin_hive_2.3.1_hadoop_2.7.3.tpi](./tpis#tis-hive-plugin/tis-hive-plugin_hive_231_hadoop_273tpi)
+
+## com.qlangtech.tis.plugin.datax.TabNameDecorator
+
+### com.qlangtech.tis.plugin.datax.impl.TabPrefixDecorator
+
+* **显示名:** tabPrefix 
+
+* **全路径名:** [com.qlangtech.tis.plugin.datax.impl.TabPrefixDecorator](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-hive-flat-table-builder-plugin/src/main/java/com/qlangtech/tis/plugin/datax/impl/TabPrefixDecorator.java) 
+
+* **费用:** `社区版(免费)`
+
+* **插件包:** [tis-hive-flat-table-builder-plugin/tis-hive-flat-table-builder-plugin_hive_2.3.1_hadoop_2.7.3.tpi](./tpis#tis-hive-flat-table-builder-plugin/tis-hive-flat-table-builder-plugin_hive_231_hadoop_273tpi)
+
+* **参数说明:** 
+
+1. prefix
+
+	* **类型:** 单行文本
+
+	* **必须:** 是
+
+	* **说明:** 
+		
+		每次导入Hive表，会在对应源表前加一个后缀，这样更加符合数据仓库的规范，一般是加`ods_`, 用户也可以修改成其他值
+		
+	* **默认值:** ods_
+
+### com.qlangtech.tis.plugin.datax.impl.NoneTabNameDecorator
+
+* **显示名:** off 
+
+* **全路径名:** [com.qlangtech.tis.plugin.datax.impl.NoneTabNameDecorator](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-hive-flat-table-builder-plugin/src/main/java/com/qlangtech/tis/plugin/datax/impl/NoneTabNameDecorator.java) 
 
 * **费用:** `社区版(免费)`
 
@@ -6798,6 +6109,16 @@ splitPk设置为空，底层将视作用户不允许对单表进行切分，因�
 
 ## com.qlangtech.tis.plugins.incr.flink.chunjun.offset.StartLocation
 
+### com.qlangtech.tis.plugins.incr.flink.chunjun.offset.LatestLocation
+
+* **显示名:** Latest 
+
+* **全路径名:** [com.qlangtech.tis.plugins.incr.flink.chunjun.offset.LatestLocation](https://github.com/qlangtech/plugins/tree/master/tis-incr/tis-chunjun-base-plugin/src/main/java/com/qlangtech/tis/plugins/incr/flink/chunjun/offset/LatestLocation.java) 
+
+* **费用:** `社区版(免费)`
+
+* **插件包:** [tis-chunjun-base-plugin.tpi](./tpis#tis-chunjun-base-plugintpi)
+
 ### com.qlangtech.tis.plugins.incr.flink.chunjun.offset.ScanAll
 
 * **显示名:** Initial 
@@ -6828,16 +6149,6 @@ splitPk设置为空，底层将视作用户不允许对单表进行切分，因�
 
 	* **说明:** 增量查询起始位置
 	* **默认值:** 无
-
-### com.qlangtech.tis.plugins.incr.flink.chunjun.offset.LatestLocation
-
-* **显示名:** Latest 
-
-* **全路径名:** [com.qlangtech.tis.plugins.incr.flink.chunjun.offset.LatestLocation](https://github.com/qlangtech/plugins/tree/master/tis-incr/tis-chunjun-base-plugin/src/main/java/com/qlangtech/tis/plugins/incr/flink/chunjun/offset/LatestLocation.java) 
-
-* **费用:** `社区版(免费)`
-
-* **插件包:** [tis-chunjun-base-plugin.tpi](./tpis#tis-chunjun-base-plugintpi)
 
 ## com.qlangtech.tis.plugin.datax.format.FileFormat
 
