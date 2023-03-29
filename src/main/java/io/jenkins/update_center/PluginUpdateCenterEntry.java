@@ -334,6 +334,10 @@ public abstract class PluginUpdateCenterEntry {
         return latestOffered.getEndTypes();
     }
 
+    public Set<String> getPluginTags(){
+        return latestOffered.getPluginTags();
+    }
+
 //    public String getSha1() throws IOException {
 //        return latestOffered.getMetadata().sha1;
 //    }

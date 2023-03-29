@@ -9,7 +9,7 @@
 
     <artifactId>update-center2</artifactId>
 
-    <version>3.7.0</version>
+    <version>3.7.1</version>
     <name>Jenkins Update Center Generator</name>
     <description>Generates update sites for updates.jenkins.io</description>
 
@@ -204,6 +204,13 @@
                 </exclusion>
             </exclusions>
         </dependency>
+
+        <dependency>
+            <groupId>com.qlangtech.tis</groupId>
+            <artifactId>tis-sql-parser</artifactId>
+            <version>${tis.version}</version>
+        </dependency>
+
 
 
         <dependency>

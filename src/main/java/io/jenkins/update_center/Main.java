@@ -564,8 +564,8 @@ public class Main {
 
     private void addToEndTypeStore(Memoizer<IEndTypeGetter.EndType, EndTypePluginStore> endTypePluginDescs
             , Descriptor pluginDesc, Function<EndTypePluginStore, List<Pair<IPluginVenderGetter, Descriptor>>> func) {
-        IPluginVenderGetter endTypeGetter;
-        endTypeGetter = (IPluginVenderGetter) pluginDesc;
+
+        IPluginVenderGetter endTypeGetter = (IPluginVenderGetter) pluginDesc;
 
         func.apply(endTypePluginDescs.get(endTypeGetter.getEndType()))
                 .add(Pair.of(endTypeGetter, pluginDesc));

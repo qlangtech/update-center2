@@ -33,6 +33,7 @@ import com.qlangtech.tis.extension.Descriptor;
 import com.qlangtech.tis.extension.util.VersionNumber;
 import com.qlangtech.tis.maven.plugins.tpi.PluginClassifier;
 import com.qlangtech.tis.plugin.IEndTypeGetter;
+import com.qlangtech.tis.plugin.IPluginTaggable;
 import io.jenkins.update_center.util.JavaSpecificationVersion;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
@@ -210,22 +211,54 @@ public class HPI extends MavenArtifact {
         }
     }
 
+    private PluginPayloads payloads;
+
     public Set<String> getEndTypes() {
+        if (payloads == null) {
+            payloads = new PluginPayloads();
+        }
+        return payloads.getEndTypes();
+    }
+
+    public Set<String> getPluginTags() {
+        if (payloads == null) {
+            payloads = new PluginPayloads();
+        }
+        return payloads.getPluginTags();
+    }
+
+    private class PluginPayloads {
         Set<IEndTypeGetter.EndType> endTypes = Sets.newHashSet();
-        Descriptor desc = null;
-        for (Map.Entry<String, List<String>> entry : this.getExtendpoints().entrySet()) {
-            for (String extendImpl : entry.getValue()) {
-                try {
-                    desc = TIS.get().getDescriptor(extendImpl);
-                    if (desc instanceof IEndTypeGetter) {
-                        endTypes.add(((IEndTypeGetter) desc).getEndType());
+        Set<IPluginTaggable.PluginTag> pluginTags = Sets.newHashSet();
+
+        public PluginPayloads() {
+            Descriptor desc = null;
+            for (Map.Entry<String, List<String>> entry : getExtendpoints().entrySet()) {
+                for (String extendImpl : entry.getValue()) {
+                    try {
+                        desc = TIS.get().getDescriptor(extendImpl);
+                        if (desc instanceof IEndTypeGetter) {
+                            endTypes.add(((IEndTypeGetter) desc).getEndType());
+                        }
+
+                        if (desc instanceof IPluginTaggable) {
+                            pluginTags.addAll(((IPluginTaggable) desc).getTags());
+                        }
+
+                    } catch (Throwable e) {
+                        throw new RuntimeException(desc.clazz.getName(), e);
                     }
-                } catch (Throwable e) {
-                    throw new RuntimeException(desc.clazz.getName(), e);
                 }
             }
         }
-        return endTypes.stream().map((type) -> type.getVal()).collect(Collectors.toSet());
+
+        public Set<String> getEndTypes() {
+            return endTypes.stream().map((type) -> type.getVal()).collect(Collectors.toSet());
+        }
+
+        public Set<String> getPluginTags() {
+            return pluginTags.stream().map((tag) -> tag.getToken()).collect(Collectors.toSet());
+        }
     }
 
     public String getDescription() throws IOException {
