@@ -55,6 +55,7 @@ import io.jenkins.update_center.json.*;
 import io.jenkins.update_center.util.JavaSpecificationVersion;
 import io.jenkins.update_center.wrappers.*;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.MapUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -423,6 +424,9 @@ public class Main {
             }
         }
 
+        if (MapUtils.isEmpty(extendPoints)) {
+            throw new IllegalStateException("extendPoints can not be null");
+        }
         final MarkdownBuilder tabView = new MarkdownBuilder(
                 "header-source-sink.txt"
                 , this.drawEndTypePluginTableView(extendPoints)
@@ -462,6 +466,7 @@ public class Main {
      * @param extendPoints
      */
     private StringBuffer drawEndTypePluginTableView(Map<String, List<PluginExtendsionImpl>> extendPoints) {
+
         Memoizer<IEndTypeGetter.EndType, EndTypePluginStore> endTypePluginDescs
                 = new Memoizer<IEndTypeGetter.EndType, EndTypePluginStore>() {
             @Override

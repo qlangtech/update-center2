@@ -243,6 +243,9 @@ import TOCInline from '@theme/TOCInline';
 
 * **下载地址：** http://mirror.qlangtech.com/3.7.1/tis-plugin/tis-datax-hdfs-plugin/tis-datax-hdfs-plugin_hadoop_2.7.3.tpi
 
+* **介绍：** 
+
+	提供支持[Hadoop HDFS](https://hadoop.apache.org/docs/r1.2.1/hdfs_design.html)相关的工具插件
 * **扩展列表：** 
 
 	* [com.qlangtech.tis.plugin.datax.FSFormat](./plugins#comqlangtechtisplugindataxfsformat)
@@ -332,15 +335,20 @@ import TOCInline from '@theme/TOCInline';
 
 * **下载地址：** http://mirror.qlangtech.com/3.7.1/tis-plugin/tis-datax-kafka-plugin.tpi
 
+* **介绍：** 
+
+	提供消息中间件[KafKa](https://kafka.apache.org/) 操作数据的能力
+	
+	* 目前支持向 KafKa 中写入数据
+	
+	
+	
+	
 * **扩展列表：** 
 
 	* [com.qlangtech.tis.plugin.datax.SelectedTab](./plugins#comqlangtechtisplugindataxselectedtab)
 
 		 * [com.qlangtech.tis.plugins.datax.kafka.writer.KafkaSelectedTab](./plugins#comqlangtechtispluginsdataxkafkawriterkafkaselectedtab)
-
-	* [com.qlangtech.tis.datax.impl.DataxReader](./plugins#comqlangtechtisdataximpldataxreader)
-
-		 * [com.qlangtech.tis.plugins.datax.kafka.reader.DataXKafkaReader](./plugins#comqlangtechtispluginsdataxkafkareaderdataxkafkareader)
 
 	* [com.qlangtech.tis.plugins.datax.kafka.writer.protocol.KafkaProtocol](./plugins#comqlangtechtispluginsdataxkafkawriterprotocolkafkaprotocol)
 
@@ -428,8 +436,8 @@ import TOCInline from '@theme/TOCInline';
 
 * **介绍：** 
 
-	*介绍： ODPSWriter插件用于实现往ODPS插入或者更新数据，主要提供给etl开发同学将业务数据导入odps，适合于TB,GB数量级的数据传输，如果需要传输PB量级的数据，请选择dt task工具 ;
-	*实现原理：在底层实现上，ODPSWriter是通过DT Tunnel写入ODPS系统的，有关ODPS的更多技术细节请参看 ODPS主站 https://data.aliyun.com/product/odps 和ODPS产品文档 https://help.aliyun.com/product/27797.html
+	* 介绍： ODPSWriter插件用于实现往ODPS插入或者更新数据，主要提供给etl开发同学将业务数据导入odps，适合于TB,GB数量级的数据传输，如果需要传输PB量级的数据，请选择dt task工具 ;
+	* 实现原理：在底层实现上，ODPSWriter是通过DT Tunnel写入ODPS系统的，有关ODPS的更多技术细节请参看 ODPS主站 https://data.aliyun.com/product/odps 和ODPS产品文档 https://help.aliyun.com/product/27797.html
 * **扩展列表：** 
 
 	* [com.qlangtech.tis.datax.impl.DataxWriter](./plugins#comqlangtechtisdataximpldataxwriter)
@@ -776,16 +784,6 @@ import TOCInline from '@theme/TOCInline';
 	* [com.qlangtech.tis.async.message.client.consumer.impl.MQListenerFactory](./plugins#comqlangtechtisasyncmessageclientconsumerimplmqlistenerfactory)
 
 		 * [com.qlangtech.plugins.incr.flink.chunjun.postgresql.source.ChunjunPostgreSQLSourceFactory](./plugins#comqlangtechpluginsincrflinkchunjunpostgresqlsourcechunjunpostgresqlsourcefactory)
-
-## tis-flink-chunjun-rabbitmq-plugin.tpi
-
-* **下载地址：** http://mirror.qlangtech.com/3.7.1/tis-plugin/tis-flink-chunjun-rabbitmq-plugin.tpi
-
-* **扩展列表：** 
-
-	* [com.qlangtech.tis.plugin.incr.TISSinkFactory](./plugins#comqlangtechtispluginincrtissinkfactory)
-
-		 * [com.qlangtech.tis.plugins.incr.flink.chunjun.rabbitmq.sink.ChujunRabbitMQSinkFactory](./plugins#comqlangtechtispluginsincrflinkchunjunrabbitmqsinkchujunrabbitmqsinkfactory)
 
 ## tis-flink-chunjun-starrocks-plugin.tpi
 
