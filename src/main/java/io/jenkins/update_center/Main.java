@@ -73,7 +73,6 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.*;
 import java.util.function.Consumer;
-import java.util.function.Function;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
@@ -487,22 +486,24 @@ public class Main {
                 }
 
                 if (DataxReader.class.isAssignableFrom(pluginDesc.clazz)) {
-                    addToEndTypeStore(endTypePluginDescs, pluginDesc, (store) -> store.convertDataXReaders());
+                    addToEndTypeStore(endTypePluginDescs, pluginDesc
+                            , (store, typedDesc) -> store.dataXReaders.add(Pair.of((IDataXEndTypeGetter) typedDesc.getLeft(), typedDesc.getRight())));
                     continue;
                 }
 
                 if (DataxWriter.class.isAssignableFrom(pluginDesc.clazz)) {
-                    addToEndTypeStore(endTypePluginDescs, pluginDesc, (store) -> store.convertDataXWriters());
+                    addToEndTypeStore(endTypePluginDescs, pluginDesc
+                            , (store, typedDesc) -> store.dataXWriters.add(Pair.of((IDataXEndTypeGetter) typedDesc.getLeft(), typedDesc.getRight())));
                     continue;
                 }
 
                 if (TISSinkFactory.class.isAssignableFrom(pluginDesc.clazz)) {
-                    addToEndTypeStore(endTypePluginDescs, pluginDesc, (store) -> store.incrSinks);
+                    addToEndTypeStore(endTypePluginDescs, pluginDesc, (store, typedDesc) -> store.incrSinks.add(typedDesc));
                     continue;
                 }
 
                 if (MQListenerFactory.class.isAssignableFrom(pluginDesc.clazz)) {
-                    addToEndTypeStore(endTypePluginDescs, pluginDesc, (store) -> store.incrSources);
+                    addToEndTypeStore(endTypePluginDescs, pluginDesc, (store, typedDesc) -> store.incrSources.add(typedDesc));
                     continue;
                 }
             }
@@ -568,13 +569,22 @@ public class Main {
     }
 
     private void addToEndTypeStore(Memoizer<IEndTypeGetter.EndType, EndTypePluginStore> endTypePluginDescs
-            , Descriptor pluginDesc, Function<EndTypePluginStore, List<Pair<IPluginVenderGetter, Descriptor>>> func) {
+            , Descriptor pluginDesc
+            , PluginDescConsumer consumer) {
 
         IPluginVenderGetter endTypeGetter = (IPluginVenderGetter) pluginDesc;
 
-        func.apply(endTypePluginDescs.get(endTypeGetter.getEndType()))
-                .add(Pair.of(endTypeGetter, pluginDesc));
+        Pair<IPluginVenderGetter, Descriptor> typedDesc = Pair.of(endTypeGetter, pluginDesc);
+
+        consumer.accept(endTypePluginDescs.get(endTypeGetter.getEndType()), typedDesc);
+
     }
+
+
+    interface PluginDescConsumer {
+        void accept(EndTypePluginStore pluginStore, Pair<IPluginVenderGetter, Descriptor> typedDesc);
+    }
+
 
     private static final String CHECK_ICON = "<i className={clsx('tis-check')}></i>";
 
@@ -623,6 +633,7 @@ public class Main {
         List<Pair<IPluginVenderGetter, Descriptor>> convertDataXReaders() {
             return this.convert(this.dataXReaders);
         }
+
 
         List<Pair<IPluginVenderGetter, Descriptor>> convertDataXWriters() {
             return this.convert(this.dataXWriters);
