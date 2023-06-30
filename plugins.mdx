@@ -11,6 +11,28 @@ import TOCInline from '@theme/TOCInline';
 <TOCInline toc={toc} />
 
 
+## com.qlangtech.tis.plugin.datax.meta.MetaDataWriter
+
+### com.qlangtech.tis.plugin.datax.meta.NoneMetaDataWriter
+
+* **显示名:** off 
+
+* **全路径名:** [com.qlangtech.tis.plugin.datax.meta.NoneMetaDataWriter](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-ftp-plugin/src/main/java/com/qlangtech/tis/plugin/datax/meta/NoneMetaDataWriter.java) 
+
+* **费用:** `社区版(免费)`
+
+* **插件包:** [tis-datax-ftp-plugin.tpi](./tpis#tis-datax-ftp-plugintpi)
+
+### com.qlangtech.tis.plugin.datax.meta.DefaultMetaDataWriter
+
+* **显示名:** on 
+
+* **全路径名:** [com.qlangtech.tis.plugin.datax.meta.DefaultMetaDataWriter](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-ftp-plugin/src/main/java/com/qlangtech/tis/plugin/datax/meta/DefaultMetaDataWriter.java) 
+
+* **费用:** `社区版(免费)`
+
+* **插件包:** [tis-datax-ftp-plugin.tpi](./tpis#tis-datax-ftp-plugintpi)
+
 ## com.qlangtech.tis.plugin.AuthToken
 
 ### com.qlangtech.tis.plugin.aliyun.UsernamePassword
@@ -485,6 +507,116 @@ import TOCInline from '@theme/TOCInline';
 	* **类型:** 单行文本
 
 	* **必须:** 是
+
+### com.qlangtech.tis.plugin.datax.server.FTPServer
+
+* **显示名:** FTPServer 
+
+* **全路径名:** [com.qlangtech.tis.plugin.datax.server.FTPServer](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-ftp-plugin/src/main/java/com/qlangtech/tis/plugin/datax/server/FTPServer.java) 
+
+* **费用:** `社区版(免费)`
+
+* **插件包:** [tis-datax-ftp-plugin.tpi](./tpis#tis-datax-ftp-plugintpi)
+
+* **参数说明:** 
+
+1. password
+
+	* **类型:** 密码
+
+	* **必须:** 是
+
+	* **说明:** 描述：ftp服务器访问密码。 
+	* **默认值:** 无
+
+2. protocol
+
+	* **类型:** 单选
+
+	* **必须:** 是
+
+	* **说明:** 
+		
+		SFTP 和 FTP 非常相似，都支持批量传输（一次传输多个文件），文件夹 / 目录导航，文件移动，文件夹 / 目录创建，文件删除等。但还是存在着差异，SFTP 和 FTP 之间的区别：
+		
+		* 链接方式不同
+		
+		    FTP 使用 TCP 端口 21 上的控制连接建立连接。而 SFTP 是在客户端和服务器之间通过 SSH 协议 (TCP 端口 22) 建立的安全连接来传输文件。
+		
+		* 安全性不同
+		
+		    SFTP 使用加密传输认证信息和传输的数据，所以使用 SFTP 相对于 FTP 是非常安全。
+		
+		* 效率不同
+		
+		    SFTP 这种传输方式使用了加密解密技术，所以传输效率比普通的 FTP 要低得多。
+		
+		* 使用的协议不同
+		
+		    FTP 使用 TCP / IP 协议。而，SFTP 是 SSH 协议的一部分，它是一种远程登录信息。
+		
+		* 安全通道
+		
+		    FTP 不提供任何安全通道来在主机之间传输文件；而 SFTP 协议提供了一个安全通道，用于在网络上的主机之间传输文件。 
+	* **默认值:** ftp
+
+3. port
+
+	* **类型:** 整型数字
+
+	* **必须:** 是
+
+	* **说明:** 描述：ftp服务器端口。 
+	* **默认值:** 21
+
+4. host
+
+	* **类型:** 单行文本
+
+	* **必须:** 是
+
+	* **说明:** 描述：ftp服务器地址。 
+	* **默认值:** 无
+
+5. name
+
+	* **类型:** 单行文本
+
+	* **必须:** 是
+
+6. timeout
+
+	* **类型:** 整型数字
+
+	* **必须:** 否
+
+	* **说明:** 描述：连接ftp服务器连接超时时间，单位毫秒。默认值：60000（1分钟）
+	* **默认值:** 60000
+
+7. username
+
+	* **类型:** 单行文本
+
+	* **必须:** 是
+
+	* **说明:** 描述：ftp服务器访问用户名。 
+	* **默认值:** 无
+
+8. 连接模式
+
+	* **类型:** 单选
+
+	* **必须:** 是
+
+	* **说明:** 
+		
+		 连接模式（主动模式或者被动模式）。该参数只在传输协议是标准ftp协议时使用，值只能为：**PORT (主动)**，**PASV（被动）**。两种模式主要的不同是数据连接建立的不同。
+		
+		 1. 对于Port模式，是客户端在本地打开一个端口等服务器去连接建立数据连接，
+		
+		 2. 而Pasv模式就是服务器打开一个端口等待客户端去建立一个数据连接。
+		 
+	* **默认值:** PASV
 
 ### com.qlangtech.tis.kerberos.KerberosCfg
 
@@ -1085,6 +1217,43 @@ import TOCInline from '@theme/TOCInline';
 
 * **插件包:** [tis-datax-local-executor.tpi](./tpis#tis-datax-local-executortpi)
 
+## com.qlangtech.tis.plugin.ds.oracle.Authorized
+
+### com.qlangtech.tis.plugin.ds.oracle.auth.AcceptAuthorized
+
+* **显示名:** on 
+
+* **全路径名:** [com.qlangtech.tis.plugin.ds.oracle.auth.AcceptAuthorized](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-oracle-plugin/src/main/java/com/qlangtech/tis/plugin/ds/oracle/auth/AcceptAuthorized.java) 
+
+* **费用:** `社区版(免费)`
+
+* **插件包:** [tis-datax-oracle-plugin.tpi](./tpis#tis-datax-oracle-plugintpi)
+
+* **参数说明:** 
+
+1. Schema
+
+	* **类型:** 单行文本
+
+	* **必须:** 否
+
+	* **说明:** 
+		
+		可以只包含某一个模式（Schema）下的表，[Oracle模式对象schema的介绍](https://www.modb.pro/db/508147)
+		
+		可以不填，但当选中的表在多个授权Schema中出现时，TIS会报异常
+	* **默认值:** 无
+
+### com.qlangtech.tis.plugin.ds.oracle.auth.NoneAuth
+
+* **显示名:** off 
+
+* **全路径名:** [com.qlangtech.tis.plugin.ds.oracle.auth.NoneAuth](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-oracle-plugin/src/main/java/com/qlangtech/tis/plugin/ds/oracle/auth/NoneAuth.java) 
+
+* **费用:** `社区版(免费)`
+
+* **插件包:** [tis-datax-oracle-plugin.tpi](./tpis#tis-datax-oracle-plugintpi)
+
 ## com.qlangtech.tis.plugins.datax.kafka.reader.messageformat.KafkaMessageFormat
 
 ### com.qlangtech.tis.plugins.datax.kafka.reader.messageformat.KafkaJson
@@ -1684,7 +1853,7 @@ import TOCInline from '@theme/TOCInline';
 	* **必须:** 是
 
 	* **说明:** 无
-	* **默认值:** com.qlangtech.tis.trigger.util.JsonUtil$UnCacheString@443effcb
+	* **默认值:** com.qlangtech.tis.trigger.util.JsonUtil$UnCacheString@38eb2fb0
 
 2. 分区值析取
 
@@ -1779,7 +1948,7 @@ import TOCInline from '@theme/TOCInline';
 	* **必须:** 是
 
 	* **说明:** 无
-	* **默认值:** com.qlangtech.tis.trigger.util.JsonUtil$UnCacheString@41eb94bc
+	* **默认值:** com.qlangtech.tis.trigger.util.JsonUtil$UnCacheString@5e268ce6
 
 ### com.qlangtech.tis.plugin.datax.hudi.keygenerator.impl.SimpleKeyGenerator
 
@@ -2143,97 +2312,15 @@ import TOCInline from '@theme/TOCInline';
 	* **说明:** 无
 	* **默认值:** default
 
-### com.qlangtech.tis.plugin.ds.starrocks.StarRocksSourceFactory
-
-* **显示名:** StarRocks 
-
-* **全路径名:** [com.qlangtech.tis.plugin.ds.starrocks.StarRocksSourceFactory](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-doris-starrocks-plugin/src/main/java/com/qlangtech/tis/plugin/ds/starrocks/StarRocksSourceFactory.java) 
-
-* **费用:** `社区版(免费)`
-
-* **插件包:** [tis-datax-doris-starrocks-plugin.tpi](./tpis#tis-datax-doris-starrocks-plugintpi)
-
-* **参数说明:** 
-
-1. 密码
-
-	* **类型:** 密码
-
-	* **必须:** 否
-
-	* **说明:** Doris数据库的密码
-	* **默认值:** 无
-
-2. 端口
-
-	* **类型:** 整型数字
-
-	* **必须:** 是
-
-	* **说明:** 无
-	* **默认值:** 9030
-
-3. 数据库名
-
-	* **类型:** 单行文本
-
-	* **必须:** 是
-
-	* **说明:** Doris表的数据库名称
-	* **默认值:** 无
-
-4. 实例ID
-
-	* **类型:** 单行文本
-
-	* **必须:** 是
-
-	* **说明:** 数据源实例名称，请起一个有意义且唯一的名称
-	* **默认值:** 无
-
-5. loadUrl
-
-	* **类型:** 富文本
-
-	* **必须:** 是
-
-	* **说明:** 
-		
-		Doris FE的地址用于Streamload，可以为多个fe地址，fe_ip:fe_http_port
-		样例：
-		
-		```json
-		["172.28.17.100:8030", "172.28.17.100:8030"]
-		```
-	* **默认值:** []
-
-6. 节点描述
-
-	* **类型:** 富文本
-
-	* **必须:** 是
-
-	* **说明:** 目标数据库的 JDBC 连接信息，用于执行preSql及postSql
-	* **默认值:** 无
-
-7. 用户名
-
-	* **类型:** 单行文本
-
-	* **必须:** 是
-
-	* **说明:** Doris数据库的用户名
-	* **默认值:** root
-
 ### com.qlangtech.tis.plugin.ds.doris.DorisSourceFactory
 
 * **显示名:** Doris 
 
-* **全路径名:** [com.qlangtech.tis.plugin.ds.doris.DorisSourceFactory](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-doris-starrocks-plugin/src/main/java/com/qlangtech/tis/plugin/ds/doris/DorisSourceFactory.java) 
+* **全路径名:** [com.qlangtech.tis.plugin.ds.doris.DorisSourceFactory](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-doris-plugin/src/main/java/com/qlangtech/tis/plugin/ds/doris/DorisSourceFactory.java) 
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-datax-doris-starrocks-plugin.tpi](./tpis#tis-datax-doris-starrocks-plugintpi)
+* **插件包:** [tis-datax-doris-plugin.tpi](./tpis#tis-datax-doris-plugintpi)
 
 * **参数说明:** 
 
@@ -2526,7 +2613,7 @@ import TOCInline from '@theme/TOCInline';
 
 7. 包含授权
 
-	* **类型:** 单选
+	* **类型:** 单行文本
 
 	* **必须:** 是
 
@@ -2534,11 +2621,11 @@ import TOCInline from '@theme/TOCInline';
 		
 		Oracle系统会向用户授权其他用户名下的表
 		
-		* 如选择`是`可以包含系统授权的其他用户名下的表
+		* 如选择`on`可以包含系统授权的其他用户名下的表
 		
-		* 如选择`否`则只包含用户名下的表
+		* 如选择`off`则只包含用户名下的表
 		
-	* **默认值:** false
+	* **默认值:** off
 
 ### com.qlangtech.tis.plugin.ds.postgresql.PGDataSourceFactory
 
@@ -2661,7 +2748,7 @@ import TOCInline from '@theme/TOCInline';
 	* **必须:** 是
 
 	* **说明:** 无
-	* **默认值:** 无
+	* **默认值:** 1433
 
 3. 数据库名
 
@@ -2706,6 +2793,170 @@ import TOCInline from '@theme/TOCInline';
 	* **必须:** 是
 
 	* **说明:** 无
+	* **默认值:** root
+
+### com.qlangtech.tis.plugin.ds.starrocks.BasicSourceFactory
+
+* **显示名:** Doris 
+
+* **全路径名:** [com.qlangtech.tis.plugin.ds.starrocks.BasicSourceFactory](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-starrocks-plugin/src/main/java/com/qlangtech/tis/plugin/ds/starrocks/BasicSourceFactory.java) 
+
+* **费用:** `社区版(免费)`
+
+* **插件包:** [tis-datax-starrocks-plugin.tpi](./tpis#tis-datax-starrocks-plugintpi)
+
+* **参数说明:** 
+
+1. 密码
+
+	* **类型:** 密码
+
+	* **必须:** 否
+
+	* **说明:** Doris数据库的密码
+	* **默认值:** 无
+
+2. 端口
+
+	* **类型:** 整型数字
+
+	* **必须:** 是
+
+	* **说明:** 无
+	* **默认值:** 9030
+
+3. 数据库名
+
+	* **类型:** 单行文本
+
+	* **必须:** 是
+
+	* **说明:** Doris表的数据库名称
+	* **默认值:** 无
+
+4. 实例ID
+
+	* **类型:** 单行文本
+
+	* **必须:** 是
+
+	* **说明:** 数据源实例名称，请起一个有意义且唯一的名称
+	* **默认值:** 无
+
+5. loadUrl
+
+	* **类型:** 富文本
+
+	* **必须:** 是
+
+	* **说明:** 
+		
+		Doris FE的地址用于Streamload，可以为多个fe地址，fe_ip:fe_http_port
+		样例：
+		
+		```json
+		["172.28.17.100:8030", "172.28.17.100:8030"]
+		```
+	* **默认值:** []
+
+6. 节点描述
+
+	* **类型:** 富文本
+
+	* **必须:** 是
+
+	* **说明:** 目标数据库的 JDBC 连接信息，用于执行preSql及postSql
+	* **默认值:** 无
+
+7. 用户名
+
+	* **类型:** 单行文本
+
+	* **必须:** 是
+
+	* **说明:** Doris数据库的用户名
+	* **默认值:** root
+
+### com.qlangtech.tis.plugin.ds.starrocks.StarRocksSourceFactory
+
+* **显示名:** StarRocks 
+
+* **全路径名:** [com.qlangtech.tis.plugin.ds.starrocks.StarRocksSourceFactory](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-starrocks-plugin/src/main/java/com/qlangtech/tis/plugin/ds/starrocks/StarRocksSourceFactory.java) 
+
+* **费用:** `社区版(免费)`
+
+* **插件包:** [tis-datax-starrocks-plugin.tpi](./tpis#tis-datax-starrocks-plugintpi)
+
+* **参数说明:** 
+
+1. 密码
+
+	* **类型:** 密码
+
+	* **必须:** 否
+
+	* **说明:** Doris数据库的密码
+	* **默认值:** 无
+
+2. 端口
+
+	* **类型:** 整型数字
+
+	* **必须:** 是
+
+	* **说明:** 无
+	* **默认值:** 9030
+
+3. 数据库名
+
+	* **类型:** 单行文本
+
+	* **必须:** 是
+
+	* **说明:** Doris表的数据库名称
+	* **默认值:** 无
+
+4. 实例ID
+
+	* **类型:** 单行文本
+
+	* **必须:** 是
+
+	* **说明:** 数据源实例名称，请起一个有意义且唯一的名称
+	* **默认值:** 无
+
+5. loadUrl
+
+	* **类型:** 富文本
+
+	* **必须:** 是
+
+	* **说明:** 
+		
+		Doris FE的地址用于Streamload，可以为多个fe地址，fe_ip:fe_http_port
+		样例：
+		
+		```json
+		["172.28.17.100:8030", "172.28.17.100:8030"]
+		```
+	* **默认值:** []
+
+6. 节点描述
+
+	* **类型:** 富文本
+
+	* **必须:** 是
+
+	* **说明:** 目标数据库的 JDBC 连接信息，用于执行preSql及postSql
+	* **默认值:** 无
+
+7. 用户名
+
+	* **类型:** 单行文本
+
+	* **必须:** 是
+
+	* **说明:** Doris数据库的用户名
 	* **默认值:** root
 
 ### com.qlangtech.tis.plugin.ds.mysql.MySQLV5DataSourceFactory
@@ -2759,6 +3010,8 @@ import TOCInline from '@theme/TOCInline';
 		
 		`on`: 分表策略支持海量数据存放，每张表的数据结构需要保证相同，且有规则的后缀作为物理表的分区规则，逻辑层面视为同一张表。
 		如逻辑表`order` 对应的物理分表为：  `order_01`,`order_02`,`order_03`,`order_04`
+		
+		[详细说明](https://tis.pub/docs/guide/datasource/multi-table-rule/)
 		
 		
 		
@@ -2874,6 +3127,8 @@ import TOCInline from '@theme/TOCInline';
 		`on`: 分表策略支持海量数据存放，每张表的数据结构需要保证相同，且有规则的后缀作为物理表的分区规则，逻辑层面视为同一张表。
 		如逻辑表`order` 对应的物理分表为：  `order_01`,`order_02`,`order_03`,`order_04`
 		
+		[详细说明](https://tis.pub/docs/guide/datasource/multi-table-rule/)
+		
 		
 		
 		
@@ -2935,45 +3190,6 @@ import TOCInline from '@theme/TOCInline';
 
 	* **说明:** 无
 	* **默认值:** root
-
-### com.qlangtech.tis.plugin.ds.tidb.TiKVDataSourceFactory
-
-* **显示名:** TiDB 
-
-* **全路径名:** [com.qlangtech.tis.plugin.ds.tidb.TiKVDataSourceFactory](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-ds-tidb-plugin/src/main/java/com/qlangtech/tis/plugin/ds/tidb/TiKVDataSourceFactory.java) 
-
-* **费用:** `社区版(免费)`
-
-* **插件包:** [tis-ds-tidb-plugin.tpi](./tpis#tis-ds-tidb-plugintpi)
-
-* **参数说明:** 
-
-1. 数据库名
-
-	* **类型:** 单行文本
-
-	* **必须:** 是
-
-	* **说明:** 无
-	* **默认值:** 无
-
-2. 实例ID
-
-	* **类型:** 单行文本
-
-	* **必须:** 是
-
-	* **说明:** 数据源实例名称，请起一个有意义的名称
-	* **默认值:** 无
-
-3. PD地址
-
-	* **类型:** 单行文本
-
-	* **必须:** 是
-
-	* **说明:** 无
-	* **默认值:** 无
 
 ### com.qlangtech.tis.hive.Hiveserver2DataSourceFactory
 
@@ -3110,7 +3326,7 @@ import TOCInline from '@theme/TOCInline';
 		
 		描述：一次性批量提交的记录数大小，该值可以极大减少 ChunJun 与数据库的网络交互次数，并提升整体吞吐量。但是该值设置过大可能会造成 ChunJun 运行进程 OOM 情况
 		
-	* **默认值:** 无
+	* **默认值:** 5000
 
 ### com.qlangtech.plugins.incr.flink.chunjun.doris.sink.ChunjunDorisSinkFactory
 
@@ -3184,7 +3400,7 @@ import TOCInline from '@theme/TOCInline';
 		
 		描述：一次性批量提交的记录数大小，该值可以极大减少 ChunJun 与数据库的网络交互次数，并提升整体吞吐量。但是该值设置过大可能会造成 ChunJun 运行进程 OOM 情况
 		
-	* **默认值:** 无
+	* **默认值:** 5000
 
 ### com.qlangtech.tis.plugins.incr.flink.chunjun.kafka.sink.ChujunKafkaSinkFactory
 
@@ -3238,6 +3454,17 @@ import TOCInline from '@theme/TOCInline';
 		* `Stream API`：**优点**基于系统更底层执行逻辑执行、轻量、高性能
 		    
 	* **默认值:** SQL
+
+4. 传输格式
+
+	* **类型:** 单行文本
+
+	* **必须:** 是
+
+	* **说明:** 
+		
+		Kafka 传输文本格式 ，参数设置，详细请查看: https://nightlies.apache.org/flink/flink-docs-release-1.16/docs/connectors/table/formats/overview/
+	* **默认值:** debezium-json
 
 ### com.qlangtech.tis.plugins.incr.flink.connector.sink.MySQLSinkFactory
 
@@ -3311,7 +3538,7 @@ import TOCInline from '@theme/TOCInline';
 		
 		描述：一次性批量提交的记录数大小，该值可以极大减少 ChunJun 与数据库的网络交互次数，并提升整体吞吐量。但是该值设置过大可能会造成 ChunJun 运行进程 OOM 情况
 		
-	* **默认值:** 无
+	* **默认值:** 5000
 
 ### com.qlangtech.plugins.incr.flink.chunjun.oracle.sink.ChunjunOracleSinkFactory
 
@@ -3385,7 +3612,7 @@ import TOCInline from '@theme/TOCInline';
 		
 		描述：一次性批量提交的记录数大小，该值可以极大减少 ChunJun 与数据库的网络交互次数，并提升整体吞吐量。但是该值设置过大可能会造成 ChunJun 运行进程 OOM 情况
 		
-	* **默认值:** 无
+	* **默认值:** 5000
 
 ### com.qlangtech.plugins.incr.flink.chunjun.postgresql.sink.ChunjunPostgreSQLSinkFactory
 
@@ -3459,7 +3686,7 @@ import TOCInline from '@theme/TOCInline';
 		
 		描述：一次性批量提交的记录数大小，该值可以极大减少 ChunJun 与数据库的网络交互次数，并提升整体吞吐量。但是该值设置过大可能会造成 ChunJun 运行进程 OOM 情况
 		
-	* **默认值:** 无
+	* **默认值:** 5000
 
 ### com.qlangtech.tis.plugins.incr.flink.chunjun.starrocks.sink.ChunjunStarRocksSinkFactory
 
@@ -3533,7 +3760,7 @@ import TOCInline from '@theme/TOCInline';
 		
 		描述：一次性批量提交的记录数大小，该值可以极大减少 ChunJun 与数据库的网络交互次数，并提升整体吞吐量。但是该值设置过大可能会造成 ChunJun 运行进程 OOM 情况
 		
-	* **默认值:** 无
+	* **默认值:** 5000
 
 ### com.qlangtech.tis.plugins.incr.flink.connector.elasticsearch7.ElasticSearchSinkFactory
 
@@ -3578,12 +3805,12 @@ import TOCInline from '@theme/TOCInline';
 
 	* **类型:** 整型数字
 
-	* **必须:** 否
+	* **必须:** 是
 
 	* **说明:** 
 		
-		刷新的时间间隔（不论缓存操作的数量或大小如何）
-	* **默认值:** 无
+		刷新的时间间隔（不论缓存操作的数量或大小如何），默认10秒自动提交一次
+	* **默认值:** 10000
 
 ### com.qlangtech.tis.plugins.incr.flink.connector.hudi.HudiSinkFactory
 
@@ -3693,7 +3920,7 @@ import TOCInline from '@theme/TOCInline';
 		   [安装说明](http://tis.pub/docs/install/flink-cluster/standalone/):
 		      - 下载、解压
 		        ```shell script
-		         wget http://tis-release.oss-cn-beijing.aliyuncs.com/3.7.1/tis/flink-tis-1.13.1-bin.tar.gz && rm -rf flink-tis-1.13.1 && mkdir flink-tis-1.13.1 && tar xvf flink-tis-1.13.1-bin.tar.gz -C ./flink-tis-1.13.1
+		         wget http://tis-release.oss-cn-beijing.aliyuncs.com/3.7.2/tis/flink-tis-1.13.1-bin.tar.gz && rm -rf flink-tis-1.13.1 && mkdir flink-tis-1.13.1 && tar xvf flink-tis-1.13.1-bin.tar.gz -C ./flink-tis-1.13.1
 		        ```
 		      - 启动Flink-Cluster：
 		         ```shell script
@@ -3802,112 +4029,6 @@ import TOCInline from '@theme/TOCInline';
 * **费用:** `社区版(免费)`
 
 * **插件包:** [tis-chunjun-base-plugin.tpi](./tpis#tis-chunjun-base-plugintpi)
-
-## com.qlangtech.tis.plugin.datax.server.FTPServer
-
-### com.qlangtech.tis.plugin.datax.server.FTPServer
-
-* **显示名:** Server 
-
-* **全路径名:** [com.qlangtech.tis.plugin.datax.server.FTPServer](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-ftp-plugin/src/main/java/com/qlangtech/tis/plugin/datax/server/FTPServer.java) 
-
-* **费用:** `社区版(免费)`
-
-* **插件包:** [tis-datax-ftp-plugin.tpi](./tpis#tis-datax-ftp-plugintpi)
-
-* **参数说明:** 
-
-1. password
-
-	* **类型:** 密码
-
-	* **必须:** 是
-
-	* **说明:** 描述：ftp服务器访问密码。 
-	* **默认值:** 无
-
-2. protocol
-
-	* **类型:** 单选
-
-	* **必须:** 是
-
-	* **说明:** 
-		
-		SFTP 和 FTP 非常相似，都支持批量传输（一次传输多个文件），文件夹 / 目录导航，文件移动，文件夹 / 目录创建，文件删除等。但还是存在着差异，SFTP 和 FTP 之间的区别：
-		
-		* 链接方式不同
-		
-		    FTP 使用 TCP 端口 21 上的控制连接建立连接。而 SFTP 是在客户端和服务器之间通过 SSH 协议 (TCP 端口 22) 建立的安全连接来传输文件。
-		
-		* 安全性不同
-		
-		    SFTP 使用加密传输认证信息和传输的数据，所以使用 SFTP 相对于 FTP 是非常安全。
-		
-		* 效率不同
-		
-		    SFTP 这种传输方式使用了加密解密技术，所以传输效率比普通的 FTP 要低得多。
-		
-		* 使用的协议不同
-		
-		    FTP 使用 TCP / IP 协议。而，SFTP 是 SSH 协议的一部分，它是一种远程登录信息。
-		
-		* 安全通道
-		
-		    FTP 不提供任何安全通道来在主机之间传输文件；而 SFTP 协议提供了一个安全通道，用于在网络上的主机之间传输文件。 
-	* **默认值:** ftp
-
-3. port
-
-	* **类型:** 整型数字
-
-	* **必须:** 否
-
-	* **说明:** 描述：ftp服务器端口。 
-	* **默认值:** 21
-
-4. host
-
-	* **类型:** 单行文本
-
-	* **必须:** 是
-
-	* **说明:** 描述：ftp服务器地址。 
-	* **默认值:** 无
-
-5. timeout
-
-	* **类型:** 整型数字
-
-	* **必须:** 否
-
-	* **说明:** 描述：连接ftp服务器连接超时时间，单位毫秒。默认值：60000（1分钟）
-	* **默认值:** 60000
-
-6. username
-
-	* **类型:** 单行文本
-
-	* **必须:** 是
-
-	* **说明:** 描述：ftp服务器访问用户名。 
-	* **默认值:** 无
-
-7. 连接模式
-
-	* **类型:** 单选
-
-	* **必须:** 否
-
-	* **说明:** 
-		
-		 连接模式（主动模式或者被动模式）。该参数只在传输协议是标准ftp协议时使用，值只能为：**PORT (主动)**，**PASV（被动）**。两种模式主要的不同是数据连接建立的不同。
-		
-		 1. 对于Port模式，是客户端在本地打开一个端口等服务器去连接建立数据连接，
-		
-		 2. 而Pasv模式就是服务器打开一个端口等待客户端去建立一个数据连接。
-		 
-	* **默认值:** PASV
 
 ## com.qlangtech.tis.plugin.datax.FSFormat
 
@@ -4088,125 +4209,17 @@ import TOCInline from '@theme/TOCInline';
 		 描述：写入数据到目的表前，会先执行这里的标准语句。如果 Sql 中有你需要操作到的表名称，请使用 `@table` 表示，这样在实际执行 Sql 语句时，会对变量按照实际表名称进行替换。比如你的任务是要写入到目的端的100个同构分表(表名称为:datax_00,datax01, ... datax_98,datax_99)，并且你希望导入数据前，先对表中数据进行删除操作，那么你可以这样配置：`"preSql":["delete from 表名"]`，效果是：在执行到每个表写入数据前，会先执行对应的 delete from 对应表名称
 	* **默认值:** 无
 
-### com.qlangtech.tis.plugin.datax.starrocks.DataXStarRocksWriter
-
-* **显示名:** StarRocks 
-
-* **全路径名:** [com.qlangtech.tis.plugin.datax.starrocks.DataXStarRocksWriter](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-doris-starrocks-plugin/src/main/java/com/qlangtech/tis/plugin/datax/starrocks/DataXStarRocksWriter.java) 
-
-* **提供者:** [DataX](https://github.com/alibaba/DataX) 
-
-* **费用:** `社区版(免费)`
-
-* **插件包:** [tis-datax-doris-starrocks-plugin.tpi](./tpis#tis-datax-doris-starrocks-plugintpi)
-
-* **参数说明:** 
-
-1. 配置模版
-
-	* **类型:** 富文本
-
-	* **必须:** 是
-
-	* **说明:** 无特殊情况请不要修改模版内容，避免不必要的错误
-	* **默认值:** 无
-
-2. postSql
-
-	* **类型:** 富文本
-
-	* **必须:** 否
-
-	* **说明:** 
-		 写入数据到目的表后，会执行这里的标准语句。（原理同 preSql ）
-	* **默认值:** 无
-
-3. 自动建表
-
-	* **类型:** 单选
-
-	* **必须:** 是
-
-	* **说明:** 解析Reader的元数据，自动生成Writer create table DDL语句
-	* **默认值:** true
-
-4. loadProps
-
-	* **类型:** 富文本
-
-	* **必须:** 是
-
-	* **说明:** 
-		
-		StreamLoad 的请求参数，默认传入的数据均会被转为字符串，并以 **\t** 作为列分隔符，**\n** 作为行分隔符，组成csv文件进行 [StreamLoad导入参数说明](https://docs.starrocks.io/zh-cn/latest/loading/stream_load_transaction_interface)。 如需更改列分隔符， 则正确配置 loadProps 即可：
-		
-		```json
-		 {
-		    "column_separator": "\\x01",
-		    "row_delimiter": "\\x02"
-		}
-		```
-	* **默认值:** 无
-
-5. 数据库名
-
-	* **类型:** 单选
-
-	* **必须:** 是
-
-	* **说明:** 无
-	* **默认值:** 无
-
-6. maxBatchSize
-
-	* **类型:** 整型数字
-
-	* **必须:** 否
-
-	* **说明:** 
-		
-		- 描述：单次StreamLoad导入的最大字节数。
-		- 必选：否
-		- 默认值：104857600 (100M)
-		
-		
-	* **默认值:** 104857600
-
-7. maxBatchRows
-
-	* **类型:** 整型数字
-
-	* **必须:** 否
-
-	* **说明:** 
-		
-		- 描述：单次StreamLoad导入的最大行数
-		- 必选：否
-		- 默认值：10000 (1W)
-		
-	* **默认值:** 10000
-
-8. preSql
-
-	* **类型:** 富文本
-
-	* **必须:** 否
-
-	* **说明:** 
-		 描述：写入数据到目的表前，会先执行这里的标准语句。如果 Sql 中有你需要操作到的表名称，请使用 `@table` 表示，这样在实际执行 Sql 语句时，会对变量按照实际表名称进行替换。比如你的任务是要写入到目的端的100个同构分表(表名称为:datax_00,datax01, ... datax_98,datax_99)，并且你希望导入数据前，先对表中数据进行删除操作，那么你可以这样配置：`"preSql":["delete from 表名"]`，效果是：在执行到每个表写入数据前，会先执行对应的 delete from 对应表名称
-	* **默认值:** 无
-
 ### com.qlangtech.tis.plugin.datax.doris.DataXDorisWriter
 
 * **显示名:** Doris 
 
-* **全路径名:** [com.qlangtech.tis.plugin.datax.doris.DataXDorisWriter](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-doris-starrocks-plugin/src/main/java/com/qlangtech/tis/plugin/datax/doris/DataXDorisWriter.java) 
+* **全路径名:** [com.qlangtech.tis.plugin.datax.doris.DataXDorisWriter](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-doris-plugin/src/main/java/com/qlangtech/tis/plugin/datax/doris/DataXDorisWriter.java) 
 
 * **提供者:** [DataX](https://github.com/alibaba/DataX) 
 
 * **费用:** `社区版(免费)`
 
-* **插件包:** [tis-datax-doris-starrocks-plugin.tpi](./tpis#tis-datax-doris-starrocks-plugintpi)
+* **插件包:** [tis-datax-doris-plugin.tpi](./tpis#tis-datax-doris-plugintpi)
 
 * **参数说明:** 
 
@@ -4354,7 +4367,7 @@ import TOCInline from '@theme/TOCInline';
 	* **必须:** 是
 
 	* **说明:** Elasticsearch中的index名
-	* **默认值:** com.qlangtech.tis.trigger.util.JsonUtil$UnCacheString@7e5843db
+	* **默认值:** com.qlangtech.tis.trigger.util.JsonUtil$UnCacheString@16073fa8
 
 5. splitter
 
@@ -4507,12 +4520,12 @@ import TOCInline from '@theme/TOCInline';
 
 3. 远端连接
 
-	* **类型:** 单行文本
+	* **类型:** 单选
 
 	* **必须:** 是
 
-	* **说明:** 无
-	* **默认值:** Server
+	* **说明:** FTP服务端连接配置
+	* **默认值:** 无
 
 4. nullFormat
 
@@ -4578,10 +4591,23 @@ import TOCInline from '@theme/TOCInline';
 		
 		 文件写出的格式，包括[csv](http://zh.wikipedia.org/wiki/%E9%80%97%E5%8F%B7%E5%88%86%E9%9A%94%E5%80%BC) 和**text**两种，**csv**是严格的**csv**格式，如果待写数据包括列分隔符，则会按照**csv**的转义语法转义，转义符号为双引号。**text**格式是用列分隔符简单分割待写数据，对于待写数据包括列分隔符情况下不做转义。
 		 
+	* **默认值:** TEXT
+
+10. 添加元数据
+
+	* **类型:** 单行文本
+
+	* **必须:** 是
+
+	* **说明:** 
+		 
+		 写数据过程中会在FTP目录中写一份source的元数据，当其他环境中需要使用TIS来导入FTP中的数据时，可以利用这份元数据快速生成目标端的数据表结构，省去手动配置元数据的流程 
+		 
+		 
 		
 		    
 		
-	* **默认值:** TEXT
+	* **默认值:** off
 
 ### com.qlangtech.tis.plugin.datax.DataXHdfsWriter
 
@@ -4627,7 +4653,7 @@ import TOCInline from '@theme/TOCInline';
 	* **必须:** 否
 
 	* **说明:** 描述：hdfs文件压缩类型，默认不填写意味着没有压缩。其中：text类型文件支持压缩类型有gzip、bzip2;orc类型文件支持的压缩类型有NONE、SNAPPY（需要用户安装SnappyCodec）。 
-	* **默认值:** 无
+	* **默认值:** NONE
 
 4. writeMode
 
@@ -5135,7 +5161,7 @@ import TOCInline from '@theme/TOCInline';
 		 | Date     | date  |
 		 | Boolean  | boolean |
 		 | Bytes    | bytes |
-	* **默认值:** com.qlangtech.tis.trigger.util.JsonUtil$UnCacheString@6d11ceef
+	* **默认值:** com.qlangtech.tis.trigger.util.JsonUtil$UnCacheString@787f32b7
 
 5. collectionName
 
@@ -5144,7 +5170,7 @@ import TOCInline from '@theme/TOCInline';
 	* **必须:** 是
 
 	* **说明:** MonogoDB的集合名。【必填】
-	* **默认值:** com.qlangtech.tis.trigger.util.JsonUtil$UnCacheString@4cb2918c
+	* **默认值:** com.qlangtech.tis.trigger.util.JsonUtil$UnCacheString@6aef4eb8
 
 ### com.qlangtech.tis.plugin.datax.DataXOdpsWriter
 
@@ -5558,6 +5584,114 @@ nonConflict，如果指定路径出现前缀匹配的object，直接报错。例
 	* **默认值:** 1000
 
 6. preSql
+
+	* **类型:** 富文本
+
+	* **必须:** 否
+
+	* **说明:** 
+		 描述：写入数据到目的表前，会先执行这里的标准语句。如果 Sql 中有你需要操作到的表名称，请使用 `@table` 表示，这样在实际执行 Sql 语句时，会对变量按照实际表名称进行替换。比如你的任务是要写入到目的端的100个同构分表(表名称为:datax_00,datax01, ... datax_98,datax_99)，并且你希望导入数据前，先对表中数据进行删除操作，那么你可以这样配置：`"preSql":["delete from 表名"]`，效果是：在执行到每个表写入数据前，会先执行对应的 delete from 对应表名称
+	* **默认值:** 无
+
+### com.qlangtech.tis.plugin.datax.starrocks.DataXStarRocksWriter
+
+* **显示名:** StarRocks 
+
+* **全路径名:** [com.qlangtech.tis.plugin.datax.starrocks.DataXStarRocksWriter](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-starrocks-plugin/src/main/java/com/qlangtech/tis/plugin/datax/starrocks/DataXStarRocksWriter.java) 
+
+* **提供者:** [DataX](https://github.com/alibaba/DataX) 
+
+* **费用:** `社区版(免费)`
+
+* **插件包:** [tis-datax-starrocks-plugin.tpi](./tpis#tis-datax-starrocks-plugintpi)
+
+* **参数说明:** 
+
+1. 配置模版
+
+	* **类型:** 富文本
+
+	* **必须:** 是
+
+	* **说明:** 无特殊情况请不要修改模版内容，避免不必要的错误
+	* **默认值:** 无
+
+2. postSql
+
+	* **类型:** 富文本
+
+	* **必须:** 否
+
+	* **说明:** 
+		 写入数据到目的表后，会执行这里的标准语句。（原理同 preSql ）
+	* **默认值:** 无
+
+3. 自动建表
+
+	* **类型:** 单选
+
+	* **必须:** 是
+
+	* **说明:** 解析Reader的元数据，自动生成Writer create table DDL语句
+	* **默认值:** true
+
+4. loadProps
+
+	* **类型:** 富文本
+
+	* **必须:** 是
+
+	* **说明:** 
+		
+		StreamLoad 的请求参数，默认传入的数据均会被转为字符串，并以 **\t** 作为列分隔符，**\n** 作为行分隔符，组成csv文件进行 [StreamLoad导入参数说明](https://docs.starrocks.io/zh-cn/latest/loading/stream_load_transaction_interface)。 如需更改列分隔符， 则正确配置 loadProps 即可：
+		
+		```json
+		 {
+		    "column_separator": "\\x01",
+		    "row_delimiter": "\\x02"
+		}
+		```
+	* **默认值:** 无
+
+5. 数据库名
+
+	* **类型:** 单选
+
+	* **必须:** 是
+
+	* **说明:** 无
+	* **默认值:** 无
+
+6. maxBatchSize
+
+	* **类型:** 整型数字
+
+	* **必须:** 否
+
+	* **说明:** 
+		
+		- 描述：单次StreamLoad导入的最大字节数。
+		- 必选：否
+		- 默认值：104857600 (100M)
+		
+		
+	* **默认值:** 104857600
+
+7. maxBatchRows
+
+	* **类型:** 整型数字
+
+	* **必须:** 否
+
+	* **说明:** 
+		
+		- 描述：单次StreamLoad导入的最大行数
+		- 必选：否
+		- 默认值：10000 (1W)
+		
+	* **默认值:** 10000
+
+8. preSql
 
 	* **类型:** 富文本
 
@@ -6062,6 +6196,154 @@ nonConflict，如果指定路径出现前缀匹配的object，直接报错。例
 
 * **插件包:** [tis-datax-hudi-plugin/tis-datax-hudi-plugin_hudi_0.10.1_spark_2.4.4_hive_2.3.1_hadoop_2.7.3.tpi](./tpis#tis-datax-hudi-plugin/tis-datax-hudi-plugin_hudi_0101_spark_244_hive_231_hadoop_273tpi)
 
+## com.qlangtech.tis.plugins.incr.flink.chunjun.kafka.format.FormatFactory
+
+### com.qlangtech.tis.plugins.incr.flink.chunjun.kafka.format.TISCanalJsonFormatFactory
+
+* **显示名:** canal-json 
+
+* **全路径名:** [com.qlangtech.tis.plugins.incr.flink.chunjun.kafka.format.TISCanalJsonFormatFactory](https://github.com/qlangtech/plugins/tree/master/tis-incr/tis-flink-msg-format-plugin/src/main/java/com/qlangtech/tis/plugins/incr/flink/chunjun/kafka/format/TISCanalJsonFormatFactory.java) 
+
+* **费用:** `社区版(免费)`
+
+* **插件包:** [tis-flink-msg-format-plugin.tpi](./tpis#tis-flink-msg-format-plugintpi)
+
+* **参数说明:** 
+
+1. nullKeyLiteral
+
+	* **类型:** 单行文本
+
+	* **必须:** 否
+
+	* **说明:** 
+		Optional flag to specify string literal for null keys when 'map-null-key.mode' is LITERAL, "null" by default.
+	* **默认值:** null
+
+2. tableInclude
+
+	* **类型:** 单行文本
+
+	* **必须:** 否
+
+	* **说明:** 
+		An optional regular expression to only read the specific tables changelog rows by regular matching the "table" meta field in the Canal record.The pattern string is compatible with Java's Pattern.
+	* **默认值:** 无
+
+3. ignoreParseErrors
+
+	* **类型:** 单选
+
+	* **必须:** 否
+
+	* **说明:** 
+		Optional flag to skip fields and rows with parse errors instead of failing;
+		fields are set to null in case of errors, false by default.
+	* **默认值:** false
+
+4. nullKeyMode
+
+	* **类型:** 单行文本
+
+	* **必须:** 否
+
+	* **说明:** 
+		Optional flag to control the handling mode when serializing null key for map data, FAIL by default. Option DROP will drop null key entries for map data. Option LITERAL will use 'map-null-key.literal' as key literal.
+	* **默认值:** FAIL
+
+5. timestampFormat
+
+	* **类型:** 单行文本
+
+	* **必须:** 否
+
+	* **说明:** 
+		Optional flag to specify timestamp format, SQL by default. Option ISO-8601 will parse input timestamp in "yyyy-MM-ddTHH:mm:ss.s{precision}" format and output timestamp in the same format. Option SQL will parse input timestamp in "yyyy-MM-dd HH:mm:ss.s{precision}" format and output timestamp in the same format.
+	* **默认值:** SQL
+
+6. dbInclude
+
+	* **类型:** 单行文本
+
+	* **必须:** 否
+
+	* **说明:** 
+		An optional regular expression to only read the specific databases changelog rows by regular matching the "database" meta field in the Canal record.The pattern string is compatible with Java's Pattern.
+	* **默认值:** 无
+
+7. encodeDecimal
+
+	* **类型:** 单选
+
+	* **必须:** 否
+
+	* **说明:** 
+		Optional flag to specify whether to encode all decimals as plain numbers instead of possible scientific notations, false by default.
+	* **默认值:** false
+
+### com.qlangtech.tis.plugins.incr.flink.chunjun.kafka.format.TISDebeziumJsonFormatFactory
+
+* **显示名:** debezium-json 
+
+* **全路径名:** [com.qlangtech.tis.plugins.incr.flink.chunjun.kafka.format.TISDebeziumJsonFormatFactory](https://github.com/qlangtech/plugins/tree/master/tis-incr/tis-flink-msg-format-plugin/src/main/java/com/qlangtech/tis/plugins/incr/flink/chunjun/kafka/format/TISDebeziumJsonFormatFactory.java) 
+
+* **费用:** `社区版(免费)`
+
+* **插件包:** [tis-flink-msg-format-plugin.tpi](./tpis#tis-flink-msg-format-plugintpi)
+
+* **参数说明:** 
+
+1. nullKeyLiteral
+
+	* **类型:** 单行文本
+
+	* **必须:** 否
+
+	* **说明:** 
+		Optional flag to specify string literal for null keys when 'map-null-key.mode' is LITERAL, "null" by default.
+	* **默认值:** null
+
+2. ignoreParseErrors
+
+	* **类型:** 单选
+
+	* **必须:** 否
+
+	* **说明:** 
+		Optional flag to skip fields and rows with parse errors instead of failing;
+		fields are set to null in case of errors, false by default.
+	* **默认值:** false
+
+3. nullKeyMode
+
+	* **类型:** 单行文本
+
+	* **必须:** 否
+
+	* **说明:** 
+		Optional flag to control the handling mode when serializing null key for map data, FAIL by default. Option DROP will drop null key entries for map data. Option LITERAL will use 'map-null-key.literal' as key literal.
+	* **默认值:** FAIL
+
+4. timestampFormat
+
+	* **类型:** 单行文本
+
+	* **必须:** 否
+
+	* **说明:** 
+		Optional flag to specify timestamp format, SQL by default. Option ISO-8601 will parse input timestamp in "yyyy-MM-ddTHH:mm:ss.s{precision}" format and output timestamp in the same format. Option SQL will parse input timestamp in "yyyy-MM-dd HH:mm:ss.s{precision}" format and output timestamp in the same format.
+	* **默认值:** SQL
+
+5. encodeDecimal
+
+	* **类型:** 单选
+
+	* **必须:** 否
+
+	* **说明:** 
+		Optional flag to specify whether to encode all decimals as plain numbers instead of possible scientific notations, false by default.
+	* **默认值:** false
+
 ## com.qlangtech.tis.plugins.incr.flink.connector.hudi.compaction.CompactionConfig
 
 ### com.qlangtech.tis.plugins.incr.flink.connector.hudi.compaction.CompactionConfig
@@ -6203,7 +6485,7 @@ nonConflict，如果指定路径出现前缀匹配的object，直接报错。例
 		* 描述：当写入模式为 update 和 replace 时，需要指定此参数的值为唯一索引字段
 		* 注意：如果此参数为空，并且写入模式为 update 和 replace 时，应用会自动获取数据库中的唯一索引；
 		如果数据表没有唯一索引，但是写入模式配置为 update 和 replace，应用会以 insert 的方式写入数据；
-	* **默认值:** com.qlangtech.tis.trigger.util.JsonUtil$UnCacheString@640ab13c
+	* **默认值:** com.qlangtech.tis.trigger.util.JsonUtil$UnCacheString@53c68ce
 
 ### com.qlangtech.tis.plugins.incr.flink.chunjun.sink.SinkTabPropsExtends
 
@@ -6246,7 +6528,7 @@ nonConflict，如果指定路径出现前缀匹配的object，直接报错。例
 		* 描述：当写入模式为 update 和 replace 时，需要指定此参数的值为唯一索引字段
 		* 注意：如果此参数为空，并且写入模式为 update 和 replace 时，应用会自动获取数据库中的唯一索引；
 		如果数据表没有唯一索引，但是写入模式配置为 update 和 replace，应用会以 insert 的方式写入数据；
-	* **默认值:** com.qlangtech.tis.trigger.util.JsonUtil$UnCacheString@4527f70a
+	* **默认值:** com.qlangtech.tis.trigger.util.JsonUtil$UnCacheString@75e710b
 
 ### com.qlangtech.tis.plugins.incr.flink.chunjun.source.SelectedTabPropsExtends
 
@@ -6313,6 +6595,37 @@ nonConflict，如果指定路径出现前缀匹配的object，直接报错。例
 		间隔轮询，开启后会根据pollingInterval轮询间隔时间周期性的从数据库拉取数据。开启间隔轮询还需配置参数pollingInterval，increColumn，可以选择配置参数startLocation。若不配置参数startLocation，任务启动时将会从数据库中查询增量字段最大值作为轮询的起始位置。
 		
 	* **默认值:** RunInterval
+
+### com.qlangtech.plugins.incr.flink.chunjun.doris.sink.DorisTabProps
+
+* **显示名:** DorisTabProps 
+
+* **全路径名:** [com.qlangtech.plugins.incr.flink.chunjun.doris.sink.DorisTabProps](https://github.com/qlangtech/plugins/tree/master/tis-incr/tis-flink-chunjun-doris-plugin/src/main/java/com/qlangtech/plugins/incr/flink/chunjun/doris/sink/DorisTabProps.java) 
+
+* **费用:** `社区版(免费)`
+
+* **插件包:** [tis-flink-chunjun-doris-plugin.tpi](./tpis#tis-flink-chunjun-doris-plugintpi)
+
+* **参数说明:** 
+
+1. tabName
+
+	* **类型:** 单行文本
+
+	* **必须:** 是
+
+2. uniqueKey
+
+	* **类型:** 单选
+
+	* **必须:** 是
+
+	* **说明:** 
+		
+		* 描述：当写入模式为 update 和 replace 时，需要指定此参数的值为唯一索引字段
+		* 注意：如果此参数为空，并且写入模式为 update 和 replace 时，应用会自动获取数据库中的唯一索引；
+		如果数据表没有唯一索引，但是写入模式配置为 update 和 replace，应用会以 insert 的方式写入数据；
+	* **默认值:** com.qlangtech.tis.trigger.util.JsonUtil$UnCacheString@8ff5094
 
 ## com.qlangtech.tis.offline.FileSystemFactory
 
@@ -6383,100 +6696,11 @@ nonConflict，如果指定路径出现前缀匹配的object，直接报错。例
 		[hdfs-site.xml参数详解](https://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-hdfs/hdfs-default.xml)
 		
 		```xml
-		<?xml version="1.0" encoding="UTF-8"?>
 		<configuration>
-		  <property>
-		    <name>dfs.nameservices</name>
-		    <value>daily-cdh</value>
-		  </property>
-		  <property>
-		    <name>dfs.client.failover.proxy.provider.daily-cdh</name>
-		  <value>org.apache.hadoop.hdfs.server.namenode.ha.ConfiguredFailoverProxyProvider</value>
-		  </property>
-		  <property>
-		    <name>dfs.ha.automatic-failover.enabled.daily-cdh</name>
-		    <value>true</value>
-		  </property>
-		  <property>
-		    <name>dfs.ha.namenodes.daily-cdh</name>
-		    <value>namenode228,namenode295</value>
-		  </property>
-		  <property>
-		    <name>dfs.namenode.rpc-address.daily-cdh.namenode228</name>
-		    <value>192.168.28.200:9000</value>
-		  </property>
-		  <property>
-		    <name>dfs.namenode.servicerpc-address.daily-cdh.namenode228</name>
-		    <value>192.168.28.200:8022</value>
-		  </property>
-		  <property>
-		    <name>dfs.namenode.http-address.daily-cdh.namenode228</name>
-		    <value>192.168.28.200:50070</value>
-		  </property>
-		  <property>
-		    <name>dfs.namenode.https-address.daily-cdh.namenode228</name>
-		    <value>192.168.28.200:50470</value>
-		  </property>
-		  <property>
-		    <name>dfs.namenode.rpc-address.daily-cdh.namenode295</name>
-		    <value>192.168.28.200:9000</value>
-		  </property>
-		  <property>
-		    <name>dfs.namenode.servicerpc-address.daily-cdh.namenode295</name>
-		    <value>192.168.28.200:8022</value>
-		  </property>
-		  <property>
-		    <name>dfs.namenode.http-address.daily-cdh.namenode295</name>
-		    <value>192.168.28.200:50070</value>
-		  </property>
-		  <property>
-		    <name>dfs.namenode.https-address.daily-cdh.namenode295</name>
-		    <value>192.168.28.200:50470</value>
-		  </property>
-		  <property>
-		    <name>dfs.replication</name>
-		    <value>2</value>
-		  </property>
-		  <property>
-		    <name>dfs.blocksize</name>
-		    <value>134217728</value>
-		  </property>
-		  <property>
-		    <name>dfs.client.use.datanode.hostname</name>
-		    <value>false</value>
-		  </property>
-		  <property>
-		    <name>fs.permissions.umask-mode</name>
-		    <value>022</value>
-		  </property>
-		  <property>
-		    <name>dfs.namenode.acls.enabled</name>
-		    <value>false</value>
-		  </property>
-		  <property>
-		    <name>dfs.client.use.legacy.blockreader</name>
-		    <value>false</value>
-		  </property>
-		  <property>
-		    <name>dfs.client.read.shortcircuit</name>
-		    <value>false</value>
-		  </property>
-		  <property>
-		    <name>dfs.domain.socket.path</name>
-		    <value>/var/run/hdfs-sockets/dn</value>
-		  </property>
-		  <property>
-		    <name>dfs.client.read.shortcircuit.skip.checksum</name>
-		    <value>false</value>
-		  </property>
-		  <property>
-		    <name>dfs.client.domain.socket.data.traffic</name>
-		    <value>false</value>
-		  </property>
-		  <property>
-		    <name>dfs.datanode.hdfs-blocks-metadata.enabled</name>
-		    <value>true</value>
-		  </property>
+		    <property>
+		        <name>fs.defaultFS</name>
+		        <value>hdfs://192.168.28.200</value>
+		    </property>
 		</configuration>
 		```
 		
@@ -6724,6 +6948,56 @@ nonConflict，如果指定路径出现前缀匹配的object，直接报错。例
 
 ## com.qlangtech.tis.plugin.datax.SelectedTab
 
+### com.qlangtech.tis.plugin.datax.doris.DorisSelectedTab
+
+* **显示名:** DorisSelectedTab 
+
+* **全路径名:** [com.qlangtech.tis.plugin.datax.doris.DorisSelectedTab](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-doris-plugin/src/main/java/com/qlangtech/tis/plugin/datax/doris/DorisSelectedTab.java) 
+
+* **费用:** `社区版(免费)`
+
+* **插件包:** [tis-datax-doris-plugin.tpi](./tpis#tis-datax-doris-plugintpi)
+
+* **参数说明:** 
+
+1. Sequence列
+
+	* **类型:** 单选
+
+	* **必须:** 否
+
+	* **说明:** 
+		
+		用户需要确保每次更新记录该列的值会递增，支持使用：整型数字、DATE、DATETIME类型的列，通过设置Sequence可以保证在乱序情况下可以保证数据不会发生脏写
+		
+		详细请查阅 Doris文档：https://doris.apache.org/zh-CN/docs/dev/data-operate/update-delete/sequence-column-manual
+	* **默认值:** 无
+
+2. name
+
+	* **类型:** 单行文本
+
+	* **必须:** 是
+
+3. where
+
+	* **类型:** 单行文本
+
+	* **必须:** 否
+
+	* **说明:** 筛选条件，MysqlReader根据指定的column、table、where条件拼接SQL，并根据这个SQL进行数据抽取。在实际业务场景中，往往会选择当天的数据进行同步，可以将where条件指定为gmt_create > $bizdate 。注意：不可以将where条件指定为limit 10，limit不是SQL的合法where子句。
+ where条件可以有效地进行业务增量同步。如果不填写where语句，包括不提供where的key或者value，DataX均视作同步全量数据。
+	* **默认值:** 无
+
+4. 同步列
+
+	* **类型:** 多选
+
+	* **必须:** 是
+
+	* **说明:** 需要同步的数据列
+	* **默认值:** 无
+
 ### com.qlangtech.tis.plugin.datax.hudi.HudiSelectedTab
 
 * **显示名:** HudiSelectedTab 
@@ -6945,12 +7219,12 @@ nonConflict，如果指定路径出现前缀匹配的object，直接报错。例
 
 3. 远端连接
 
-	* **类型:** 单行文本
+	* **类型:** 单选
 
 	* **必须:** 是
 
-	* **说明:** 无
-	* **默认值:** Server
+	* **说明:** FTP服务端连接配置
+	* **默认值:** 无
 
 4. nullFormat
 
@@ -6963,7 +7237,7 @@ nonConflict，如果指定路径出现前缀匹配的object，直接报错。例
 		 描述：文本文件中无法使用标准字符串定义null(空指针)，DataX提供nullFormat定义哪些字符串可以表示为null。
 		 例如如果用户配置: nullFormat:"\N"，那么如果源头数据是"\N"，DataX视作null字段。默认值：\N
 		 
-	* **默认值:** 无
+	* **默认值:** null
 
 5. compress
 
@@ -6978,10 +7252,10 @@ nonConflict，如果指定路径出现前缀匹配的object，直接报错。例
 
 	* **类型:** 整型数字
 
-	* **必须:** 否
+	* **必须:** 是
 
 	* **说明:** 描述：允许遍历文件夹的最大层数。
-	* **默认值:** 无
+	* **默认值:** 1
 
 7. column
 
@@ -7035,6 +7309,106 @@ nonConflict，如果指定路径出现前缀匹配的object，直接报错。例
 	* **默认值:** utf-8
 
 9. fileFormat
+
+	* **类型:** 单行文本
+
+	* **必须:** 是
+
+### com.qlangtech.tis.plugin.datax.DataXFtpReaderWithMeta
+
+* **显示名:** FTP-Meta 
+
+* **全路径名:** [com.qlangtech.tis.plugin.datax.DataXFtpReaderWithMeta](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-ftp-plugin/src/main/java/com/qlangtech/tis/plugin/datax/DataXFtpReaderWithMeta.java) 
+
+* **提供者:** [DataX](https://github.com/alibaba/DataX) 
+
+* **费用:** `社区版(免费)`
+
+* **插件包:** [tis-datax-ftp-plugin.tpi](./tpis#tis-datax-ftp-plugintpi)
+
+* **参数说明:** 
+
+1. 配置模版
+
+	* **类型:** 富文本
+
+	* **必须:** 是
+
+	* **说明:** 无特殊情况请不要修改模版内容，避免不必要的错误
+	* **默认值:** 无
+
+2. path
+
+	* **类型:** 单行文本
+
+	* **必须:** 是
+
+	* **说明:** 
+		  
+		  远程FTP文件系统的路径信息，注意这里可以支持填写多个路径。
+		  
+		  当指定单个远程FTP文件，FtpReader暂时只能使用单线程进行数据抽取。二期考虑在非压缩文件情况下针对单个File可以进行多线程并发读取。
+		  
+		  当指定多个远程FTP文件，FtpReader支持使用多线程进行数据抽取。线程并发数通过通道数指定。
+		  
+		  当指定通配符，FtpReader尝试遍历出多个文件信息。例如: 指定`/*`代表读取/目录下所有的文件，指定`/bazhen/*`代表读取bazhen目录下游所有的文件。FtpReader目前只支持*作为文件通配符。
+		  
+		  特别需要注意的是，DataX会将一个作业下同步的所有Text File视作同一张数据表。用户必须自己保证所有的File能够适配同一套schema信息。读取文件用户必须保证为类CSV格式，并且提供给DataX权限可读。
+		  
+		  特别需要注意的是，如果Path指定的路径下没有符合匹配的文件抽取，DataX将报错
+		  
+	* **默认值:** 无
+
+3. 远端连接
+
+	* **类型:** 单选
+
+	* **必须:** 是
+
+	* **说明:** FTP服务端连接配置
+	* **默认值:** 无
+
+4. nullFormat
+
+	* **类型:** 单行文本
+
+	* **必须:** 否
+
+	* **说明:** 
+		
+		 描述：文本文件中无法使用标准字符串定义null(空指针)，DataX提供nullFormat定义哪些字符串可以表示为null。
+		 例如如果用户配置: nullFormat:"\N"，那么如果源头数据是"\N"，DataX视作null字段。默认值：\N
+		 
+	* **默认值:** null
+
+5. compress
+
+	* **类型:** 单选
+
+	* **必须:** 是
+
+	* **说明:** 描述：文本压缩类型，默认不填写意味着没有压缩。支持压缩类型为zip、gzip、bzip2。 
+	* **默认值:** none
+
+6. maxTraversalLevel
+
+	* **类型:** 整型数字
+
+	* **必须:** 是
+
+	* **说明:** 描述：允许遍历文件夹的最大层数
+	* **默认值:** 2
+
+7. encoding
+
+	* **类型:** 单选
+
+	* **必须:** 否
+
+	* **说明:** 描述：读取文件的编码配置。
+	* **默认值:** utf-8
+
+8. fileFormat
 
 	* **类型:** 单行文本
 
@@ -7633,47 +8007,6 @@ splitPk设置为空，底层将视作用户不允许对单表进行切分，因�
  如果splitPk不填写，包括不提供splitPk或者splitPk值为空，DataX视作使用单通道同步该表数据。
 	* **默认值:** false
 
-### com.qlangtech.tis.plugin.datax.DataXTiDBReader
-
-* **显示名:** TiDB 
-
-* **全路径名:** [com.qlangtech.tis.plugin.datax.DataXTiDBReader](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-ds-tidb-plugin/src/main/java/com/qlangtech/tis/plugin/datax/DataXTiDBReader.java) 
-
-* **提供者:** [DataX](https://github.com/alibaba/DataX) 
-
-* **费用:** `社区版(免费)`
-
-* **插件包:** [tis-ds-tidb-plugin.tpi](./tpis#tis-ds-tidb-plugintpi)
-
-* **参数说明:** 
-
-1. 配置模版
-
-	* **类型:** 富文本
-
-	* **必须:** 是
-
-	* **说明:** 无特殊情况请不要修改模版内容，避免不必要的错误
-	* **默认值:** 无
-
-2. fetchSize
-
-	* **类型:** 整型数字
-
-	* **必须:** 是
-
-	* **说明:** 执行数据批量导出时单次从数据库中提取记录条数，可以有效减少网络IO次数，提升导出效率。切忌不能设置太大以免OOM发生
-	* **默认值:** 2000
-
-3. 数据库名
-
-	* **类型:** 单选
-
-	* **必须:** 是
-
-	* **说明:** 无
-	* **默认值:** 无
-
 ## com.qlangtech.tis.plugins.incr.flink.chunjun.offset.StartLocation
 
 ### com.qlangtech.tis.plugins.incr.flink.chunjun.offset.LatestLocation
@@ -7719,36 +8052,6 @@ splitPk设置为空，底层将视作用户不允许对单表进行切分，因�
 
 ## com.qlangtech.tis.plugin.datax.format.FileFormat
 
-### com.qlangtech.tis.plugin.datax.format.TextFormat
-
-* **显示名:** TEXT 
-
-* **全路径名:** [com.qlangtech.tis.plugin.datax.format.TextFormat](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-ftp-plugin/src/main/java/com/qlangtech/tis/plugin/datax/format/TextFormat.java) 
-
-* **费用:** `社区版(免费)`
-
-* **插件包:** [tis-datax-ftp-plugin.tpi](./tpis#tis-datax-ftp-plugintpi)
-
-* **参数说明:** 
-
-1. header
-
-	* **类型:** 单选
-
-	* **必须:** 否
-
-	* **说明:** 描述：txt写出时的表头，是否在文件头将key写入
-	* **默认值:** true
-
-2. fieldDelimiter
-
-	* **类型:** 单选
-
-	* **必须:** 是
-
-	* **说明:** 描述：读取的字段分隔符，可以用'\t','\001'等字符 
-	* **默认值:** comma
-
 ### com.qlangtech.tis.plugin.datax.format.CSVFormat
 
 * **显示名:** CSV 
@@ -7792,6 +8095,36 @@ splitPk设置为空，底层将视作用户不允许对单表进行切分，因�
 		 boolean captureRawRecord = true;
 		 ```
 	* **默认值:** 无
+
+### com.qlangtech.tis.plugin.datax.format.TextFormat
+
+* **显示名:** TEXT 
+
+* **全路径名:** [com.qlangtech.tis.plugin.datax.format.TextFormat](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-ftp-plugin/src/main/java/com/qlangtech/tis/plugin/datax/format/TextFormat.java) 
+
+* **费用:** `社区版(免费)`
+
+* **插件包:** [tis-datax-ftp-plugin.tpi](./tpis#tis-datax-ftp-plugintpi)
+
+* **参数说明:** 
+
+1. header
+
+	* **类型:** 单选
+
+	* **必须:** 否
+
+	* **说明:** 描述：txt写出时的表头，是否在文件头将key写入
+	* **默认值:** true
+
+2. fieldDelimiter
+
+	* **类型:** 单选
+
+	* **必须:** 是
+
+	* **说明:** 描述：读取的字段分隔符，可以用'\t','\001'等字符 
+	* **默认值:** comma
 
 ## com.qlangtech.tis.async.message.client.consumer.impl.AbstractAsyncMsgDeserialize
 

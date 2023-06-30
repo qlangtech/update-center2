@@ -23,16 +23,18 @@
  */
 package io.jenkins.update_center;
 
+import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import com.qlangetch.tis.AbstractTISRepository;
 import com.qlangetch.tis.impl.TISAliyunOSSRepositoryImpl;
+import com.qlangetch.tis.impl.TISLocalPluginContextArtifactCoordinates;
 import com.qlangtech.tis.TIS;
 import com.qlangtech.tis.async.message.client.consumer.impl.MQListenerFactory;
 import com.qlangtech.tis.datax.impl.DataxReader;
 import com.qlangtech.tis.datax.impl.DataxWriter;
-import com.qlangtech.tis.extension.Descriptor;
-import com.qlangtech.tis.extension.PluginFormProperties;
+import com.qlangtech.tis.extension.*;
 import com.qlangtech.tis.extension.impl.PropertyType;
 import com.qlangtech.tis.extension.impl.RootFormProperties;
 import com.qlangtech.tis.extension.model.UpdateCenter;
@@ -42,9 +44,11 @@ import com.qlangtech.tis.manage.common.TisUTF8;
 import com.qlangtech.tis.plugin.IDataXEndTypeGetter;
 import com.qlangtech.tis.plugin.IEndTypeGetter;
 import com.qlangtech.tis.plugin.IPluginVenderGetter;
+import com.qlangtech.tis.plugin.PluginCategory;
 import com.qlangtech.tis.plugin.annotation.FormField;
 import com.qlangtech.tis.plugin.annotation.Validator;
 import com.qlangtech.tis.plugin.incr.TISSinkFactory;
+import com.qlangtech.tis.trigger.util.JsonUtil;
 import com.qlangtech.tis.util.Memoizer;
 import edu.umd.cs.findbugs.annotations.NonNull;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
@@ -58,6 +62,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.ClassUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.kohsuke.args4j.ClassParser;
@@ -85,6 +90,7 @@ import java.util.stream.Collectors;
  * java -classpath ./lib/*:./update-center2.jar -Dplugin_dir_root=/tmp/release/tis-plugin -Dtis.plugin.release.version=3.4.0  io.jenkins.update_center.Main --www-dir=./dist
  */
 public class Main {
+
     /* Control meta-execution options */
     @Option(name = "--arguments-file", usage = "Specify invocation arguments in a file, with each line being a separate update site build. This argument cannot be re-set via arguments-file.")
     @SuppressFBWarnings
@@ -426,10 +432,29 @@ public class Main {
         if (MapUtils.isEmpty(extendPoints)) {
             throw new IllegalStateException("extendPoints can not be null");
         }
+//        Memoizer<IEndTypeGetter.EndType, EndTypePluginStore> endTypePluginDescs
+//                = new Memoizer<IEndTypeGetter.EndType, EndTypePluginStore>() {
+//            @Override
+//            public EndTypePluginStore compute(IEndTypeGetter.EndType key) {
+//                return new EndTypePluginStore();
+//            }
+//        };
+
+        AllEndTypePluginProcess allEndTypePluginProcess = new AllEndTypePluginProcess(extendPoints);
+
         final MarkdownBuilder tabView = new MarkdownBuilder(
                 "header-source-sink.txt"
-                , this.drawEndTypePluginTableView(extendPoints)
+                , allEndTypePluginProcess.drawEndTypePluginTableView()
                 , Optional.of("footer-source-sink.txt"));
+
+        allEndTypePluginProcess.processCategoryPlugin();
+//        JSONObject pluginCategories = new JSONObject();
+//        for (Map.Entry<PluginCategory, Set<Class<?>>> entry : pluginCategorySetMap.entrySet()) {
+//            pluginCategories.put(entry.getKey().getToken()
+//                    , entry.getValue().stream().map((c) -> c.getName()).collect(Collectors.toList()));
+//        }
+//        FileUtils.write(new File(www, PLUGIN_CATEGORIES_FILENAME), JsonUtil.toString(pluginCategories), TisUTF8.get());
+
 
         FileUtils.write(new File(www, PLUGIN_TABVIEW_MARK_DOWN_FILENAME), tabView.build(), TisUTF8.get());
         // plugins.mdx
@@ -459,103 +484,6 @@ public class Main {
         directoryTreeBuilder.build(repo);
     }
 
-    /**
-     * 插件实现视图
-     *
-     * @param extendPoints
-     */
-    private StringBuffer drawEndTypePluginTableView(Map<String, List<PluginExtendsionImpl>> extendPoints) {
-
-        Memoizer<IEndTypeGetter.EndType, EndTypePluginStore> endTypePluginDescs
-                = new Memoizer<IEndTypeGetter.EndType, EndTypePluginStore>() {
-            @Override
-            public EndTypePluginStore compute(IEndTypeGetter.EndType key) {
-                return new EndTypePluginStore();
-            }
-        };
-        /**
-         * 生成reader/writer(batch/incr) 一览视图
-         */
-        Descriptor pluginDesc = null;
-        IEndTypeGetter endTypeGetter = null;
-        for (Map.Entry<String, List<PluginExtendsionImpl>> e : extendPoints.entrySet()) {
-            for (PluginExtendsionImpl impl : e.getValue()) {
-                pluginDesc = impl.getDesc();
-                if (pluginDesc == null) {
-                    continue;
-                }
-
-                if (DataxReader.class.isAssignableFrom(pluginDesc.clazz)) {
-                    addToEndTypeStore(endTypePluginDescs, pluginDesc
-                            , (store, typedDesc) -> store.dataXReaders.add(Pair.of((IDataXEndTypeGetter) typedDesc.getLeft(), typedDesc.getRight())));
-                    continue;
-                }
-
-                if (DataxWriter.class.isAssignableFrom(pluginDesc.clazz)) {
-                    addToEndTypeStore(endTypePluginDescs, pluginDesc
-                            , (store, typedDesc) -> store.dataXWriters.add(Pair.of((IDataXEndTypeGetter) typedDesc.getLeft(), typedDesc.getRight())));
-                    continue;
-                }
-
-                if (TISSinkFactory.class.isAssignableFrom(pluginDesc.clazz)) {
-                    addToEndTypeStore(endTypePluginDescs, pluginDesc, (store, typedDesc) -> store.incrSinks.add(typedDesc));
-                    continue;
-                }
-
-                if (MQListenerFactory.class.isAssignableFrom(pluginDesc.clazz)) {
-                    addToEndTypeStore(endTypePluginDescs, pluginDesc, (store, typedDesc) -> store.incrSources.add(typedDesc));
-                    continue;
-                }
-            }
-        }
-
-        StringBuffer validateMsg = new StringBuffer();
-        for (Map.Entry<IEndTypeGetter.EndType, EndTypePluginStore> entry
-                : endTypePluginDescs.snapshot().entrySet()) {
-
-            EndTypePluginStore store = entry.getValue();
-            validateBatchIncrEndMatch(validateMsg, store.dataXReaders, store.incrSources);
-            validateBatchIncrEndMatch(validateMsg, store.dataXWriters, store.incrSinks);
-        }
-        if (validateMsg.length() > 0) {
-            throw new RuntimeException("\n" + validateMsg.toString());
-        }
-
-        IEndTypeGetter.EndType endType = null;
-        EndTypePluginStore store = null;
-        StringBuffer tabView = new StringBuffer();
-        tabView.append("<table style={{width: '100%', display: 'table'}}  border='1'>\n");
-        tabView.append("<thead>");
-        tabView.append("<tr><th rowspan='2'>类型</th><th colspan='2'>批量(DataX)</th><th colspan='2'>实时</th></tr>\n");
-        tabView.append("<tr><th width='20%'>读</th><th width='20%'>写</th><th width='20%'>Source</th><th width='20%'>Sink</th></tr>\n");
-        tabView.append("</thead>");
-        tabView.append("<tbody>\n");
-        for (Map.Entry<IEndTypeGetter.EndType, EndTypePluginStore> entry
-                : endTypePluginDescs.snapshot().entrySet()) {
-            endType = entry.getKey();
-            store = entry.getValue();
-            tabView.append("<tr>\n");
-            tabView.append("<td class='endtype-name").append("'>").append(endType.name()).append("</td>");
-            drawPluginCell(tabView, store.convertDataXReaders());
-            drawPluginCell(tabView, store.convertDataXWriters());
-            drawPluginCell(tabView, store.incrSources);
-            drawPluginCell(tabView, store.incrSinks);
-
-            tabView.append("</tr>\n");
-        }
-        tabView.append("</tbody>");
-        tabView.append("\n</table>");
-
-        StringBuffer script = new StringBuffer("<p><strong>Provider:</strong> ");
-
-        for (IPluginVenderGetter.PluginVender vender : IPluginVenderGetter.PluginVender.values()) {
-            buildPluginLink(script, vender, (buffer) -> {
-                buffer.append("<a target='_blank' href='").append(vender.getUrl()).append("'>").append(vender.getName()).append("</a>");
-            });
-        }
-        script.append("</p>");
-        return script.append("\n\n").append(tabView);
-    }
 
     private void validateBatchIncrEndMatch(StringBuffer validateMsg
             , List<Pair<IDataXEndTypeGetter, Descriptor>> batchs, List<Pair<IPluginVenderGetter, Descriptor>> incrs) {
@@ -624,7 +552,294 @@ public class Main {
         script.append("</i>");
     }
 
+
+    static class PluginClass {
+        private final PluginClassAndDescClassPair pluginDescClassPair;
+        private final String gav;
+
+        public PluginClass(PluginClassAndDescClassPair pluginDescClassPair, String gav) {
+            this.pluginDescClassPair = pluginDescClassPair;
+            this.gav = gav;
+        }
+
+        public String getClazz() {
+            return this.pluginDescClassPair.getPluginParentClazz().getName();
+        }
+
+        public String getDescClass() {
+            Class<? extends Descriptor> descClazz = this.pluginDescClassPair.getDescParentPlugin();
+            if (descClazz == null) {
+                return null;
+            }
+            return descClazz.getName();
+        }
+
+        public String getGav() {
+            return gav;
+        }
+    }
+
+    /**
+     * 扩展类的父类和Descriptor类的 对应
+     */
+    static class PluginClassAndDescClassPair {
+        private final Class<? extends Describable> pluginParentClazz;
+        private final Class<? extends Descriptor> descPlugin;
+
+        boolean describleMatched = false;
+
+        public PluginClassAndDescClassPair(Class<? extends Describable> pluginParentClazz, Class<? extends Descriptor> descPlugin) {
+            this.pluginParentClazz = pluginParentClazz;
+            this.descPlugin = descPlugin;
+        }
+
+        public Class<? extends Describable> getPluginParentClazz() {
+            return this.pluginParentClazz;
+        }
+
+        public Class<? extends Descriptor> getDescParentPlugin() {
+            return this.descPlugin;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            PluginClassAndDescClassPair that = (PluginClassAndDescClassPair) o;
+            return com.google.common.base.Objects.equal(pluginParentClazz, that.pluginParentClazz) &&
+                    com.google.common.base.Objects.equal(descPlugin, that.descPlugin);
+        }
+
+        @Override
+        public int hashCode() {
+            return com.google.common.base.Objects.hashCode(pluginParentClazz, descPlugin);
+        }
+    }
+
+
+    private class AllEndTypePluginProcess {
+        public final Class<DataxReader> extendPointDataXReader = DataxReader.class;
+        public final Class<DataxWriter> extendPointDataXWriter = DataxWriter.class;
+        public final Class<TISSinkFactory> extnedPointIncrSink = TISSinkFactory.class;
+        public final Class<MQListenerFactory> extendPointIncrSources = MQListenerFactory.class;
+
+        Memoizer<IEndTypeGetter.EndType, EndTypePluginStore> endTypePluginDescs
+                = new Memoizer<IEndTypeGetter.EndType, EndTypePluginStore>() {
+            @Override
+            public EndTypePluginStore compute(IEndTypeGetter.EndType key) {
+                return new EndTypePluginStore();
+            }
+        };
+        final Map<String, List<PluginExtendsionImpl>> extendPoints;
+
+        public AllEndTypePluginProcess(Map<String, List<PluginExtendsionImpl>> extendPoints) {
+            this.extendPoints = extendPoints;
+        }
+
+        /**
+         * 重新将所有的插件 归类，为自动生成的骨架代码的maven dependencies 提供依据
+         *
+         * @return
+         */
+        public final void processCategoryPlugin() {
+            Map<PluginCategory, Set<PluginClassAndDescClassPair>> pluginCategories = Maps.newConcurrentMap();
+
+            Map<IEndTypeGetter.EndType, EndTypePluginStore> snapshot = this.endTypePluginDescs.snapshot();
+            EndTypePluginStore endtypeStore = null;
+            Set<Descriptor> processd = Sets.newHashSet();
+            for (Map.Entry<IEndTypeGetter.EndType, EndTypePluginStore> entry : snapshot.entrySet()) {
+                endtypeStore = entry.getValue();
+
+                ((List<Pair<IDataXEndTypeGetter, Descriptor>>) CollectionUtils.union(endtypeStore.dataXReaders, endtypeStore.dataXWriters))
+                        .forEach((p) -> {
+                            //Sets.newHashSet(extendPointDataXReader, extendPointDataXWriter)
+                            processd.add(p.getRight());
+                            parseCategoryPlugin(PluginCategory.BATCH, pluginCategories, p.getRight());
+                        });
+
+
+                ((List<Pair<IPluginVenderGetter, Descriptor>>) CollectionUtils.union(endtypeStore.incrSinks, endtypeStore.incrSources))
+                        .forEach((p) -> {
+                            // Sets.newHashSet(extnedPointIncrSink, extendPointIncrSources)
+                            processd.add(p.getRight());
+                            parseCategoryPlugin(PluginCategory.INCR, pluginCategories, p.getRight());
+                        });
+            }
+
+            TIS.get().extensionLists.snapshot().forEach((key, entry) -> {
+                entry.forEach((desc) -> {
+                    if (processd.contains(desc)) {
+                        return;
+                    }
+                    parseCategoryPlugin(PluginCategory.NONE, pluginCategories, (Descriptor) desc);
+                });
+            });
+
+
+            try {
+                JSONObject categoryContent = new JSONObject();
+                PluginManager pluginManager = TIS.get().getPluginManager();
+                for (Map.Entry<PluginCategory, Set<PluginClassAndDescClassPair>> entry : pluginCategories.entrySet()) {
+                    List<PluginClass> pluginClas = entry.getValue().stream().map((pair) -> {
+                        Class clazz = pair.getPluginParentClazz();
+                        PluginWrapper pluginWrapper = pluginManager.whichPlugin(clazz);
+                        return new PluginClass(pair, pluginWrapper != null
+                                ? TISLocalPluginContextArtifactCoordinates.create(pluginWrapper.manifest, null).getGav()
+                                : null);
+                    }).collect(Collectors.toList());
+                    categoryContent.put(entry.getKey().getToken(), pluginClas);
+                }
+                FileUtils.write(new File(www, UpdateCenter.PLUGIN_CATEGORIES_FILENAME), JsonUtil.toString(categoryContent), TisUTF8.get());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+        }
+
+        private void parseCategoryPlugin(PluginCategory category, Map<PluginCategory
+                , Set<PluginClassAndDescClassPair>> pluginCategories, Descriptor desc) {
+            Set<PluginClassAndDescClassPair> categoryPlugin = pluginCategories.computeIfAbsent(category, (key) -> Sets.newHashSet());
+
+
+            List<PluginClassAndDescClassPair> superDescPairs = Lists.newArrayList();
+            List<Class<?>> superDescClasses = ClassUtils.getAllSuperclasses(desc.getClass());
+            for (Class<?> superDescClazz : superDescClasses) {
+                if (superDescClazz == Descriptor.class) {
+                    break;
+                }
+                superDescPairs.add(new PluginClassAndDescClassPair(
+                        (Class<? extends Describable>) superDescClazz.getEnclosingClass(), (Class<? extends Descriptor>) superDescClazz));
+
+            }
+            //desc.getT()
+            Class describleClazz = desc.clazz;
+
+            List<Class<?>> superClasses = ClassUtils.getAllSuperclasses(describleClazz);
+            for (Class<?> sper : superClasses) {
+                if (sper == Object.class) {
+                    break;
+                }
+                categoryPlugin.add(findPluginClassAndDescClassPair(superDescPairs, (Class<? extends Describable>) sper));
+                if (sper.getSuperclass() == Object.class) {
+                    break;
+                }
+
+//                if (categoryPluginClasses.contains(sper)) {
+//                    break;
+//                }
+            }
+        }
+
+        private PluginClassAndDescClassPair findPluginClassAndDescClassPair(List<PluginClassAndDescClassPair> superDescPairs, Class<? extends Describable> sperDescribleClazz) {
+            for (PluginClassAndDescClassPair superDescPair : superDescPairs) {
+                if (superDescPair.getPluginParentClazz() == sperDescribleClazz) {
+                    superDescPair.describleMatched = true;
+                    return superDescPair;
+                }
+            }
+            if (superDescPairs.size() < 1) {
+                // 说明继承路径上没有中间 parent descriptor class 可用
+                return new PluginClassAndDescClassPair(sperDescribleClazz, null);
+            } else {
+                Optional<PluginClassAndDescClassPair> first = superDescPairs.stream().filter((superPair) -> !superPair.describleMatched).findFirst();
+                return new PluginClassAndDescClassPair(sperDescribleClazz, (first.isPresent() ? first.get().getDescParentPlugin() : null));
+            }
+        }
+
+        /**
+         * 插件实现视图
+         */
+        private StringBuffer drawEndTypePluginTableView() {
+
+
+            /**
+             * 生成reader/writer(batch/incr) 一览视图
+             */
+            Descriptor pluginDesc = null;
+            IEndTypeGetter endTypeGetter = null;
+            for (Map.Entry<String, List<PluginExtendsionImpl>> e : extendPoints.entrySet()) {
+                for (PluginExtendsionImpl impl : e.getValue()) {
+                    pluginDesc = impl.getDesc();
+                    if (pluginDesc == null) {
+                        continue;
+                    }
+
+                    if (extendPointDataXReader.isAssignableFrom(pluginDesc.clazz)) {
+                        addToEndTypeStore(endTypePluginDescs, pluginDesc
+                                , (store, typedDesc) -> store.dataXReaders.add(Pair.of((IDataXEndTypeGetter) typedDesc.getLeft(), typedDesc.getRight())));
+                        continue;
+                    }
+
+                    if (extendPointDataXWriter.isAssignableFrom(pluginDesc.clazz)) {
+                        addToEndTypeStore(endTypePluginDescs, pluginDesc
+                                , (store, typedDesc) -> store.dataXWriters.add(Pair.of((IDataXEndTypeGetter) typedDesc.getLeft(), typedDesc.getRight())));
+                        continue;
+                    }
+
+                    if (extnedPointIncrSink.isAssignableFrom(pluginDesc.clazz)) {
+                        addToEndTypeStore(endTypePluginDescs, pluginDesc, (store, typedDesc) -> store.incrSinks.add(typedDesc));
+                        continue;
+                    }
+
+                    if (extendPointIncrSources.isAssignableFrom(pluginDesc.clazz)) {
+                        addToEndTypeStore(endTypePluginDescs, pluginDesc, (store, typedDesc) -> store.incrSources.add(typedDesc));
+                        continue;
+                    }
+                }
+            }
+
+            StringBuffer validateMsg = new StringBuffer();
+            for (Map.Entry<IEndTypeGetter.EndType, EndTypePluginStore> entry
+                    : endTypePluginDescs.snapshot().entrySet()) {
+
+                EndTypePluginStore store = entry.getValue();
+                validateBatchIncrEndMatch(validateMsg, store.dataXReaders, store.incrSources);
+                validateBatchIncrEndMatch(validateMsg, store.dataXWriters, store.incrSinks);
+            }
+            if (validateMsg.length() > 0) {
+                throw new RuntimeException("\n" + validateMsg.toString());
+            }
+
+            IEndTypeGetter.EndType endType = null;
+            EndTypePluginStore store = null;
+            StringBuffer tabView = new StringBuffer();
+            tabView.append("<table style={{width: '100%', display: 'table'}}  border='1'>\n");
+            tabView.append("<thead>");
+            tabView.append("<tr><th rowspan='2'>类型</th><th colspan='2'>批量(DataX)</th><th colspan='2'>实时</th></tr>\n");
+            tabView.append("<tr><th width='20%'>读</th><th width='20%'>写</th><th width='20%'>Source</th><th width='20%'>Sink</th></tr>\n");
+            tabView.append("</thead>");
+            tabView.append("<tbody>\n");
+            for (Map.Entry<IEndTypeGetter.EndType, EndTypePluginStore> entry
+                    : endTypePluginDescs.snapshot().entrySet()) {
+                endType = entry.getKey();
+                store = entry.getValue();
+                tabView.append("<tr>\n");
+                tabView.append("<td class='endtype-name").append("'>").append(endType.name()).append("</td>");
+                drawPluginCell(tabView, store.convertDataXReaders());
+                drawPluginCell(tabView, store.convertDataXWriters());
+                drawPluginCell(tabView, store.incrSources);
+                drawPluginCell(tabView, store.incrSinks);
+
+                tabView.append("</tr>\n");
+            }
+            tabView.append("</tbody>");
+            tabView.append("\n</table>");
+
+            StringBuffer script = new StringBuffer("<p><strong>Provider:</strong> ");
+
+            for (IPluginVenderGetter.PluginVender vender : IPluginVenderGetter.PluginVender.values()) {
+                buildPluginLink(script, vender, (buffer) -> {
+                    buffer.append("<a target='_blank' href='").append(vender.getUrl()).append("'>").append(vender.getName()).append("</a>");
+                });
+            }
+            script.append("</p>");
+            return script.append("\n\n").append(tabView);
+        }
+    }
+
     private static class EndTypePluginStore {
+
+
         List<Pair<IDataXEndTypeGetter, Descriptor>> dataXReaders = Lists.newArrayList();
         List<Pair<IDataXEndTypeGetter, Descriptor>> dataXWriters = Lists.newArrayList();
         List<Pair<IPluginVenderGetter, Descriptor>> incrSources = Lists.newArrayList();
@@ -640,9 +855,12 @@ public class Main {
         }
 
 
-        private List<Pair<IPluginVenderGetter, Descriptor>> convert(List<Pair<IDataXEndTypeGetter, Descriptor>> dataxComponents) {
+        private List<Pair<IPluginVenderGetter, Descriptor>> convert(
+                List<Pair<IDataXEndTypeGetter, Descriptor>> dataxComponents) {
             return dataxComponents.stream()
-                    .map((pair) -> Pair.of((IPluginVenderGetter) pair.getLeft(), pair.getRight())).collect(Collectors.toList());
+                    .map((pair) ->
+                            Pair.of((IPluginVenderGetter) pair.getLeft(), pair.getRight()))
+                    .collect(Collectors.toList());
         }
 
 
@@ -858,6 +1076,7 @@ public class Main {
 
     private static final String WARNINGS_JSON_FILENAME = "warnings.json";
     private static final String UPDATE_CENTER_JSON_FILENAME = "update-center.json";
+
     private static final String UPDATE_CENTER_ACTUAL_JSON_FILENAME = "update-center.actual.json";
     private static final String UPDATE_CENTER_JSON_HTML_FILENAME = "update-center.json.html";
     private static final String PLUGIN_DOCUMENTATION_URLS_JSON_FILENAME = "plugin-documentation-urls.json";

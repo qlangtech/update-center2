@@ -45,11 +45,14 @@ public class TISLocalFileRepositoryImpl extends AbstractTISRepository {
             }
             shortName = manifest.computeShortName(tpi.getName());
             try {
-                Optional<PluginClassifier> classifier = manifest.parseClassifier();
-                coord = new TISLocalPluginContextArtifactCoordinates(tpi, manifest.getGroupId()
-                        , shortName, manifest.getVersionOf()
-                        , AbstractTISRepository.TIS_PACKAGING_TPI
-                        , FileUtils.sizeOf(tpi), new Date(manifest.getLastModfiyTime()), classifier);
+               // Optional<PluginClassifier> classifier = manifest.parseClassifier();
+
+                coord = TISLocalPluginContextArtifactCoordinates.create(manifest, tpi);
+
+//                coord = new TISLocalPluginContextArtifactCoordinates(tpi, manifest.getGroupId()
+//                        , shortName, manifest.getVersionOf()
+//                        , AbstractTISRepository.TIS_PACKAGING_TPI
+//                        , FileUtils.sizeOf(tpi), new Date(manifest.getLastModfiyTime()), classifier);
                 plugins.put(coord.getGav(), coord);
             } catch (Exception e) {
                 throw new IllegalStateException(shortName, e);

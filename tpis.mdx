@@ -13,7 +13,7 @@ import TOCInline from '@theme/TOCInline';
 
 ## tis-asyncmsg-rocketmq-plugin.tpi
 
-* **下载地址：** http://mirror.qlangtech.com/3.7.1/tis-plugin/tis-asyncmsg-rocketmq-plugin.tpi
+* **下载地址：** http://mirror.qlangtech.com/3.7.2/tis-plugin/tis-asyncmsg-rocketmq-plugin.tpi
 
 * **介绍：** 
 
@@ -30,7 +30,7 @@ import TOCInline from '@theme/TOCInline';
 
 ## tis-chunjun-base-plugin.tpi
 
-* **下载地址：** http://mirror.qlangtech.com/3.7.1/tis-plugin/tis-chunjun-base-plugin.tpi
+* **下载地址：** http://mirror.qlangtech.com/3.7.2/tis-plugin/tis-chunjun-base-plugin.tpi
 
 * **扩展列表：** 
 
@@ -72,7 +72,7 @@ import TOCInline from '@theme/TOCInline';
 
 ## tis-datax-cassandra-plugin.tpi
 
-* **下载地址：** http://mirror.qlangtech.com/3.7.1/tis-plugin/tis-datax-cassandra-plugin.tpi
+* **下载地址：** http://mirror.qlangtech.com/3.7.2/tis-plugin/tis-datax-cassandra-plugin.tpi
 
 * **介绍：** 
 
@@ -95,7 +95,7 @@ import TOCInline from '@theme/TOCInline';
 
 ## tis-datax-clickhouse-plugin.tpi
 
-* **下载地址：** http://mirror.qlangtech.com/3.7.1/tis-plugin/tis-datax-clickhouse-plugin.tpi
+* **下载地址：** http://mirror.qlangtech.com/3.7.2/tis-plugin/tis-datax-clickhouse-plugin.tpi
 
 * **介绍：** 
 
@@ -120,7 +120,7 @@ import TOCInline from '@theme/TOCInline';
 
 ## tis-datax-common-plugin.tpi
 
-* **下载地址：** http://mirror.qlangtech.com/3.7.1/tis-plugin/tis-datax-common-plugin.tpi
+* **下载地址：** http://mirror.qlangtech.com/3.7.2/tis-plugin/tis-datax-common-plugin.tpi
 
 * **介绍：** 
 
@@ -158,43 +158,41 @@ import TOCInline from '@theme/TOCInline';
 
 ## tis-datax-common-rdbms-plugin.tpi
 
-* **下载地址：** http://mirror.qlangtech.com/3.7.1/tis-plugin/tis-datax-common-rdbms-plugin.tpi
+* **下载地址：** http://mirror.qlangtech.com/3.7.2/tis-plugin/tis-datax-common-rdbms-plugin.tpi
 
 * **扩展列表：** 
 
-## tis-datax-doris-starrocks-plugin.tpi
+## tis-datax-doris-plugin.tpi
 
-* **下载地址：** http://mirror.qlangtech.com/3.7.1/tis-plugin/tis-datax-doris-starrocks-plugin.tpi
+* **下载地址：** http://mirror.qlangtech.com/3.7.2/tis-plugin/tis-datax-doris-plugin.tpi
 
 * **介绍：** 
 
-	* DorisWriter / StarRocksWriter  
+	* DorisWriter   
 	
-	    插件实现了写入数据到 StarRocks/Doris 主库的目的表的功能。在底层实现上，StarRocksWriter 通过Streamload以csv格式导入数据至StarRocks。
-	    [详细](https://github.com/StarRocks/DataX/blob/main/starrockswriter/doc/starrockswriter.md)
+	    插件实现了写入数据到 Doris 主库的目的表的功能。在底层实现上，通过Streamload以csv格式导入数据至Doris。
+	    [详细](https://github.com/alibaba/DataX/blob/master/doriswriter/doc/doriswriter.md)
 	    
-	    该插件现同时支持StarRocks和Doris两种数据库
-	    
-	* DorisSourceFactory / StarRocksSourceFactory
+	* DorisSourceFactory
 	
-	  支持定义Doris和StarRocks两种类型的数据源   
+	  支持定义Doris类型的数据源   
 * **扩展列表：** 
 
-	* [com.qlangtech.tis.datax.impl.DataxWriter](./plugins#comqlangtechtisdataximpldataxwriter)
+	* [com.qlangtech.tis.plugin.datax.SelectedTab](./plugins#comqlangtechtisplugindataxselectedtab)
 
-		 * [com.qlangtech.tis.plugin.datax.starrocks.DataXStarRocksWriter](./plugins#comqlangtechtisplugindataxstarrocksdataxstarrockswriter)
+		 * [com.qlangtech.tis.plugin.datax.doris.DorisSelectedTab](./plugins#comqlangtechtisplugindataxdorisdorisselectedtab)
+
+	* [com.qlangtech.tis.datax.impl.DataxWriter](./plugins#comqlangtechtisdataximpldataxwriter)
 
 		 * [com.qlangtech.tis.plugin.datax.doris.DataXDorisWriter](./plugins#comqlangtechtisplugindataxdorisdataxdoriswriter)
 
 	* [com.qlangtech.tis.plugin.ds.DataSourceFactory](./plugins#comqlangtechtisplugindsdatasourcefactory)
 
-		 * [com.qlangtech.tis.plugin.ds.starrocks.StarRocksSourceFactory](./plugins#comqlangtechtisplugindsstarrocksstarrockssourcefactory)
-
 		 * [com.qlangtech.tis.plugin.ds.doris.DorisSourceFactory](./plugins#comqlangtechtisplugindsdorisdorissourcefactory)
 
 ## tis-datax-elasticsearch-plugin.tpi
 
-* **下载地址：** http://mirror.qlangtech.com/3.7.1/tis-plugin/tis-datax-elasticsearch-plugin.tpi
+* **下载地址：** http://mirror.qlangtech.com/3.7.2/tis-plugin/tis-datax-elasticsearch-plugin.tpi
 
 * **介绍：** 
 
@@ -213,7 +211,7 @@ import TOCInline from '@theme/TOCInline';
 
 ## tis-datax-ftp-plugin.tpi
 
-* **下载地址：** http://mirror.qlangtech.com/3.7.1/tis-plugin/tis-datax-ftp-plugin.tpi
+* **下载地址：** http://mirror.qlangtech.com/3.7.2/tis-plugin/tis-datax-ftp-plugin.tpi
 
 * **介绍：** 
 
@@ -221,27 +219,35 @@ import TOCInline from '@theme/TOCInline';
 	* FtpWriter 封装aliabab DataX功能，提供了向远程FTP文件写入CSV格式的一个或者多个文件，在底层实现上，FtpWriter将DataX传输协议下的数据转换为csv格式，并使用FTP相关的网络协议写出到远程FTP服务器。[详细](https://github.com/alibaba/DataX/blob/master/ftpwriter/doc/ftpwriter.md)
 * **扩展列表：** 
 
+	* [com.qlangtech.tis.plugin.datax.meta.MetaDataWriter](./plugins#comqlangtechtisplugindataxmetametadatawriter)
+
+		 * [com.qlangtech.tis.plugin.datax.meta.NoneMetaDataWriter](./plugins#comqlangtechtisplugindataxmetanonemetadatawriter)
+
+		 * [com.qlangtech.tis.plugin.datax.meta.DefaultMetaDataWriter](./plugins#comqlangtechtisplugindataxmetadefaultmetadatawriter)
+
 	* [com.qlangtech.tis.datax.impl.DataxReader](./plugins#comqlangtechtisdataximpldataxreader)
 
 		 * [com.qlangtech.tis.plugin.datax.DataXFtpReader](./plugins#comqlangtechtisplugindataxdataxftpreader)
 
-	* [com.qlangtech.tis.plugin.datax.server.FTPServer](./plugins#comqlangtechtisplugindataxserverftpserver)
-
-		 * [com.qlangtech.tis.plugin.datax.server.FTPServer](./plugins#comqlangtechtisplugindataxserverftpserver)
+		 * [com.qlangtech.tis.plugin.datax.DataXFtpReaderWithMeta](./plugins#comqlangtechtisplugindataxdataxftpreaderwithmeta)
 
 	* [com.qlangtech.tis.datax.impl.DataxWriter](./plugins#comqlangtechtisdataximpldataxwriter)
 
 		 * [com.qlangtech.tis.plugin.datax.DataXFtpWriter](./plugins#comqlangtechtisplugindataxdataxftpwriter)
 
-	* [com.qlangtech.tis.plugin.datax.format.FileFormat](./plugins#comqlangtechtisplugindataxformatfileformat)
+	* [com.qlangtech.tis.config.ParamsConfig](./plugins#comqlangtechtisconfigparamsconfig)
 
-		 * [com.qlangtech.tis.plugin.datax.format.TextFormat](./plugins#comqlangtechtisplugindataxformattextformat)
+		 * [com.qlangtech.tis.plugin.datax.server.FTPServer](./plugins#comqlangtechtisplugindataxserverftpserver)
+
+	* [com.qlangtech.tis.plugin.datax.format.FileFormat](./plugins#comqlangtechtisplugindataxformatfileformat)
 
 		 * [com.qlangtech.tis.plugin.datax.format.CSVFormat](./plugins#comqlangtechtisplugindataxformatcsvformat)
 
+		 * [com.qlangtech.tis.plugin.datax.format.TextFormat](./plugins#comqlangtechtisplugindataxformattextformat)
+
 ## tis-datax-hdfs-plugin_hadoop_2.7.3.tpi
 
-* **下载地址：** http://mirror.qlangtech.com/3.7.1/tis-plugin/tis-datax-hdfs-plugin/tis-datax-hdfs-plugin_hadoop_2.7.3.tpi
+* **下载地址：** http://mirror.qlangtech.com/3.7.2/tis-plugin/tis-datax-hdfs-plugin/tis-datax-hdfs-plugin_hadoop_2.7.3.tpi
 
 * **介绍：** 
 
@@ -262,7 +268,7 @@ import TOCInline from '@theme/TOCInline';
 
 ## tis-datax-hdfs-reader-writer-plugin_hive_2.3.1_hadoop_2.7.3.tpi
 
-* **下载地址：** http://mirror.qlangtech.com/3.7.1/tis-plugin/tis-datax-hdfs-reader-writer-plugin/tis-datax-hdfs-reader-writer-plugin_hive_2.3.1_hadoop_2.7.3.tpi
+* **下载地址：** http://mirror.qlangtech.com/3.7.2/tis-plugin/tis-datax-hdfs-reader-writer-plugin/tis-datax-hdfs-reader-writer-plugin_hive_2.3.1_hadoop_2.7.3.tpi
 
 * **扩展列表：** 
 
@@ -276,7 +282,7 @@ import TOCInline from '@theme/TOCInline';
 
 ## tis-datax-hudi-common_hudi_0.10.1_spark_2.4.4_hive_2.3.1_hadoop_2.7.3.tpi
 
-* **下载地址：** http://mirror.qlangtech.com/3.7.1/tis-plugin/tis-datax-hudi-common/tis-datax-hudi-common_hudi_0.10.1_spark_2.4.4_hive_2.3.1_hadoop_2.7.3.tpi
+* **下载地址：** http://mirror.qlangtech.com/3.7.2/tis-plugin/tis-datax-hudi-common/tis-datax-hudi-common_hudi_0.10.1_spark_2.4.4_hive_2.3.1_hadoop_2.7.3.tpi
 
 * **扩展列表：** 
 
@@ -286,7 +292,7 @@ import TOCInline from '@theme/TOCInline';
 
 ## tis-datax-hudi-plugin_hudi_0.10.1_spark_2.4.4_hive_2.3.1_hadoop_2.7.3.tpi
 
-* **下载地址：** http://mirror.qlangtech.com/3.7.1/tis-plugin/tis-datax-hudi-plugin/tis-datax-hudi-plugin_hudi_0.10.1_spark_2.4.4_hive_2.3.1_hadoop_2.7.3.tpi
+* **下载地址：** http://mirror.qlangtech.com/3.7.2/tis-plugin/tis-datax-hudi-plugin/tis-datax-hudi-plugin_hudi_0.10.1_spark_2.4.4_hive_2.3.1_hadoop_2.7.3.tpi
 
 * **介绍：** 
 
@@ -297,7 +303,7 @@ import TOCInline from '@theme/TOCInline';
 	本组件整合Hudi提供的[DeltaStreamer](https://hudi.apache.org/docs/hoodie_deltastreamer#deltastreamer)功能，通过TIS生成成DeltaStreamer需要的所有Hudi表摄入所需要的
 	所有配置信息（Avro schemas、从数据源抽取数据的DataX配置，Hudi表分区信息及 [Key Generation](https://hudi.apache.org/docs/key_generation)配置）
 	
-	配合TIS提供的各种Source Connnector组件（MySQL，PostgreSQL，SqlServer等）快速实现各种数据源`批量`入湖
+	配合TIS提供的各种Source Connnector组件，快速实现各种数据源`批量`入湖
 	
 	
 	
@@ -333,7 +339,7 @@ import TOCInline from '@theme/TOCInline';
 
 ## tis-datax-kafka-plugin.tpi
 
-* **下载地址：** http://mirror.qlangtech.com/3.7.1/tis-plugin/tis-datax-kafka-plugin.tpi
+* **下载地址：** http://mirror.qlangtech.com/3.7.2/tis-plugin/tis-datax-kafka-plugin.tpi
 
 * **介绍：** 
 
@@ -376,7 +382,7 @@ import TOCInline from '@theme/TOCInline';
 
 ## tis-datax-local-embedded-executor.tpi
 
-* **下载地址：** http://mirror.qlangtech.com/3.7.1/tis-plugin/tis-datax-local-embedded-executor.tpi
+* **下载地址：** http://mirror.qlangtech.com/3.7.2/tis-plugin/tis-datax-local-embedded-executor.tpi
 
 * **介绍：** 
 
@@ -390,7 +396,7 @@ import TOCInline from '@theme/TOCInline';
 
 ## tis-datax-local-executor.tpi
 
-* **下载地址：** http://mirror.qlangtech.com/3.7.1/tis-plugin/tis-datax-local-executor.tpi
+* **下载地址：** http://mirror.qlangtech.com/3.7.2/tis-plugin/tis-datax-local-executor.tpi
 
 * **介绍：** 
 
@@ -409,7 +415,7 @@ import TOCInline from '@theme/TOCInline';
 
 ## tis-datax-mongodb-plugin.tpi
 
-* **下载地址：** http://mirror.qlangtech.com/3.7.1/tis-plugin/tis-datax-mongodb-plugin.tpi
+* **下载地址：** http://mirror.qlangtech.com/3.7.2/tis-plugin/tis-datax-mongodb-plugin.tpi
 
 * **介绍：** 
 
@@ -432,7 +438,7 @@ import TOCInline from '@theme/TOCInline';
 
 ## tis-datax-odps-plugin.tpi
 
-* **下载地址：** http://mirror.qlangtech.com/3.7.1/tis-plugin/tis-datax-odps-plugin.tpi
+* **下载地址：** http://mirror.qlangtech.com/3.7.2/tis-plugin/tis-datax-odps-plugin.tpi
 
 * **介绍：** 
 
@@ -450,7 +456,7 @@ import TOCInline from '@theme/TOCInline';
 
 ## tis-datax-oracle-plugin.tpi
 
-* **下载地址：** http://mirror.qlangtech.com/3.7.1/tis-plugin/tis-datax-oracle-plugin.tpi
+* **下载地址：** http://mirror.qlangtech.com/3.7.2/tis-plugin/tis-datax-oracle-plugin.tpi
 
 * **介绍：** 
 
@@ -471,6 +477,12 @@ import TOCInline from '@theme/TOCInline';
 
 		 * [com.qlangtech.tis.plugin.datax.DataXOracleReader](./plugins#comqlangtechtisplugindataxdataxoraclereader)
 
+	* [com.qlangtech.tis.plugin.ds.oracle.Authorized](./plugins#comqlangtechtisplugindsoracleauthorized)
+
+		 * [com.qlangtech.tis.plugin.ds.oracle.auth.AcceptAuthorized](./plugins#comqlangtechtisplugindsoracleauthacceptauthorized)
+
+		 * [com.qlangtech.tis.plugin.ds.oracle.auth.NoneAuth](./plugins#comqlangtechtisplugindsoracleauthnoneauth)
+
 	* [com.qlangtech.tis.datax.impl.DataxWriter](./plugins#comqlangtechtisdataximpldataxwriter)
 
 		 * [com.qlangtech.tis.plugin.datax.DataXOracleWriter](./plugins#comqlangtechtisplugindataxdataxoraclewriter)
@@ -487,7 +499,7 @@ import TOCInline from '@theme/TOCInline';
 
 ## tis-datax-oss-plugin.tpi
 
-* **下载地址：** http://mirror.qlangtech.com/3.7.1/tis-plugin/tis-datax-oss-plugin.tpi
+* **下载地址：** http://mirror.qlangtech.com/3.7.2/tis-plugin/tis-datax-oss-plugin.tpi
 
 * **介绍：** 
 
@@ -507,7 +519,7 @@ import TOCInline from '@theme/TOCInline';
 
 ## tis-datax-postgresql-plugin.tpi
 
-* **下载地址：** http://mirror.qlangtech.com/3.7.1/tis-plugin/tis-datax-postgresql-plugin.tpi
+* **下载地址：** http://mirror.qlangtech.com/3.7.2/tis-plugin/tis-datax-postgresql-plugin.tpi
 
 * **介绍：** 
 
@@ -536,7 +548,7 @@ import TOCInline from '@theme/TOCInline';
 
 ## tis-datax-sqlserver-plugin.tpi
 
-* **下载地址：** http://mirror.qlangtech.com/3.7.1/tis-plugin/tis-datax-sqlserver-plugin.tpi
+* **下载地址：** http://mirror.qlangtech.com/3.7.2/tis-plugin/tis-datax-sqlserver-plugin.tpi
 
 * **介绍：** 
 
@@ -562,9 +574,37 @@ import TOCInline from '@theme/TOCInline';
 
 		 * [com.qlangtech.tis.plugin.ds.sqlserver.SqlServerDatasourceFactory](./plugins#comqlangtechtisplugindssqlserversqlserverdatasourcefactory)
 
+## tis-datax-starrocks-plugin.tpi
+
+* **下载地址：** http://mirror.qlangtech.com/3.7.2/tis-plugin/tis-datax-starrocks-plugin.tpi
+
+* **介绍：** 
+
+	*  StarRocksWriter  
+	
+	    插件实现了写入数据到 StarRocks 主库的目的表的功能。在底层实现上，StarRocksWriter 通过Streamload以csv格式导入数据至StarRocks。
+	    [详细](https://github.com/StarRocks/DataX/blob/main/starrockswriter/doc/starrockswriter.md)
+	    
+	    该插件现同时支持StarRocks数据库
+	    
+	*  StarRocksSourceFactory
+	
+	  支持定义StarRocks类型的数据源   
+* **扩展列表：** 
+
+	* [com.qlangtech.tis.datax.impl.DataxWriter](./plugins#comqlangtechtisdataximpldataxwriter)
+
+		 * [com.qlangtech.tis.plugin.datax.starrocks.DataXStarRocksWriter](./plugins#comqlangtechtisplugindataxstarrocksdataxstarrockswriter)
+
+	* [com.qlangtech.tis.plugin.ds.DataSourceFactory](./plugins#comqlangtechtisplugindsdatasourcefactory)
+
+		 * [com.qlangtech.tis.plugin.ds.starrocks.BasicSourceFactory](./plugins#comqlangtechtisplugindsstarrocksbasicsourcefactory)
+
+		 * [com.qlangtech.tis.plugin.ds.starrocks.StarRocksSourceFactory](./plugins#comqlangtechtisplugindsstarrocksstarrockssourcefactory)
+
 ## tis-ds-mysql-plugin.tpi
 
-* **下载地址：** http://mirror.qlangtech.com/3.7.1/tis-plugin/tis-ds-mysql-plugin.tpi
+* **下载地址：** http://mirror.qlangtech.com/3.7.2/tis-plugin/tis-ds-mysql-plugin.tpi
 
 * **介绍：** 
 
@@ -594,7 +634,7 @@ import TOCInline from '@theme/TOCInline';
 
 ## tis-ds-mysql-v5-plugin.tpi
 
-* **下载地址：** http://mirror.qlangtech.com/3.7.1/tis-plugin/tis-ds-mysql-v5-plugin.tpi
+* **下载地址：** http://mirror.qlangtech.com/3.7.2/tis-plugin/tis-ds-mysql-v5-plugin.tpi
 
 * **介绍：** 
 
@@ -609,7 +649,7 @@ import TOCInline from '@theme/TOCInline';
 
 ## tis-ds-mysql-v8-plugin.tpi
 
-* **下载地址：** http://mirror.qlangtech.com/3.7.1/tis-plugin/tis-ds-mysql-v8-plugin.tpi
+* **下载地址：** http://mirror.qlangtech.com/3.7.2/tis-plugin/tis-ds-mysql-v8-plugin.tpi
 
 * **介绍：** 
 
@@ -622,29 +662,9 @@ import TOCInline from '@theme/TOCInline';
 
 		 * [com.qlangtech.tis.plugin.ds.mysql.MySQLV8DataSourceFactory](./plugins#comqlangtechtisplugindsmysqlmysqlv8datasourcefactory)
 
-## tis-ds-tidb-plugin.tpi
-
-* **下载地址：** http://mirror.qlangtech.com/3.7.1/tis-plugin/tis-ds-tidb-plugin.tpi
-
-* **介绍：** 
-
-	* 封装TiDB作为数据源的DataSource插件
-	* DataXTiDBReader
-	
-	  DataXTiDBReader插件实现了从TiKV读取数据。在底层实现上，可以向TIS导入TiDB中的数据表作后续分析处理。
-* **扩展列表：** 
-
-	* [com.qlangtech.tis.datax.impl.DataxReader](./plugins#comqlangtechtisdataximpldataxreader)
-
-		 * [com.qlangtech.tis.plugin.datax.DataXTiDBReader](./plugins#comqlangtechtisplugindataxdataxtidbreader)
-
-	* [com.qlangtech.tis.plugin.ds.DataSourceFactory](./plugins#comqlangtechtisplugindsdatasourcefactory)
-
-		 * [com.qlangtech.tis.plugin.ds.tidb.TiKVDataSourceFactory](./plugins#comqlangtechtisplugindstidbtikvdatasourcefactory)
-
 ## tis-flink-cdc-mongdb-plugin.tpi
 
-* **下载地址：** http://mirror.qlangtech.com/3.7.1/tis-plugin/tis-flink-cdc-mongdb-plugin.tpi
+* **下载地址：** http://mirror.qlangtech.com/3.7.2/tis-plugin/tis-flink-cdc-mongdb-plugin.tpi
 
 * **扩展列表：** 
 
@@ -654,7 +674,7 @@ import TOCInline from '@theme/TOCInline';
 
 ## tis-flink-cdc-mysql-plugin.tpi
 
-* **下载地址：** http://mirror.qlangtech.com/3.7.1/tis-plugin/tis-flink-cdc-mysql-plugin.tpi
+* **下载地址：** http://mirror.qlangtech.com/3.7.2/tis-plugin/tis-flink-cdc-mysql-plugin.tpi
 
 * **介绍：** 
 
@@ -671,7 +691,7 @@ import TOCInline from '@theme/TOCInline';
 
 ## tis-flink-cdc-oracle-plugin.tpi
 
-* **下载地址：** http://mirror.qlangtech.com/3.7.1/tis-plugin/tis-flink-cdc-oracle-plugin.tpi
+* **下载地址：** http://mirror.qlangtech.com/3.7.2/tis-plugin/tis-flink-cdc-oracle-plugin.tpi
 
 * **介绍：** 
 
@@ -685,7 +705,7 @@ import TOCInline from '@theme/TOCInline';
 
 ## tis-flink-chunjun-clickhouse-plugin.tpi
 
-* **下载地址：** http://mirror.qlangtech.com/3.7.1/tis-plugin/tis-flink-chunjun-clickhouse-plugin.tpi
+* **下载地址：** http://mirror.qlangtech.com/3.7.2/tis-plugin/tis-flink-chunjun-clickhouse-plugin.tpi
 
 * **介绍：** 
 
@@ -699,7 +719,7 @@ import TOCInline from '@theme/TOCInline';
 
 ## tis-flink-chunjun-doris-plugin.tpi
 
-* **下载地址：** http://mirror.qlangtech.com/3.7.1/tis-plugin/tis-flink-chunjun-doris-plugin.tpi
+* **下载地址：** http://mirror.qlangtech.com/3.7.2/tis-plugin/tis-flink-chunjun-doris-plugin.tpi
 
 * **介绍：** 
 
@@ -712,9 +732,13 @@ import TOCInline from '@theme/TOCInline';
 
 		 * [com.qlangtech.plugins.incr.flink.chunjun.doris.sink.ChunjunDorisSinkFactory](./plugins#comqlangtechpluginsincrflinkchunjundorissinkchunjundorissinkfactory)
 
+	* [com.qlangtech.tis.plugin.datax.IncrSelectedTabExtend](./plugins#comqlangtechtisplugindataxincrselectedtabextend)
+
+		 * [com.qlangtech.plugins.incr.flink.chunjun.doris.sink.DorisTabProps](./plugins#comqlangtechpluginsincrflinkchunjundorissinkdoristabprops)
+
 ## tis-flink-chunjun-kafka-plugin.tpi
 
-* **下载地址：** http://mirror.qlangtech.com/3.7.1/tis-plugin/tis-flink-chunjun-kafka-plugin.tpi
+* **下载地址：** http://mirror.qlangtech.com/3.7.2/tis-plugin/tis-flink-chunjun-kafka-plugin.tpi
 
 * **扩展列表：** 
 
@@ -724,7 +748,7 @@ import TOCInline from '@theme/TOCInline';
 
 ## tis-flink-chunjun-mysql-plugin.tpi
 
-* **下载地址：** http://mirror.qlangtech.com/3.7.1/tis-plugin/tis-flink-chunjun-mysql-plugin.tpi
+* **下载地址：** http://mirror.qlangtech.com/3.7.2/tis-plugin/tis-flink-chunjun-mysql-plugin.tpi
 
 * **介绍：** 
 
@@ -743,7 +767,7 @@ import TOCInline from '@theme/TOCInline';
 
 ## tis-flink-chunjun-oracle-plugin.tpi
 
-* **下载地址：** http://mirror.qlangtech.com/3.7.1/tis-plugin/tis-flink-chunjun-oracle-plugin.tpi
+* **下载地址：** http://mirror.qlangtech.com/3.7.2/tis-plugin/tis-flink-chunjun-oracle-plugin.tpi
 
 * **介绍：** 
 
@@ -765,7 +789,7 @@ import TOCInline from '@theme/TOCInline';
 
 ## tis-flink-chunjun-postgresql-plugin.tpi
 
-* **下载地址：** http://mirror.qlangtech.com/3.7.1/tis-plugin/tis-flink-chunjun-postgresql-plugin.tpi
+* **下载地址：** http://mirror.qlangtech.com/3.7.2/tis-plugin/tis-flink-chunjun-postgresql-plugin.tpi
 
 * **介绍：** 
 
@@ -787,7 +811,7 @@ import TOCInline from '@theme/TOCInline';
 
 ## tis-flink-chunjun-starrocks-plugin.tpi
 
-* **下载地址：** http://mirror.qlangtech.com/3.7.1/tis-plugin/tis-flink-chunjun-starrocks-plugin.tpi
+* **下载地址：** http://mirror.qlangtech.com/3.7.2/tis-plugin/tis-flink-chunjun-starrocks-plugin.tpi
 
 * **介绍：** 
 
@@ -802,13 +826,25 @@ import TOCInline from '@theme/TOCInline';
 
 ## tis-flink-dependency.tpi
 
-* **下载地址：** http://mirror.qlangtech.com/3.7.1/tis-plugin/tis-flink-dependency.tpi
+* **下载地址：** http://mirror.qlangtech.com/3.7.2/tis-plugin/tis-flink-dependency.tpi
 
 * **扩展列表：** 
 
+## tis-flink-msg-format-plugin.tpi
+
+* **下载地址：** http://mirror.qlangtech.com/3.7.2/tis-plugin/tis-flink-msg-format-plugin.tpi
+
+* **扩展列表：** 
+
+	* [com.qlangtech.tis.plugins.incr.flink.chunjun.kafka.format.FormatFactory](./plugins#comqlangtechtispluginsincrflinkchunjunkafkaformatformatfactory)
+
+		 * [com.qlangtech.tis.plugins.incr.flink.chunjun.kafka.format.TISCanalJsonFormatFactory](./plugins#comqlangtechtispluginsincrflinkchunjunkafkaformattiscanaljsonformatfactory)
+
+		 * [com.qlangtech.tis.plugins.incr.flink.chunjun.kafka.format.TISDebeziumJsonFormatFactory](./plugins#comqlangtechtispluginsincrflinkchunjunkafkaformattisdebeziumjsonformatfactory)
+
 ## tis-hive-flat-table-builder-plugin_hive_2.3.1_hadoop_2.7.3.tpi
 
-* **下载地址：** http://mirror.qlangtech.com/3.7.1/tis-plugin/tis-hive-flat-table-builder-plugin/tis-hive-flat-table-builder-plugin_hive_2.3.1_hadoop_2.7.3.tpi
+* **下载地址：** http://mirror.qlangtech.com/3.7.2/tis-plugin/tis-hive-flat-table-builder-plugin/tis-hive-flat-table-builder-plugin_hive_2.3.1_hadoop_2.7.3.tpi
 
 * **介绍：** 
 
@@ -847,7 +883,7 @@ import TOCInline from '@theme/TOCInline';
 
 ## tis-hive-plugin_hive_2.3.1_hadoop_2.7.3.tpi
 
-* **下载地址：** http://mirror.qlangtech.com/3.7.1/tis-plugin/tis-hive-plugin/tis-hive-plugin_hive_2.3.1_hadoop_2.7.3.tpi
+* **下载地址：** http://mirror.qlangtech.com/3.7.2/tis-plugin/tis-hive-plugin/tis-hive-plugin_hive_2.3.1_hadoop_2.7.3.tpi
 
 * **扩展列表：** 
 
@@ -865,7 +901,7 @@ import TOCInline from '@theme/TOCInline';
 
 ## tis-k8s-plugin.tpi
 
-* **下载地址：** http://mirror.qlangtech.com/3.7.1/tis-plugin/tis-k8s-plugin.tpi
+* **下载地址：** http://mirror.qlangtech.com/3.7.2/tis-plugin/tis-k8s-plugin.tpi
 
 * **介绍：** 
 
@@ -891,7 +927,7 @@ import TOCInline from '@theme/TOCInline';
 
 ## tis-realtime-flink.tpi
 
-* **下载地址：** http://mirror.qlangtech.com/3.7.1/tis-plugin/tis-realtime-flink.tpi
+* **下载地址：** http://mirror.qlangtech.com/3.7.2/tis-plugin/tis-realtime-flink.tpi
 
 * **介绍：** 
 
@@ -936,11 +972,11 @@ import TOCInline from '@theme/TOCInline';
 
 ## tis-sink-elasticsearch7-plugin.tpi
 
-* **下载地址：** http://mirror.qlangtech.com/3.7.1/tis-plugin/tis-sink-elasticsearch7-plugin.tpi
+* **下载地址：** http://mirror.qlangtech.com/3.7.2/tis-plugin/tis-sink-elasticsearch7-plugin.tpi
 
 * **介绍：** 
 
-	*介绍： 提供实时向[ElasticSearch](https://www.elastic.co/cn/)中写入数据能力
+	* 介绍： 提供实时向[ElasticSearch](https://www.elastic.co/cn/)中写入数据能力
 * **扩展列表：** 
 
 	* [com.qlangtech.tis.plugin.incr.TISSinkFactory](./plugins#comqlangtechtispluginincrtissinkfactory)
@@ -949,7 +985,7 @@ import TOCInline from '@theme/TOCInline';
 
 ## tis-sink-hudi-plugin_hudi_0.10.1_spark_2.4.4_hive_2.3.1_hadoop_2.7.3.tpi
 
-* **下载地址：** http://mirror.qlangtech.com/3.7.1/tis-plugin/tis-sink-hudi-plugin/tis-sink-hudi-plugin_hudi_0.10.1_spark_2.4.4_hive_2.3.1_hadoop_2.7.3.tpi
+* **下载地址：** http://mirror.qlangtech.com/3.7.2/tis-plugin/tis-sink-hudi-plugin/tis-sink-hudi-plugin_hudi_0.10.1_spark_2.4.4_hive_2.3.1_hadoop_2.7.3.tpi
 
 * **介绍：** 
 
@@ -961,7 +997,7 @@ import TOCInline from '@theme/TOCInline';
 	通过TIS中的元配置信息自动填充[FlinkStreamerConfig](https://github.com/apache/hudi/blob/master/hudi-flink-datasource/hudi-flink/src/main/java/org/apache/hudi/streamer/FlinkStreamerConfig.java)
 	实例所需要配置属性，依赖配置信息（Avro schemas，Hudi表分区信息及 [Key Generation](https://hudi.apache.org/docs/key_generation)配置），
 	
-	配合TIS提供的各种Source Flink CDC 组件（MySQL，PostgreSQL，SqlServer等）用户可通过TIS控制台，快速实现各种数据源`实时增量`入湖
+	配合TIS提供的各种Source Flink CDC 组件，用户可通过TIS控制台，快速实现各种数据源`实时增量`入湖
 	
 	依赖组件:
 	

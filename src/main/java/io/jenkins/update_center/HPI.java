@@ -30,6 +30,7 @@ import com.google.common.collect.Sets;
 import com.qlangetch.tis.AbstractTISRepository;
 import com.qlangtech.tis.TIS;
 import com.qlangtech.tis.extension.Descriptor;
+import com.qlangtech.tis.extension.impl.PluginManifest;
 import com.qlangtech.tis.extension.util.VersionNumber;
 import com.qlangtech.tis.maven.plugins.tpi.PluginClassifier;
 import com.qlangtech.tis.plugin.IEndTypeGetter;
@@ -194,7 +195,7 @@ public class HPI extends MavenArtifact {
             if (extendpoints == null) {
                 ArtifactCoordinates coordinates = ArtifactCoordinates.create(artifact, "jar");// new ArtifactCoordinates(artifact.groupId, artifact.artifactId, artifact.version, "jar", artifact.classifier, false);
                 // ref: com.qlangtech.tis.extension.TISExtendsionInterceptor
-                try (InputStream is = repository.getZipFileEntry(new MavenArtifact(repository, coordinates), "META-INF/annotations/extendpoints.txt")) {
+                try (InputStream is = repository.getZipFileEntry(new MavenArtifact(repository, coordinates), PluginManifest.META_PATH_EXTENDPOINTS)) {
                     if (is != null) {
                         ObjectInputStream o = new ObjectInputStream(is);// b.toString().trim().replaceAll("\\s+", " ");
                         this.extendpoints = (Map<String, List<String>>) o.readObject();
