@@ -38,6 +38,7 @@ import com.qlangtech.tis.extension.*;
 import com.qlangtech.tis.extension.impl.PropertyType;
 import com.qlangtech.tis.extension.impl.RootFormProperties;
 import com.qlangtech.tis.extension.model.UpdateCenter;
+import com.qlangtech.tis.extension.model.UpdateCenterResource;
 import com.qlangtech.tis.extension.util.PluginExtraProps;
 import com.qlangtech.tis.extension.util.VersionNumber;
 import com.qlangtech.tis.manage.common.TisUTF8;
@@ -294,7 +295,7 @@ public class Main {
             /*******************************************
              * deploy to remote OSS repository
              *******************************************/
-            String ossPath = AbstractTISRepository.PLUGIN_RELEASE_VERSION + UpdateCenter.KEY_UPDATE_SITE + "/" + UpdateCenter.KEY_DEFAULT_JSON;
+            String ossPath = AbstractTISRepository.PLUGIN_RELEASE_VERSION + UpdateCenterResource.KEY_UPDATE_SITE + "/" + UpdateCenterResource.KEY_DEFAULT_JSON;
             TISAliyunOSSRepositoryImpl.getOSSClient().writeFile(ossPath, updateCenterJson);
 
             writeToFile(signedUpdateCenterJson, new File(www, UPDATE_CENTER_ACTUAL_JSON_FILENAME));
