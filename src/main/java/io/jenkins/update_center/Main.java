@@ -298,9 +298,11 @@ public class Main {
             String ossPath = AbstractTISRepository.PLUGIN_RELEASE_VERSION + UpdateCenterResource.KEY_UPDATE_SITE + "/" + UpdateCenterResource.KEY_DEFAULT_JSON;
             TISAliyunOSSRepositoryImpl.getOSSClient().writeFile(ossPath, updateCenterJson);
 
+
             writeToFile(signedUpdateCenterJson, new File(www, UPDATE_CENTER_ACTUAL_JSON_FILENAME));
             writeToFile(updateCenterPostMessageHtml(signedUpdateCenterJson), new File(www, UPDATE_CENTER_JSON_HTML_FILENAME));
         }
+
 
         StringBuffer pluginList = new StringBuffer();
 
@@ -448,7 +450,13 @@ public class Main {
                 , allEndTypePluginProcess.drawEndTypePluginTableView()
                 , Optional.of("footer-source-sink.txt"));
 
-        allEndTypePluginProcess.processCategoryPlugin();
+
+        if (!skipUpdateCenter) {
+            File pluginCategory = allEndTypePluginProcess.processCategoryPlugin();
+
+            String ossPath = AbstractTISRepository.PLUGIN_RELEASE_VERSION + UpdateCenterResource.KEY_UPDATE_SITE + "/" + UpdateCenter.PLUGIN_CATEGORIES_FILENAME;
+            TISAliyunOSSRepositoryImpl.getOSSClient().writeFile(ossPath, pluginCategory);
+        }
 //        JSONObject pluginCategories = new JSONObject();
 //        for (Map.Entry<PluginCategory, Set<Class<?>>> entry : pluginCategorySetMap.entrySet()) {
 //            pluginCategories.put(entry.getKey().getToken()
@@ -642,7 +650,7 @@ public class Main {
          *
          * @return
          */
-        public final void processCategoryPlugin() {
+        public final File processCategoryPlugin() {
             Map<PluginCategory, Set<PluginClassAndDescClassPair>> pluginCategories = Maps.newConcurrentMap();
 
             Map<IEndTypeGetter.EndType, EndTypePluginStore> snapshot = this.endTypePluginDescs.snapshot();
@@ -690,7 +698,9 @@ public class Main {
                     }).collect(Collectors.toList());
                     categoryContent.put(entry.getKey().getToken(), pluginClas);
                 }
-                FileUtils.write(new File(www, UpdateCenter.PLUGIN_CATEGORIES_FILENAME), JsonUtil.toString(categoryContent), TisUTF8.get());
+                File pluginCategory = new File(www, UpdateCenter.PLUGIN_CATEGORIES_FILENAME);
+                FileUtils.write(pluginCategory, JsonUtil.toString(categoryContent), TisUTF8.get());
+                return pluginCategory;
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
