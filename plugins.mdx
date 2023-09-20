@@ -618,181 +618,23 @@ import TOCInline from '@theme/TOCInline';
 		 
 	* **默认值:** PASV
 
-### com.qlangtech.tis.kerberos.KerberosCfg
-
-* **显示名:** kerberos 
-
-* **全路径名:** [com.qlangtech.tis.kerberos.KerberosCfg](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-hdfs-plugin/src/main/java/com/qlangtech/tis/kerberos/KerberosCfg.java) 
-
-* **费用:** `社区版(免费)`
-
-* **插件包:** [tis-datax-hdfs-plugin/tis-datax-hdfs-plugin_hadoop_2.7.3.tpi](./tpis#tis-datax-hdfs-plugin/tis-datax-hdfs-plugin_hadoop_273tpi)
-
-* **参数说明:** 
-
-1. principal
-
-	* **类型:** 单行文本
-
-	* **必须:** 是
-
-	* **说明:** 
-		
-		[详细说明](https://docs.cloudera.com/documentation/enterprise/5-3-x/topics/cm_sg_principal_keytab.html)
-		
-		Kerberos 下的用户可以称为 Principal，缩写可以是 pric（见于一些配置文件中），由三个部分组成，分别是 primary, instance 和 realm。Kerberos principal 用于使用 Kerberos 做为安全加固的系统中，来代表一个用户唯一的身份。primary 又称为用户 user component，可以是任意的字符串或者就是操作系统下的用户名等等。
-		
-		然后接着的部分叫做 instance，是用来给某个角色的用户或者服务来创建 principal 的。一个 instance，会被 "/" 和 primary 分隔。最后一个部分是 realm，概念上很像 DNS 上的 domain 域名，可以用来定义一组相似的对象，也可以说 realm 定义了一组 principals。每一个 realm 可以有私有的配置，包括 KDC 的地址和加密的算法，都可以独立存在。有些大型公司通常会创建一个独立的 realm 来分发管理员的权限。
-		
-		Kerberos 给 principal 指定 ticket 票据，让他们可以访问用 Kerberos 做安全加固的 Hadoop 服务。principal 可以形如: username/fully.qualified.domain.name@YOUR_REALM.COM。username 是指原型 Hadoop 服务的 Unix 账户，例如 hdfs 或者 mapred 之类的。
-		
-		而对于个人用户（指那些需要访问集群，比如 Hive Client 或者 HDFS Client 连接的这些），username 也是指 Unix 账号，例如 Tony, runzhliu 之类。只包含 primary 的 principal 也是可以接受的，例如 runzhliu@YOUR_REALM.COM。
-		
-		
-	* **默认值:** 无
-
-2. name
-
-	* **类型:** 单行文本
-
-	* **必须:** 是
-
-3. keytabPath
-
-	* **类型:** 文件
-
-	* **必须:** 是
-
-	* **说明:** 
-		
-		Keytab 就是一个包含了（若干）principals 和一个加密了的 principal key的文件。一个 Keytab 文件每个 host 都是唯一的，因为 principal 的定义了包含了 hostname 的。这个文件可以用来认证，而不需要传递公开的密码，因为只要有这个 Keytab 就可以代表这个 principal 来操作 Hadoop 的服务。所以说 Keytab 是需要保管好的。
-		
-	* **默认值:** 无
-
 ### com.qlangtech.tis.config.spark.impl.DefaultSparkConnGetter
-
-* **显示名:** SparkConn 
-
-* **全路径名:** [com.qlangtech.tis.config.spark.impl.DefaultSparkConnGetter](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-hive-flat-table-builder-plugin/src/main/java/com/qlangtech/tis/config/spark/impl/DefaultSparkConnGetter.java) 
 
 * **费用:** `社区版(免费)`
 
 * **插件包:** [tis-hive-flat-table-builder-plugin/tis-hive-flat-table-builder-plugin_hive_2.3.1_hadoop_2.7.3.tpi](./tpis#tis-hive-flat-table-builder-plugin/tis-hive-flat-table-builder-plugin_hive_231_hadoop_273tpi)
-
-* **参数说明:** 
-
-1. 连接方式
-
-	* **类型:** 单行文本
-
-	* **必须:** 是
-
-	* **说明:** 
-		
-		客户端连接Spark服务端可选择以下连接方式之一：
-		
-		* [Amazon EC2](https://github.com/amplab/spark-ec2): scripts that let you launch a cluster on EC2 in about 5 minutes
-		* [Standalone Deploy Mode](https://spark.apache.org/docs/2.4.4/spark-standalone.html): launch a standalone cluster quickly without a third-party cluster manager
-		* [Mesos](https://spark.apache.org/docs/2.4.4/running-on-mesos.html): deploy a private cluster using Apache Mesos
-		* [YARN](https://spark.apache.org/docs/2.4.4/running-on-yarn.html): deploy Spark on top of Hadoop NextGen (YARN)
-		* [Kubernetes](https://spark.apache.org/docs/2.4.4/running-on-kubernetes.html#cluster-mode): deploy Spark on top of Kubernetes
-		
-		例如，选择**Standalone Deploy Mode**模式模式，可设置：`spark://192.168.28.201:7077`
-	* **默认值:** 无
-
-2. name
-
-	* **类型:** 单行文本
-
-	* **必须:** 是
 
 ### com.qlangtech.tis.config.yarn.YarnConfig
 
-* **显示名:** yarn 
-
-* **全路径名:** [com.qlangtech.tis.config.yarn.YarnConfig](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-hive-flat-table-builder-plugin/src/main/java/com/qlangtech/tis/config/yarn/YarnConfig.java) 
-
 * **费用:** `社区版(免费)`
 
 * **插件包:** [tis-hive-flat-table-builder-plugin/tis-hive-flat-table-builder-plugin_hive_2.3.1_hadoop_2.7.3.tpi](./tpis#tis-hive-flat-table-builder-plugin/tis-hive-flat-table-builder-plugin_hive_231_hadoop_273tpi)
 
-* **参数说明:** 
-
-1. rmAddress
-
-	* **类型:** 单行文本
-
-	* **必须:** 是
-
-2. schedulerAddress
-
-	* **类型:** 单行文本
-
-	* **必须:** 是
-
-3. name
-
-	* **类型:** 单行文本
-
-	* **必须:** 是
-
 ### com.qlangtech.tis.hive.DefaultHiveConnGetter
-
-* **显示名:** HiveConn 
-
-* **全路径名:** [com.qlangtech.tis.hive.DefaultHiveConnGetter](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-hive-plugin/src/main/java/com/qlangtech/tis/hive/DefaultHiveConnGetter.java) 
 
 * **费用:** `社区版(免费)`
 
 * **插件包:** [tis-hive-plugin/tis-hive-plugin_hive_2.3.1_hadoop_2.7.3.tpi](./tpis#tis-hive-plugin/tis-hive-plugin_hive_231_hadoop_273tpi)
-
-* **参数说明:** 
-
-1. 元数据地址
-
-	* **类型:** 单行文本
-
-	* **必须:** 是
-
-	* **说明:** 
-		
-		Hive元数据服务地址，用于获取Hive中存放的表的元数据信息
-		
-		地址格式如：`thrift://{{hiveserver}}:9083`
-	* **默认值:** thrift://{{hiveserver}}:9083
-
-2. userToken
-
-	* **类型:** 单行文本
-
-	* **必须:** 是
-
-	* **说明:** 当选择为'on', 用户需要填写用户名和密码
-	* **默认值:** off
-
-3. dbName
-
-	* **类型:** 单行文本
-
-	* **必须:** 是
-
-	* **说明:** Hive 数据库使用的库名，请在执行任务前先创建完成
-	* **默认值:** default
-
-4. name
-
-	* **类型:** 单行文本
-
-	* **必须:** 是
-
-5. hiveAddress
-
-	* **类型:** 单行文本
-
-	* **必须:** 是
-
-	* **说明:** 描述：Hive Thrift Server2。格式：ip:端口；例如：127.0.0.1:9000
-	* **默认值:** {ip|host}:10000
 
 ### com.qlangtech.tis.config.k8s.impl.DefaultK8sContext
 
@@ -839,6 +681,79 @@ import TOCInline from '@theme/TOCInline';
 	* **必须:** 是
 
 	* **说明:** 无
+	* **默认值:** 无
+
+### com.qlangtech.tis.kerberos.KerberosCfg
+
+* **显示名:** kerberos 
+
+* **全路径名:** [com.qlangtech.tis.kerberos.KerberosCfg](https://github.com/qlangtech/plugins/tree/master/tis-kerberos-plugin/src/main/java/com/qlangtech/tis/kerberos/KerberosCfg.java) 
+
+* **费用:** `社区版(免费)`
+
+* **插件包:** [tis-kerberos-plugin.tpi](./tpis#tis-kerberos-plugintpi)
+
+* **参数说明:** 
+
+1. principal
+
+	* **类型:** 单行文本
+
+	* **必须:** 是
+
+	* **说明:** 
+		
+		[详细说明](https://docs.cloudera.com/documentation/enterprise/5-3-x/topics/cm_sg_principal_keytab.html)
+		
+		Kerberos 下的用户可以称为 Principal，缩写可以是 pric（见于一些配置文件中），由三个部分组成，分别是 primary, instance 和 realm。Kerberos principal 用于使用 Kerberos 做为安全加固的系统中，来代表一个用户唯一的身份。primary 又称为用户 user component，可以是任意的字符串或者就是操作系统下的用户名等等。
+		
+		然后接着的部分叫做 instance，是用来给某个角色的用户或者服务来创建 principal 的。一个 instance，会被 "/" 和 primary 分隔。最后一个部分是 realm，概念上很像 DNS 上的 domain 域名，可以用来定义一组相似的对象，也可以说 realm 定义了一组 principals。每一个 realm 可以有私有的配置，包括 KDC 的地址和加密的算法，都可以独立存在。有些大型公司通常会创建一个独立的 realm 来分发管理员的权限。
+		
+		Kerberos 给 principal 指定 ticket 票据，让他们可以访问用 Kerberos 做安全加固的 Hadoop 服务。principal 可以形如: username/fully.qualified.domain.name@YOUR_REALM.COM。username 是指原型 Hadoop 服务的 Unix 账户，例如 hdfs 或者 mapred 之类的。
+		
+		而对于个人用户（指那些需要访问集群，比如 Hive Client 或者 HDFS Client 连接的这些），username 也是指 Unix 账号，例如 Tony, runzhliu 之类。只包含 primary 的 principal 也是可以接受的，例如 runzhliu@YOUR_REALM.COM。
+		
+		
+	* **默认值:** 无
+
+2. krb5Res
+
+	* **类型:** 单行文本
+
+	* **必须:** 是
+
+	* **说明:** 
+		
+		maintains key-value pairs of Kerberos configurable constants from configuration file or from user specified system properties.
+		
+		The content is path of file with default path '/etc/krb5.conf'
+		
+		There are two types of input method 
+		1. Upload 
+		
+		   By upload a File that the content is compatible with '/etc/krb5.conf'
+		    
+		2. SystemPath
+		 
+		   By reference to the path of `krb5.conf` with default location of '/etc/krb5.conf'
+	* **默认值:** SystemPath
+
+3. name
+
+	* **类型:** 单行文本
+
+	* **必须:** 是
+
+4. keytabPath
+
+	* **类型:** 文件
+
+	* **必须:** 是
+
+	* **说明:** 
+		
+		Keytab 就是一个包含了（若干）principals 和一个加密了的 principal key的文件。一个 Keytab 文件每个 host 都是唯一的，因为 principal 的定义了包含了 hostname 的。这个文件可以用来认证，而不需要传递公开的密码，因为只要有这个 Keytab 就可以代表这个 principal 来操作 Hadoop 的服务。所以说 Keytab 是需要保管好的。
+		
 	* **默认值:** 无
 
 ### com.qlangtech.plugins.incr.flink.common.FlinkCluster
@@ -893,57 +808,9 @@ import TOCInline from '@theme/TOCInline';
 
 ### com.qlangtech.tis.plugin.datax.hudi.spark.SparkSubmitParams
 
-* **显示名:** on 
-
-* **全路径名:** [com.qlangtech.tis.plugin.datax.hudi.spark.SparkSubmitParams](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-hudi-plugin/src/main/java/com/qlangtech/tis/plugin/datax/hudi/spark/SparkSubmitParams.java) 
-
 * **费用:** `社区版(免费)`
 
 * **插件包:** [tis-datax-hudi-plugin/tis-datax-hudi-plugin_hudi_0.10.1_spark_2.4.4_hive_2.3.1_hadoop_2.7.3.tpi](./tpis#tis-datax-hudi-plugin/tis-datax-hudi-plugin_hudi_0101_spark_244_hive_231_hadoop_273tpi)
-
-* **参数说明:** 
-
-1. executorMemory
-
-	* **类型:** 单行文本
-
-	* **必须:** 是
-
-	* **说明:** Configuration key for the Spark executor memory. the value format like '1G' or '1024M'
-	* **默认值:** 3G
-
-2. driverMemory
-
-	* **类型:** 单行文本
-
-	* **必须:** 是
-
-	* **说明:** Configuration key for the Spark driver memory. the value format like '1G' or '1024M'
-	* **默认值:** 1G
-
-3. deployMode
-
-	* **类型:** 单选
-
-	* **必须:** 是
-
-	* **说明:** 
-		
-		--deploy-mode DEPLOY_MODE
-		
-		Whether to launch the driver program locally **("client")** or on one of the worker machines inside the
-		cluster **("cluster")**(Default: client).
-		
-	* **默认值:** cluster
-
-4. executorCores
-
-	* **类型:** 整型数字
-
-	* **必须:** 是
-
-	* **说明:** Configuration key for the number of executor CPU cores
-	* **默认值:** 2
 
 ## com.qlangtech.tis.plugins.datax.kafka.reader.subscriptionmethod.KafkaSubscriptionMethod
 
@@ -1836,347 +1703,27 @@ import TOCInline from '@theme/TOCInline';
 
 ### com.qlangtech.tis.plugin.datax.hudi.keygenerator.impl.ComplexKeyGenerator
 
-* **显示名:** COMPLEX 
-
-* **全路径名:** [com.qlangtech.tis.plugin.datax.hudi.keygenerator.impl.ComplexKeyGenerator](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-hudi-plugin/src/main/java/com/qlangtech/tis/plugin/datax/hudi/keygenerator/impl/ComplexKeyGenerator.java) 
-
 * **费用:** `社区版(免费)`
 
 * **插件包:** [tis-datax-hudi-plugin/tis-datax-hudi-plugin_hudi_0.10.1_spark_2.4.4_hive_2.3.1_hadoop_2.7.3.tpi](./tpis#tis-datax-hudi-plugin/tis-datax-hudi-plugin_hudi_0101_spark_244_hive_231_hadoop_273tpi)
-
-* **参数说明:** 
-
-1. 主键
-
-	* **类型:** 单选
-
-	* **必须:** 是
-
-	* **说明:** 无
-	* **默认值:** com.qlangtech.tis.trigger.util.JsonUtil$UnCacheString@38eb2fb0
-
-2. 分区值析取
-
-	* **类型:** 单行文本
-
-	* **必须:** 是
-
-	* **说明:** 
-		
-		HDFS Path contain hive partition values for the keys it is partitioned on. This mapping is not straight forward and
-		requires a pluggable implementation to extract the partition value from HDFS path.
-		
-		**e.g** Hive table partitioned by datestr=yyyy-mm-dd and hdfs path /app/hoodie/dataset1/YYYY=[yyyy]/MM=[mm]/DD=[dd]
-		
-		There are some types of partition strategies :
-		
-		- **fieldValBased**: base on Hudi class `org.apache.hudi.hive.MultiPartKeysValueExtractor` that Partition Key extractor treating each value delimited by slash as separate key.
-		
-		- **slashEncodedDay** :
-		   base on hudi class `org.apache.hudi.hive.SlashEncodedDayPartitionValueExtractor`
-		   HDFS Path contain hive partition values for the keys it is partitioned on. 
-		   This mapping is not straight forward and requires a pluggable implementation to extract the partition value from HDFS path.
-		   
-		   This implementation extracts `datestr=yyyy-mm-dd` from path of type `/yyyy/mm/dd`
-		
-		- **slashEncodedHour** :   
-		   
-		   base on hudi class `org.apache.hudi.hive.SlashEncodedHourPartitionValueExtractor`
-		
-		   HDFS Path contain hive partition values for the keys it is partitioned on. This mapping is not straight forward and
-		   requires a pluggable implementation to extract the partition value from HDFS path.
-		   This implementation extracts `datestr=yyyy-mm-dd-HH` from path of type `/yyyy/mm/dd/HH`
-	* **默认值:** 无
-
-3. hiveStylePartitioning
-
-	* **类型:** 单选
-
-	* **必须:** 是
-
-	* **说明:** 
-		Flag to indicate whether to use Hive style partitioning.
-		If set true, the names of partition folders follow <partition_column_name>=<partition_value> format.
-		By default false (the names of partition folders are only partition values)
-	* **默认值:** false
-
-4. 分区字段
-
-	* **类型:** 单选
-
-	* **必须:** 是
-
-	* **说明:** 无
-	* **默认值:** 无
-
-5. encodePartitionPath
-
-	* **类型:** 单选
-
-	* **必须:** 是
-
-	* **说明:** 
-		Should we url encode the partition path value, before creating the folder structure.
-	* **默认值:** false
-
-6. 逻辑时间
-
-	* **类型:** 单选
-
-	* **必须:** 是
-
-	* **说明:** 
-		When set to true, consistent value will be generated for a logical timestamp type column, like timestamp-millis and timestamp-micros, irrespective of whether row-writer is enabled. Disabled by default so as not to break the pipeline that deploy either fully row-writer path or non row-writer path. For example, if it is kept disabled then record key of timestamp type with value `2016-12-29 09:54:00` will be written as timestamp `2016-12-29 09:54:00.0` in row-writer path, while it will be written as long value `1483023240000000` in non row-writer path. If enabled, then the timestamp value will be written in both the cases.
-	* **默认值:** false
 
 ### com.qlangtech.tis.plugin.datax.hudi.keygenerator.impl.NonePartitionKeyGenerator
 
-* **显示名:** NON_PARTITION 
-
-* **全路径名:** [com.qlangtech.tis.plugin.datax.hudi.keygenerator.impl.NonePartitionKeyGenerator](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-hudi-plugin/src/main/java/com/qlangtech/tis/plugin/datax/hudi/keygenerator/impl/NonePartitionKeyGenerator.java) 
-
 * **费用:** `社区版(免费)`
 
 * **插件包:** [tis-datax-hudi-plugin/tis-datax-hudi-plugin_hudi_0.10.1_spark_2.4.4_hive_2.3.1_hadoop_2.7.3.tpi](./tpis#tis-datax-hudi-plugin/tis-datax-hudi-plugin_hudi_0101_spark_244_hive_231_hadoop_273tpi)
-
-* **参数说明:** 
-
-1. 主键
-
-	* **类型:** 单选
-
-	* **必须:** 是
-
-	* **说明:** 无
-	* **默认值:** com.qlangtech.tis.trigger.util.JsonUtil$UnCacheString@5e268ce6
 
 ### com.qlangtech.tis.plugin.datax.hudi.keygenerator.impl.SimpleKeyGenerator
 
-* **显示名:** SIMPLE 
-
-* **全路径名:** [com.qlangtech.tis.plugin.datax.hudi.keygenerator.impl.SimpleKeyGenerator](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-hudi-plugin/src/main/java/com/qlangtech/tis/plugin/datax/hudi/keygenerator/impl/SimpleKeyGenerator.java) 
-
 * **费用:** `社区版(免费)`
 
 * **插件包:** [tis-datax-hudi-plugin/tis-datax-hudi-plugin_hudi_0.10.1_spark_2.4.4_hive_2.3.1_hadoop_2.7.3.tpi](./tpis#tis-datax-hudi-plugin/tis-datax-hudi-plugin_hudi_0101_spark_244_hive_231_hadoop_273tpi)
-
-* **参数说明:** 
-
-1. 分区值析取
-
-	* **类型:** 单行文本
-
-	* **必须:** 是
-
-	* **说明:** 
-		
-		HDFS Path contain hive partition values for the keys it is partitioned on. This mapping is not straight forward and
-		requires a pluggable implementation to extract the partition value from HDFS path.
-		
-		**e.g** Hive table partitioned by datestr=yyyy-mm-dd and hdfs path /app/hoodie/dataset1/YYYY=[yyyy]/MM=[mm]/DD=[dd]
-		
-		There are some types of partition strategies :
-		
-		- **fieldValBased**: base on Hudi class `org.apache.hudi.hive.MultiPartKeysValueExtractor` that Partition Key extractor treating each value delimited by slash as separate key.
-		
-		- **slashEncodedDay** :
-		   base on hudi class `org.apache.hudi.hive.SlashEncodedDayPartitionValueExtractor`
-		   HDFS Path contain hive partition values for the keys it is partitioned on. 
-		   This mapping is not straight forward and requires a pluggable implementation to extract the partition value from HDFS path.
-		   
-		   This implementation extracts `datestr=yyyy-mm-dd` from path of type `/yyyy/mm/dd`
-		
-		- **slashEncodedHour** :   
-		   
-		   base on hudi class `org.apache.hudi.hive.SlashEncodedHourPartitionValueExtractor`
-		
-		   HDFS Path contain hive partition values for the keys it is partitioned on. This mapping is not straight forward and
-		   requires a pluggable implementation to extract the partition value from HDFS path.
-		   This implementation extracts `datestr=yyyy-mm-dd-HH` from path of type `/yyyy/mm/dd/HH`
-	* **默认值:** 无
-
-2. hiveStylePartitioning
-
-	* **类型:** 单选
-
-	* **必须:** 是
-
-	* **说明:** 
-		Flag to indicate whether to use Hive style partitioning.
-		If set true, the names of partition folders follow <partition_column_name>=<partition_value> format.
-		By default false (the names of partition folders are only partition values)
-	* **默认值:** false
-
-3. 主键
-
-	* **类型:** 单选
-
-	* **必须:** 是
-
-	* **说明:** 无
-	* **默认值:** 无
-
-4. 分区字段
-
-	* **类型:** 单选
-
-	* **必须:** 是
-
-	* **说明:** 无
-	* **默认值:** 无
-
-5. encodePartitionPath
-
-	* **类型:** 单选
-
-	* **必须:** 是
-
-	* **说明:** 
-		Should we url encode the partition path value, before creating the folder structure.
-	* **默认值:** false
-
-6. 逻辑时间
-
-	* **类型:** 单选
-
-	* **必须:** 是
-
-	* **说明:** 
-		When set to true, consistent value will be generated for a logical timestamp type column, like timestamp-millis and timestamp-micros, irrespective of whether row-writer is enabled. Disabled by default so as not to break the pipeline that deploy either fully row-writer path or non row-writer path. For example, if it is kept disabled then record key of timestamp type with value `2016-12-29 09:54:00` will be written as timestamp `2016-12-29 09:54:00.0` in row-writer path, while it will be written as long value `1483023240000000` in non row-writer path. If enabled, then the timestamp value will be written in both the cases.
-	* **默认值:** false
 
 ### com.qlangtech.tis.plugin.datax.hudi.keygenerator.impl.TimeStampKeyGenerator
 
-* **显示名:** TIMESTAMP 
-
-* **全路径名:** [com.qlangtech.tis.plugin.datax.hudi.keygenerator.impl.TimeStampKeyGenerator](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-hudi-plugin/src/main/java/com/qlangtech/tis/plugin/datax/hudi/keygenerator/impl/TimeStampKeyGenerator.java) 
-
 * **费用:** `社区版(免费)`
 
 * **插件包:** [tis-datax-hudi-plugin/tis-datax-hudi-plugin_hudi_0.10.1_spark_2.4.4_hive_2.3.1_hadoop_2.7.3.tpi](./tpis#tis-datax-hudi-plugin/tis-datax-hudi-plugin_hudi_0101_spark_244_hive_231_hadoop_273tpi)
-
-* **参数说明:** 
-
-1. inputDateformat
-
-	* **类型:** 单行文本
-
-	* **必须:** 否
-
-	* **说明:** Input date format
-	* **默认值:** 无
-
-2. 分区值析取
-
-	* **类型:** 单行文本
-
-	* **必须:** 是
-
-	* **说明:** 
-		
-		HDFS Path contain hive partition values for the keys it is partitioned on. This mapping is not straight forward and
-		requires a pluggable implementation to extract the partition value from HDFS path.
-		
-		**e.g** Hive table partitioned by datestr=yyyy-mm-dd and hdfs path /app/hoodie/dataset1/YYYY=[yyyy]/MM=[mm]/DD=[dd]
-		
-		There are some types of partition strategies :
-		
-		- **fieldValBased**: base on Hudi class `org.apache.hudi.hive.MultiPartKeysValueExtractor` that Partition Key extractor treating each value delimited by slash as separate key.
-		
-		- **slashEncodedDay** :
-		   base on hudi class `org.apache.hudi.hive.SlashEncodedDayPartitionValueExtractor`
-		   HDFS Path contain hive partition values for the keys it is partitioned on. 
-		   This mapping is not straight forward and requires a pluggable implementation to extract the partition value from HDFS path.
-		   
-		   This implementation extracts `datestr=yyyy-mm-dd` from path of type `/yyyy/mm/dd`
-		
-		- **slashEncodedHour** :   
-		   
-		   base on hudi class `org.apache.hudi.hive.SlashEncodedHourPartitionValueExtractor`
-		
-		   HDFS Path contain hive partition values for the keys it is partitioned on. This mapping is not straight forward and
-		   requires a pluggable implementation to extract the partition value from HDFS path.
-		   This implementation extracts `datestr=yyyy-mm-dd-HH` from path of type `/yyyy/mm/dd/HH`
-	* **默认值:** 无
-
-3. hiveStylePartitioning
-
-	* **类型:** 单选
-
-	* **必须:** 是
-
-	* **说明:** 
-		Flag to indicate whether to use Hive style partitioning.
-		If set true, the names of partition folders follow <partition_column_name>=<partition_value> format.
-		By default false (the names of partition folders are only partition values)
-	* **默认值:** false
-
-4. timezone
-
-	* **类型:** 单选
-
-	* **必须:** 是
-
-	* **说明:** 
-		格式化时间时区
-	* **默认值:** Asia/Shanghai
-
-5. 主键
-
-	* **类型:** 单选
-
-	* **必须:** 是
-
-	* **说明:** 无
-	* **默认值:** 无
-
-6. timestampType
-
-	* **类型:** 单选
-
-	* **必须:** 是
-
-	* **说明:** 
-		时间字段类型
-	* **默认值:** EPOCHMILLISECONDS
-
-7. 分区字段
-
-	* **类型:** 单选
-
-	* **必须:** 是
-
-	* **说明:** 无
-	* **默认值:** 无
-
-8. encodePartitionPath
-
-	* **类型:** 单选
-
-	* **必须:** 是
-
-	* **说明:** 
-		Should we url encode the partition path value, before creating the folder structure.
-	* **默认值:** false
-
-9. outputDateformat
-
-	* **类型:** 单行文本
-
-	* **必须:** 否
-
-	* **说明:** Output date format
-	* **默认值:** 无
-
-10. 逻辑时间
-
-	* **类型:** 单选
-
-	* **必须:** 是
-
-	* **说明:** 
-		When set to true, consistent value will be generated for a logical timestamp type column, like timestamp-millis and timestamp-micros, irrespective of whether row-writer is enabled. Disabled by default so as not to break the pipeline that deploy either fully row-writer path or non row-writer path. For example, if it is kept disabled then record key of timestamp type with value `2016-12-29 09:54:00` will be written as timestamp `2016-12-29 09:54:00.0` in row-writer path, while it will be written as long value `1483023240000000` in non row-writer path. If enabled, then the timestamp value will be written in both the cases.
-	* **默认值:** false
 
 ## com.qlangtech.tis.plugin.ds.DataSourceFactory
 
@@ -2795,88 +2342,6 @@ import TOCInline from '@theme/TOCInline';
 	* **说明:** 无
 	* **默认值:** root
 
-### com.qlangtech.tis.plugin.ds.starrocks.BasicSourceFactory
-
-* **显示名:** Doris 
-
-* **全路径名:** [com.qlangtech.tis.plugin.ds.starrocks.BasicSourceFactory](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-starrocks-plugin/src/main/java/com/qlangtech/tis/plugin/ds/starrocks/BasicSourceFactory.java) 
-
-* **费用:** `社区版(免费)`
-
-* **插件包:** [tis-datax-starrocks-plugin.tpi](./tpis#tis-datax-starrocks-plugintpi)
-
-* **参数说明:** 
-
-1. 密码
-
-	* **类型:** 密码
-
-	* **必须:** 否
-
-	* **说明:** Doris数据库的密码
-	* **默认值:** 无
-
-2. 端口
-
-	* **类型:** 整型数字
-
-	* **必须:** 是
-
-	* **说明:** 无
-	* **默认值:** 9030
-
-3. 数据库名
-
-	* **类型:** 单行文本
-
-	* **必须:** 是
-
-	* **说明:** Doris表的数据库名称
-	* **默认值:** 无
-
-4. 实例ID
-
-	* **类型:** 单行文本
-
-	* **必须:** 是
-
-	* **说明:** 数据源实例名称，请起一个有意义且唯一的名称
-	* **默认值:** 无
-
-5. loadUrl
-
-	* **类型:** 富文本
-
-	* **必须:** 是
-
-	* **说明:** 
-		
-		Doris FE的地址用于Streamload，可以为多个fe地址，fe_ip:fe_http_port
-		样例：
-		
-		```json
-		["172.28.17.100:8030", "172.28.17.100:8030"]
-		```
-	* **默认值:** []
-
-6. 节点描述
-
-	* **类型:** 富文本
-
-	* **必须:** 是
-
-	* **说明:** 目标数据库的 JDBC 连接信息，用于执行preSql及postSql
-	* **默认值:** 无
-
-7. 用户名
-
-	* **类型:** 单行文本
-
-	* **必须:** 是
-
-	* **说明:** Doris数据库的用户名
-	* **默认值:** root
-
 ### com.qlangtech.tis.plugin.ds.starrocks.StarRocksSourceFactory
 
 * **显示名:** StarRocks 
@@ -3193,64 +2658,17 @@ import TOCInline from '@theme/TOCInline';
 
 ### com.qlangtech.tis.hive.Hiveserver2DataSourceFactory
 
-* **显示名:** Hiveserver2 
-
-* **全路径名:** [com.qlangtech.tis.hive.Hiveserver2DataSourceFactory](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-hive-plugin/src/main/java/com/qlangtech/tis/hive/Hiveserver2DataSourceFactory.java) 
-
 * **费用:** `社区版(免费)`
 
 * **插件包:** [tis-hive-plugin/tis-hive-plugin_hive_2.3.1_hadoop_2.7.3.tpi](./tpis#tis-hive-plugin/tis-hive-plugin_hive_231_hadoop_273tpi)
 
-* **参数说明:** 
+## com.qlangtech.tis.hive.HiveMeta
 
-1. 元数据地址
+### com.qlangtech.tis.hive.HiveMeta
 
-	* **类型:** 单行文本
+* **费用:** `社区版(免费)`
 
-	* **必须:** 是
-
-	* **说明:** 
-		
-		Hive元数据服务地址，用于获取Hive中存放的表的元数据信息
-		
-		地址格式如：`thrift://{{hiveserver}}:9083`
-	* **默认值:** thrift://{{hiveserver}}:9083
-
-2. userToken
-
-	* **类型:** 单行文本
-
-	* **必须:** 是
-
-	* **说明:** 当选择为'on', 用户需要填写用户名和密码
-	* **默认值:** off
-
-3. 数据库名
-
-	* **类型:** 单行文本
-
-	* **必须:** 是
-
-	* **说明:** Hive 数据库使用的库名，请在执行任务前先创建完成
-	* **默认值:** default
-
-4. 实例ID
-
-	* **类型:** 单行文本
-
-	* **必须:** 是
-
-	* **说明:** 数据源实例名称，请起一个有意义且唯一的名称
-	* **默认值:** 无
-
-5. hiveAddress
-
-	* **类型:** 单行文本
-
-	* **必须:** 是
-
-	* **说明:** 描述：Hive Thrift Server2。格式：ip:端口；例如：127.0.0.1:9000
-	* **默认值:** {ip|host}:10000
+* **插件包:** [tis-hive-plugin/tis-hive-plugin_hive_2.3.1_hadoop_2.7.3.tpi](./tpis#tis-hive-plugin/tis-hive-plugin_hive_231_hadoop_273tpi)
 
 ## com.qlangtech.tis.plugin.incr.TISSinkFactory
 
@@ -3920,7 +3338,7 @@ import TOCInline from '@theme/TOCInline';
 		   [安装说明](http://tis.pub/docs/install/flink-cluster/standalone/):
 		      - 下载、解压
 		        ```shell script
-		         wget http://tis-release.oss-cn-beijing.aliyuncs.com/3.7.2/tis/flink-tis-1.13.1-bin.tar.gz && rm -rf flink-tis-1.13.1 && mkdir flink-tis-1.13.1 && tar xvf flink-tis-1.13.1-bin.tar.gz -C ./flink-tis-1.13.1
+		         wget http://tis-release.oss-cn-beijing.aliyuncs.com/3.8.0/tis/flink-tis-1.13.1-bin.tar.gz && rm -rf flink-tis-1.13.1 && mkdir flink-tis-1.13.1 && tar xvf flink-tis-1.13.1-bin.tar.gz -C ./flink-tis-1.13.1
 		        ```
 		      - 启动Flink-Cluster：
 		         ```shell script
@@ -4367,7 +3785,7 @@ import TOCInline from '@theme/TOCInline';
 	* **必须:** 是
 
 	* **说明:** Elasticsearch中的index名
-	* **默认值:** com.qlangtech.tis.trigger.util.JsonUtil$UnCacheString@16073fa8
+	* **默认值:** com.qlangtech.tis.trigger.util.JsonUtil$UnCacheString@5a1c3cb4
 
 5. splitter
 
@@ -4611,256 +4029,15 @@ import TOCInline from '@theme/TOCInline';
 
 ### com.qlangtech.tis.plugin.datax.DataXHdfsWriter
 
-* **显示名:** Hdfs 
-
-* **全路径名:** [com.qlangtech.tis.plugin.datax.DataXHdfsWriter](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-hdfs-reader-writer-plugin/src/main/java/com/qlangtech/tis/plugin/datax/DataXHdfsWriter.java) 
-
-* **提供者:** [DataX](https://github.com/alibaba/DataX) 
-
 * **费用:** `社区版(免费)`
 
 * **插件包:** [tis-datax-hdfs-reader-writer-plugin/tis-datax-hdfs-reader-writer-plugin_hive_2.3.1_hadoop_2.7.3.tpi](./tpis#tis-datax-hdfs-reader-writer-plugin/tis-datax-hdfs-reader-writer-plugin_hive_231_hadoop_273tpi)
 
-* **参数说明:** 
-
-1. 配置模版
-
-	* **类型:** 富文本
-
-	* **必须:** 是
-
-	* **说明:** 无特殊情况请不要修改模版内容，避免不必要的错误
-	* **默认值:** 无
-
-2. path
-
-	* **类型:** 单行文本
-
-	* **必须:** 是
-
-	* **说明:** 
-		
-		存储到Hadoop hdfs文件系统的相对路径信息，HdfsWriter会根据并发配置在Path目录下写入多个文件。为与hive表关联，请填写hive表在hdfs上的存储路径。
-		
-		例：Hive上设置的数据仓库的存储路径为：`/user/hive/warehouse/` ，已建立数据库：`test.db`，表：`hello`；则输入框中可输入`test.db/hello`, 最终对应HDFS中存储路径为：`/user/hive/warehouse/test.db/hello`  
-		  
-	* **默认值:** 无
-
-3. compress
-
-	* **类型:** 单选
-
-	* **必须:** 否
-
-	* **说明:** 描述：hdfs文件压缩类型，默认不填写意味着没有压缩。其中：text类型文件支持压缩类型有gzip、bzip2;orc类型文件支持的压缩类型有NONE、SNAPPY（需要用户安装SnappyCodec）。 
-	* **默认值:** NONE
-
-4. writeMode
-
-	* **类型:** 单选
-
-	* **必须:** 是
-
-	* **说明:** 
-		
-		hdfswriter写入前数据清理处理模式：
-		
-		- **append**: 写入前不做任何处理，DataX hdfswriter直接使用filename写入，并保证文件名不冲突，
-		- **nonConflict**：如果目录下有fileName前缀的文件，直接报错
-	* **默认值:** append
-
-5. encoding
-
-	* **类型:** 单选
-
-	* **必须:** 否
-
-	* **说明:** 描述：写文件的编码配置。
-	* **默认值:** utf-8
-
-6. fileType
-
-	* **类型:** 单行文本
-
-	* **必须:** 是
-
-	* **说明:** 描述：文件的类型，目前只支持用户配置为"text"或"orc" 
-	* **默认值:** 无
-
-7. fsName
-
-	* **类型:** 单选
-
-	* **必须:** 是
-
-	* **说明:** 描述：Hadoop hdfs文件系统namenode节点地址。格式：hdfs://ip:端口；例如：hdfs://127.0.0.1:9000
-	* **默认值:** 无
-
 ### com.qlangtech.tis.plugin.datax.hudi.DataXHudiWriter
-
-* **显示名:** Hudi 
-
-* **全路径名:** [com.qlangtech.tis.plugin.datax.hudi.DataXHudiWriter](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-hudi-plugin/src/main/java/com/qlangtech/tis/plugin/datax/hudi/DataXHudiWriter.java) 
-
-* **提供者:** [TIS](https://github.com/qlangtech/tis) 
 
 * **费用:** `社区版(免费)`
 
 * **插件包:** [tis-datax-hudi-plugin/tis-datax-hudi-plugin_hudi_0.10.1_spark_2.4.4_hive_2.3.1_hadoop_2.7.3.tpi](./tpis#tis-datax-hudi-plugin/tis-datax-hudi-plugin_hudi_0101_spark_244_hive_231_hadoop_273tpi)
-
-* **参数说明:** 
-
-1. 配置模版
-
-	* **类型:** 富文本
-
-	* **必须:** 是
-
-	* **说明:** 无特殊情况请不要修改模版内容，避免不必要的错误
-	* **默认值:** 无
-
-2. 分区字段
-
-	* **类型:** 单行文本
-
-	* **必须:** 是
-
-	* **说明:** 
-		
-		Field in the table to use for determining hive partition columns, [详细](https://hudi.apache.org/docs/configurations#hoodiedatasourcehive_syncpartition_fields)
-		
-	* **默认值:** pt
-
-3. 重分区数
-
-	* **类型:** 整型数字
-
-	* **必须:** 是
-
-	* **说明:** 
-		
-		For any Hudi job using Spark, parallelism equals to the number of spark partitions that should be generated for a particular stage in the DAG
-		[detail](https://hudi.apache.org/docs/faq/#how-to-tune-shuffle-parallelism-of-hudi-jobs-)
-		
-	* **默认值:** 2
-
-4. 批量操作
-
-	* **类型:** 单选
-
-	* **必须:** 是
-
-	* **说明:** 
-		
-		* Takes one of these values : UPSERT (default), INSERT (use when input is  purely new data/inserts to gain speed)
-		* Default: `BULK_INSERT`
-		* Possible Values: `UPSERT`, `INSERT`, `BULK_INSERT`
-		
-	* **默认值:** BULK_INSERT
-
-5. sparkConn
-
-	* **类型:** 单选
-
-	* **必须:** 是
-
-	* **说明:** 
-		
-		指定Spark服务端连接地址
-		
-	* **默认值:** 无
-
-6. 表类型
-
-	* **类型:** 单选
-
-	* **必须:** 是
-
-	* **说明:** 
-		
-		Hudi 支持以下两种表类型：
-		
-		* [COPY_ON_WRITE](https://hudi.apache.org/docs/table_types#copy-on-write-table) ：Stores data using exclusively columnar file formats (e.g parquet). Updates simply version & rewrite the files by performing a synchronous merge during write.
-		* [MERGE_ON_READ](https://hudi.apache.org/docs/table_types#merge-on-read-table) ：Stores data using a combination of columnar (e.g parquet) + row based (e.g avro) file formats. Updates are logged to delta files & later compacted to produce new versions of columnar files synchronously or asynchronously.
-		
-		详细请参考 [https://hudi.apache.org/docs/table_types](https://hudi.apache.org/docs/table_types)
-		
-		**How do I choose a storage type for my workload**
-		
-		A key goal of Hudi is to provide upsert functionality that is orders of magnitude faster than rewriting entire tables or partitions. 
-		
-		Choose Copy-on-write storage if : 
-		
-		- You are looking for a simple alternative, that replaces your existing parquet tables without any need for real-time data.
-		- Your current job is rewriting entire table/partition to deal with updates, while only a few files actually change in each partition.
-		- You are happy keeping things operationally simpler (no compaction etc), with the ingestion/write performance bound by the parquet file size and the number of such files affected/dirtied by updates
-		- Your workload is fairly well-understood and does not have sudden bursts of large amount of update or inserts to older partitions. COW absorbs all the merging cost on the writer side and thus these sudden changes can clog up your ingestion and interfere with meeting normal mode ingest latency targets.
-		
-		Choose merge-on-read storage if :
-		
-		- You want the data to be ingested as quickly & queryable as much as possible.
-		- Your workload can have sudden spikes/changes in pattern (e.g bulk updates to older transactions in upstream database causing lots of updates to old partitions on DFS). Asynchronous compaction helps amortize the write amplification caused by such scenarios, while normal ingestion keeps up with incoming stream of changes.
-		Immaterial of what you choose, Hudi provides 
-		
-		Snapshot isolation and atomic write of batch of records
-		- Incremental pulls
-		- Ability to de-duplicate data
-		
-		Find more [here](https://hudi.apache.org/docs/concepts/).
-		
-		
-		
-	* **默认值:** COPY_ON_WRITE
-
-7. writeMode
-
-	* **类型:** 单选
-
-	* **必须:** 是
-
-	* **说明:** 
-		
-		hdfswriter写入前数据清理处理模式：
-		
-		- **append**: 写入前不做任何处理，DataX hdfswriter直接使用filename写入，并保证文件名不冲突，
-		- **nonConflict**：如果目录下有fileName前缀的文件，直接报错
-	* **默认值:** append
-
-8. sparkSubmitParam
-
-	* **类型:** 单行文本
-
-	* **必须:** 是
-
-	* **说明:** 
-		Spark服务端执行`HoodieDeltaStreamer`对内存有一定要求，太小容易产生OOM导致终止运行
-		
-	* **默认值:** 无
-
-9. hiveConn
-
-	* **类型:** 单选
-
-	* **必须:** 是
-
-	* **说明:** 
-		
-		Hive连接实例配置
-		
-	* **默认值:** 无
-
-10. fsName
-
-	* **类型:** 单选
-
-	* **必须:** 是
-
-	* **说明:** 
-		分布式文件系统源引用，
-		
-		`注`：实例名称必须为**hudi_hdfs**
-		
-	* **默认值:** 无
 
 ### com.qlangtech.tis.plugins.datax.kafka.writer.DataXKafkaWriter
 
@@ -5161,7 +4338,7 @@ import TOCInline from '@theme/TOCInline';
 		 | Date     | date  |
 		 | Boolean  | boolean |
 		 | Bytes    | bytes |
-	* **默认值:** com.qlangtech.tis.trigger.util.JsonUtil$UnCacheString@787f32b7
+	* **默认值:** com.qlangtech.tis.trigger.util.JsonUtil$UnCacheString@4996c99
 
 5. collectionName
 
@@ -5170,7 +4347,7 @@ import TOCInline from '@theme/TOCInline';
 	* **必须:** 是
 
 	* **说明:** MonogoDB的集合名。【必填】
-	* **默认值:** com.qlangtech.tis.trigger.util.JsonUtil$UnCacheString@6aef4eb8
+	* **默认值:** com.qlangtech.tis.trigger.util.JsonUtil$UnCacheString@1b956cfa
 
 ### com.qlangtech.tis.plugin.datax.DataXOdpsWriter
 
@@ -5795,311 +4972,29 @@ nonConflict，如果指定路径出现前缀匹配的object，直接报错。例
 
 ### com.qlangtech.tis.plugin.datax.DataXSparkWriter
 
-* **显示名:** Spark 
-
-* **全路径名:** [com.qlangtech.tis.plugin.datax.DataXSparkWriter](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-hive-flat-table-builder-plugin/src/main/java/com/qlangtech/tis/plugin/datax/DataXSparkWriter.java) 
-
-* **提供者:** [DataX](https://github.com/alibaba/DataX) 
-
 * **费用:** `社区版(免费)`
 
 * **插件包:** [tis-hive-flat-table-builder-plugin/tis-hive-flat-table-builder-plugin_hive_2.3.1_hadoop_2.7.3.tpi](./tpis#tis-hive-flat-table-builder-plugin/tis-hive-flat-table-builder-plugin_hive_231_hadoop_273tpi)
-
-* **参数说明:** 
-
-1. 配置模版
-
-	* **类型:** 富文本
-
-	* **必须:** 是
-
-	* **说明:** 无特殊情况请不要修改模版内容，避免不必要的错误
-	* **默认值:** 无
-
-2. 分区保留数
-
-	* **类型:** 整型数字
-
-	* **必须:** 是
-
-	* **说明:** 
-		
-		每进行一次DataX导入在Hive表中会生成一个新的分区，现在系统分区名称为`pt`格式为开始导入数据的时间戳
-		
-	* **默认值:** 2
-
-3. hiveserver2
-
-	* **类型:** 单选
-
-	* **必须:** 是
-
-	* **说明:** 无
-	* **默认值:** 无
-
-4. 表别名
-
-	* **类型:** 单行文本
-
-	* **必须:** 是
-
-	* **说明:** 
-		
-		进入离线计算引擎的表有时候需要对原始表进行别名处理
-		
-		* `off`: 保留原始表名称
-		* `tabPrefix`: 在原始表之前添加一个前缀，例如：`ods_`
-		
-	* **默认值:** off
-
-5. partitionFormat
-
-	* **类型:** 单选
-
-	* **必须:** 是
-
-	* **说明:** 
-		
-		每进行一次DataX导入在Hive表中会生成一个新的分区，现在系统分区名称为'pt'格式为开始导入数据的当前时间戳，格式为`yyyyMMddHHmmss`或者`yyyyMMdd`     
-	* **默认值:** yyyyMMddHHmmss
-
-6. writeMode
-
-	* **类型:** 单选
-
-	* **必须:** 是
-
-	* **说明:** 
-		
-		hdfswriter写入前数据清理处理模式：
-		
-		- **append**: 写入前不做任何处理，DataX hdfswriter直接使用filename写入，并保证文件名不冲突，
-		- **nonConflict**：如果目录下有fileName前缀的文件，直接报错
-	* **默认值:** append
-
-7. encoding
-
-	* **类型:** 单选
-
-	* **必须:** 否
-
-	* **说明:** 描述：写文件的编码配置。
-	* **默认值:** utf-8
-
-8. fileType
-
-	* **类型:** 单行文本
-
-	* **必须:** 是
-
-	* **说明:** 描述：文件的类型，目前只支持用户配置为"text"
-	* **默认值:** TEXT
-
-9. fsName
-
-	* **类型:** 单选
-
-	* **必须:** 是
-
-	* **说明:** 描述：Hadoop hdfs文件系统namenode节点地址。格式：hdfs://ip:端口；例如：hdfs://127.0.0.1:9000
-	* **默认值:** 无
 
 ### com.qlangtech.tis.plugin.datax.DataXHiveWriter
 
-* **显示名:** Hive 
-
-* **全路径名:** [com.qlangtech.tis.plugin.datax.DataXHiveWriter](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-hive-flat-table-builder-plugin/src/main/java/com/qlangtech/tis/plugin/datax/DataXHiveWriter.java) 
-
-* **提供者:** [DataX](https://github.com/alibaba/DataX) 
-
 * **费用:** `社区版(免费)`
 
 * **插件包:** [tis-hive-flat-table-builder-plugin/tis-hive-flat-table-builder-plugin_hive_2.3.1_hadoop_2.7.3.tpi](./tpis#tis-hive-flat-table-builder-plugin/tis-hive-flat-table-builder-plugin_hive_231_hadoop_273tpi)
-
-* **参数说明:** 
-
-1. 配置模版
-
-	* **类型:** 富文本
-
-	* **必须:** 是
-
-	* **说明:** 无特殊情况请不要修改模版内容，避免不必要的错误
-	* **默认值:** 无
-
-2. 分区保留数
-
-	* **类型:** 整型数字
-
-	* **必须:** 是
-
-	* **说明:** 
-		
-		每进行一次DataX导入在Hive表中会生成一个新的分区，现在系统分区名称为`pt`格式为开始导入数据的时间戳
-		
-	* **默认值:** 2
-
-3. hiveserver2
-
-	* **类型:** 单选
-
-	* **必须:** 是
-
-	* **说明:** 无
-	* **默认值:** 无
-
-4. 表别名
-
-	* **类型:** 单行文本
-
-	* **必须:** 是
-
-	* **说明:** 
-		
-		进入离线计算引擎的表有时候需要对原始表进行别名处理
-		
-		* `off`: 保留原始表名称
-		* `tabPrefix`: 在原始表之前添加一个前缀，例如：`ods_`
-		
-	* **默认值:** off
-
-5. partitionFormat
-
-	* **类型:** 单选
-
-	* **必须:** 是
-
-	* **说明:** 
-		
-		每进行一次DataX导入在Hive表中会生成一个新的分区，现在系统分区名称为'pt'格式为开始导入数据的当前时间戳，格式为`yyyyMMddHHmmss`或者`yyyyMMdd`     
-	* **默认值:** yyyyMMddHHmmss
-
-6. writeMode
-
-	* **类型:** 单选
-
-	* **必须:** 是
-
-	* **说明:** 
-		
-		hdfswriter写入前数据清理处理模式：
-		
-		- **append**: 写入前不做任何处理，DataX hdfswriter直接使用filename写入，并保证文件名不冲突，
-		- **nonConflict**：如果目录下有fileName前缀的文件，直接报错
-	* **默认值:** append
-
-7. encoding
-
-	* **类型:** 单选
-
-	* **必须:** 否
-
-	* **说明:** 描述：写文件的编码配置。
-	* **默认值:** utf-8
-
-8. fileType
-
-	* **类型:** 单行文本
-
-	* **必须:** 是
-
-	* **说明:** 描述：文件的类型，目前只支持用户配置为"text"
-	* **默认值:** TEXT
-
-9. fsName
-
-	* **类型:** 单选
-
-	* **必须:** 是
-
-	* **说明:** 描述：Hadoop hdfs文件系统namenode节点地址。格式：hdfs://ip:端口；例如：hdfs://127.0.0.1:9000
-	* **默认值:** 无
 
 ## com.qlangtech.tis.config.spark.SparkConnStrategy
 
 ### com.qlangtech.tis.config.spark.impl.YarnConnStrategy
 
-* **显示名:** Yarn 
-
-* **全路径名:** [com.qlangtech.tis.config.spark.impl.YarnConnStrategy](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-hive-flat-table-builder-plugin/src/main/java/com/qlangtech/tis/config/spark/impl/YarnConnStrategy.java) 
-
 * **费用:** `社区版(免费)`
 
 * **插件包:** [tis-hive-flat-table-builder-plugin/tis-hive-flat-table-builder-plugin_hive_2.3.1_hadoop_2.7.3.tpi](./tpis#tis-hive-flat-table-builder-plugin/tis-hive-flat-table-builder-plugin_hive_231_hadoop_273tpi)
-
-* **参数说明:** 
-
-1. yarnSite
-
-	* **类型:** 富文本
-
-	* **必须:** 是
-
-	* **说明:** 
-		
-		```xml
-		<?xml version="1.0"?>
-		<configuration>
-		 <!-- Site specific YARN configuration properties -->
-		  <!--RM的主机名 -->
-		  <property>
-		    <name>yarn.resourcemanager.hostname</name>
-		    <value>192.168.28.200</value>
-		  </property>
-		
-		  <!--RM对客户端暴露的地址,客户端通过该地址向RM提交应用程序、杀死应用程序等-->
-		  <property>
-		    <name>yarn.resourcemanager.address</name>
-		    <value>${yarn.resourcemanager.hostname}:8032</value>
-		  </property>
-		
-		  <!--RM对AM暴露的访问地址,AM通过该地址向RM申请资源、释放资源等-->
-		  <property>
-		    <name>yarn.resourcemanager.scheduler.address</name>
-		    <value>${yarn.resourcemanager.hostname}:8030</value>
-		  </property>
-		
-		  <!--RM对外暴露的web http地址,用户可通过该地址在浏览器中查看集群信息-->
-		  <property>
-		    <name>yarn.resourcemanager.webapp.address</name>
-		    <value>${yarn.resourcemanager.hostname}:8088</value>
-		  </property>
-		
-		  <!--RM对NM暴露地址,NM通过该地址向RM汇报心跳、领取任务等-->
-		  <property>
-		    <name>yarn.resourcemanager.resource-tracker.address</name>
-		    <value>${yarn.resourcemanager.hostname}:8031</value>
-		  </property>
-		
-		  <!--RM对管理员暴露的访问地址,管理员通过该地址向RM发送管理命令等-->
-		  <property>
-		    <name>yarn.resourcemanager.admin.address</name>
-		    <value>${yarn.resourcemanager.hostname}:8033</value>
-		  </property>
-		</configuration>
-		```
-	* **默认值:** 无
 
 ### com.qlangtech.tis.config.spark.impl.StandaloneConnStrategy
 
-* **显示名:** Standalone 
-
-* **全路径名:** [com.qlangtech.tis.config.spark.impl.StandaloneConnStrategy](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-hive-flat-table-builder-plugin/src/main/java/com/qlangtech/tis/config/spark/impl/StandaloneConnStrategy.java) 
-
 * **费用:** `社区版(免费)`
 
 * **插件包:** [tis-hive-flat-table-builder-plugin/tis-hive-flat-table-builder-plugin_hive_2.3.1_hadoop_2.7.3.tpi](./tpis#tis-hive-flat-table-builder-plugin/tis-hive-flat-table-builder-plugin_hive_231_hadoop_273tpi)
-
-* **参数说明:** 
-
-1. master
-
-	* **类型:** 单行文本
-
-	* **必须:** 是
-
-	* **说明:** 无
-	* **默认值:** 无
 
 ## com.qlangtech.tis.plugin.k8s.K8sImage
 
@@ -6168,29 +5063,17 @@ nonConflict，如果指定路径出现前缀匹配的object，直接报错。例
 
 ### com.qlangtech.tis.plugin.datax.hudi.partition.SlashEncodedHourPartition
 
-* **显示名:** slashEncodedHour 
-
-* **全路径名:** [com.qlangtech.tis.plugin.datax.hudi.partition.SlashEncodedHourPartition](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-hudi-plugin/src/main/java/com/qlangtech/tis/plugin/datax/hudi/partition/SlashEncodedHourPartition.java) 
-
 * **费用:** `社区版(免费)`
 
 * **插件包:** [tis-datax-hudi-plugin/tis-datax-hudi-plugin_hudi_0.10.1_spark_2.4.4_hive_2.3.1_hadoop_2.7.3.tpi](./tpis#tis-datax-hudi-plugin/tis-datax-hudi-plugin_hudi_0101_spark_244_hive_231_hadoop_273tpi)
 
 ### com.qlangtech.tis.plugin.datax.hudi.partition.SlashEncodedDayPartition
 
-* **显示名:** slashEncodedDay 
-
-* **全路径名:** [com.qlangtech.tis.plugin.datax.hudi.partition.SlashEncodedDayPartition](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-hudi-plugin/src/main/java/com/qlangtech/tis/plugin/datax/hudi/partition/SlashEncodedDayPartition.java) 
-
 * **费用:** `社区版(免费)`
 
 * **插件包:** [tis-datax-hudi-plugin/tis-datax-hudi-plugin_hudi_0.10.1_spark_2.4.4_hive_2.3.1_hadoop_2.7.3.tpi](./tpis#tis-datax-hudi-plugin/tis-datax-hudi-plugin_hudi_0101_spark_244_hive_231_hadoop_273tpi)
 
 ### com.qlangtech.tis.plugin.datax.hudi.partition.FieldValBasedPartition
-
-* **显示名:** fieldValBased 
-
-* **全路径名:** [com.qlangtech.tis.plugin.datax.hudi.partition.FieldValBasedPartition](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-hudi-plugin/src/main/java/com/qlangtech/tis/plugin/datax/hudi/partition/FieldValBasedPartition.java) 
 
 * **费用:** `社区版(免费)`
 
@@ -6485,7 +5368,7 @@ nonConflict，如果指定路径出现前缀匹配的object，直接报错。例
 		* 描述：当写入模式为 update 和 replace 时，需要指定此参数的值为唯一索引字段
 		* 注意：如果此参数为空，并且写入模式为 update 和 replace 时，应用会自动获取数据库中的唯一索引；
 		如果数据表没有唯一索引，但是写入模式配置为 update 和 replace，应用会以 insert 的方式写入数据；
-	* **默认值:** com.qlangtech.tis.trigger.util.JsonUtil$UnCacheString@53c68ce
+	* **默认值:** com.qlangtech.tis.trigger.util.JsonUtil$UnCacheString@1e1e9ef3
 
 ### com.qlangtech.tis.plugins.incr.flink.chunjun.sink.SinkTabPropsExtends
 
@@ -6528,7 +5411,7 @@ nonConflict，如果指定路径出现前缀匹配的object，直接报错。例
 		* 描述：当写入模式为 update 和 replace 时，需要指定此参数的值为唯一索引字段
 		* 注意：如果此参数为空，并且写入模式为 update 和 replace 时，应用会自动获取数据库中的唯一索引；
 		如果数据表没有唯一索引，但是写入模式配置为 update 和 replace，应用会以 insert 的方式写入数据；
-	* **默认值:** com.qlangtech.tis.trigger.util.JsonUtil$UnCacheString@75e710b
+	* **默认值:** com.qlangtech.tis.trigger.util.JsonUtil$UnCacheString@7d3fb0ef
 
 ### com.qlangtech.tis.plugins.incr.flink.chunjun.source.SelectedTabPropsExtends
 
@@ -6625,7 +5508,7 @@ nonConflict，如果指定路径出现前缀匹配的object，直接报错。例
 		* 描述：当写入模式为 update 和 replace 时，需要指定此参数的值为唯一索引字段
 		* 注意：如果此参数为空，并且写入模式为 update 和 replace 时，应用会自动获取数据库中的唯一索引；
 		如果数据表没有唯一索引，但是写入模式配置为 update 和 replace，应用会以 insert 的方式写入数据；
-	* **默认值:** com.qlangtech.tis.trigger.util.JsonUtil$UnCacheString@8ff5094
+	* **默认值:** com.qlangtech.tis.trigger.util.JsonUtil$UnCacheString@74e6094b
 
 ## com.qlangtech.tis.offline.FileSystemFactory
 
@@ -6641,7 +5524,16 @@ nonConflict，如果指定路径出现前缀匹配的object，直接报错。例
 
 * **参数说明:** 
 
-1. 使用域名
+1. userToken
+
+	* **类型:** 单行文本
+
+	* **必须:** 是
+
+	* **说明:** 当选择为'on', 开启kerberos客户端认证
+	* **默认值:** off
+
+2. 使用域名
 
 	* **类型:** 单选
 
@@ -6659,28 +5551,19 @@ nonConflict，如果指定路径出现前缀匹配的object，直接报错。例
 		```
 	* **默认值:** false
 
-2. name
+3. name
 
 	* **类型:** 单行文本
 
 	* **必须:** 是
 
-3. rootDir
+4. rootDir
 
 	* **类型:** 单行文本
 
 	* **必须:** 是
 
 	* **说明:** 系统会将源数据导入到该子目录下，用户需要保证该子目录有读/写权限
-	* **默认值:** 无
-
-4. kerberos
-
-	* **类型:** 单选
-
-	* **必须:** 否
-
-	* **说明:** 开启kerberos客户端认证
 	* **默认值:** 无
 
 5. hdfsSiteContent
@@ -6742,94 +5625,15 @@ nonConflict，如果指定路径出现前缀匹配的object，直接报错。例
 
 * **插件包:** [tis-ds-mysql-plugin.tpi](./tpis#tis-ds-mysql-plugintpi)
 
-## com.qlangtech.tis.config.hive.HiveUserToken
-
-### com.qlangtech.tis.config.hive.impl.DefaultHiveUserToken
-
-* **显示名:** userPass 
-
-* **全路径名:** [com.qlangtech.tis.config.hive.impl.DefaultHiveUserToken](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-hive-flat-table-builder-plugin/src/main/java/com/qlangtech/tis/config/hive/impl/DefaultHiveUserToken.java) 
-
-* **费用:** `社区版(免费)`
-
-* **插件包:** [tis-hive-flat-table-builder-plugin/tis-hive-flat-table-builder-plugin_hive_2.3.1_hadoop_2.7.3.tpi](./tpis#tis-hive-flat-table-builder-plugin/tis-hive-flat-table-builder-plugin_hive_231_hadoop_273tpi)
-
-* **参数说明:** 
-
-1. password
-
-	* **类型:** 密码
-
-	* **必须:** 否
-
-2. userName
-
-	* **类型:** 单行文本
-
-	* **必须:** 否
-
-### com.qlangtech.tis.config.hive.impl.KerberosUserToken
-
-* **显示名:** kerberos 
-
-* **全路径名:** [com.qlangtech.tis.config.hive.impl.KerberosUserToken](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-hive-flat-table-builder-plugin/src/main/java/com/qlangtech/tis/config/hive/impl/KerberosUserToken.java) 
-
-* **费用:** `社区版(免费)`
-
-* **插件包:** [tis-hive-flat-table-builder-plugin/tis-hive-flat-table-builder-plugin_hive_2.3.1_hadoop_2.7.3.tpi](./tpis#tis-hive-flat-table-builder-plugin/tis-hive-flat-table-builder-plugin_hive_231_hadoop_273tpi)
-
-* **参数说明:** 
-
-1. kerberos
-
-	* **类型:** 单选
-
-	* **必须:** 是
-
-	* **说明:** 开启kerberos客户端认证
-	* **默认值:** 无
-
-### com.qlangtech.tis.config.hive.impl.OffHiveUserToken
-
-* **显示名:** off 
-
-* **全路径名:** [com.qlangtech.tis.config.hive.impl.OffHiveUserToken](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-hive-plugin/src/main/java/com/qlangtech/tis/config/hive/impl/OffHiveUserToken.java) 
-
-* **费用:** `社区版(免费)`
-
-* **插件包:** [tis-hive-plugin/tis-hive-plugin_hive_2.3.1_hadoop_2.7.3.tpi](./tpis#tis-hive-plugin/tis-hive-plugin_hive_231_hadoop_273tpi)
-
 ## com.qlangtech.tis.plugin.datax.TabNameDecorator
 
 ### com.qlangtech.tis.plugin.datax.impl.TabPrefixDecorator
 
-* **显示名:** tabPrefix 
-
-* **全路径名:** [com.qlangtech.tis.plugin.datax.impl.TabPrefixDecorator](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-hive-flat-table-builder-plugin/src/main/java/com/qlangtech/tis/plugin/datax/impl/TabPrefixDecorator.java) 
-
 * **费用:** `社区版(免费)`
 
 * **插件包:** [tis-hive-flat-table-builder-plugin/tis-hive-flat-table-builder-plugin_hive_2.3.1_hadoop_2.7.3.tpi](./tpis#tis-hive-flat-table-builder-plugin/tis-hive-flat-table-builder-plugin_hive_231_hadoop_273tpi)
 
-* **参数说明:** 
-
-1. prefix
-
-	* **类型:** 单行文本
-
-	* **必须:** 是
-
-	* **说明:** 
-		
-		每次导入Hive表，会在对应源表前加一个后缀，这样更加符合数据仓库的规范，一般是加`ods_`, 用户也可以修改成其他值
-		
-	* **默认值:** ods_
-
 ### com.qlangtech.tis.plugin.datax.impl.NoneTabNameDecorator
-
-* **显示名:** off 
-
-* **全路径名:** [com.qlangtech.tis.plugin.datax.impl.NoneTabNameDecorator](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-hive-flat-table-builder-plugin/src/main/java/com/qlangtech/tis/plugin/datax/impl/NoneTabNameDecorator.java) 
 
 * **费用:** `社区版(免费)`
 
@@ -7416,163 +6220,9 @@ nonConflict，如果指定路径出现前缀匹配的object，直接报错。例
 
 ### com.qlangtech.tis.plugin.datax.DataXHdfsReader
 
-* **显示名:** Hdfs 
-
-* **全路径名:** [com.qlangtech.tis.plugin.datax.DataXHdfsReader](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-hdfs-reader-writer-plugin/src/main/java/com/qlangtech/tis/plugin/datax/DataXHdfsReader.java) 
-
-* **提供者:** [DataX](https://github.com/alibaba/DataX) 
-
 * **费用:** `社区版(免费)`
 
 * **插件包:** [tis-datax-hdfs-reader-writer-plugin/tis-datax-hdfs-reader-writer-plugin_hive_2.3.1_hadoop_2.7.3.tpi](./tpis#tis-datax-hdfs-reader-writer-plugin/tis-datax-hdfs-reader-writer-plugin_hive_231_hadoop_273tpi)
-
-* **参数说明:** 
-
-1. 配置模版
-
-	* **类型:** 富文本
-
-	* **必须:** 是
-
-	* **说明:** 无特殊情况请不要修改模版内容，避免不必要的错误
-	* **默认值:** 无
-
-2. path
-
-	* **类型:** 单行文本
-
-	* **必须:** 是
-
-	* **说明:** 
-		
-		要读取的文件路径，如果要读取多个文件，可以使用正则表达式"*"，注意这里可以支持填写多个路径
-		
-		要读取的文件路径，如果要读取多个文件，可以使用正则表达式"*"，注意这里可以支持填写多个路径。
-		
-		当指定单个Hdfs文件，HdfsReader暂时只能使用单线程进行数据抽取。二期考虑在非压缩文件情况下针对单个File可以进行多线程并发读取。
-		
-		当指定多个Hdfs文件，HdfsReader支持使用多线程进行数据抽取。线程并发数通过通道数指定。
-		
-		当指定通配符，HdfsReader尝试遍历出多个文件信息。例如: 指定/*代表读取/目录下所有的文件，指定/bazhen/\*代表读取bazhen目录下游所有的文件。HdfsReader目前只支持"*"和"?"作为文件通配符。
-		
-		**特别需要注意的是，DataX会将一个作业下同步的所有的文件视作同一张数据表。用户必须自己保证所有的File能够适配同一套schema信息。并且提供给DataX权限可读。**
-		
-		
-	* **默认值:** 无
-
-3. nullFormat
-
-	* **类型:** 单行文本
-
-	* **必须:** 否
-
-	* **说明:** 文本文件中无法使用标准字符串定义null(空指针)，DataX提供nullFormat定义哪些字符串可以表示为null,例如如果用户配置: nullFormat:"\N"，那么如果源头数据是"\N"，DataX视作null字段
-	* **默认值:** 无
-
-4. compress
-
-	* **类型:** 单选
-
-	* **必须:** 否
-
-	* **说明:** 当fileType（文件类型）为csv下的文件压缩方式，目前仅支持 gzip、bz2、zip、lzo、lzo_deflate、hadoop-snappy、framing-snappy压缩；值得注意的是，lzo存在两种压缩格式：lzo和lzo_deflate，用户在配置的时候需要留心，不要配错了；另外，由于snappy目前没有统一的stream format，datax目前只支持最主流的两种：hadoop-snappy（hadoop上的snappy stream format）和framing-snappy（google建议的snappy stream format）;orc文件类型下无需填写
-	* **默认值:** 无
-
-5. column
-
-	* **类型:** 富文本
-
-	* **必须:** 是
-
-	* **说明:** 
-		
-		* 描述：读取字段列表，type指定源数据的类型，index指定当前列来自于文本第几列(以0开始)，value指定当前类型为常量，不从源头文件读取数据，而是根据value值自动生成对应的列。 <br />
-		
-		  默认情况下，用户可以全部按照String类型读取数据，配置如下：
-		
-		  ```json
-			 ["*"]
-		  ```
-		  用户可以指定Column字段信息，配置如下：
-		  ```json5
-		   [{
-		    "type": "long",
-		    "index": 0    //从本地文件文本第一列获取int字段
-		   },
-		   {
-		    "type": "string",
-		    "value": "alibaba"  //HdfsReader内部生成alibaba的字符串字段作为当前字段
-		   }]
-			```
-			对于用户指定Column信息，type必须填写，index/value必须选择其一。
-		   例子：
-		   ```json
-		  [
-		    {
-		       "index": 0,
-		       "type": "long"
-		    },
-		    {
-		       "index": 1,
-		       "type": "boolean"
-		    },
-		    {
-		       "type": "string",
-		       "value": "hello"
-		    },
-		    {
-		       "index": 2,
-		       "type": "double"
-		     }
-		  ]
-		```	
-			
-	* **默认值:** ["*"]
-
-6. csvReaderConfig
-
-	* **类型:** 富文本
-
-	* **必须:** 否
-
-	* **说明:** 读取CSV类型文件参数配置，Map类型。读取CSV类型文件使用的CsvReader进行读取，会有很多配置，不配置则使用默认值
-	* **默认值:** 无
-
-7. encoding
-
-	* **类型:** 单选
-
-	* **必须:** 否
-
-	* **说明:** 描述：读文件的编码配置
-	* **默认值:** utf-8
-
-8. fieldDelimiter
-
-	* **类型:** 单行文本
-
-	* **必须:** 否
-
-	* **说明:** 读取的字段分隔符,另外需要注意的是，HdfsReader在读取textfile数据时，需要指定字段分割符，如果不指定默认为','，HdfsReader在读取orcfile时，用户无需指定字段分割符
-	* **默认值:** 无
-
-9. fileType
-
-	* **类型:** 单选
-
-	* **必须:** 是
-
-	* **说明:** 描述：文件的类型，目前只支持用户配置为"text"、"orc"、"rc"、"seq"、"csv" 
-	* **默认值:** text
-
-10. fsName
-
-	* **类型:** 单选
-
-	* **必须:** 是
-
-	* **说明:** 无
-	* **默认值:** 无
 
 ### com.qlangtech.tis.plugin.datax.DataXMongodbReader
 
@@ -8007,6 +6657,47 @@ splitPk设置为空，底层将视作用户不允许对单表进行切分，因�
  如果splitPk不填写，包括不提供splitPk或者splitPk值为空，DataX视作使用单通道同步该表数据。
 	* **默认值:** false
 
+## com.qlangtech.tis.config.kerberos.Krb5Res
+
+### com.qlangtech.tis.kerberos.impl.UploadKrb5Res
+
+* **显示名:** Upload 
+
+* **全路径名:** [com.qlangtech.tis.kerberos.impl.UploadKrb5Res](https://github.com/qlangtech/plugins/tree/master/tis-kerberos-plugin/src/main/java/com/qlangtech/tis/kerberos/impl/UploadKrb5Res.java) 
+
+* **费用:** `社区版(免费)`
+
+* **插件包:** [tis-kerberos-plugin.tpi](./tpis#tis-kerberos-plugintpi)
+
+* **参数说明:** 
+
+1. file
+
+	* **类型:** 文件
+
+	* **必须:** 是
+
+### com.qlangtech.tis.kerberos.impl.SystemPathKrb5Res
+
+* **显示名:** SystemPath 
+
+* **全路径名:** [com.qlangtech.tis.kerberos.impl.SystemPathKrb5Res](https://github.com/qlangtech/plugins/tree/master/tis-kerberos-plugin/src/main/java/com/qlangtech/tis/kerberos/impl/SystemPathKrb5Res.java) 
+
+* **费用:** `社区版(免费)`
+
+* **插件包:** [tis-kerberos-plugin.tpi](./tpis#tis-kerberos-plugintpi)
+
+* **参数说明:** 
+
+1. path
+
+	* **类型:** 单行文本
+
+	* **必须:** 是
+
+	* **说明:** config file `krb5.conf` located in system path
+	* **默认值:** /etc/krb5.conf
+
 ## com.qlangtech.tis.plugins.incr.flink.chunjun.offset.StartLocation
 
 ### com.qlangtech.tis.plugins.incr.flink.chunjun.offset.LatestLocation
@@ -8048,6 +6739,29 @@ splitPk设置为空，底层将视作用户不允许对单表进行切分，因�
 	* **必须:** 是
 
 	* **说明:** 增量查询起始位置
+	* **默认值:** 无
+
+## com.qlangtech.tis.config.authtoken.UserToken
+
+### com.qlangtech.tis.config.authtoken.impl.KerberosUserToken
+
+* **显示名:** kerberos 
+
+* **全路径名:** [com.qlangtech.tis.config.authtoken.impl.KerberosUserToken](https://github.com/qlangtech/plugins/tree/master/tis-kerberos-plugin/src/main/java/com/qlangtech/tis/config/authtoken/impl/KerberosUserToken.java) 
+
+* **费用:** `社区版(免费)`
+
+* **插件包:** [tis-kerberos-plugin.tpi](./tpis#tis-kerberos-plugintpi)
+
+* **参数说明:** 
+
+1. kerberos
+
+	* **类型:** 单选
+
+	* **必须:** 是
+
+	* **说明:** 开启kerberos客户端认证
 	* **默认值:** 无
 
 ## com.qlangtech.tis.plugin.datax.format.FileFormat
@@ -8125,6 +6839,14 @@ splitPk设置为空，底层将视作用户不允许对单表进行切分，因�
 
 	* **说明:** 描述：读取的字段分隔符，可以用'\t','\001'等字符 
 	* **默认值:** comma
+
+## com.qlangtech.tis.hive.Hms
+
+### com.qlangtech.tis.hive.Hms
+
+* **费用:** `社区版(免费)`
+
+* **插件包:** [tis-hive-plugin/tis-hive-plugin_hive_2.3.1_hadoop_2.7.3.tpi](./tpis#tis-hive-plugin/tis-hive-plugin_hive_231_hadoop_273tpi)
 
 ## com.qlangtech.tis.async.message.client.consumer.impl.AbstractAsyncMsgDeserialize
 
