@@ -2,22 +2,31 @@ package io.jenkins.update_center.json;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.qlangtech.tis.manage.common.TisUTF8;
+import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 
 public class WithoutSignature {
+
     public void write(File file, boolean pretty) throws IOException {
+        write(file, this, pretty);
+    }
+
+    public static void write(File file, Object obj, boolean pretty) throws IOException {
         final File parent = file.getParentFile();
         if (!parent.mkdirs() && !parent.isDirectory()) {
             throw new IOException("Failed to create " + parent);
         }
         if (pretty) {
-            JSON.writeJSONString(Files.newBufferedWriter(file.toPath(), StandardCharsets.UTF_8), this, SerializerFeature.DisableCircularReferenceDetect, SerializerFeature.PrettyFormat);
+            FileUtils.write(file, JSON.toJSONString(obj, SerializerFeature.DisableCircularReferenceDetect,
+                    SerializerFeature.PrettyFormat), TisUTF8.get());
         } else {
-            JSON.writeJSONString(Files.newBufferedWriter(file.toPath(), StandardCharsets.UTF_8), this, SerializerFeature.DisableCircularReferenceDetect);
+            FileUtils.write(file, JSON.toJSONString(obj, SerializerFeature.DisableCircularReferenceDetect),
+                    TisUTF8.get());
         }
     }
+
+
 }
