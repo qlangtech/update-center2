@@ -494,6 +494,12 @@ public class Main {
     }
 
 
+    /**
+     *
+     * @param validateMsg
+     * @param batchs
+     * @param incrs
+     */
     private void validateBatchIncrEndMatch(StringBuffer validateMsg
             , List<Pair<IDataXEndTypeGetter, Descriptor>> batchs, List<Pair<IPluginVenderGetter, Descriptor>> incrs) {
         for (Pair<IDataXEndTypeGetter, Descriptor> p : batchs) {

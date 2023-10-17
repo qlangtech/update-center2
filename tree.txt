@@ -1,0 +1,112 @@
+[[1;34mINFO[m] Scanning for projects...
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m-------------------< [0;36morg.jenkins-ci:update-center2[0;1m >--------------------[m
+[[1;34mINFO[m] [1mBuilding Jenkins Update Center Generator 3.8.0[m
+[[1;34mINFO[m] [1m--------------------------------[ jar ]---------------------------------[m
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mmaven-dependency-plugin:3.1.1:tree[m [1m(default-cli)[m @ [36mupdate-center2[0;1m ---[m
+[[1;34mINFO[m] org.jenkins-ci:update-center2:jar:3.8.0
+[[1;34mINFO[m] +- ch.qos.logback:logback-classic:jar:1.2.0:compile
+[[1;34mINFO[m] |  \- ch.qos.logback:logback-core:jar:1.2.0:compile
+[[1;34mINFO[m] +- org.slf4j:jcl-over-slf4j:jar:1.7.32:compile
+[[1;34mINFO[m] +- com.aliyun.oss:aliyun-sdk-oss:jar:3.8.0:compile
+[[1;34mINFO[m] |  +- org.apache.httpcomponents:httpclient:jar:4.4.1:compile
+[[1;34mINFO[m] |  |  \- org.apache.httpcomponents:httpcore:jar:4.4.1:compile
+[[1;34mINFO[m] |  +- org.jdom:jdom:jar:1.1:compile
+[[1;34mINFO[m] |  +- org.codehaus.jettison:jettison:jar:1.1:compile
+[[1;34mINFO[m] |  |  \- stax:stax-api:jar:1.0.1:compile
+[[1;34mINFO[m] |  +- com.aliyun:aliyun-java-sdk-core:jar:3.4.0:compile
+[[1;34mINFO[m] |  +- com.aliyun:aliyun-java-sdk-ram:jar:3.0.0:compile
+[[1;34mINFO[m] |  +- com.aliyun:aliyun-java-sdk-sts:jar:3.0.0:compile
+[[1;34mINFO[m] |  \- com.aliyun:aliyun-java-sdk-ecs:jar:4.2.0:compile
+[[1;34mINFO[m] +- commons-logging:commons-logging:jar:1.2:compile
+[[1;34mINFO[m] +- commons-collections:commons-collections:jar:3.2.2:compile
+[[1;34mINFO[m] +- org.slf4j:slf4j-api:jar:1.7.32:compile
+[[1;34mINFO[m] +- com.qlangtech.tis:tis-plugin:jar:3.8.0:compile
+[[1;34mINFO[m] |  +- javax.inject:javax.inject:jar:1:compile
+[[1;34mINFO[m] |  +- org.apache.velocity:velocity-engine-core:jar:2.3:compile
+[[1;34mINFO[m] |  +- org.codehaus.groovy:groovy-all:jar:2.3.2:compile
+[[1;34mINFO[m] |  +- org.jenkins-ci:task-reactor:jar:1.5:compile
+[[1;34mINFO[m] |  +- org.yaml:snakeyaml:jar:1.23:compile
+[[1;34mINFO[m] |  +- com.thoughtworks.xstream:xstream:jar:1.4.19:compile
+[[1;34mINFO[m] |  |  \- io.github.x-stream:mxparser:jar:1.2.2:compile
+[[1;34mINFO[m] |  |     \- xmlpull:xmlpull:jar:1.1.3.1:compile
+[[1;34mINFO[m] |  +- commons-beanutils:commons-beanutils:jar:1.9.4:compile
+[[1;34mINFO[m] |  +- com.qlangtech.tis:tis-manage-pojo:jar:3.8.0:compile
+[[1;34mINFO[m] |  |  +- com.qlangtech.tis:datax-config:jar:3.8.0:compile
+[[1;34mINFO[m] |  |  \- org.json:json:jar:20151123:compile
+[[1;34mINFO[m] |  +- com.qlangtech.tis:tis-builder-api:jar:3.8.0:compile
+[[1;34mINFO[m] |  |  +- com.qlangtech.tis:tis-config:jar:1.0.0:compile
+[[1;34mINFO[m] |  |  \- com.qlangtech.tis:tis-web-start-api:jar:3.8.0:compile
+[[1;34mINFO[m] |  +- org.jvnet:tiger-types:jar:2.2:compile
+[[1;34mINFO[m] |  +- com.qlangtech.tis:tis-plugin-sezpoz:jar:3.8.0:compile
+[[1;34mINFO[m] |  |  \- net.java.sezpoz:sezpoz:jar:1.13:compile
+[[1;34mINFO[m] |  +- com.alibaba:fastjson:jar:2.0.17:compile
+[[1;34mINFO[m] |  |  \- com.alibaba.fastjson2:fastjson2-extension:jar:2.0.17:compile
+[[1;34mINFO[m] |  |     \- com.alibaba.fastjson2:fastjson2:jar:2.0.17:compile
+[[1;34mINFO[m] |  \- com.qlangtech.tis:xmodifier:jar:3.8.0:compile
+[[1;34mINFO[m] |     \- org.jdom:jdom2:jar:2.0.5:compile
+[[1;34mINFO[m] +- com.qlangtech.tis:tis-sql-parser:jar:3.8.0:compile
+[[1;34mINFO[m] |  +- com.facebook.presto:presto-parser:jar:0.206:compile
+[[1;34mINFO[m] |  |  +- io.airlift:slice:jar:0.35:compile
+[[1;34mINFO[m] |  |  |  \- org.openjdk.jol:jol-core:jar:0.2:compile
+[[1;34mINFO[m] |  |  +- org.antlr:antlr4-runtime:jar:4.6:compile
+[[1;34mINFO[m] |  |  \- io.airlift:log:jar:0.171:compile
+[[1;34mINFO[m] |  +- org.springframework:spring-beans:jar:3.0.6.RELEASE:compile
+[[1;34mINFO[m] |  |  \- org.springframework:spring-core:jar:3.0.6.RELEASE:compile
+[[1;34mINFO[m] |  |     \- org.springframework:spring-asm:jar:3.0.6.RELEASE:compile
+[[1;34mINFO[m] |  \- com.qlangtech.tis:tis-ibatis:jar:3.0:compile
+[[1;34mINFO[m] |     +- org.springframework:spring-orm:jar:3.0.6.RELEASE:compile
+[[1;34mINFO[m] |     |  +- org.springframework:spring-jdbc:jar:3.0.6.RELEASE:compile
+[[1;34mINFO[m] |     |  \- org.springframework:spring-tx:jar:3.0.6.RELEASE:compile
+[[1;34mINFO[m] |     |     +- aopalliance:aopalliance:jar:1.0:compile
+[[1;34mINFO[m] |     |     +- org.springframework:spring-aop:jar:3.0.6.RELEASE:compile
+[[1;34mINFO[m] |     |     \- org.springframework:spring-context:jar:3.0.6.RELEASE:compile
+[[1;34mINFO[m] |     |        \- org.springframework:spring-expression:jar:3.0.6.RELEASE:compile
+[[1;34mINFO[m] |     \- org.apache.ibatis:ibatis-sqlmap:jar:2.3.4.726:compile
+[[1;34mINFO[m] +- org.jvnet.hudson:crypto-util:jar:1.0:compile
+[[1;34mINFO[m] +- org.dom4j:dom4j:jar:2.1.3:compile
+[[1;34mINFO[m] +- com.squareup.okhttp3:okhttp-urlconnection:jar:4.8.0:compile
+[[1;34mINFO[m] |  \- com.squareup.okhttp3:okhttp:jar:4.8.0:compile
+[[1;34mINFO[m] |     +- com.squareup.okio:okio:jar:2.7.0:compile
+[[1;34mINFO[m] |     \- org.jetbrains.kotlin:kotlin-stdlib:jar:1.3.72:compile
+[[1;34mINFO[m] |        \- org.jetbrains:annotations:jar:13.0:compile
+[[1;34mINFO[m] +- jaxen:jaxen:jar:1.2.0:compile
+[[1;34mINFO[m] +- org.kohsuke.stapler:json-lib:jar:2.4-jenkins-3:compile
+[[1;34mINFO[m] |  +- commons-lang:commons-lang:jar:2.5:compile
+[[1;34mINFO[m] |  \- net.sf.ezmorph:ezmorph:jar:1.0.6:compile
+[[1;34mINFO[m] +- commons-io:commons-io:jar:2.7:compile
+[[1;34mINFO[m] +- org.apache.commons:commons-lang3:jar:3.11:compile
+[[1;34mINFO[m] +- commons-codec:commons-codec:jar:1.14:compile
+[[1;34mINFO[m] +- args4j:args4j:jar:2.33:compile
+[[1;34mINFO[m] +- io.jenkins.lib:support-log-formatter:jar:1.0:compile
+[[1;34mINFO[m] +- bouncycastle:bcprov-jdk15:jar:140:compile
+[[1;34mINFO[m] +- org.apache.ant:ant:jar:1.10.9:compile
+[[1;34mINFO[m] |  +- org.apache.ant:ant-launcher:jar:1.10.9:compile
+[[1;34mINFO[m] |  \- com.sun:tools:jar:1.8.0:system
+[[1;34mINFO[m] +- com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer:jar:20200713.1:compile
+[[1;34mINFO[m] |  \- com.google.guava:guava:jar:27.1-jre:compile
+[[1;34mINFO[m] |     +- com.google.guava:failureaccess:jar:1.0.1:compile
+[[1;34mINFO[m] |     +- com.google.guava:listenablefuture:jar:9999.0-empty-to-avoid-conflict-with-guava:compile
+[[1;34mINFO[m] |     +- org.checkerframework:checker-qual:jar:2.5.2:compile
+[[1;34mINFO[m] |     +- com.google.errorprone:error_prone_annotations:jar:2.2.0:compile
+[[1;34mINFO[m] |     +- com.google.j2objc:j2objc-annotations:jar:1.1:compile
+[[1;34mINFO[m] |     \- org.codehaus.mojo:animal-sniffer-annotations:jar:1.18:compile
+[[1;34mINFO[m] +- com.github.spotbugs:spotbugs-annotations:jar:4.1.1:compile
+[[1;34mINFO[m] +- org.jsoup:jsoup:jar:1.13.1:compile
+[[1;34mINFO[m] +- org.jetbrains.kotlin:kotlin-stdlib-common:jar:1.3.72:compile
+[[1;34mINFO[m] +- com.google.code.findbugs:jsr305:jar:3.0.2:compile
+[[1;34mINFO[m] +- org.hamcrest:hamcrest-core:jar:2.2:test
+[[1;34mINFO[m] |  \- org.hamcrest:hamcrest:jar:2.2:test
+[[1;34mINFO[m] +- org.mockito:mockito-core:jar:3.4.6:test
+[[1;34mINFO[m] |  +- net.bytebuddy:byte-buddy:jar:1.10.13:test
+[[1;34mINFO[m] |  +- net.bytebuddy:byte-buddy-agent:jar:1.10.13:test
+[[1;34mINFO[m] |  \- org.objenesis:objenesis:jar:2.6:test
+[[1;34mINFO[m] +- junit:junit:jar:4.13.1:test
+[[1;34mINFO[m] \- com.squareup.okhttp3:mockwebserver:jar:4.8.0:test
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[[1;34mINFO[m] [1;32mBUILD SUCCESS[m
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[[1;34mINFO[m] Total time:  0.768 s
+[[1;34mINFO[m] Finished at: 2023-10-17T12:43:51+08:00
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
