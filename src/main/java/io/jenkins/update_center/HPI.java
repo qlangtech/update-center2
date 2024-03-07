@@ -38,7 +38,11 @@ import com.qlangtech.tis.plugin.IPluginTaggable;
 import io.jenkins.update_center.util.JavaSpecificationVersion;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
-import org.dom4j.*;
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.DocumentFactory;
+import org.dom4j.Element;
+import org.dom4j.Node;
 import org.dom4j.io.SAXReader;
 import org.owasp.html.HtmlStreamEventProcessor;
 import org.owasp.html.HtmlStreamEventReceiverWrapper;
@@ -55,7 +59,15 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Properties;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 
@@ -237,7 +249,16 @@ public class HPI extends MavenArtifact {
             for (Map.Entry<String, List<String>> entry : getExtendpoints().entrySet()) {
                 for (String extendImpl : entry.getValue()) {
                     try {
-                        desc = TIS.get().getDescriptor(extendImpl);
+                        TIS.get().getPluginManager().uberClassLoader.findClass(extendImpl);
+                    } catch (ClassNotFoundException e) {
+                        throw new RuntimeException("plugim impl:" + extendImpl + " relevant Desc plugin can not be null", e);
+                    }
+                    desc = TIS.get().getDescriptor(extendImpl);
+                    if (desc == null) {
+                        // throw new NullPointerException("plugim impl:" + extendImpl + " relevant Desc plugin can not be null");
+                        continue;
+                    }
+                    try {
                         if (desc instanceof IEndTypeGetter) {
                             endTypes.add(((IEndTypeGetter) desc).getEndType());
                         }

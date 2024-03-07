@@ -8,6 +8,7 @@ import net.sf.json.JSONObject;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.io.ByteArrayOutputStream;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,9 +20,10 @@ public class JsonChecksumTest {
         // step 1: Generate JSON using fastjson
         Root root = new Root();
 
-        StringWriter fastJsonWriter = new StringWriter();
-        JSON.writeJSONString(fastJsonWriter, root, SerializerFeature.DisableCircularReferenceDetect);
-        String fastJsonOutput = fastJsonWriter.getBuffer().toString();
+        //  StringWriter fastJsonWriter = new StringWriter();
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        JSON.writeJSONString(os, root, SerializerFeature.DisableCircularReferenceDetect);
+        String fastJsonOutput = new String(os.toByteArray());
 
         // step 2: Load generated JSON with json-lib, re-write it canonically
         JSONObject o = JSONObject.fromObject(fastJsonOutput);
@@ -56,7 +58,9 @@ public class JsonChecksumTest {
         @JSONField
         public long getLong() {
             return Long.MAX_VALUE;
-        };
+        }
+
+        ;
 
         @JSONField
         public float random;
@@ -91,6 +95,7 @@ public class JsonChecksumTest {
     private static class ListEntry {
         @JSONField
         public String value;
+
         public ListEntry(String value) {
             this.value = value;
         }
@@ -99,6 +104,7 @@ public class JsonChecksumTest {
         public String getFoo() {
             return "\u0000";
         }
+
         @JSONField
         public String getBar() {
             return "\uD834\uDD1E";

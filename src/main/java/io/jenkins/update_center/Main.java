@@ -310,10 +310,11 @@ public class Main {
 
         metadataWriter.writeMetadataFiles(repo, www);
 
+        final String signedUpdateCenterJson
+                = new UpdateCenterRoot(repo, new File(Main.resourcesDir, WARNINGS_JSON_FILENAME))
+                .encodeWithSignature(signer, prettyPrint);
+
         if (!skipUpdateCenter) {
-            final String signedUpdateCenterJson
-                    = new UpdateCenterRoot(repo, new File(Main.resourcesDir, WARNINGS_JSON_FILENAME))
-                    .encodeWithSignature(signer, prettyPrint);
 
             File updateCenterJson = new File(www, UPDATE_CENTER_JSON_FILENAME);
 

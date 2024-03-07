@@ -10,11 +10,10 @@
     "version": "1.0.0"
   },
   "deprecations": {},
-  "generationTimestamp": "2023-07-22T09:33:10Z",
   "id": "default",
   "plugins": {
     "tis-asyncmsg-rocketmq-plugin": {
-      "buildDate": 1689848670512,
+      "buildDate": 1709775519247,
       "dependencies": [],
       "developers": [],
       "endTypes": [
@@ -29,47 +28,52 @@
           "com.qlangtech.async.message.client.consumer.RocketMQListenerFactory"
         ]
       },
-      "gav": "com.qlangtech.tis.plugins:tis-asyncmsg-rocketmq-plugin:3.8.0",
+      "gav": "com.qlangtech.tis.plugins:tis-asyncmsg-rocketmq-plugin:4.0.0",
       "labels": [],
       "minimumJavaVersion": "1.8",
       "name": "tis-asyncmsg-rocketmq-plugin",
       "pluginTags": [],
       "popularity": 1,
-      "releaseTimestamp": "2023-07-20 18:24:30",
+      "releaseTimestamp": "2024-03-07 09:38:39",
       "requiredCore": "1.398",
       "scm": "https://github.com/qlangtech/plugins/tree/master/tis-asyncmsg-rocketmq-plugin",
       "sha1": "",
       "sha256": "",
-      "size": 7630175,
+      "size": 7630218,
       "supportMultiClassifier": false,
       "title": "tis-asyncmsg-rocketmq-plugin",
-      "url": "http://mirror.qlangtech.com/3.8.0/tis-plugin/tis-asyncmsg-rocketmq-plugin.tpi",
-      "version": "3.8.0",
+      "url": "http://mirror.qlangtech.com/4.0.0/tis-plugin/tis-asyncmsg-rocketmq-plugin.tpi",
+      "version": "4.0.0",
       "wiki": "https://plugins.jenkins.io/tis-asyncmsg-rocketmq-plugin"
     },
     "tis-chunjun-base-plugin": {
-      "buildDate": 1689848616512,
+      "buildDate": 1709775454980,
       "dependencies": [
         {
           "name": "tis-datax-common-plugin",
           "optional": false,
-          "version": "3.8.0"
+          "version": "4.0.0"
         },
         {
           "name": "tis-flink-dependency",
           "optional": false,
-          "version": "3.8.0"
+          "version": "4.0.0"
         },
         {
           "name": "tis-realtime-flink",
           "optional": false,
-          "version": "3.8.0"
+          "version": "4.0.0"
         }
       ],
       "developers": [],
       "endTypes": [],
       "excerpt": "",
       "extendPoints": {
+        "com.qlangtech.tis.plugin.datax.SelectedTabExtend": [
+          "com.qlangtech.tis.plugins.incr.flink.chunjun.sink.UniqueKeySetter",
+          "com.qlangtech.tis.plugins.incr.flink.chunjun.sink.SinkTabPropsExtends",
+          "com.qlangtech.tis.plugins.incr.flink.chunjun.source.SelectedTabPropsExtends"
+        ],
         "com.qlangtech.tis.plugins.incr.flink.connector.UpdateMode": [
           "com.qlangtech.tis.plugins.incr.flink.connector.impl.ReplaceType",
           "com.qlangtech.tis.plugins.incr.flink.connector.impl.UpdateType",
@@ -84,41 +88,36 @@
         "com.qlangtech.tis.plugins.incr.flink.chunjun.poll.Polling": [
           "com.qlangtech.tis.plugins.incr.flink.chunjun.poll.RunInterval"
         ],
-        "com.qlangtech.tis.plugin.datax.IncrSelectedTabExtend": [
-          "com.qlangtech.tis.plugins.incr.flink.chunjun.sink.UniqueKeySetter",
-          "com.qlangtech.tis.plugins.incr.flink.chunjun.sink.SinkTabPropsExtends",
-          "com.qlangtech.tis.plugins.incr.flink.chunjun.source.SelectedTabPropsExtends"
-        ],
         "com.qlangtech.tis.plugins.incr.flink.chunjun.script.ChunjunStreamScriptType": [
           "com.qlangtech.tis.plugins.incr.flink.chunjun.script.ChunjunSqlType",
           "com.qlangtech.tis.plugins.incr.flink.chunjun.script.StreamApiScript"
         ]
       },
-      "gav": "com.qlangtech.tis.plugins:tis-chunjun-base-plugin:3.8.0",
+      "gav": "com.qlangtech.tis.plugins:tis-chunjun-base-plugin:4.0.0",
       "labels": [],
       "minimumJavaVersion": "1.8",
       "name": "tis-chunjun-base-plugin",
       "pluginTags": [],
       "popularity": 1,
-      "releaseTimestamp": "2023-07-20 18:23:36",
+      "releaseTimestamp": "2024-03-07 09:37:34",
       "requiredCore": "1.398",
       "scm": "https://github.com/qlangtech/plugins/tree/master/tis-incr/tis-chunjun-base-plugin",
       "sha1": "",
       "sha256": "",
-      "size": 9605352,
+      "size": 51848424,
       "supportMultiClassifier": false,
       "title": "tis-chunjun-base-plugin",
-      "url": "http://mirror.qlangtech.com/3.8.0/tis-plugin/tis-chunjun-base-plugin.tpi",
-      "version": "3.8.0",
+      "url": "http://mirror.qlangtech.com/4.0.0/tis-plugin/tis-chunjun-base-plugin.tpi",
+      "version": "4.0.0",
       "wiki": "https://plugins.jenkins.io/tis-chunjun-base-plugin"
     },
     "tis-datax-cassandra-plugin": {
-      "buildDate": 1689905780039,
+      "buildDate": 1709775342527,
       "dependencies": [
         {
           "name": "tis-datax-common-plugin",
           "optional": false,
-          "version": "3.8.0"
+          "version": "4.0.0"
         }
       ],
       "developers": [],
@@ -137,36 +136,36 @@
           "com.qlangtech.tis.plugin.ds.cassandra.CassandraDatasourceFactory"
         ]
       },
-      "gav": "com.qlangtech.tis.plugins:tis-datax-cassandra-plugin:3.8.0",
+      "gav": "com.qlangtech.tis.plugins:tis-datax-cassandra-plugin:4.0.0",
       "labels": [],
       "minimumJavaVersion": "1.8",
       "name": "tis-datax-cassandra-plugin",
       "pluginTags": [],
       "popularity": 1,
-      "releaseTimestamp": "2023-07-21 10:16:20",
+      "releaseTimestamp": "2024-03-07 09:35:42",
       "requiredCore": "1.398",
       "scm": "https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-cassandra-plugin",
       "sha1": "",
       "sha256": "",
-      "size": 5097208,
+      "size": 5097320,
       "supportMultiClassifier": false,
       "title": "tis-datax-cassandra-plugin",
-      "url": "http://mirror.qlangtech.com/3.8.0/tis-plugin/tis-datax-cassandra-plugin.tpi",
-      "version": "3.8.0",
+      "url": "http://mirror.qlangtech.com/4.0.0/tis-plugin/tis-datax-cassandra-plugin.tpi",
+      "version": "4.0.0",
       "wiki": "https://plugins.jenkins.io/tis-datax-cassandra-plugin"
     },
     "tis-datax-clickhouse-plugin": {
-      "buildDate": 1689905775293,
+      "buildDate": 1709775335680,
       "dependencies": [
         {
           "name": "tis-datax-common-plugin",
           "optional": false,
-          "version": "3.8.0"
+          "version": "4.0.0"
         },
         {
           "name": "tis-datax-common-rdbms-plugin",
           "optional": false,
-          "version": "3.8.0"
+          "version": "4.0.0"
         }
       ],
       "developers": [],
@@ -182,26 +181,26 @@
           "com.qlangtech.tis.plugin.ds.clickhouse.ClickHouseDataSourceFactory"
         ]
       },
-      "gav": "com.qlangtech.tis.plugins:tis-datax-clickhouse-plugin:3.8.0",
+      "gav": "com.qlangtech.tis.plugins:tis-datax-clickhouse-plugin:4.0.0",
       "labels": [],
       "minimumJavaVersion": "1.8",
       "name": "tis-datax-clickhouse-plugin",
       "pluginTags": [],
       "popularity": 1,
-      "releaseTimestamp": "2023-07-21 10:16:15",
+      "releaseTimestamp": "2024-03-07 09:35:35",
       "requiredCore": "1.398",
       "scm": "https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-clickhouse-plugin",
       "sha1": "",
       "sha256": "",
-      "size": 4348742,
+      "size": 4311975,
       "supportMultiClassifier": false,
       "title": "tis-datax-clickhouse-plugin",
-      "url": "http://mirror.qlangtech.com/3.8.0/tis-plugin/tis-datax-clickhouse-plugin.tpi",
-      "version": "3.8.0",
+      "url": "http://mirror.qlangtech.com/4.0.0/tis-plugin/tis-datax-clickhouse-plugin.tpi",
+      "version": "4.0.0",
       "wiki": "https://plugins.jenkins.io/tis-datax-clickhouse-plugin"
     },
     "tis-datax-common-plugin": {
-      "buildDate": 1689905771238,
+      "buildDate": 1709775319681,
       "dependencies": [],
       "developers": [],
       "endTypes": [],
@@ -218,64 +217,175 @@
         ],
         "com.qlangtech.tis.config.ParamsConfig": [
           "com.qlangtech.tis.plugin.datax.DataXGlobalConfig",
+          "com.qlangtech.tis.plugin.AliyunEndpoint",
           "com.qlangtech.tis.plugin.HttpEndpoint"
         ]
       },
-      "gav": "com.qlangtech.tis.plugins:tis-datax-common-plugin:3.8.0",
+      "gav": "com.qlangtech.tis.plugins:tis-datax-common-plugin:4.0.0",
       "labels": [],
       "minimumJavaVersion": "1.8",
       "name": "tis-datax-common-plugin",
       "pluginTags": [],
       "popularity": 1,
-      "releaseTimestamp": "2023-07-21 10:16:11",
+      "releaseTimestamp": "2024-03-07 09:35:19",
       "requiredCore": "1.398",
       "scm": "https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-common-plugin",
       "sha1": "",
       "sha256": "",
-      "size": 5827765,
+      "size": 5836683,
       "supportMultiClassifier": false,
       "title": "tis-datax-common-plugin",
-      "url": "http://mirror.qlangtech.com/3.8.0/tis-plugin/tis-datax-common-plugin.tpi",
-      "version": "3.8.0",
+      "url": "http://mirror.qlangtech.com/4.0.0/tis-plugin/tis-datax-common-plugin.tpi",
+      "version": "4.0.0",
       "wiki": "https://plugins.jenkins.io/tis-datax-common-plugin"
     },
     "tis-datax-common-rdbms-plugin": {
-      "buildDate": 1689905772341,
+      "buildDate": 1709775332174,
       "dependencies": [],
       "developers": [],
       "endTypes": [],
       "excerpt": "",
       "extendPoints": {},
-      "gav": "com.qlangtech.tis.plugins:tis-datax-common-rdbms-plugin:3.8.0",
+      "gav": "com.qlangtech.tis.plugins:tis-datax-common-rdbms-plugin:4.0.0",
       "labels": [],
       "minimumJavaVersion": "1.8",
       "name": "tis-datax-common-rdbms-plugin",
       "pluginTags": [],
       "popularity": 1,
-      "releaseTimestamp": "2023-07-21 10:16:12",
+      "releaseTimestamp": "2024-03-07 09:35:32",
       "requiredCore": "1.398",
       "scm": "https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-common-rdbms-plugin",
       "sha1": "",
       "sha256": "",
-      "size": 2430047,
+      "size": 2429310,
       "supportMultiClassifier": false,
       "title": "tis-datax-common-rdbms-plugin",
-      "url": "http://mirror.qlangtech.com/3.8.0/tis-plugin/tis-datax-common-rdbms-plugin.tpi",
-      "version": "3.8.0",
+      "url": "http://mirror.qlangtech.com/4.0.0/tis-plugin/tis-datax-common-rdbms-plugin.tpi",
+      "version": "4.0.0",
       "wiki": "https://plugins.jenkins.io/tis-datax-common-rdbms-plugin"
     },
-    "tis-datax-doris-plugin": {
-      "buildDate": 1689905782305,
+    "tis-datax-dameng-plugin": {
+      "buildDate": 1709775423074,
       "dependencies": [
         {
           "name": "tis-datax-common-plugin",
           "optional": false,
-          "version": "3.8.0"
+          "version": "4.0.0"
         },
         {
           "name": "tis-datax-common-rdbms-plugin",
           "optional": false,
-          "version": "3.8.0"
+          "version": "4.0.0"
+        }
+      ],
+      "developers": [],
+      "endTypes": [
+        "daMeng"
+      ],
+      "excerpt": "* 实现达梦数据源\n    \n  支持达梦JDBC数据源(version: 8.1.1.193)定义\n  \n* 支持达梦类型的 DataX （Writer/Reader）插件\n  \n  1. DataXDaMengReader 插件实现从达梦数据库读数据记录功能。\n  2. DataXDaMengWriter 支持从其他端类型数据节点读取数据导入到达梦数据库中的功能",
+      "extendPoints": {
+        "com.qlangtech.tis.datax.impl.DataxReader": [
+          "com.qlangtech.tis.plugin.datax.dameng.reader.DataXDaMengReader"
+        ],
+        "com.qlangtech.tis.datax.impl.DataxWriter": [
+          "com.qlangtech.tis.plugin.datax.dameng.writer.DataXDaMengWriter"
+        ],
+        "com.qlangtech.tis.plugin.ds.DataSourceFactory": [
+          "com.qlangtech.tis.plugin.datax.dameng.ds.DaMengDataSourceFactory"
+        ]
+      },
+      "gav": "com.qlangtech.tis.plugins:tis-datax-dameng-plugin:4.0.0",
+      "labels": [],
+      "minimumJavaVersion": "1.8",
+      "name": "tis-datax-dameng-plugin",
+      "pluginTags": [],
+      "popularity": 1,
+      "releaseTimestamp": "2024-03-07 09:37:03",
+      "requiredCore": "1.398",
+      "scm": "https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-dameng-plugin",
+      "sha1": "",
+      "sha256": "",
+      "size": 955719,
+      "supportMultiClassifier": false,
+      "title": "tis-datax-dameng-plugin",
+      "url": "http://mirror.qlangtech.com/4.0.0/tis-plugin/tis-datax-dameng-plugin.tpi",
+      "version": "4.0.0",
+      "wiki": "https://plugins.jenkins.io/tis-datax-dameng-plugin"
+    },
+    "tis-datax-dfs-plugin": {
+      "buildDate": 1709775339374,
+      "dependencies": [
+        {
+          "name": "tis-datax-common-plugin",
+          "optional": false,
+          "version": "4.0.0"
+        }
+      ],
+      "developers": [],
+      "endTypes": [
+        "t-dfs"
+      ],
+      "excerpt": "提供支持各种分布式文件（DFS）格式的源端、目标端（例如：Hadoop HDFS、Aliyun OSS、FTP文件格式）的读、写功能，\n\n流程支持用户设置各种个性化设置：\n1. 添加源端、目标端资源配置，例如：添加Hadoop HDFS、FTP的资源引用等。\n2. 定义源端、目标端资源文件识别器，可以通过`Wildcard`表达式，识别资源目录中的目标文件。\n3. 定义识别资源文件的文件格式，使用CSV、或者TEXT格式。可以针对每种格式的解析配置个性化参数，例如：列分隔符，空值替换符、是否拥有文件头Head、文件编码等。\n\n另外，可以通过TIS强大的扩展体系，快速添加新的`源端`、`目标端` 资源类型\n",
+      "extendPoints": {
+        "com.qlangtech.tis.plugin.datax.format.guesstype.GuessFieldType": [
+          "com.qlangtech.tis.plugin.datax.format.guesstype.GuessOff",
+          "com.qlangtech.tis.plugin.datax.format.guesstype.GuessOn"
+        ],
+        "com.qlangtech.tis.plugin.datax.meta.MetaDataWriter": [
+          "com.qlangtech.tis.plugin.datax.meta.NoneMetaDataWriter",
+          "com.qlangtech.tis.plugin.datax.meta.DefaultMetaDataWriter"
+        ],
+        "com.qlangtech.tis.datax.impl.DataxReader": [
+          "com.qlangtech.tis.plugin.datax.DataXDFSReader"
+        ],
+        "com.qlangtech.tis.datax.impl.DataxWriter": [
+          "com.qlangtech.tis.plugin.datax.DataXDFSWriter"
+        ],
+        "com.qlangtech.tis.config.ParamsConfig": [
+          "com.qlangtech.tis.plugin.datax.server.FTPServer"
+        ],
+        "com.qlangtech.tis.plugin.datax.format.FileFormat": [
+          "com.qlangtech.tis.plugin.datax.format.TextFormat",
+          "com.qlangtech.tis.plugin.datax.format.CSVFormat"
+        ],
+        "com.qlangtech.tis.plugin.tdfs.DFSResMatcher": [
+          "com.qlangtech.tis.plugin.datax.resmatcher.MetaAwareDFSResMatcher",
+          "com.qlangtech.tis.plugin.datax.resmatcher.WildcardDFSResMatcher"
+        ],
+        "com.qlangtech.tis.plugin.tdfs.TDFSLinker": [
+          "com.qlangtech.tis.plugin.datax.tdfs.impl.FtpTDFSLinker"
+        ]
+      },
+      "gav": "com.qlangtech.tis.plugins:tis-datax-dfs-plugin:4.0.0",
+      "labels": [],
+      "minimumJavaVersion": "1.8",
+      "name": "tis-datax-dfs-plugin",
+      "pluginTags": [],
+      "popularity": 1,
+      "releaseTimestamp": "2024-03-07 09:35:39",
+      "requiredCore": "1.398",
+      "scm": "https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-dfs-plugin",
+      "sha1": "",
+      "sha256": "",
+      "size": 1253700,
+      "supportMultiClassifier": false,
+      "title": "tis-datax-dfs-plugin",
+      "url": "http://mirror.qlangtech.com/4.0.0/tis-plugin/tis-datax-dfs-plugin.tpi",
+      "version": "4.0.0",
+      "wiki": "https://plugins.jenkins.io/tis-datax-dfs-plugin"
+    },
+    "tis-datax-doris-plugin": {
+      "buildDate": 1709775345660,
+      "dependencies": [
+        {
+          "name": "tis-datax-common-plugin",
+          "optional": false,
+          "version": "4.0.0"
+        },
+        {
+          "name": "tis-datax-common-rdbms-plugin",
+          "optional": false,
+          "version": "4.0.0"
         }
       ],
       "developers": [],
@@ -287,38 +397,47 @@
         "com.qlangtech.tis.plugin.datax.SelectedTab": [
           "com.qlangtech.tis.plugin.datax.doris.DorisSelectedTab"
         ],
+        "com.qlangtech.tis.plugin.datax.doris.CreateTable": [
+          "com.qlangtech.tis.plugin.datax.doris.datamodel.OffCreateTable",
+          "com.qlangtech.tis.plugin.datax.doris.datamodel.DuplicateCreateTable",
+          "com.qlangtech.tis.plugin.datax.doris.datamodel.UniqueCreateTable"
+        ],
         "com.qlangtech.tis.datax.impl.DataxWriter": [
           "com.qlangtech.tis.plugin.datax.doris.DataXDorisWriter"
+        ],
+        "com.qlangtech.tis.plugin.datax.seq.SeqKey": [
+          "com.qlangtech.tis.plugin.datax.seq.OffSeqKey",
+          "com.qlangtech.tis.plugin.datax.seq.OnSeqKey"
         ],
         "com.qlangtech.tis.plugin.ds.DataSourceFactory": [
           "com.qlangtech.tis.plugin.ds.doris.DorisSourceFactory"
         ]
       },
-      "gav": "com.qlangtech.tis.plugins:tis-datax-doris-plugin:3.8.0",
+      "gav": "com.qlangtech.tis.plugins:tis-datax-doris-plugin:4.0.0",
       "labels": [],
       "minimumJavaVersion": "1.8",
       "name": "tis-datax-doris-plugin",
       "pluginTags": [],
       "popularity": 1,
-      "releaseTimestamp": "2023-07-21 10:16:22",
+      "releaseTimestamp": "2024-03-07 09:35:45",
       "requiredCore": "1.398",
       "scm": "https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-doris-plugin",
       "sha1": "",
       "sha256": "",
-      "size": 4747566,
+      "size": 4762033,
       "supportMultiClassifier": false,
       "title": "tis-datax-doris-plugin",
-      "url": "http://mirror.qlangtech.com/3.8.0/tis-plugin/tis-datax-doris-plugin.tpi",
-      "version": "3.8.0",
+      "url": "http://mirror.qlangtech.com/4.0.0/tis-plugin/tis-datax-doris-plugin.tpi",
+      "version": "4.0.0",
       "wiki": "https://plugins.jenkins.io/tis-datax-doris-plugin"
     },
     "tis-datax-elasticsearch-plugin": {
-      "buildDate": 1689905774340,
+      "buildDate": 1709775334132,
       "dependencies": [
         {
           "name": "tis-datax-common-plugin",
           "optional": false,
-          "version": "3.8.0"
+          "version": "4.0.0"
         }
       ],
       "developers": [],
@@ -334,94 +453,79 @@
           "com.qlangtech.tis.plugin.datax.elastic.ElasticEndpoint"
         ]
       },
-      "gav": "com.qlangtech.tis.plugins:tis-datax-elasticsearch-plugin:3.8.0",
+      "gav": "com.qlangtech.tis.plugins:tis-datax-elasticsearch-plugin:4.0.0",
       "labels": [],
       "minimumJavaVersion": "1.8",
       "name": "tis-datax-elasticsearch-plugin",
       "pluginTags": [],
       "popularity": 1,
-      "releaseTimestamp": "2023-07-21 10:16:14",
+      "releaseTimestamp": "2024-03-07 09:35:34",
       "requiredCore": "1.398",
       "scm": "https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-elasticsearch-plugin",
       "sha1": "",
       "sha256": "",
-      "size": 2545079,
+      "size": 2548652,
       "supportMultiClassifier": false,
       "title": "tis-datax-elasticsearch-plugin",
-      "url": "http://mirror.qlangtech.com/3.8.0/tis-plugin/tis-datax-elasticsearch-plugin.tpi",
-      "version": "3.8.0",
+      "url": "http://mirror.qlangtech.com/4.0.0/tis-plugin/tis-datax-elasticsearch-plugin.tpi",
+      "version": "4.0.0",
       "wiki": "https://plugins.jenkins.io/tis-datax-elasticsearch-plugin"
     },
-    "tis-datax-ftp-plugin": {
-      "buildDate": 1689905778316,
+    "tis-datax-hdfs-aliyun-emr-plugin": {
+      "buildDate": 1709775329235,
+      "classifier": [
+        {
+          "classifier": "hadoop_2.7.3",
+          "downloadUrl": "http://mirror.qlangtech.com/4.0.0/tis-plugin/tis-datax-hdfs-aliyun-emr-plugin/tis-datax-hdfs-aliyun-emr-plugin_hadoop_2.7.3.tpi",
+          "gav": "com.qlangtech.tis.plugins:tis-datax-hdfs-aliyun-emr-plugin_hadoop_2.7.3:4.0.0",
+          "sha1": "",
+          "sha256": "",
+          "size": 36024746
+        }
+      ],
       "dependencies": [
         {
           "name": "tis-datax-common-plugin",
           "optional": false,
-          "version": "3.8.0"
+          "version": "4.0.0"
+        },
+        {
+          "name": "tis-datax-hdfs-plugin",
+          "optional": false,
+          "version": "4.0.0"
         }
       ],
       "developers": [],
-      "endTypes": [
-        "ftp"
-      ],
-      "excerpt": "* FtpReader 封装alibaba DataX功能，提供了读取远程FTP文件系统数据存储的能力。在底层实现上，FtpReader获取远程FTP文件数据，并转换为DataX传输协议传递给Writer。[详细](https://github.com/alibaba/DataX/blob/master/ftpreader/doc/ftpreader.md)\n* FtpWriter 封装aliabab DataX功能，提供了向远程FTP文件写入CSV格式的一个或者多个文件，在底层实现上，FtpWriter将DataX传输协议下的数据转换为csv格式，并使用FTP相关的网络协议写出到远程FTP服务器。[详细](https://github.com/alibaba/DataX/blob/master/ftpwriter/doc/ftpwriter.md)",
+      "endTypes": [],
+      "excerpt": "JindoFS 是阿里云针对云上存储定制的自研大数据存储服务，完全兼容 Hadoop 文件系统接口，给客户带来更加灵活、高效的计算存储方案，目前已验证支持阿里云 EMR 中所有的计算服务和引擎：Spark、Flink、Hive、MapReduce、Presto、Impala 等。JindoFS 提供了块存储模式（Block）和缓存模式（Cache）的存储模式。\n* 提供基于Aliyun JindoData 的HDFS 实现\n  \n  本插件提供基于 [jindosdk 4.6.11](https://github.com/aliyun/alibabacloud-jindodata/blob/master/docs/user/4.x/4.6.x/4.6.11/jindofs/hadoop/jindosdk_ide_hadoop.md) 封装实现，用户如需要向阿里云 EMR HDFS中写入数据\n  可选择本插件。\n  \n* JindoFS 存储系统\n\n  基于阿里云 OSS 的云原生存储系统，二进制兼容 Apache HDFS，并且基本功能对齐，提供优化的 HDFS 使用和平迁体验。是原 JindoFS Block 模式的全新升级版本。 阿里云 OSS-HDFS 服务（JindoFS 服务) 是 JindoFS 存储系统在阿里云上的服务化部署形态，和阿里云 OSS 深度融合，开箱即用，无须在自建集群部署维护 JindoFS，免运维。OSS-HDFS 服务具体介绍请参考 [OSS-HDFS服务概述](https://help.aliyun.com/zh/oss/user-guide/overview-1) 。\n\n",
       "extendPoints": {
-        "com.qlangtech.tis.plugin.datax.meta.MetaDataWriter": [
-          "com.qlangtech.tis.plugin.datax.meta.NoneMetaDataWriter",
-          "com.qlangtech.tis.plugin.datax.meta.DefaultMetaDataWriter"
-        ],
-        "com.qlangtech.tis.datax.impl.DataxReader": [
-          "com.qlangtech.tis.plugin.datax.DataXFtpReader",
-          "com.qlangtech.tis.plugin.datax.DataXFtpReaderWithMeta"
-        ],
-        "com.qlangtech.tis.datax.impl.DataxWriter": [
-          "com.qlangtech.tis.plugin.datax.DataXFtpWriter"
-        ],
-        "com.qlangtech.tis.config.ParamsConfig": [
-          "com.qlangtech.tis.plugin.datax.server.FTPServer"
-        ],
-        "com.qlangtech.tis.plugin.datax.format.FileFormat": [
-          "com.qlangtech.tis.plugin.datax.format.CSVFormat",
-          "com.qlangtech.tis.plugin.datax.format.TextFormat"
+        "com.qlangtech.tis.offline.FileSystemFactory": [
+          "com.qlangtech.tis.hdfs.impl.AliayunJindoFSFactory"
         ]
       },
-      "gav": "com.qlangtech.tis.plugins:tis-datax-ftp-plugin:3.8.0",
       "labels": [],
       "minimumJavaVersion": "1.8",
-      "name": "tis-datax-ftp-plugin",
+      "name": "tis-datax-hdfs-aliyun-emr-plugin",
       "pluginTags": [],
       "popularity": 1,
-      "releaseTimestamp": "2023-07-21 10:16:18",
+      "releaseTimestamp": "2024-03-07 09:35:29",
       "requiredCore": "1.398",
-      "scm": "https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-ftp-plugin",
-      "sha1": "",
-      "sha256": "",
-      "size": 1219358,
-      "supportMultiClassifier": false,
-      "title": "tis-datax-ftp-plugin",
-      "url": "http://mirror.qlangtech.com/3.8.0/tis-plugin/tis-datax-ftp-plugin.tpi",
-      "version": "3.8.0",
-      "wiki": "https://plugins.jenkins.io/tis-datax-ftp-plugin"
+      "scm": "https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-aliyun-jindo-sdk-extends/tis-datax-hdfs-aliyun-emr-plugin",
+      "supportMultiClassifier": true,
+      "title": "tis-datax-hdfs-aliyun-emr-plugin",
+      "version": "4.0.0",
+      "wiki": "https://plugins.jenkins.io/tis-datax-hdfs-aliyun-emr-plugin"
     },
     "tis-datax-hdfs-plugin": {
-      "buildDate": 1689676663200,
+      "buildDate": 1709775325706,
       "classifier": [
         {
           "classifier": "hadoop_2.7.3",
-          "downloadUrl": "http://mirror.qlangtech.com/3.8.0/tis-plugin/tis-datax-hdfs-plugin/tis-datax-hdfs-plugin_hadoop_2.7.3.tpi",
-          "gav": "com.qlangtech.tis.plugins:tis-datax-hdfs-plugin_hadoop_2.7.3:3.8.0",
+          "downloadUrl": "http://mirror.qlangtech.com/4.0.0/tis-plugin/tis-datax-hdfs-plugin/tis-datax-hdfs-plugin_hadoop_2.7.3.tpi",
+          "gav": "com.qlangtech.tis.plugins:tis-datax-hdfs-plugin_hadoop_2.7.3:4.0.0",
           "sha1": "",
           "sha256": "",
-          "size": 33831868
-        },
-        {
-          "classifier": "hadoop_2.8.4",
-          "downloadUrl": "http://mirror.qlangtech.com/3.8.0/tis-plugin/tis-datax-hdfs-plugin/tis-datax-hdfs-plugin_hadoop_2.8.4.tpi",
-          "gav": "com.qlangtech.tis.plugins:tis-datax-hdfs-plugin_hadoop_2.8.4:3.8.0",
-          "sha1": "",
-          "sha256": "",
-          "size": 35623490
+          "size": 33826504
         }
       ],
       "dependencies": [],
@@ -441,60 +545,49 @@
       "name": "tis-datax-hdfs-plugin",
       "pluginTags": [],
       "popularity": 1,
-      "releaseTimestamp": "2023-07-18 18:37:43",
+      "releaseTimestamp": "2024-03-07 09:35:25",
       "requiredCore": "1.398",
       "scm": "https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-hdfs-plugin",
       "supportMultiClassifier": true,
       "title": "tis-datax-hdfs-plugin",
-      "version": "3.8.0",
+      "version": "4.0.0",
       "wiki": "https://plugins.jenkins.io/tis-datax-hdfs-plugin"
     },
     "tis-datax-hdfs-reader-writer-plugin": {
-      "buildDate": 1689676731808,
+      "buildDate": 1709775419176,
       "classifier": [
         {
           "classifier": "hive_2.3.1;hadoop_2.7.3",
-          "downloadUrl": "http://mirror.qlangtech.com/3.8.0/tis-plugin/tis-datax-hdfs-reader-writer-plugin/tis-datax-hdfs-reader-writer-plugin_hive_2.3.1_hadoop_2.7.3.tpi",
-          "gav": "com.qlangtech.tis.plugins:tis-datax-hdfs-reader-writer-plugin_hive_2.3.1_hadoop_2.7.3:3.8.0",
+          "downloadUrl": "http://mirror.qlangtech.com/4.0.0/tis-plugin/tis-datax-hdfs-reader-writer-plugin/tis-datax-hdfs-reader-writer-plugin_hive_2.3.1_hadoop_2.7.3.tpi",
+          "gav": "com.qlangtech.tis.plugins:tis-datax-hdfs-reader-writer-plugin_hive_2.3.1_hadoop_2.7.3:4.0.0",
           "sha1": "",
           "sha256": "",
-          "size": 39080
-        },
-        {
-          "classifier": "hive_2.3.1;hadoop_2.8.4",
-          "downloadUrl": "http://mirror.qlangtech.com/3.8.0/tis-plugin/tis-datax-hdfs-reader-writer-plugin/tis-datax-hdfs-reader-writer-plugin_hive_2.3.1_hadoop_2.8.4.tpi",
-          "gav": "com.qlangtech.tis.plugins:tis-datax-hdfs-reader-writer-plugin_hive_2.3.1_hadoop_2.8.4:3.8.0",
-          "sha1": "",
-          "sha256": "",
-          "size": 39967
+          "size": 43201
         }
       ],
       "dependencies": [
         {
           "name": "tis-datax-common-plugin",
           "optional": false,
-          "version": "3.8.0"
+          "version": "4.0.0"
         },
         {
           "name": "tis-datax-hdfs-plugin",
           "optional": false,
-          "version": "3.8.0"
+          "version": "4.0.0"
         },
         {
           "name": "tis-hive-plugin",
           "optional": false,
-          "version": "3.8.0"
+          "version": "4.0.0"
         }
       ],
       "developers": [],
       "endTypes": [],
       "excerpt": "",
       "extendPoints": {
-        "com.qlangtech.tis.datax.impl.DataxReader": [
-          "com.qlangtech.tis.plugin.datax.DataXHdfsReader"
-        ],
-        "com.qlangtech.tis.datax.impl.DataxWriter": [
-          "com.qlangtech.tis.plugin.datax.DataXHdfsWriter"
+        "com.qlangtech.tis.plugin.tdfs.TDFSLinker": [
+          "com.qlangtech.tis.plugin.datax.hdfs.HdfsTDFDLinker"
         ]
       },
       "labels": [],
@@ -502,44 +595,36 @@
       "name": "tis-datax-hdfs-reader-writer-plugin",
       "pluginTags": [],
       "popularity": 1,
-      "releaseTimestamp": "2023-07-18 18:38:51",
+      "releaseTimestamp": "2024-03-07 09:36:59",
       "requiredCore": "1.398",
       "scm": "https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-hdfs-reader-writer-plugin",
       "supportMultiClassifier": true,
       "title": "tis-datax-hdfs-reader-writer-plugin",
-      "version": "3.8.0",
+      "version": "4.0.0",
       "wiki": "https://plugins.jenkins.io/tis-datax-hdfs-reader-writer-plugin"
     },
     "tis-datax-hudi-common": {
-      "buildDate": 1689676708252,
+      "buildDate": 1709775386008,
       "classifier": [
         {
-          "classifier": "hudi_0.10.1;spark_2.4.4;hive_2.3.1;hadoop_2.7.3",
-          "downloadUrl": "http://mirror.qlangtech.com/3.8.0/tis-plugin/tis-datax-hudi-common/tis-datax-hudi-common_hudi_0.10.1_spark_2.4.4_hive_2.3.1_hadoop_2.7.3.tpi",
-          "gav": "com.qlangtech.tis.plugins:tis-datax-hudi-common_hudi_0.10.1_spark_2.4.4_hive_2.3.1_hadoop_2.7.3:3.8.0",
+          "classifier": "hudi_0.14.1;spark_2.4.4;hive_2.3.1;hadoop_2.7.3",
+          "downloadUrl": "http://mirror.qlangtech.com/4.0.0/tis-plugin/tis-datax-hudi-common/tis-datax-hudi-common_hudi_0.14.1_spark_2.4.4_hive_2.3.1_hadoop_2.7.3.tpi",
+          "gav": "com.qlangtech.tis.plugins:tis-datax-hudi-common_hudi_0.14.1_spark_2.4.4_hive_2.3.1_hadoop_2.7.3:4.0.0",
           "sha1": "",
           "sha256": "",
-          "size": 4927197
-        },
-        {
-          "classifier": "hudi_0.10.1;spark_2.4.4;hive_2.3.1;hadoop_2.8.4",
-          "downloadUrl": "http://mirror.qlangtech.com/3.8.0/tis-plugin/tis-datax-hudi-common/tis-datax-hudi-common_hudi_0.10.1_spark_2.4.4_hive_2.3.1_hadoop_2.8.4.tpi",
-          "gav": "com.qlangtech.tis.plugins:tis-datax-hudi-common_hudi_0.10.1_spark_2.4.4_hive_2.3.1_hadoop_2.8.4:3.8.0",
-          "sha1": "",
-          "sha256": "",
-          "size": 4927202
+          "size": 5985498
         }
       ],
       "dependencies": [
         {
           "name": "tis-datax-common-plugin",
           "optional": false,
-          "version": "3.8.0"
+          "version": "4.0.0"
         },
         {
           "name": "tis-datax-common-rdbms-plugin",
           "optional": false,
-          "version": "3.8.0"
+          "version": "4.0.0"
         }
       ],
       "developers": [],
@@ -555,48 +640,42 @@
       "name": "tis-datax-hudi-common",
       "pluginTags": [],
       "popularity": 1,
-      "releaseTimestamp": "2023-07-18 18:38:28",
+      "releaseTimestamp": "2024-03-07 09:36:26",
       "requiredCore": "1.398",
       "scm": "https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-hudi-common",
       "supportMultiClassifier": true,
       "title": "tis-datax-hudi-common",
-      "version": "3.8.0",
+      "version": "4.0.0",
       "wiki": "https://plugins.jenkins.io/tis-datax-hudi-common"
     },
     "tis-datax-hudi-plugin": {
-      "buildDate": 1689676714312,
+      "buildDate": 1709775395328,
       "classifier": [
         {
-          "classifier": "hudi_0.10.1;spark_2.4.4;hive_2.3.1;hadoop_2.7.3",
-          "downloadUrl": "http://mirror.qlangtech.com/3.8.0/tis-plugin/tis-datax-hudi-plugin/tis-datax-hudi-plugin_hudi_0.10.1_spark_2.4.4_hive_2.3.1_hadoop_2.7.3.tpi",
-          "gav": "com.qlangtech.tis.plugins:tis-datax-hudi-plugin_hudi_0.10.1_spark_2.4.4_hive_2.3.1_hadoop_2.7.3:3.8.0",
+          "classifier": "hudi_0.14.1;spark_2.4.4;hive_2.3.1;hadoop_2.7.3",
+          "downloadUrl": "http://mirror.qlangtech.com/4.0.0/tis-plugin/tis-datax-hudi-plugin/tis-datax-hudi-plugin_hudi_0.14.1_spark_2.4.4_hive_2.3.1_hadoop_2.7.3.tpi",
+          "gav": "com.qlangtech.tis.plugins:tis-datax-hudi-plugin_hudi_0.14.1_spark_2.4.4_hive_2.3.1_hadoop_2.7.3:4.0.0",
           "sha1": "",
           "sha256": "",
-          "size": 322050444
-        },
-        {
-          "classifier": "hudi_0.10.1;spark_2.4.4;hive_2.3.1;hadoop_2.8.4",
-          "downloadUrl": "http://mirror.qlangtech.com/3.8.0/tis-plugin/tis-datax-hudi-plugin/tis-datax-hudi-plugin_hudi_0.10.1_spark_2.4.4_hive_2.3.1_hadoop_2.8.4.tpi",
-          "gav": "com.qlangtech.tis.plugins:tis-datax-hudi-plugin_hudi_0.10.1_spark_2.4.4_hive_2.3.1_hadoop_2.8.4:3.8.0",
-          "sha1": "",
-          "sha256": "",
-          "size": 324395793
+          "size": 426674627
         }
       ],
       "dependencies": [
         {
           "name": "tis-datax-hdfs-plugin",
           "optional": false,
-          "version": "3.8.0"
+          "version": "4.0.0"
         },
         {
           "name": "tis-datax-hudi-common",
           "optional": false,
-          "version": "3.8.0"
+          "version": "4.0.0"
         }
       ],
       "developers": [],
-      "endTypes": [],
+      "endTypes": [
+        "hudi"
+      ],
       "excerpt": "封装[Apache Hudi](https://hudi.apache.org/)，为用户提供一站式、开箱即用的千表入湖的解决方案\n\n功能：\n\n本组件整合Hudi提供的[DeltaStreamer](https://hudi.apache.org/docs/hoodie_deltastreamer#deltastreamer)功能，通过TIS生成成DeltaStreamer需要的所有Hudi表摄入所需要的\n所有配置信息（Avro schemas、从数据源抽取数据的DataX配置，Hudi表分区信息及 [Key Generation](https://hudi.apache.org/docs/key_generation)配置）\n\n配合TIS提供的各种Source Connnector组件，快速实现各种数据源`批量`入湖\n\n\n\n\n\n",
       "extendPoints": {
         "com.qlangtech.tis.datax.impl.DataxWriter": [
@@ -622,21 +701,21 @@
       "name": "tis-datax-hudi-plugin",
       "pluginTags": [],
       "popularity": 1,
-      "releaseTimestamp": "2023-07-18 18:38:34",
+      "releaseTimestamp": "2024-03-07 09:36:35",
       "requiredCore": "1.398",
       "scm": "https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-hudi-plugin",
       "supportMultiClassifier": true,
       "title": "tis-datax-hudi-plugin",
-      "version": "3.8.0",
+      "version": "4.0.0",
       "wiki": "https://plugins.jenkins.io/tis-datax-hudi-plugin"
     },
     "tis-datax-kafka-plugin": {
-      "buildDate": 1689905849957,
+      "buildDate": 1709775421601,
       "dependencies": [
         {
           "name": "tis-datax-common-plugin",
           "optional": false,
-          "version": "3.8.0"
+          "version": "4.0.0"
         }
       ],
       "developers": [],
@@ -665,96 +744,118 @@
           "com.qlangtech.tis.plugins.datax.kafka.reader.subscriptionmethod.KafkaManuallyAssignAListOfPartitions"
         ]
       },
-      "gav": "com.qlangtech.tis.plugins:tis-datax-kafka-plugin:3.8.0",
+      "gav": "com.qlangtech.tis.plugins:tis-datax-kafka-plugin:4.0.0",
       "labels": [],
       "minimumJavaVersion": "1.8",
       "name": "tis-datax-kafka-plugin",
       "pluginTags": [],
       "popularity": 1,
-      "releaseTimestamp": "2023-07-21 10:17:29",
+      "releaseTimestamp": "2024-03-07 09:37:01",
       "requiredCore": "1.398",
       "scm": "https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-kafka-plugin",
       "sha1": "",
       "sha256": "",
-      "size": 15217016,
+      "size": 15217089,
       "supportMultiClassifier": false,
       "title": "tis-datax-kafka-plugin",
-      "url": "http://mirror.qlangtech.com/3.8.0/tis-plugin/tis-datax-kafka-plugin.tpi",
-      "version": "3.8.0",
+      "url": "http://mirror.qlangtech.com/4.0.0/tis-plugin/tis-datax-kafka-plugin.tpi",
+      "version": "4.0.0",
       "wiki": "https://plugins.jenkins.io/tis-datax-kafka-plugin"
     },
-    "tis-datax-local-embedded-executor": {
-      "buildDate": 1689905845647,
-      "dependencies": [],
-      "developers": [],
-      "endTypes": [],
-      "excerpt": "\n批量任务触发，用于本地功能测试用，请勿用于生成环境\n",
-      "extendPoints": {
-        "com.qlangtech.tis.datax.DataXJobSubmit": [
-          "com.qlangtech.tis.plugin.datax.EmbeddedDataXJobSubmit"
-        ]
-      },
-      "gav": "com.qlangtech.tis.plugins:tis-datax-local-embedded-executor:3.8.0",
-      "labels": [],
-      "minimumJavaVersion": "1.8",
-      "name": "tis-datax-local-embedded-executor",
-      "pluginTags": [],
-      "popularity": 1,
-      "releaseTimestamp": "2023-07-21 10:17:25",
-      "requiredCore": "1.398",
-      "scm": "https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-local-embedded-executor",
-      "sha1": "",
-      "sha256": "",
-      "size": 8294635,
-      "supportMultiClassifier": false,
-      "title": "tis-datax-local-embedded-executor",
-      "url": "http://mirror.qlangtech.com/3.8.0/tis-plugin/tis-datax-local-embedded-executor.tpi",
-      "version": "3.8.0",
-      "wiki": "https://plugins.jenkins.io/tis-datax-local-embedded-executor"
-    },
     "tis-datax-local-executor": {
-      "buildDate": 1689905798472,
+      "buildDate": 1709775361067,
       "dependencies": [
         {
           "name": "tis-datax-common-plugin",
           "optional": false,
-          "version": "3.8.0"
+          "version": "4.0.0"
         }
       ],
       "developers": [],
       "endTypes": [],
-      "excerpt": "\n批量任务触发组件，有两种任务提交方式：\n\n1. 本地独立模式：在本地启动独立进程，特点是占用资源少轻量化。所有批量导入任务都在单个机器节点上执行，所以并发吞肚率比较低\n2. 分布式模式：向分布式队列中提交任务，由驻留在K8S机器中的Woker节点消费批量任务，优点是可以按照批量任务规模，水平扩容K8S集群中的执行节点，达到提高批量任务执行吞吐率\n",
+      "excerpt": "\n批量任务触发组件，有两种任务提交方式：\n\n本地独立模式：在本地启动独立进程，特点是占用资源少轻量化。所有批量导入任务都在单个机器节点上执行，所以并发吞肚率比较低\n",
       "extendPoints": {
         "com.qlangtech.tis.datax.DataXJobSubmit": [
-          "com.qlangtech.tis.plugin.datax.DistributedOverseerDataXJobSubmit",
+          "com.qlangtech.tis.plugin.datax.EmbeddedDataXJobSubmit",
           "com.qlangtech.tis.plugin.datax.LocalDataXJobSubmit"
         ]
       },
-      "gav": "com.qlangtech.tis.plugins:tis-datax-local-executor:3.8.0",
+      "gav": "com.qlangtech.tis.plugins:tis-datax-local-executor:4.0.0",
       "labels": [],
       "minimumJavaVersion": "1.8",
       "name": "tis-datax-local-executor",
       "pluginTags": [],
       "popularity": 1,
-      "releaseTimestamp": "2023-07-21 10:16:38",
+      "releaseTimestamp": "2024-03-07 09:36:01",
       "requiredCore": "1.398",
       "scm": "https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-local-executor",
       "sha1": "",
       "sha256": "",
-      "size": 9818011,
+      "size": 2457204,
       "supportMultiClassifier": false,
       "title": "tis-datax-local-executor",
-      "url": "http://mirror.qlangtech.com/3.8.0/tis-plugin/tis-datax-local-executor.tpi",
-      "version": "3.8.0",
+      "url": "http://mirror.qlangtech.com/4.0.0/tis-plugin/tis-datax-local-executor.tpi",
+      "version": "4.0.0",
       "wiki": "https://plugins.jenkins.io/tis-datax-local-executor"
     },
-    "tis-datax-mongodb-plugin": {
-      "buildDate": 1689905777244,
+    "tis-datax-local-powerjob-executor": {
+      "buildDate": 1709775321408,
       "dependencies": [
         {
           "name": "tis-datax-common-plugin",
           "optional": false,
-          "version": "3.8.0"
+          "version": "4.0.0"
+        },
+        {
+          "name": "tis-powerjob-common-plugin",
+          "optional": false,
+          "version": "4.0.0"
+        }
+      ],
+      "developers": [],
+      "endTypes": [
+        "powerjob"
+      ],
+      "excerpt": "\n\n",
+      "extendPoints": {
+        "com.qlangtech.tis.datax.job.DataXJobWorker": [
+          "com.qlangtech.tis.plugin.datax.powerjob.K8SDataXPowerJobJobTemplate",
+          "com.qlangtech.tis.plugin.datax.powerjob.K8SDataXPowerJobOverwriteTemplate",
+          "com.qlangtech.tis.plugin.datax.powerjob.K8SDataXPowerJobUsingExistCluster"
+        ],
+        "com.qlangtech.tis.plugin.datax.powerjob.TriggerStrategy": [
+          "com.qlangtech.tis.plugin.datax.powerjob.impl.trigger.CrontabTriggerStrategy",
+          "com.qlangtech.tis.plugin.datax.powerjob.impl.trigger.NoneTriggerStrategy"
+        ],
+        "com.qlangtech.tis.datax.DataXJobSubmit": [
+          "com.qlangtech.tis.plugin.datax.DistributedPowerJobDataXJobSubmit"
+        ]
+      },
+      "gav": "com.qlangtech.tis.plugins:tis-datax-local-powerjob-executor:4.0.0",
+      "labels": [],
+      "minimumJavaVersion": "1.8",
+      "name": "tis-datax-local-powerjob-executor",
+      "pluginTags": [],
+      "popularity": 1,
+      "releaseTimestamp": "2024-03-07 09:35:21",
+      "requiredCore": "1.398",
+      "scm": "https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-local-powerjob-executor",
+      "sha1": "",
+      "sha256": "",
+      "size": 3394851,
+      "supportMultiClassifier": false,
+      "title": "tis-datax-local-powerjob-executor",
+      "url": "http://mirror.qlangtech.com/4.0.0/tis-plugin/tis-datax-local-powerjob-executor.tpi",
+      "version": "4.0.0",
+      "wiki": "https://plugins.jenkins.io/tis-datax-local-powerjob-executor"
+    },
+    "tis-datax-mongodb-plugin": {
+      "buildDate": 1709775338026,
+      "dependencies": [
+        {
+          "name": "tis-datax-common-plugin",
+          "optional": false,
+          "version": "4.0.0"
         }
       ],
       "developers": [],
@@ -763,41 +864,56 @@
       ],
       "excerpt": "* MongoDB DataSource 插件封装了MongoDB作为数据源的插件，可以向TIS导入MongoDB的数据表进行后续处理\n* MongoDBReader 封装alibaba DataX reader，插件利用 MongoDB 的java客户端MongoClient进行MongoDB的读操作。最新版本的Mongo已经将DB锁的粒度从DB级别降低到document级别，配合上MongoDB强大的索引功能，基本可以达到高性能的读取MongoDB的需求。[详细](https://github.com/alibaba/DataX/blob/master/mongodbreader/doc/mongodbreader.md)\n* MongoDBWriter 封装alibaba DataX writer，插件利用 MongoDB 的java客户端MongoClient进行MongoDB的写操作。最新版本的Mongo已经将DB锁的粒度从DB级别降低到document级别，配合上MongoDB强大的索引功能，基本可以满足数据源向MongoDB写入数据的需求，针对数据更新的需求，通过配置业务主键的方式也可以实现[详细](https://github.com/alibaba/DataX/blob/master/mongodbwriter/doc/mongodbwriter.md)\n",
       "extendPoints": {
+        "com.qlangtech.tis.plugin.datax.SelectedTabExtend": [
+          "com.qlangtech.tis.plugin.datax.mongo.MongoSelectedTabExtend"
+        ],
+        "com.qlangtech.tis.plugin.datax.mongo.UpsertSupport": [
+          "com.qlangtech.tis.plugin.datax.mongo.OffUpsertSupport",
+          "com.qlangtech.tis.plugin.datax.mongo.OnUpsertSupport"
+        ],
+        "com.qlangtech.tis.plugin.datax.SelectedTab": [
+          "com.qlangtech.tis.plugin.datax.mongo.MongoWriterSelectedTab"
+        ],
         "com.qlangtech.tis.datax.impl.DataxReader": [
           "com.qlangtech.tis.plugin.datax.DataXMongodbReader"
         ],
         "com.qlangtech.tis.datax.impl.DataxWriter": [
           "com.qlangtech.tis.plugin.datax.DataXMongodbWriter"
         ],
+        "com.qlangtech.tis.plugin.datax.mongo.reader.ReaderFilter": [
+          "com.qlangtech.tis.plugin.datax.mongo.reader.ReaderFilteOff",
+          "com.qlangtech.tis.plugin.datax.mongo.reader.ReaderFilterOn",
+          "com.qlangtech.tis.plugin.datax.mongo.reader.ReaderFilterNormalQuery"
+        ],
         "com.qlangtech.tis.plugin.ds.DataSourceFactory": [
           "com.qlangtech.tis.plugin.ds.mangodb.MangoDBDataSourceFactory"
         ]
       },
-      "gav": "com.qlangtech.tis.plugins:tis-datax-mongodb-plugin:3.8.0",
+      "gav": "com.qlangtech.tis.plugins:tis-datax-mongodb-plugin:4.0.0",
       "labels": [],
       "minimumJavaVersion": "1.8",
       "name": "tis-datax-mongodb-plugin",
       "pluginTags": [],
       "popularity": 1,
-      "releaseTimestamp": "2023-07-21 10:16:17",
+      "releaseTimestamp": "2024-03-07 09:35:38",
       "requiredCore": "1.398",
       "scm": "https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-mongodb-plugin",
       "sha1": "",
       "sha256": "",
-      "size": 3315447,
+      "size": 4093597,
       "supportMultiClassifier": false,
       "title": "tis-datax-mongodb-plugin",
-      "url": "http://mirror.qlangtech.com/3.8.0/tis-plugin/tis-datax-mongodb-plugin.tpi",
-      "version": "3.8.0",
+      "url": "http://mirror.qlangtech.com/4.0.0/tis-plugin/tis-datax-mongodb-plugin.tpi",
+      "version": "4.0.0",
       "wiki": "https://plugins.jenkins.io/tis-datax-mongodb-plugin"
     },
     "tis-datax-odps-plugin": {
-      "buildDate": 1689905847981,
+      "buildDate": 1709775420212,
       "dependencies": [
         {
           "name": "tis-datax-common-plugin",
           "optional": false,
-          "version": "3.8.0"
+          "version": "4.0.0"
         }
       ],
       "developers": [],
@@ -813,7 +929,7 @@
           "com.qlangtech.tis.plugin.datax.odps.OdpsDataSourceFactory"
         ]
       },
-      "gav": "com.qlangtech.tis.plugins:tis-datax-odps-plugin:3.8.0",
+      "gav": "com.qlangtech.tis.plugins:tis-datax-odps-plugin:4.0.0",
       "labels": [],
       "minimumJavaVersion": "1.8",
       "name": "tis-datax-odps-plugin",
@@ -821,30 +937,30 @@
         "offline_parser"
       ],
       "popularity": 1,
-      "releaseTimestamp": "2023-07-21 10:17:27",
+      "releaseTimestamp": "2024-03-07 09:37:00",
       "requiredCore": "1.398",
       "scm": "https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-odps-plugin",
       "sha1": "",
       "sha256": "",
-      "size": 10919428,
+      "size": 10919520,
       "supportMultiClassifier": false,
       "title": "tis-datax-odps-plugin",
-      "url": "http://mirror.qlangtech.com/3.8.0/tis-plugin/tis-datax-odps-plugin.tpi",
-      "version": "3.8.0",
+      "url": "http://mirror.qlangtech.com/4.0.0/tis-plugin/tis-datax-odps-plugin.tpi",
+      "version": "4.0.0",
       "wiki": "https://plugins.jenkins.io/tis-datax-odps-plugin"
     },
     "tis-datax-oracle-plugin": {
-      "buildDate": 1689905781174,
+      "buildDate": 1709775344428,
       "dependencies": [
         {
           "name": "tis-datax-common-plugin",
           "optional": false,
-          "version": "3.8.0"
+          "version": "4.0.0"
         },
         {
           "name": "tis-datax-common-rdbms-plugin",
           "optional": false,
-          "version": "3.8.0"
+          "version": "4.0.0"
         }
       ],
       "developers": [],
@@ -871,76 +987,71 @@
           "com.qlangtech.tis.plugin.ds.oracle.OracleDataSourceFactory"
         ]
       },
-      "gav": "com.qlangtech.tis.plugins:tis-datax-oracle-plugin:3.8.0",
+      "gav": "com.qlangtech.tis.plugins:tis-datax-oracle-plugin:4.0.0",
       "labels": [],
       "minimumJavaVersion": "1.8",
       "name": "tis-datax-oracle-plugin",
       "pluginTags": [],
       "popularity": 1,
-      "releaseTimestamp": "2023-07-21 10:16:21",
+      "releaseTimestamp": "2024-03-07 09:35:44",
       "requiredCore": "1.398",
       "scm": "https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-oracle-plugin",
       "sha1": "",
       "sha256": "",
-      "size": 8183242,
+      "size": 8183628,
       "supportMultiClassifier": false,
       "title": "tis-datax-oracle-plugin",
-      "url": "http://mirror.qlangtech.com/3.8.0/tis-plugin/tis-datax-oracle-plugin.tpi",
-      "version": "3.8.0",
+      "url": "http://mirror.qlangtech.com/4.0.0/tis-plugin/tis-datax-oracle-plugin.tpi",
+      "version": "4.0.0",
       "wiki": "https://plugins.jenkins.io/tis-datax-oracle-plugin"
     },
     "tis-datax-oss-plugin": {
-      "buildDate": 1689905773213,
+      "buildDate": 1709775332982,
       "dependencies": [
         {
           "name": "tis-datax-common-plugin",
           "optional": false,
-          "version": "3.8.0"
+          "version": "4.0.0"
         }
       ],
       "developers": [],
-      "endTypes": [
-        "aliyunOSS"
-      ],
+      "endTypes": [],
       "excerpt": "为Alibaba DataX OOS reader、writer插件提供基于UI的开箱即用的插件实现\n\n* OSSReader提供了读取OSS数据存储的能力。在底层实现上，OSSReader使用OSS官方Java SDK获取OSS数据，并转换为DataX传输协议传递给Writer。[详细](https://github.com/alibaba/DataX/blob/master/ossreader/doc/ossreader.md)\n* OSSWriter提供了向OSS写入类CSV格式的一个或者多个表文件。[详细](https://github.com/alibaba/DataX/blob/master/osswriter/doc/osswriter.md)",
       "extendPoints": {
-        "com.qlangtech.tis.datax.impl.DataxReader": [
-          "com.qlangtech.tis.plugin.datax.DataXOssReader"
-        ],
-        "com.qlangtech.tis.datax.impl.DataxWriter": [
-          "com.qlangtech.tis.plugin.datax.DataXOssWriter"
+        "com.qlangtech.tis.plugin.tdfs.TDFSLinker": [
+          "com.qlangtech.tis.plugin.datax.aliyunoss.AliyunOSSTDFSLinker"
         ]
       },
-      "gav": "com.qlangtech.tis.plugins:tis-datax-oss-plugin:3.8.0",
+      "gav": "com.qlangtech.tis.plugins:tis-datax-oss-plugin:4.0.0",
       "labels": [],
       "minimumJavaVersion": "1.8",
       "name": "tis-datax-oss-plugin",
       "pluginTags": [],
       "popularity": 1,
-      "releaseTimestamp": "2023-07-21 10:16:13",
+      "releaseTimestamp": "2024-03-07 09:35:32",
       "requiredCore": "1.398",
       "scm": "https://github.com/qlangtech/plugins/tree/master/tis-datax-oss-plugin",
       "sha1": "",
       "sha256": "",
-      "size": 3355801,
+      "size": 3278203,
       "supportMultiClassifier": false,
       "title": "tis-datax-oss-plugin",
-      "url": "http://mirror.qlangtech.com/3.8.0/tis-plugin/tis-datax-oss-plugin.tpi",
-      "version": "3.8.0",
+      "url": "http://mirror.qlangtech.com/4.0.0/tis-plugin/tis-datax-oss-plugin.tpi",
+      "version": "4.0.0",
       "wiki": "https://plugins.jenkins.io/tis-datax-oss-plugin"
     },
     "tis-datax-postgresql-plugin": {
-      "buildDate": 1689905776351,
+      "buildDate": 1709775336881,
       "dependencies": [
         {
           "name": "tis-datax-common-plugin",
           "optional": false,
-          "version": "3.8.0"
+          "version": "4.0.0"
         },
         {
           "name": "tis-datax-common-rdbms-plugin",
           "optional": false,
-          "version": "3.8.0"
+          "version": "4.0.0"
         }
       ],
       "developers": [],
@@ -959,84 +1070,155 @@
           "com.qlangtech.tis.plugin.ds.postgresql.PGDataSourceFactory"
         ]
       },
-      "gav": "com.qlangtech.tis.plugins:tis-datax-postgresql-plugin:3.8.0",
+      "gav": "com.qlangtech.tis.plugins:tis-datax-postgresql-plugin:4.0.0",
       "labels": [],
       "minimumJavaVersion": "1.8",
       "name": "tis-datax-postgresql-plugin",
       "pluginTags": [],
       "popularity": 1,
-      "releaseTimestamp": "2023-07-21 10:16:16",
+      "releaseTimestamp": "2024-03-07 09:35:36",
       "requiredCore": "1.398",
       "scm": "https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-postgresql-plugin",
       "sha1": "",
       "sha256": "",
-      "size": 3038011,
+      "size": 3066642,
       "supportMultiClassifier": false,
       "title": "tis-datax-postgresql-plugin",
-      "url": "http://mirror.qlangtech.com/3.8.0/tis-plugin/tis-datax-postgresql-plugin.tpi",
-      "version": "3.8.0",
+      "url": "http://mirror.qlangtech.com/4.0.0/tis-plugin/tis-datax-postgresql-plugin.tpi",
+      "version": "4.0.0",
       "wiki": "https://plugins.jenkins.io/tis-datax-postgresql-plugin"
     },
     "tis-datax-sqlserver-plugin": {
-      "buildDate": 1689905779071,
+      "buildDate": 1709775340273,
       "dependencies": [
         {
           "name": "tis-datax-common-plugin",
           "optional": false,
-          "version": "3.8.0"
+          "version": "4.0.0"
         },
         {
           "name": "tis-datax-common-rdbms-plugin",
           "optional": false,
-          "version": "3.8.0"
+          "version": "4.0.0"
         }
       ],
       "developers": [],
       "endTypes": [
         "sqlServer"
       ],
-      "excerpt": "* 封装SqlServer作为数据源的DataSource插件，可以向TIS导入SqlServer中的数据表作后续分析处理\n* SqlServerReader\n\n  插件实现了从SqlServer读取数据。在底层实现上，SqlServerReader通过JDBC连接远程SqlServer数据库，并执行相应的sql语句将数据从SqlServer库中SELECT出来。[详细](https://github.com/alibaba/DataX/blob/master/sqlserverreader/doc/sqlserverreader.md)\n  \n* PostgresqlWriter\n\n  实现了Alibaba DataXWriter 插件，写入数据到 PostgreSQL主库目的表的功能。在底层实现上，PostgresqlWriter通过JDBC连接远程 PostgreSQL 数据库，并执行相应的 insert into ... sql 语句将数据写入 PostgreSQL，内部会分批次提交入库。 [详细](https://github.com/alibaba/DataX/blob/master/postgresqlwriter/doc/postgresqlwriter.md)",
+      "excerpt": "* 封装SqlServer作为数据源的DataSource插件，可以向TIS导入SqlServer中的数据表作后续分析处理\n* SqlServerReader\n  插件实现了从SqlServer读取数据。在底层实现上，SqlServerReader通过JDBC连接远程SqlServer数据库，并执行相应的sql语句将数据从SqlServer库中SELECT出来。[详细](https://github.com/alibaba/DataX/blob/master/sqlserverreader/doc/sqlserverreader.md)\n",
       "extendPoints": {
         "com.qlangtech.tis.datax.impl.DataxReader": [
           "com.qlangtech.tis.plugin.datax.DataXSqlserverReader"
         ],
         "com.qlangtech.tis.datax.impl.DataxWriter": [
           "com.qlangtech.tis.plugin.datax.DataXSqlserverWriter"
-        ],
-        "com.qlangtech.tis.plugin.ds.DataSourceFactory": [
-          "com.qlangtech.tis.plugin.ds.sqlserver.SqlServerDatasourceFactory"
         ]
       },
-      "gav": "com.qlangtech.tis.plugins:tis-datax-sqlserver-plugin:3.8.0",
+      "gav": "com.qlangtech.tis.plugins:tis-datax-sqlserver-plugin:4.0.0",
       "labels": [],
       "minimumJavaVersion": "1.8",
       "name": "tis-datax-sqlserver-plugin",
       "pluginTags": [],
       "popularity": 1,
-      "releaseTimestamp": "2023-07-21 10:16:19",
+      "releaseTimestamp": "2024-03-07 09:35:40",
       "requiredCore": "1.398",
       "scm": "https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-sqlserver-plugin",
       "sha1": "",
       "sha256": "",
-      "size": 3205067,
+      "size": 1943367,
       "supportMultiClassifier": false,
       "title": "tis-datax-sqlserver-plugin",
-      "url": "http://mirror.qlangtech.com/3.8.0/tis-plugin/tis-datax-sqlserver-plugin.tpi",
-      "version": "3.8.0",
+      "url": "http://mirror.qlangtech.com/4.0.0/tis-plugin/tis-datax-sqlserver-plugin.tpi",
+      "version": "4.0.0",
       "wiki": "https://plugins.jenkins.io/tis-datax-sqlserver-plugin"
     },
+    "tis-datax-sqlserver-v2008-plugin": {
+      "buildDate": 1709775340951,
+      "dependencies": [
+        {
+          "name": "tis-datax-sqlserver-plugin",
+          "optional": false,
+          "version": "4.0.0"
+        }
+      ],
+      "developers": [],
+      "endTypes": [
+        "sqlServer"
+      ],
+      "excerpt": "* 封装SqlServer作为数据源的DataSource插件，可以向TIS导入SqlServer中的数据表作后续分析处理\n* 受支持的 SQL Server 版本：\n  * Microsoft SQL Server 2016\n  * Microsoft SQL Server 2014\n  * Microsoft SQL Server 2012\n  * Microsoft SQL Server 2008 R2\n  * Microsoft SQL Server 2008\n  * Microsoft SQL Server 2005 - 仅受适用于 SQL Server 的 Microsoft JDBC Driver 4.0 支持\n  * Azure SQL 数据库\n  * Azure SQL 数据仓库或并行数据仓库\n* Microsoft SQL Server [驱动详细说明](https://www.microsoft.com/zh-cn/download/details.aspx?id=54671&751be11f-ede8-5a0c-058c-2ee190a24fa6=True&fa43d42b-25b5-4a42-fe9b-1634f450f5ee=True%E3%80%82)\n* TIS相关Issue https://github.com/datavane/tis/issues/186\n  \n",
+      "extendPoints": {
+        "com.qlangtech.tis.plugin.ds.DataSourceFactory": [
+          "com.qlangtech.tis.plugin.ds.sqlserver.SqlServer2008DatasourceFactory"
+        ]
+      },
+      "gav": "com.qlangtech.tis.plugins:tis-datax-sqlserver-v2008-plugin:4.0.0",
+      "labels": [],
+      "minimumJavaVersion": "1.8",
+      "name": "tis-datax-sqlserver-v2008-plugin",
+      "pluginTags": [],
+      "popularity": 1,
+      "releaseTimestamp": "2024-03-07 09:35:40",
+      "requiredCore": "1.398",
+      "scm": "https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-sqlserver-v2008-plugin",
+      "sha1": "",
+      "sha256": "",
+      "size": 632156,
+      "supportMultiClassifier": false,
+      "title": "tis-datax-sqlserver-v2008-plugin",
+      "url": "http://mirror.qlangtech.com/4.0.0/tis-plugin/tis-datax-sqlserver-v2008-plugin.tpi",
+      "version": "4.0.0",
+      "wiki": "https://plugins.jenkins.io/tis-datax-sqlserver-v2008-plugin"
+    },
+    "tis-datax-sqlserver-v2019-plugin": {
+      "buildDate": 1709775341620,
+      "dependencies": [
+        {
+          "name": "tis-datax-sqlserver-plugin",
+          "optional": false,
+          "version": "4.0.0"
+        }
+      ],
+      "developers": [],
+      "endTypes": [
+        "sqlServer"
+      ],
+      "excerpt": "* 封装SqlServer作为数据源的DataSource插件，可以向TIS导入SqlServer中的数据表作后续分析处理\n* 受支持的 SQL Server 版本：\n  * Microsoft SQL Server 2019\n  * Azure SQL 数据库\n  * Azure SQL 数据仓库或并行数据仓库\n* Microsoft SQL Server [驱动详细说明](https://learn.microsoft.com/en-us/sql/connect/jdbc/microsoft-jdbc-driver-for-sql-server?view=sql-server-ver15)\n* TIS相关Issue https://github.com/datavane/tis/issues/186\n  \n",
+      "extendPoints": {
+        "com.qlangtech.tis.plugin.ds.DataSourceFactory": [
+          "com.qlangtech.tis.plugin.ds.sqlserver.SqlServer2019DatasourceFactory"
+        ]
+      },
+      "gav": "com.qlangtech.tis.plugins:tis-datax-sqlserver-v2019-plugin:4.0.0",
+      "labels": [],
+      "minimumJavaVersion": "1.8",
+      "name": "tis-datax-sqlserver-v2019-plugin",
+      "pluginTags": [],
+      "popularity": 1,
+      "releaseTimestamp": "2024-03-07 09:35:41",
+      "requiredCore": "1.398",
+      "scm": "https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-sqlserver-v2019-plugin",
+      "sha1": "",
+      "sha256": "",
+      "size": 1128744,
+      "supportMultiClassifier": false,
+      "title": "tis-datax-sqlserver-v2019-plugin",
+      "url": "http://mirror.qlangtech.com/4.0.0/tis-plugin/tis-datax-sqlserver-v2019-plugin.tpi",
+      "version": "4.0.0",
+      "wiki": "https://plugins.jenkins.io/tis-datax-sqlserver-v2019-plugin"
+    },
     "tis-datax-starrocks-plugin": {
-      "buildDate": 1689905783388,
+      "buildDate": 1709775346721,
       "dependencies": [
         {
           "name": "tis-datax-common-plugin",
           "optional": false,
-          "version": "3.8.0"
+          "version": "4.0.0"
         },
         {
           "name": "tis-datax-common-rdbms-plugin",
           "optional": false,
-          "version": "3.8.0"
+          "version": "4.0.0"
         }
       ],
       "developers": [],
@@ -1052,36 +1234,36 @@
           "com.qlangtech.tis.plugin.ds.starrocks.StarRocksSourceFactory"
         ]
       },
-      "gav": "com.qlangtech.tis.plugins:tis-datax-starrocks-plugin:3.8.0",
+      "gav": "com.qlangtech.tis.plugins:tis-datax-starrocks-plugin:4.0.0",
       "labels": [],
       "minimumJavaVersion": "1.8",
       "name": "tis-datax-starrocks-plugin",
       "pluginTags": [],
       "popularity": 1,
-      "releaseTimestamp": "2023-07-21 10:16:23",
+      "releaseTimestamp": "2024-03-07 09:35:46",
       "requiredCore": "1.398",
       "scm": "https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-starrocks-plugin",
       "sha1": "",
       "sha256": "",
-      "size": 4655041,
+      "size": 6221860,
       "supportMultiClassifier": false,
       "title": "tis-datax-starrocks-plugin",
-      "url": "http://mirror.qlangtech.com/3.8.0/tis-plugin/tis-datax-starrocks-plugin.tpi",
-      "version": "3.8.0",
+      "url": "http://mirror.qlangtech.com/4.0.0/tis-plugin/tis-datax-starrocks-plugin.tpi",
+      "version": "4.0.0",
       "wiki": "https://plugins.jenkins.io/tis-datax-starrocks-plugin"
     },
     "tis-ds-mysql-plugin": {
-      "buildDate": 1689905796708,
+      "buildDate": 1709775358816,
       "dependencies": [
         {
           "name": "tis-datax-common-plugin",
           "optional": false,
-          "version": "3.8.0"
+          "version": "4.0.0"
         },
         {
           "name": "tis-datax-common-rdbms-plugin",
           "optional": false,
-          "version": "3.8.0"
+          "version": "4.0.0"
         }
       ],
       "developers": [],
@@ -1095,37 +1277,33 @@
         ],
         "com.qlangtech.tis.datax.impl.DataxWriter": [
           "com.qlangtech.tis.plugin.datax.DataxMySQLWriter"
-        ],
-        "com.qlangtech.tis.plugin.ds.SplitTableStrategy": [
-          "com.qlangtech.tis.plugin.ds.split.DefaultSplitTableStrategy",
-          "com.qlangtech.tis.plugin.ds.split.NoneSplitTableStrategy"
         ]
       },
-      "gav": "com.qlangtech.tis.plugins:tis-ds-mysql-plugin:3.8.0",
+      "gav": "com.qlangtech.tis.plugins:tis-ds-mysql-plugin:4.0.0",
       "labels": [],
       "minimumJavaVersion": "1.8",
       "name": "tis-ds-mysql-plugin",
       "pluginTags": [],
       "popularity": 1,
-      "releaseTimestamp": "2023-07-21 10:16:36",
+      "releaseTimestamp": "2024-03-07 09:35:58",
       "requiredCore": "1.398",
       "scm": "https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-ds-mysql-plugin",
       "sha1": "",
       "sha256": "",
-      "size": 100688,
+      "size": 93565,
       "supportMultiClassifier": false,
       "title": "tis-ds-mysql-plugin",
-      "url": "http://mirror.qlangtech.com/3.8.0/tis-plugin/tis-ds-mysql-plugin.tpi",
-      "version": "3.8.0",
+      "url": "http://mirror.qlangtech.com/4.0.0/tis-plugin/tis-ds-mysql-plugin.tpi",
+      "version": "4.0.0",
       "wiki": "https://plugins.jenkins.io/tis-ds-mysql-plugin"
     },
     "tis-ds-mysql-v5-plugin": {
-      "buildDate": 1689905797223,
+      "buildDate": 1709775359470,
       "dependencies": [
         {
           "name": "tis-ds-mysql-plugin",
           "optional": false,
-          "version": "3.8.0"
+          "version": "4.0.0"
         }
       ],
       "developers": [],
@@ -1138,31 +1316,31 @@
           "com.qlangtech.tis.plugin.ds.mysql.MySQLV5DataSourceFactory"
         ]
       },
-      "gav": "com.qlangtech.tis.plugins:tis-ds-mysql-v5-plugin:3.8.0",
+      "gav": "com.qlangtech.tis.plugins:tis-ds-mysql-v5-plugin:4.0.0",
       "labels": [],
       "minimumJavaVersion": "1.8",
       "name": "tis-ds-mysql-v5-plugin",
       "pluginTags": [],
       "popularity": 1,
-      "releaseTimestamp": "2023-07-21 10:16:37",
+      "releaseTimestamp": "2024-03-07 09:35:59",
       "requiredCore": "1.398",
       "scm": "https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-ds-mysql-v5-plugin",
       "sha1": "",
       "sha256": "",
-      "size": 968560,
+      "size": 968790,
       "supportMultiClassifier": false,
       "title": "tis-ds-mysql-v5-plugin",
-      "url": "http://mirror.qlangtech.com/3.8.0/tis-plugin/tis-ds-mysql-v5-plugin.tpi",
-      "version": "3.8.0",
+      "url": "http://mirror.qlangtech.com/4.0.0/tis-plugin/tis-ds-mysql-v5-plugin.tpi",
+      "version": "4.0.0",
       "wiki": "https://plugins.jenkins.io/tis-ds-mysql-v5-plugin"
     },
     "tis-ds-mysql-v8-plugin": {
-      "buildDate": 1689905797722,
+      "buildDate": 1709775360119,
       "dependencies": [
         {
           "name": "tis-ds-mysql-plugin",
           "optional": false,
-          "version": "3.8.0"
+          "version": "4.0.0"
         }
       ],
       "developers": [],
@@ -1175,93 +1353,87 @@
           "com.qlangtech.tis.plugin.ds.mysql.MySQLV8DataSourceFactory"
         ]
       },
-      "gav": "com.qlangtech.tis.plugins:tis-ds-mysql-v8-plugin:3.8.0",
+      "gav": "com.qlangtech.tis.plugins:tis-ds-mysql-v8-plugin:4.0.0",
       "labels": [],
       "minimumJavaVersion": "1.8",
       "name": "tis-ds-mysql-v8-plugin",
       "pluginTags": [],
       "popularity": 1,
-      "releaseTimestamp": "2023-07-21 10:16:37",
+      "releaseTimestamp": "2024-03-07 09:36:00",
       "requiredCore": "1.398",
       "scm": "https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-ds-mysql-v8-plugin",
       "sha1": "",
       "sha256": "",
-      "size": 3868379,
+      "size": 3968992,
       "supportMultiClassifier": false,
       "title": "tis-ds-mysql-v8-plugin",
-      "url": "http://mirror.qlangtech.com/3.8.0/tis-plugin/tis-ds-mysql-v8-plugin.tpi",
-      "version": "3.8.0",
+      "url": "http://mirror.qlangtech.com/4.0.0/tis-plugin/tis-ds-mysql-v8-plugin.tpi",
+      "version": "4.0.0",
       "wiki": "https://plugins.jenkins.io/tis-ds-mysql-v8-plugin"
     },
     "tis-flink-cdc-mongdb-plugin": {
-      "buildDate": 1689848637660,
+      "buildDate": 1709775483626,
       "dependencies": [
         {
           "name": "tis-datax-common-plugin",
           "optional": false,
-          "version": "3.8.0"
+          "version": "4.0.0"
         },
         {
           "name": "tis-datax-mongodb-plugin",
           "optional": false,
-          "version": "3.8.0"
+          "version": "4.0.0"
         },
         {
           "name": "tis-flink-dependency",
           "optional": false,
-          "version": "3.8.0"
+          "version": "4.0.0"
         },
         {
           "name": "tis-realtime-flink",
           "optional": false,
-          "version": "3.8.0"
+          "version": "4.0.0"
         }
       ],
       "developers": [],
-      "endTypes": [
-        "mongoDB"
-      ],
+      "endTypes": [],
       "excerpt": "",
-      "extendPoints": {
-        "com.qlangtech.tis.async.message.client.consumer.impl.MQListenerFactory": [
-          "com.qlangtech.plugins.incr.flink.cdc.mongdb.FlinkCDCMongoDBSourceFactory"
-        ]
-      },
-      "gav": "com.qlangtech.tis.plugins:tis-flink-cdc-mongdb-plugin:3.8.0",
+      "extendPoints": {},
+      "gav": "com.qlangtech.tis.plugins:tis-flink-cdc-mongdb-plugin:4.0.0",
       "labels": [],
       "minimumJavaVersion": "1.8",
       "name": "tis-flink-cdc-mongdb-plugin",
       "pluginTags": [],
       "popularity": 1,
-      "releaseTimestamp": "2023-07-20 18:23:57",
+      "releaseTimestamp": "2024-03-07 09:38:03",
       "requiredCore": "1.398",
       "scm": "https://github.com/qlangtech/plugins/tree/master/tis-incr/tis-flink-cdc-mongdb-plugin",
       "sha1": "",
       "sha256": "",
-      "size": 18066678,
+      "size": 22872116,
       "supportMultiClassifier": false,
       "title": "tis-flink-cdc-mongdb-plugin",
-      "url": "http://mirror.qlangtech.com/3.8.0/tis-plugin/tis-flink-cdc-mongdb-plugin.tpi",
-      "version": "3.8.0",
+      "url": "http://mirror.qlangtech.com/4.0.0/tis-plugin/tis-flink-cdc-mongdb-plugin.tpi",
+      "version": "4.0.0",
       "wiki": "https://plugins.jenkins.io/tis-flink-cdc-mongdb-plugin"
     },
     "tis-flink-cdc-mysql-plugin": {
-      "buildDate": 1689848631583,
+      "buildDate": 1709775472943,
       "dependencies": [
         {
           "name": "tis-datax-common-plugin",
           "optional": false,
-          "version": "3.8.0"
+          "version": "4.0.0"
         },
         {
           "name": "tis-flink-dependency",
           "optional": false,
-          "version": "3.8.0"
+          "version": "4.0.0"
         },
         {
           "name": "tis-realtime-flink",
           "optional": false,
-          "version": "3.8.0"
+          "version": "4.0.0"
         }
       ],
       "developers": [],
@@ -1270,76 +1442,129 @@
       ],
       "excerpt": "\n## MySQL CDC Connector\n\nThe MySQL CDC connector allows for reading snapshot data and incremental data from MySQL database. This document describes how to setup the MySQL CDC connector to run SQL queries against MySQL databases.\n[https://ververica.github.io/flink-cdc-connectors/master/content/connectors/mysql-cdc.html](https://ververica.github.io/flink-cdc-connectors/master/content/connectors/mysql-cdc.html)\n",
       "extendPoints": {
+        "com.qlangtech.tis.plugins.incr.flink.cdc.mysql.startup.StartupOptions": [
+          "com.qlangtech.tis.plugins.incr.flink.cdc.mysql.startup.TimestampStartupOptions",
+          "com.qlangtech.tis.plugins.incr.flink.cdc.mysql.startup.LatestStartupOptions",
+          "com.qlangtech.tis.plugins.incr.flink.cdc.mysql.startup.EarliestStartupOptions",
+          "com.qlangtech.tis.plugins.incr.flink.cdc.mysql.startup.InitialStartupOptions"
+        ],
         "com.qlangtech.tis.async.message.client.consumer.impl.MQListenerFactory": [
-          "com.qlangtech.plugins.incr.flink.cdc.mysql.FlinkCDCMySQLSourceFactory"
+          "com.qlangtech.tis.plugins.incr.flink.cdc.mysql.FlinkCDCMySQLSourceFactory"
         ]
       },
-      "gav": "com.qlangtech.tis.plugins:tis-flink-cdc-mysql-plugin:3.8.0",
+      "gav": "com.qlangtech.tis.plugins:tis-flink-cdc-mysql-plugin:4.0.0",
       "labels": [],
       "minimumJavaVersion": "1.8",
       "name": "tis-flink-cdc-mysql-plugin",
       "pluginTags": [],
       "popularity": 1,
-      "releaseTimestamp": "2023-07-20 18:23:51",
+      "releaseTimestamp": "2024-03-07 09:37:52",
       "requiredCore": "1.398",
       "scm": "https://github.com/qlangtech/plugins/tree/master/tis-incr/tis-flink-cdc-mysql-plugin",
       "sha1": "",
       "sha256": "",
-      "size": 23631073,
+      "size": 37598234,
       "supportMultiClassifier": false,
       "title": "tis-flink-cdc-mysql-plugin",
-      "url": "http://mirror.qlangtech.com/3.8.0/tis-plugin/tis-flink-cdc-mysql-plugin.tpi",
-      "version": "3.8.0",
+      "url": "http://mirror.qlangtech.com/4.0.0/tis-plugin/tis-flink-cdc-mysql-plugin.tpi",
+      "version": "4.0.0",
       "wiki": "https://plugins.jenkins.io/tis-flink-cdc-mysql-plugin"
     },
     "tis-flink-cdc-oracle-plugin": {
-      "buildDate": 1689848635110,
+      "buildDate": 1709775479687,
       "dependencies": [
         {
           "name": "tis-datax-common-plugin",
           "optional": false,
-          "version": "3.8.0"
+          "version": "4.0.0"
         },
         {
           "name": "tis-flink-dependency",
           "optional": false,
-          "version": "3.8.0"
+          "version": "4.0.0"
         },
         {
           "name": "tis-realtime-flink",
           "optional": false,
-          "version": "3.8.0"
+          "version": "4.0.0"
         }
       ],
       "developers": [],
       "endTypes": [],
       "excerpt": "\n## Oracle CDC Connector\n\nThe Oracle CDC connector allows for reading snapshot data and incremental data from Oracle database. This document describes how to setup the Oracle CDC connector to run SQL queries against Oracle databases.\n[https://ververica.github.io/flink-cdc-connectors/master/content/connectors/oracle-cdc.html#startup-reading-position](https://ververica.github.io/flink-cdc-connectors/master/content/connectors/oracle-cdc.html#startup-reading-position)\n\n",
       "extendPoints": {},
-      "gav": "com.qlangtech.tis.plugins:tis-flink-cdc-oracle-plugin:3.8.0",
+      "gav": "com.qlangtech.tis.plugins:tis-flink-cdc-oracle-plugin:4.0.0",
       "labels": [],
       "minimumJavaVersion": "1.8",
       "name": "tis-flink-cdc-oracle-plugin",
       "pluginTags": [],
       "popularity": 1,
-      "releaseTimestamp": "2023-07-20 18:23:55",
+      "releaseTimestamp": "2024-03-07 09:37:59",
       "requiredCore": "1.398",
       "scm": "https://github.com/qlangtech/plugins/tree/master/tis-incr/tis-flink-cdc-oracle-plugin",
       "sha1": "",
       "sha256": "",
-      "size": 25096401,
+      "size": 42148794,
       "supportMultiClassifier": false,
       "title": "tis-flink-cdc-oracle-plugin",
-      "url": "http://mirror.qlangtech.com/3.8.0/tis-plugin/tis-flink-cdc-oracle-plugin.tpi",
-      "version": "3.8.0",
+      "url": "http://mirror.qlangtech.com/4.0.0/tis-plugin/tis-flink-cdc-oracle-plugin.tpi",
+      "version": "4.0.0",
       "wiki": "https://plugins.jenkins.io/tis-flink-cdc-oracle-plugin"
     },
+    "tis-flink-cdc-postgresql-plugin": {
+      "buildDate": 1709775476963,
+      "dependencies": [
+        {
+          "name": "tis-datax-postgresql-plugin",
+          "optional": false,
+          "version": "4.0.0"
+        },
+        {
+          "name": "tis-flink-dependency",
+          "optional": false,
+          "version": "4.0.0"
+        },
+        {
+          "name": "tis-realtime-flink",
+          "optional": false,
+          "version": "4.0.0"
+        }
+      ],
+      "developers": [],
+      "endTypes": [
+        "pg"
+      ],
+      "excerpt": "",
+      "extendPoints": {
+        "com.qlangtech.tis.async.message.client.consumer.impl.MQListenerFactory": [
+          "com.qlangtech.plugins.incr.flink.cdc.postgresql.FlinkCDCPostreSQLSourceFactory"
+        ]
+      },
+      "gav": "com.qlangtech.tis.plugins:tis-flink-cdc-postgresql-plugin:4.0.0",
+      "labels": [],
+      "minimumJavaVersion": "1.8",
+      "name": "tis-flink-cdc-postgresql-plugin",
+      "pluginTags": [],
+      "popularity": 1,
+      "releaseTimestamp": "2024-03-07 09:37:56",
+      "requiredCore": "1.398",
+      "scm": "https://github.com/qlangtech/plugins/tree/master/tis-incr/tis-flink-cdc-postgresql-plugin",
+      "sha1": "",
+      "sha256": "",
+      "size": 17559374,
+      "supportMultiClassifier": false,
+      "title": "tis-flink-cdc-postgresql-plugin",
+      "url": "http://mirror.qlangtech.com/4.0.0/tis-plugin/tis-flink-cdc-postgresql-plugin.tpi",
+      "version": "4.0.0",
+      "wiki": "https://plugins.jenkins.io/tis-flink-cdc-postgresql-plugin"
+    },
     "tis-flink-chunjun-clickhouse-plugin": {
-      "buildDate": 1689848651031,
+      "buildDate": 1709775507913,
       "dependencies": [
         {
           "name": "tis-chunjun-base-plugin",
           "optional": false,
-          "version": "3.8.0"
+          "version": "4.0.0"
         }
       ],
       "developers": [],
@@ -1352,36 +1577,82 @@
           "com.qlangtech.plugins.incr.flink.chunjun.clickhouse.sink.ChunjunClickhouseSinkFactory"
         ]
       },
-      "gav": "com.qlangtech.tis.plugins:tis-flink-chunjun-clickhouse-plugin:3.8.0",
+      "gav": "com.qlangtech.tis.plugins:tis-flink-chunjun-clickhouse-plugin:4.0.0",
       "labels": [],
       "minimumJavaVersion": "1.8",
       "name": "tis-flink-chunjun-clickhouse-plugin",
       "pluginTags": [],
       "popularity": 1,
-      "releaseTimestamp": "2023-07-20 18:24:11",
+      "releaseTimestamp": "2024-03-07 09:38:27",
       "requiredCore": "1.398",
       "scm": "https://github.com/qlangtech/plugins/tree/master/tis-incr/tis-flink-chunjun-clickhouse-plugin",
       "sha1": "",
       "sha256": "",
-      "size": 123383,
+      "size": 124605,
       "supportMultiClassifier": false,
       "title": "tis-flink-chunjun-clickhouse-plugin",
-      "url": "http://mirror.qlangtech.com/3.8.0/tis-plugin/tis-flink-chunjun-clickhouse-plugin.tpi",
-      "version": "3.8.0",
+      "url": "http://mirror.qlangtech.com/4.0.0/tis-plugin/tis-flink-chunjun-clickhouse-plugin.tpi",
+      "version": "4.0.0",
       "wiki": "https://plugins.jenkins.io/tis-flink-chunjun-clickhouse-plugin"
     },
-    "tis-flink-chunjun-doris-plugin": {
-      "buildDate": 1689848646450,
+    "tis-flink-chunjun-dameng-plugin": {
+      "buildDate": 1709775518243,
       "dependencies": [
         {
           "name": "tis-chunjun-base-plugin",
           "optional": false,
-          "version": "3.8.0"
+          "version": "4.0.0"
+        },
+        {
+          "name": "tis-datax-dameng-plugin",
+          "optional": false,
+          "version": "4.0.0"
+        }
+      ],
+      "developers": [],
+      "endTypes": [
+        "oracle",
+        "daMeng"
+      ],
+      "excerpt": "* 封装[Chunjun Dameng Sink](https://github.com/qlangtech/chunjun/tree/2c9e803dec955b1efd3c06d4820cda2071bf93de/chunjun-connectors/chunjun-connector-dameng)组件为TIS用户提供向\n  [Oracle](https://eco.dameng.com/document/dm/zh-cn/start/index.html) 流式写入数据的功能\n\n",
+      "extendPoints": {
+        "com.qlangtech.tis.plugin.incr.TISSinkFactory": [
+          "com.qlangtech.plugins.incr.flink.chunjun.dameng.sink.ChunjunDamengSinkFactory"
+        ],
+        "com.qlangtech.tis.async.message.client.consumer.impl.MQListenerFactory": [
+          "com.qlangtech.plugins.incr.flink.chunjun.dameng.source.ChunjunDamengSourceFactory"
+        ]
+      },
+      "gav": "com.qlangtech.tis.plugins:tis-flink-chunjun-dameng-plugin:4.0.0",
+      "labels": [],
+      "minimumJavaVersion": "1.8",
+      "name": "tis-flink-chunjun-dameng-plugin",
+      "pluginTags": [],
+      "popularity": 1,
+      "releaseTimestamp": "2024-03-07 09:38:38",
+      "requiredCore": "1.398",
+      "scm": "https://github.com/qlangtech/plugins/tree/master/tis-incr/tis-flink-chunjun-dameng-plugin",
+      "sha1": "",
+      "sha256": "",
+      "size": 137083,
+      "supportMultiClassifier": false,
+      "title": "tis-flink-chunjun-dameng-plugin",
+      "url": "http://mirror.qlangtech.com/4.0.0/tis-plugin/tis-flink-chunjun-dameng-plugin.tpi",
+      "version": "4.0.0",
+      "wiki": "https://plugins.jenkins.io/tis-flink-chunjun-dameng-plugin"
+    },
+    "tis-flink-chunjun-doris-plugin": {
+      "buildDate": 1709775502137,
+      "dependencies": [
+        {
+          "name": "tis-chunjun-base-plugin",
+          "optional": false,
+          "version": "4.0.0"
         },
         {
           "name": "tis-datax-doris-plugin",
           "optional": false,
-          "version": "3.8.0"
+          "version": "4.0.0"
         }
       ],
       "developers": [],
@@ -1392,46 +1663,43 @@
       "extendPoints": {
         "com.qlangtech.tis.plugin.incr.TISSinkFactory": [
           "com.qlangtech.plugins.incr.flink.chunjun.doris.sink.ChunjunDorisSinkFactory"
-        ],
-        "com.qlangtech.tis.plugin.datax.IncrSelectedTabExtend": [
-          "com.qlangtech.plugins.incr.flink.chunjun.doris.sink.DorisTabProps"
         ]
       },
-      "gav": "com.qlangtech.tis.plugins:tis-flink-chunjun-doris-plugin:3.8.0",
+      "gav": "com.qlangtech.tis.plugins:tis-flink-chunjun-doris-plugin:4.0.0",
       "labels": [],
       "minimumJavaVersion": "1.8",
       "name": "tis-flink-chunjun-doris-plugin",
       "pluginTags": [],
       "popularity": 1,
-      "releaseTimestamp": "2023-07-20 18:24:06",
+      "releaseTimestamp": "2024-03-07 09:38:22",
       "requiredCore": "1.398",
       "scm": "https://github.com/qlangtech/plugins/tree/master/tis-incr/tis-flink-chunjun-doris-plugin",
       "sha1": "",
       "sha256": "",
-      "size": 1806863,
+      "size": 1808407,
       "supportMultiClassifier": false,
       "title": "tis-flink-chunjun-doris-plugin",
-      "url": "http://mirror.qlangtech.com/3.8.0/tis-plugin/tis-flink-chunjun-doris-plugin.tpi",
-      "version": "3.8.0",
+      "url": "http://mirror.qlangtech.com/4.0.0/tis-plugin/tis-flink-chunjun-doris-plugin.tpi",
+      "version": "4.0.0",
       "wiki": "https://plugins.jenkins.io/tis-flink-chunjun-doris-plugin"
     },
     "tis-flink-chunjun-kafka-plugin": {
-      "buildDate": 1689848669037,
+      "buildDate": 1709775514141,
       "dependencies": [
         {
           "name": "tis-chunjun-base-plugin",
           "optional": false,
-          "version": "3.8.0"
+          "version": "4.0.0"
         },
         {
           "name": "tis-datax-kafka-plugin",
           "optional": false,
-          "version": "3.8.0"
+          "version": "4.0.0"
         },
         {
           "name": "tis-flink-msg-format-plugin",
           "optional": false,
-          "version": "3.8.0"
+          "version": "4.0.0"
         }
       ],
       "developers": [],
@@ -1444,46 +1712,46 @@
           "com.qlangtech.tis.plugins.incr.flink.chunjun.kafka.sink.ChujunKafkaSinkFactory"
         ]
       },
-      "gav": "com.qlangtech.tis.plugins:tis-flink-chunjun-kafka-plugin:3.8.0",
+      "gav": "com.qlangtech.tis.plugins:tis-flink-chunjun-kafka-plugin:4.0.0",
       "labels": [],
       "minimumJavaVersion": "1.8",
       "name": "tis-flink-chunjun-kafka-plugin",
       "pluginTags": [],
       "popularity": 1,
-      "releaseTimestamp": "2023-07-20 18:24:29",
+      "releaseTimestamp": "2024-03-07 09:38:34",
       "requiredCore": "1.398",
       "scm": "https://github.com/qlangtech/plugins/tree/master/tis-incr/tis-flink-chunjun-kafka-plugin",
       "sha1": "",
       "sha256": "",
-      "size": 3549300,
+      "size": 4052981,
       "supportMultiClassifier": false,
       "title": "tis-flink-chunjun-kafka-plugin",
-      "url": "http://mirror.qlangtech.com/3.8.0/tis-plugin/tis-flink-chunjun-kafka-plugin.tpi",
-      "version": "3.8.0",
+      "url": "http://mirror.qlangtech.com/4.0.0/tis-plugin/tis-flink-chunjun-kafka-plugin.tpi",
+      "version": "4.0.0",
       "wiki": "https://plugins.jenkins.io/tis-flink-chunjun-kafka-plugin"
     },
     "tis-flink-chunjun-mysql-plugin": {
-      "buildDate": 1689848645417,
+      "buildDate": 1709775500650,
       "dependencies": [
         {
           "name": "tis-chunjun-base-plugin",
           "optional": false,
-          "version": "3.8.0"
+          "version": "4.0.0"
         },
         {
           "name": "tis-ds-mysql-plugin",
           "optional": false,
-          "version": "3.8.0"
+          "version": "4.0.0"
         },
         {
           "name": "tis-flink-dependency",
           "optional": false,
-          "version": "3.8.0"
+          "version": "4.0.0"
         },
         {
           "name": "tis-realtime-flink",
           "optional": false,
-          "version": "3.8.0"
+          "version": "4.0.0"
         }
       ],
       "developers": [],
@@ -1494,41 +1762,38 @@
       "extendPoints": {
         "com.qlangtech.tis.plugin.incr.TISSinkFactory": [
           "com.qlangtech.tis.plugins.incr.flink.connector.sink.MySQLSinkFactory"
-        ],
-        "com.qlangtech.tis.async.message.client.consumer.impl.MQListenerFactory": [
-          "com.qlangtech.tis.plugins.incr.flink.connector.source.MySQLSourceFactory"
         ]
       },
-      "gav": "com.qlangtech.tis.plugins:tis-flink-chunjun-mysql-plugin:3.8.0",
+      "gav": "com.qlangtech.tis.plugins:tis-flink-chunjun-mysql-plugin:4.0.0",
       "labels": [],
       "minimumJavaVersion": "1.8",
       "name": "tis-flink-chunjun-mysql-plugin",
       "pluginTags": [],
       "popularity": 1,
-      "releaseTimestamp": "2023-07-20 18:24:05",
+      "releaseTimestamp": "2024-03-07 09:38:20",
       "requiredCore": "1.398",
       "scm": "https://github.com/qlangtech/plugins/tree/master/tis-incr/tis-flink-chunjun-mysql-plugin",
       "sha1": "",
       "sha256": "",
-      "size": 123875,
+      "size": 125134,
       "supportMultiClassifier": false,
       "title": "tis-flink-chunjun-mysql-plugin",
-      "url": "http://mirror.qlangtech.com/3.8.0/tis-plugin/tis-flink-chunjun-mysql-plugin.tpi",
-      "version": "3.8.0",
+      "url": "http://mirror.qlangtech.com/4.0.0/tis-plugin/tis-flink-chunjun-mysql-plugin.tpi",
+      "version": "4.0.0",
       "wiki": "https://plugins.jenkins.io/tis-flink-chunjun-mysql-plugin"
     },
     "tis-flink-chunjun-oracle-plugin": {
-      "buildDate": 1689848649163,
+      "buildDate": 1709775505609,
       "dependencies": [
         {
           "name": "tis-chunjun-base-plugin",
           "optional": false,
-          "version": "3.8.0"
+          "version": "4.0.0"
         },
         {
           "name": "tis-datax-oracle-plugin",
           "optional": false,
-          "version": "3.8.0"
+          "version": "4.0.0"
         }
       ],
       "developers": [],
@@ -1544,31 +1809,31 @@
           "com.qlangtech.plugins.incr.flink.chunjun.oracle.source.ChunjunOracleSourceFactory"
         ]
       },
-      "gav": "com.qlangtech.tis.plugins:tis-flink-chunjun-oracle-plugin:3.8.0",
+      "gav": "com.qlangtech.tis.plugins:tis-flink-chunjun-oracle-plugin:4.0.0",
       "labels": [],
       "minimumJavaVersion": "1.8",
       "name": "tis-flink-chunjun-oracle-plugin",
       "pluginTags": [],
       "popularity": 1,
-      "releaseTimestamp": "2023-07-20 18:24:09",
+      "releaseTimestamp": "2024-03-07 09:38:25",
       "requiredCore": "1.398",
       "scm": "https://github.com/qlangtech/plugins/tree/master/tis-incr/tis-flink-chunjun-oracle-plugin",
       "sha1": "",
       "sha256": "",
-      "size": 139435,
+      "size": 140621,
       "supportMultiClassifier": false,
       "title": "tis-flink-chunjun-oracle-plugin",
-      "url": "http://mirror.qlangtech.com/3.8.0/tis-plugin/tis-flink-chunjun-oracle-plugin.tpi",
-      "version": "3.8.0",
+      "url": "http://mirror.qlangtech.com/4.0.0/tis-plugin/tis-flink-chunjun-oracle-plugin.tpi",
+      "version": "4.0.0",
       "wiki": "https://plugins.jenkins.io/tis-flink-chunjun-oracle-plugin"
     },
     "tis-flink-chunjun-postgresql-plugin": {
-      "buildDate": 1689848647943,
+      "buildDate": 1709775504033,
       "dependencies": [
         {
           "name": "tis-chunjun-base-plugin",
           "optional": false,
-          "version": "3.8.0"
+          "version": "4.0.0"
         }
       ],
       "developers": [],
@@ -1584,36 +1849,36 @@
           "com.qlangtech.plugins.incr.flink.chunjun.postgresql.source.ChunjunPostgreSQLSourceFactory"
         ]
       },
-      "gav": "com.qlangtech.tis.plugins:tis-flink-chunjun-postgresql-plugin:3.8.0",
+      "gav": "com.qlangtech.tis.plugins:tis-flink-chunjun-postgresql-plugin:4.0.0",
       "labels": [],
       "minimumJavaVersion": "1.8",
       "name": "tis-flink-chunjun-postgresql-plugin",
       "pluginTags": [],
       "popularity": 1,
-      "releaseTimestamp": "2023-07-20 18:24:07",
+      "releaseTimestamp": "2024-03-07 09:38:24",
       "requiredCore": "1.398",
       "scm": "https://github.com/qlangtech/plugins/tree/master/tis-incr/tis-flink-chunjun-postgresql-plugin",
       "sha1": "",
       "sha256": "",
-      "size": 1218377,
+      "size": 1219606,
       "supportMultiClassifier": false,
       "title": "tis-flink-chunjun-postgresql-plugin",
-      "url": "http://mirror.qlangtech.com/3.8.0/tis-plugin/tis-flink-chunjun-postgresql-plugin.tpi",
-      "version": "3.8.0",
+      "url": "http://mirror.qlangtech.com/4.0.0/tis-plugin/tis-flink-chunjun-postgresql-plugin.tpi",
+      "version": "4.0.0",
       "wiki": "https://plugins.jenkins.io/tis-flink-chunjun-postgresql-plugin"
     },
     "tis-flink-chunjun-starrocks-plugin": {
-      "buildDate": 1689848652707,
+      "buildDate": 1709775509770,
       "dependencies": [
         {
           "name": "tis-chunjun-base-plugin",
           "optional": false,
-          "version": "3.8.0"
+          "version": "4.0.0"
         },
         {
           "name": "tis-datax-starrocks-plugin",
           "optional": false,
-          "version": "3.8.0"
+          "version": "4.0.0"
         }
       ],
       "developers": [],
@@ -1626,56 +1891,87 @@
           "com.qlangtech.tis.plugins.incr.flink.chunjun.starrocks.sink.ChunjunStarRocksSinkFactory"
         ]
       },
-      "gav": "com.qlangtech.tis.plugins:tis-flink-chunjun-starrocks-plugin:3.8.0",
+      "gav": "com.qlangtech.tis.plugins:tis-flink-chunjun-starrocks-plugin:4.0.0",
       "labels": [],
       "minimumJavaVersion": "1.8",
       "name": "tis-flink-chunjun-starrocks-plugin",
       "pluginTags": [],
       "popularity": 1,
-      "releaseTimestamp": "2023-07-20 18:24:12",
+      "releaseTimestamp": "2024-03-07 09:38:29",
       "requiredCore": "1.398",
       "scm": "https://github.com/qlangtech/plugins/tree/master/tis-incr/tis-flink-chunjun-starrocks-plugin",
       "sha1": "",
       "sha256": "",
-      "size": 4938993,
+      "size": 6507380,
       "supportMultiClassifier": false,
       "title": "tis-flink-chunjun-starrocks-plugin",
-      "url": "http://mirror.qlangtech.com/3.8.0/tis-plugin/tis-flink-chunjun-starrocks-plugin.tpi",
-      "version": "3.8.0",
+      "url": "http://mirror.qlangtech.com/4.0.0/tis-plugin/tis-flink-chunjun-starrocks-plugin.tpi",
+      "version": "4.0.0",
       "wiki": "https://plugins.jenkins.io/tis-flink-chunjun-starrocks-plugin"
     },
     "tis-flink-dependency": {
-      "buildDate": 1689848504590,
+      "buildDate": 1709775431730,
       "dependencies": [],
       "developers": [],
       "endTypes": [],
       "excerpt": "",
       "extendPoints": {},
-      "gav": "com.qlangtech.tis.plugins:tis-flink-dependency:3.8.0",
+      "gav": "com.qlangtech.tis.plugins:tis-flink-dependency:4.0.0",
       "labels": [],
       "minimumJavaVersion": "1.8",
       "name": "tis-flink-dependency",
       "pluginTags": [],
       "popularity": 1,
-      "releaseTimestamp": "2023-07-20 18:21:44",
+      "releaseTimestamp": "2024-03-07 09:37:11",
       "requiredCore": "1.398",
       "scm": "https://github.com/qlangtech/plugins/tree/master/tis-incr/tis-flink-dependency",
       "sha1": "",
       "sha256": "",
-      "size": 107771814,
+      "size": 118478823,
       "supportMultiClassifier": false,
       "title": "tis-flink-dependency",
-      "url": "http://mirror.qlangtech.com/3.8.0/tis-plugin/tis-flink-dependency.tpi",
-      "version": "3.8.0",
+      "url": "http://mirror.qlangtech.com/4.0.0/tis-plugin/tis-flink-dependency.tpi",
+      "version": "4.0.0",
       "wiki": "https://plugins.jenkins.io/tis-flink-dependency"
     },
+    "tis-flink-extends-plugin": {
+      "buildDate": 1709775439660,
+      "dependencies": [
+        {
+          "name": "tis-flink-dependency",
+          "optional": false,
+          "version": "4.0.0"
+        }
+      ],
+      "developers": [],
+      "endTypes": [],
+      "excerpt": "",
+      "extendPoints": {},
+      "gav": "com.qlangtech.tis.plugins:tis-flink-extends-plugin:4.0.0",
+      "labels": [],
+      "minimumJavaVersion": "1.8",
+      "name": "tis-flink-extends-plugin",
+      "pluginTags": [],
+      "popularity": 1,
+      "releaseTimestamp": "2024-03-07 09:37:19",
+      "requiredCore": "1.398",
+      "scm": "https://github.com/qlangtech/plugins/tree/master/tis-incr/tis-flink-extends-plugin",
+      "sha1": "",
+      "sha256": "",
+      "size": 64390,
+      "supportMultiClassifier": false,
+      "title": "tis-flink-extends-plugin",
+      "url": "http://mirror.qlangtech.com/4.0.0/tis-plugin/tis-flink-extends-plugin.tpi",
+      "version": "4.0.0",
+      "wiki": "https://plugins.jenkins.io/tis-flink-extends-plugin"
+    },
     "tis-flink-msg-format-plugin": {
-      "buildDate": 1689848653870,
+      "buildDate": 1709775512316,
       "dependencies": [
         {
           "name": "tis-realtime-flink",
           "optional": false,
-          "version": "3.8.0"
+          "version": "4.0.0"
         }
       ],
       "developers": [],
@@ -1687,63 +1983,65 @@
           "com.qlangtech.tis.plugins.incr.flink.chunjun.kafka.format.TISDebeziumJsonFormatFactory"
         ]
       },
-      "gav": "com.qlangtech.tis.plugins:tis-flink-msg-format-plugin:3.8.0",
+      "gav": "com.qlangtech.tis.plugins:tis-flink-msg-format-plugin:4.0.0",
       "labels": [],
       "minimumJavaVersion": "1.8",
       "name": "tis-flink-msg-format-plugin",
       "pluginTags": [],
       "popularity": 1,
-      "releaseTimestamp": "2023-07-20 18:24:13",
+      "releaseTimestamp": "2024-03-07 09:38:32",
       "requiredCore": "1.398",
       "scm": "https://github.com/qlangtech/plugins/tree/master/tis-incr/tis-flink-msg-format-plugin",
       "sha1": "",
       "sha256": "",
-      "size": 182103,
+      "size": 238891,
       "supportMultiClassifier": false,
       "title": "tis-flink-msg-format-plugin",
-      "url": "http://mirror.qlangtech.com/3.8.0/tis-plugin/tis-flink-msg-format-plugin.tpi",
-      "version": "3.8.0",
+      "url": "http://mirror.qlangtech.com/4.0.0/tis-plugin/tis-flink-msg-format-plugin.tpi",
+      "version": "4.0.0",
       "wiki": "https://plugins.jenkins.io/tis-flink-msg-format-plugin"
     },
     "tis-hive-flat-table-builder-plugin": {
-      "buildDate": 1689676674565,
+      "buildDate": 1709775357210,
       "classifier": [
         {
           "classifier": "hive_2.3.1;hadoop_2.7.3",
-          "downloadUrl": "http://mirror.qlangtech.com/3.8.0/tis-plugin/tis-hive-flat-table-builder-plugin/tis-hive-flat-table-builder-plugin_hive_2.3.1_hadoop_2.7.3.tpi",
-          "gav": "com.qlangtech.tis.plugins:tis-hive-flat-table-builder-plugin_hive_2.3.1_hadoop_2.7.3:3.8.0",
+          "downloadUrl": "http://mirror.qlangtech.com/4.0.0/tis-plugin/tis-hive-flat-table-builder-plugin/tis-hive-flat-table-builder-plugin_hive_2.3.1_hadoop_2.7.3.tpi",
+          "gav": "com.qlangtech.tis.plugins:tis-hive-flat-table-builder-plugin_hive_2.3.1_hadoop_2.7.3:4.0.0",
           "sha1": "",
           "sha256": "",
-          "size": 249832
-        },
-        {
-          "classifier": "hive_2.3.1;hadoop_2.8.4",
-          "downloadUrl": "http://mirror.qlangtech.com/3.8.0/tis-plugin/tis-hive-flat-table-builder-plugin/tis-hive-flat-table-builder-plugin_hive_2.3.1_hadoop_2.8.4.tpi",
-          "gav": "com.qlangtech.tis.plugins:tis-hive-flat-table-builder-plugin_hive_2.3.1_hadoop_2.8.4:3.8.0",
-          "sha1": "",
-          "sha256": "",
-          "size": 310619
+          "size": 268082
         }
       ],
       "dependencies": [
         {
           "name": "tis-datax-common-plugin",
           "optional": false,
-          "version": "3.8.0"
+          "version": "4.0.0"
+        },
+        {
+          "name": "tis-datax-dfs-plugin",
+          "optional": false,
+          "version": "4.0.0"
         },
         {
           "name": "tis-hive-plugin",
           "optional": false,
-          "version": "3.8.0"
+          "version": "4.0.0"
         }
       ],
       "developers": [],
-      "endTypes": [],
+      "endTypes": [
+        "hms"
+      ],
       "excerpt": "* 支持将数据写入到HDFS分布式存储中",
       "extendPoints": {
         "com.qlangtech.tis.plugin.datax.TabNameDecorator": [
           "com.qlangtech.tis.plugin.datax.impl.TabPrefixDecorator",
           "com.qlangtech.tis.plugin.datax.impl.NoneTabNameDecorator"
+        ],
+        "com.qlangtech.tis.datax.impl.DataxReader": [
+          "com.qlangtech.tis.hive.reader.DataXHiveReader"
         ],
         "com.qlangtech.tis.config.spark.SparkConnStrategy": [
           "com.qlangtech.tis.config.spark.impl.YarnConnStrategy",
@@ -1756,62 +2054,67 @@
         "com.qlangtech.tis.config.ParamsConfig": [
           "com.qlangtech.tis.config.spark.impl.DefaultSparkConnGetter",
           "com.qlangtech.tis.config.yarn.YarnConfig"
+        ],
+        "com.qlangtech.tis.plugin.tdfs.TDFSLinker": [
+          "com.qlangtech.tis.hive.reader.HiveDFSLinker"
         ]
       },
       "labels": [],
       "minimumJavaVersion": "1.8",
       "name": "tis-hive-flat-table-builder-plugin",
-      "pluginTags": [],
+      "pluginTags": [
+        "offline_parser"
+      ],
       "popularity": 1,
-      "releaseTimestamp": "2023-07-18 18:37:54",
+      "releaseTimestamp": "2024-03-07 09:35:57",
       "requiredCore": "1.398",
       "scm": "https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-hive-flat-table-builder-plugin",
       "supportMultiClassifier": true,
       "title": "tis-hive-flat-table-builder-plugin",
-      "version": "3.8.0",
+      "version": "4.0.0",
       "wiki": "https://plugins.jenkins.io/tis-hive-flat-table-builder-plugin"
     },
     "tis-hive-plugin": {
-      "buildDate": 1689676667017,
+      "buildDate": 1709775349452,
       "classifier": [
         {
           "classifier": "hive_2.3.1;hadoop_2.7.3",
-          "downloadUrl": "http://mirror.qlangtech.com/3.8.0/tis-plugin/tis-hive-plugin/tis-hive-plugin_hive_2.3.1_hadoop_2.7.3.tpi",
-          "gav": "com.qlangtech.tis.plugins:tis-hive-plugin_hive_2.3.1_hadoop_2.7.3:3.8.0",
+          "downloadUrl": "http://mirror.qlangtech.com/4.0.0/tis-plugin/tis-hive-plugin/tis-hive-plugin_hive_2.3.1_hadoop_2.7.3.tpi",
+          "gav": "com.qlangtech.tis.plugins:tis-hive-plugin_hive_2.3.1_hadoop_2.7.3:4.0.0",
           "sha1": "",
           "sha256": "",
-          "size": 107664146
-        },
-        {
-          "classifier": "hive_2.3.1;hadoop_2.8.4",
-          "downloadUrl": "http://mirror.qlangtech.com/3.8.0/tis-plugin/tis-hive-plugin/tis-hive-plugin_hive_2.3.1_hadoop_2.8.4.tpi",
-          "gav": "com.qlangtech.tis.plugins:tis-hive-plugin_hive_2.3.1_hadoop_2.8.4:3.8.0",
-          "sha1": "",
-          "sha256": "",
-          "size": 112223083
+          "size": 107965182
         }
       ],
       "dependencies": [
         {
           "name": "tis-datax-common-plugin",
           "optional": false,
-          "version": "3.8.0"
+          "version": "4.0.0"
         },
         {
           "name": "tis-datax-hdfs-plugin",
           "optional": false,
-          "version": "3.8.0"
+          "version": "4.0.0"
         }
       ],
       "developers": [],
-      "endTypes": [],
+      "endTypes": [
+        "hms"
+      ],
       "excerpt": "",
       "extendPoints": {
         "com.qlangtech.tis.config.ParamsConfig": [
           "com.qlangtech.tis.hive.DefaultHiveConnGetter"
         ],
+        "com.qlangtech.tis.hive.Hms": [
+          "com.qlangtech.tis.hive.Hms"
+        ],
         "com.qlangtech.tis.plugin.ds.DataSourceFactory": [
           "com.qlangtech.tis.hive.Hiveserver2DataSourceFactory"
+        ],
+        "com.qlangtech.tis.hive.HiveMeta": [
+          "com.qlangtech.tis.hive.HiveMeta"
         ]
       },
       "labels": [],
@@ -1819,55 +2122,83 @@
       "name": "tis-hive-plugin",
       "pluginTags": [],
       "popularity": 1,
-      "releaseTimestamp": "2023-07-18 18:37:47",
+      "releaseTimestamp": "2024-03-07 09:35:49",
       "requiredCore": "1.398",
       "scm": "https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-hive-plugin",
       "supportMultiClassifier": true,
       "title": "tis-hive-plugin",
-      "version": "3.8.0",
+      "version": "4.0.0",
       "wiki": "https://plugins.jenkins.io/tis-hive-plugin"
     },
     "tis-k8s-plugin": {
-      "buildDate": 1689848601985,
-      "dependencies": [],
+      "buildDate": 1709775441047,
+      "dependencies": [
+        {
+          "name": "tis-powerjob-common-plugin",
+          "optional": false,
+          "version": "4.0.0"
+        }
+      ],
       "developers": [],
-      "endTypes": [],
+      "endTypes": [
+        "powerjob",
+        "k8s",
+        "docker"
+      ],
       "excerpt": "* 支持将将TIS中的部分任务提交到K8S容器中执行\n\n  现支持以下这些任务类型：\n  \n  1. Alibaba DataX任务\n  2. 数据实时增量同步任务",
       "extendPoints": {
         "com.qlangtech.tis.datax.job.DataXJobWorker": [
-          "com.qlangtech.tis.plugin.datax.K8SDataXJobWorker"
+          "com.qlangtech.tis.plugin.datax.powerjob.K8SDataXPowerJobServer",
+          "com.qlangtech.tis.plugin.datax.powerjob.K8SDataXPowerJobWorker"
+        ],
+        "com.qlangtech.tis.plugin.datax.powerjob.PowerJobOMS": [
+          "com.qlangtech.tis.plugin.datax.powerjob.PowerJobOMS"
+        ],
+        "com.qlangtech.tis.plugin.datax.powerjob.PowerJobOMSStorage": [
+          "com.qlangtech.tis.plugin.datax.powerjob.impl.oms.NonePowerJobOMSStorage",
+          "com.qlangtech.tis.plugin.datax.powerjob.impl.oms.MySQLPowerJobOMSStorage"
+        ],
+        "com.qlangtech.tis.plugin.datax.powerjob.ServerPortExport": [
+          "com.qlangtech.tis.plugin.datax.powerjob.impl.serverport.NodePort",
+          "com.qlangtech.tis.plugin.datax.powerjob.impl.serverport.LoadBalance",
+          "com.qlangtech.tis.plugin.datax.powerjob.impl.serverport.Ingress"
         ],
         "com.qlangtech.tis.config.ParamsConfig": [
           "com.qlangtech.tis.config.k8s.impl.DefaultK8sContext"
         ],
         "com.qlangtech.tis.plugin.k8s.K8sImage": [
-          "com.qlangtech.tis.config.k8s.impl.DefaultK8SImage"
+          "com.qlangtech.tis.config.k8s.impl.DefaultK8SImage",
+          "com.qlangtech.tis.plugin.datax.powerjob.PowerJobK8SImage"
+        ],
+        "com.qlangtech.tis.plugin.datax.powerjob.PowerjobCoreDataSource": [
+          "com.qlangtech.tis.plugin.datax.powerjob.impl.coresource.DefaultPowerjobCoreDataSource",
+          "com.qlangtech.tis.plugin.datax.powerjob.impl.coresource.EmbeddedPowerjobCoreDataSource"
         ]
       },
-      "gav": "com.qlangtech.tis.plugins:tis-k8s-plugin:3.8.0",
+      "gav": "com.qlangtech.tis.plugins:tis-k8s-plugin:4.0.0",
       "labels": [],
       "minimumJavaVersion": "1.8",
       "name": "tis-k8s-plugin",
       "pluginTags": [],
       "popularity": 1,
-      "releaseTimestamp": "2023-07-20 18:23:21",
+      "releaseTimestamp": "2024-03-07 09:37:21",
       "requiredCore": "1.398",
       "scm": "https://github.com/qlangtech/plugins/tree/master/tis-k8s-plugin",
       "sha1": "",
       "sha256": "",
-      "size": 34533462,
+      "size": 34600345,
       "supportMultiClassifier": false,
       "title": "tis-k8s-plugin",
-      "url": "http://mirror.qlangtech.com/3.8.0/tis-plugin/tis-k8s-plugin.tpi",
-      "version": "3.8.0",
+      "url": "http://mirror.qlangtech.com/4.0.0/tis-plugin/tis-k8s-plugin.tpi",
+      "version": "4.0.0",
       "wiki": "https://plugins.jenkins.io/tis-k8s-plugin"
     },
     "tis-kerberos-plugin": {
-      "buildDate": 1689848671594,
+      "buildDate": 1709775521045,
       "dependencies": [],
       "developers": [],
       "endTypes": [],
-      "excerpt": "",
+      "excerpt": "* 本插件提供基于Kerberos认证支持的功能\n  \n\n",
       "extendPoints": {
         "com.qlangtech.tis.config.kerberos.Krb5Res": [
           "com.qlangtech.tis.kerberos.impl.UploadKrb5Res",
@@ -1880,52 +2211,91 @@
           "com.qlangtech.tis.kerberos.KerberosCfg"
         ]
       },
-      "gav": "com.qlangtech.tis.plugins:tis-kerberos-plugin:3.8.0",
+      "gav": "com.qlangtech.tis.plugins:tis-kerberos-plugin:4.0.0",
       "labels": [],
       "minimumJavaVersion": "1.8",
       "name": "tis-kerberos-plugin",
       "pluginTags": [],
       "popularity": 1,
-      "releaseTimestamp": "2023-07-20 18:24:31",
+      "releaseTimestamp": "2024-03-07 09:38:41",
       "requiredCore": "1.398",
       "scm": "https://github.com/qlangtech/plugins/tree/master/tis-kerberos-plugin",
       "sha1": "",
       "sha256": "",
-      "size": 15177,
+      "size": 15272,
       "supportMultiClassifier": false,
       "title": "tis-kerberos-plugin",
-      "url": "http://mirror.qlangtech.com/3.8.0/tis-plugin/tis-kerberos-plugin.tpi",
-      "version": "3.8.0",
+      "url": "http://mirror.qlangtech.com/4.0.0/tis-plugin/tis-kerberos-plugin.tpi",
+      "version": "4.0.0",
       "wiki": "https://plugins.jenkins.io/tis-kerberos-plugin"
     },
+    "tis-powerjob-common-plugin": {
+      "buildDate": 1709775312272,
+      "dependencies": [],
+      "developers": [],
+      "endTypes": [],
+      "excerpt": "",
+      "extendPoints": {},
+      "gav": "com.qlangtech.tis.plugins:tis-powerjob-common-plugin:4.0.0",
+      "labels": [],
+      "minimumJavaVersion": "1.8",
+      "name": "tis-powerjob-common-plugin",
+      "pluginTags": [],
+      "popularity": 1,
+      "releaseTimestamp": "2024-03-07 09:35:12",
+      "requiredCore": "1.398",
+      "scm": "https://github.com/qlangtech/plugins/tree/master/tis-powerjob-common-plugin",
+      "sha1": "",
+      "sha256": "",
+      "size": 4597053,
+      "supportMultiClassifier": false,
+      "title": "tis-powerjob-common-plugin",
+      "url": "http://mirror.qlangtech.com/4.0.0/tis-plugin/tis-powerjob-common-plugin.tpi",
+      "version": "4.0.0",
+      "wiki": "https://plugins.jenkins.io/tis-powerjob-common-plugin"
+    },
     "tis-realtime-flink": {
-      "buildDate": 1689848610132,
+      "buildDate": 1709775449475,
       "dependencies": [
         {
           "name": "tis-flink-dependency",
           "optional": false,
-          "version": "3.8.0"
+          "version": "4.0.0"
+        },
+        {
+          "name": "tis-flink-extends-plugin",
+          "optional": false,
+          "version": "4.0.0"
         },
         {
           "name": "tis-k8s-plugin",
           "optional": false,
-          "version": "3.8.0"
+          "version": "4.0.0"
         }
       ],
       "developers": [],
-      "endTypes": [],
+      "endTypes": [
+        "flink",
+        "docker"
+      ],
       "excerpt": "封装了和Flink任务相关的组件，启动Flink任务需要设置的`CheckPoint`、`statbackend`、`RestartStrategy` 相关配置都封装在该组件中\n",
       "extendPoints": {
         "com.qlangtech.tis.datax.job.DataXJobWorker": [
-          "com.qlangtech.plugins.incr.flink.cluster.FlinkK8SClusterManager"
+          "com.qlangtech.plugins.incr.flink.cluster.FlinkK8SClusterManager",
+          "com.qlangtech.plugins.incr.flink.cluster.KubernetesApplicationClusterConfig"
         ],
         "com.qlangtech.plugins.incr.flink.launch.StateBackendFactory": [
+          "com.qlangtech.plugins.incr.flink.launch.statbackend.MemoryState",
           "com.qlangtech.plugins.incr.flink.launch.statbackend.OFF",
-          "com.qlangtech.plugins.incr.flink.launch.statbackend.FileSystemState",
-          "com.qlangtech.plugins.incr.flink.launch.statbackend.MemoryState"
+          "com.qlangtech.plugins.incr.flink.launch.statbackend.FileSystemState"
         ],
         "com.qlangtech.tis.plugin.incr.IncrStreamFactory": [
           "com.qlangtech.plugins.incr.flink.launch.TISFlinkCDCStreamFactory"
+        ],
+        "com.qlangtech.plugins.incr.flink.launch.clustertype.ClusterType": [
+          "com.qlangtech.plugins.incr.flink.launch.clustertype.KubernetesSession",
+          "com.qlangtech.plugins.incr.flink.launch.clustertype.Standalone",
+          "com.qlangtech.plugins.incr.flink.launch.clustertype.KubernetesApplication"
         ],
         "com.qlangtech.plugins.incr.flink.launch.CheckpointFactory": [
           "com.qlangtech.plugins.incr.flink.launch.ckpt.CKOn",
@@ -1934,6 +2304,9 @@
         "com.qlangtech.tis.config.ParamsConfig": [
           "com.qlangtech.plugins.incr.flink.common.FlinkCluster"
         ],
+        "com.qlangtech.tis.plugin.k8s.K8sImage": [
+          "com.qlangtech.plugins.incr.flink.common.FlinkK8SImage"
+        ],
         "com.qlangtech.plugins.incr.flink.launch.RestartStrategyFactory": [
           "com.qlangtech.plugins.incr.flink.launch.restart.FixedDelay",
           "com.qlangtech.plugins.incr.flink.launch.restart.ExponentialDelay",
@@ -1941,41 +2314,41 @@
           "com.qlangtech.plugins.incr.flink.launch.restart.OFF"
         ]
       },
-      "gav": "com.qlangtech.tis.plugins:tis-realtime-flink:3.8.0",
+      "gav": "com.qlangtech.tis.plugins:tis-realtime-flink:4.0.0",
       "labels": [],
       "minimumJavaVersion": "1.8",
       "name": "tis-realtime-flink",
       "pluginTags": [],
       "popularity": 1,
-      "releaseTimestamp": "2023-07-20 18:23:30",
+      "releaseTimestamp": "2024-03-07 09:37:29",
       "requiredCore": "1.398",
       "scm": "https://github.com/qlangtech/plugins/tree/master/tis-incr/tis-realtime-flink",
       "sha1": "",
       "sha256": "",
-      "size": 80067147,
+      "size": 73632890,
       "supportMultiClassifier": false,
       "title": "tis-realtime-flink",
-      "url": "http://mirror.qlangtech.com/3.8.0/tis-plugin/tis-realtime-flink.tpi",
-      "version": "3.8.0",
+      "url": "http://mirror.qlangtech.com/4.0.0/tis-plugin/tis-realtime-flink.tpi",
+      "version": "4.0.0",
       "wiki": "https://plugins.jenkins.io/tis-realtime-flink"
     },
     "tis-sink-elasticsearch7-plugin": {
-      "buildDate": 1689848628482,
+      "buildDate": 1709775466999,
       "dependencies": [
         {
           "name": "tis-datax-elasticsearch-plugin",
           "optional": false,
-          "version": "3.8.0"
+          "version": "4.0.0"
         },
         {
           "name": "tis-flink-dependency",
           "optional": false,
-          "version": "3.8.0"
+          "version": "4.0.0"
         },
         {
           "name": "tis-realtime-flink",
           "optional": false,
-          "version": "3.8.0"
+          "version": "4.0.0"
         }
       ],
       "developers": [],
@@ -1988,71 +2361,63 @@
           "com.qlangtech.tis.plugins.incr.flink.connector.elasticsearch7.ElasticSearchSinkFactory"
         ]
       },
-      "gav": "com.qlangtech.tis.plugins:tis-sink-elasticsearch7-plugin:3.8.0",
+      "gav": "com.qlangtech.tis.plugins:tis-sink-elasticsearch7-plugin:4.0.0",
       "labels": [],
       "minimumJavaVersion": "1.8",
       "name": "tis-sink-elasticsearch7-plugin",
       "pluginTags": [],
       "popularity": 1,
-      "releaseTimestamp": "2023-07-20 18:23:48",
+      "releaseTimestamp": "2024-03-07 09:37:46",
       "requiredCore": "1.398",
       "scm": "https://github.com/qlangtech/plugins/tree/master/tis-incr/tis-sink-elasticsearch7-plugin",
       "sha1": "",
       "sha256": "",
-      "size": 24358554,
+      "size": 50280918,
       "supportMultiClassifier": false,
       "title": "tis-sink-elasticsearch7-plugin",
-      "url": "http://mirror.qlangtech.com/3.8.0/tis-plugin/tis-sink-elasticsearch7-plugin.tpi",
-      "version": "3.8.0",
+      "url": "http://mirror.qlangtech.com/4.0.0/tis-plugin/tis-sink-elasticsearch7-plugin.tpi",
+      "version": "4.0.0",
       "wiki": "https://plugins.jenkins.io/tis-sink-elasticsearch7-plugin"
     },
     "tis-sink-hudi-plugin": {
-      "buildDate": 1689676773742,
+      "buildDate": 1709775487725,
       "classifier": [
         {
-          "classifier": "hudi_0.10.1;spark_2.4.4;hive_2.3.1;hadoop_2.7.3",
-          "downloadUrl": "http://mirror.qlangtech.com/3.8.0/tis-plugin/tis-sink-hudi-plugin/tis-sink-hudi-plugin_hudi_0.10.1_spark_2.4.4_hive_2.3.1_hadoop_2.7.3.tpi",
-          "gav": "com.qlangtech.tis.plugins:tis-sink-hudi-plugin_hudi_0.10.1_spark_2.4.4_hive_2.3.1_hadoop_2.7.3:3.8.0",
+          "classifier": "hudi_0.14.1;spark_2.4.4;hive_2.3.1;hadoop_2.7.3",
+          "downloadUrl": "http://mirror.qlangtech.com/4.0.0/tis-plugin/tis-sink-hudi-plugin/tis-sink-hudi-plugin_hudi_0.14.1_spark_2.4.4_hive_2.3.1_hadoop_2.7.3.tpi",
+          "gav": "com.qlangtech.tis.plugins:tis-sink-hudi-plugin_hudi_0.14.1_spark_2.4.4_hive_2.3.1_hadoop_2.7.3:4.0.0",
           "sha1": "",
           "sha256": "",
-          "size": 68624358
-        },
-        {
-          "classifier": "hudi_0.10.1;spark_2.4.4;hive_2.3.1;hadoop_2.8.4",
-          "downloadUrl": "http://mirror.qlangtech.com/3.8.0/tis-plugin/tis-sink-hudi-plugin/tis-sink-hudi-plugin_hudi_0.10.1_spark_2.4.4_hive_2.3.1_hadoop_2.8.4.tpi",
-          "gav": "com.qlangtech.tis.plugins:tis-sink-hudi-plugin_hudi_0.10.1_spark_2.4.4_hive_2.3.1_hadoop_2.8.4:3.8.0",
-          "sha1": "",
-          "sha256": "",
-          "size": 69164033
+          "size": 202569213
         }
       ],
       "dependencies": [
         {
           "name": "tis-datax-hdfs-plugin",
           "optional": false,
-          "version": "3.8.0"
+          "version": "4.0.0"
         },
         {
           "name": "tis-datax-hudi-common",
           "optional": false,
-          "version": "3.8.0"
+          "version": "4.0.0"
         },
         {
           "name": "tis-flink-dependency",
           "optional": false,
-          "version": "3.8.0"
+          "version": "4.0.0"
         },
         {
           "name": "tis-realtime-flink",
           "optional": false,
-          "version": "3.8.0"
+          "version": "4.0.0"
         }
       ],
       "developers": [],
       "endTypes": [
         "hudi"
       ],
-      "excerpt": "封装[Apache Hudi](https://hudi.apache.org/)，为用户提供一站式、开箱即用的千表入湖的解决方案\n\n功能：\n\n本组件整合Hudi提供的[Stream API Demo](https://github.com/apache/hudi/blob/master/hudi-flink-datasource/hudi-flink/src/main/java/org/apache/hudi/streamer/HoodieFlinkStreamer.java)功能，\n通过TIS中的元配置信息自动填充[FlinkStreamerConfig](https://github.com/apache/hudi/blob/master/hudi-flink-datasource/hudi-flink/src/main/java/org/apache/hudi/streamer/FlinkStreamerConfig.java)\n实例所需要配置属性，依赖配置信息（Avro schemas，Hudi表分区信息及 [Key Generation](https://hudi.apache.org/docs/key_generation)配置），\n\n配合TIS提供的各种Source Flink CDC 组件，用户可通过TIS控制台，快速实现各种数据源`实时增量`入湖\n\n依赖组件:\n\n | 组件名称| 版本    |\n | -------- | -----  |\n | Apache Hudi     | 0.10.1 |\n | Apache Spark   |  2.4.4 |\n | Apache Flink   | tis-1.13.1 |\n | Apache Hive     | 2.3.1  |\n | Apache Hadoop  | 2.8.4 | \n\n\n\n\n\n",
+      "excerpt": "封装[Apache Hudi](https://hudi.apache.org/)，为用户提供一站式、开箱即用的千表入湖的解决方案\n\n功能：\n\n本组件整合Hudi提供的[Stream API Demo](https://github.com/apache/hudi/blob/master/hudi-flink-datasource/hudi-flink/src/main/java/org/apache/hudi/streamer/HoodieFlinkStreamer.java)功能，\n通过TIS中的元配置信息自动填充[FlinkStreamerConfig](https://github.com/apache/hudi/blob/master/hudi-flink-datasource/hudi-flink/src/main/java/org/apache/hudi/streamer/FlinkStreamerConfig.java)\n实例所需要配置属性，依赖配置信息（Avro schemas，Hudi表分区信息及 [Key Generation](https://hudi.apache.org/docs/key_generation)配置），\n\n配合TIS提供的各种Source Flink CDC 组件，用户可通过TIS控制台，快速实现各种数据源`实时增量`入湖\n\n依赖组件:\n\n | 组件名称| 版本    |\n | -------- | -----  |\n | Apache Hudi     | 0.14.1 |\n | Apache Spark   |  2.4.4 |\n | Apache Flink   | tis-1.18.1 |\n | Apache Hive     | 2.3.1  |\n | Apache Hadoop  | 2.7.3 | \n\n\n\n\n\n",
       "extendPoints": {
         "com.qlangtech.tis.plugin.incr.TISSinkFactory": [
           "com.qlangtech.tis.plugins.incr.flink.connector.hudi.HudiSinkFactory"
@@ -2069,15 +2434,45 @@
       "name": "tis-sink-hudi-plugin",
       "pluginTags": [],
       "popularity": 1,
-      "releaseTimestamp": "2023-07-18 18:39:33",
+      "releaseTimestamp": "2024-03-07 09:38:07",
       "requiredCore": "1.398",
       "scm": "https://github.com/qlangtech/plugins/tree/master/tis-incr/tis-sink-hudi-plugin",
       "supportMultiClassifier": true,
       "title": "tis-sink-hudi-plugin",
-      "version": "3.8.0",
+      "version": "4.0.0",
       "wiki": "https://plugins.jenkins.io/tis-sink-hudi-plugin"
+    },
+    "tis-split-table-strategy-plugin": {
+      "buildDate": 1709775521306,
+      "dependencies": [],
+      "developers": [],
+      "endTypes": [],
+      "excerpt": "* 本插件提供数据库分表功能的支持，插件使用文档请查看 [文档](https://tis.pub/docs/guide/datasource/multi-table-rule)\n  \n\n",
+      "extendPoints": {
+        "com.qlangtech.tis.plugin.ds.SplitTableStrategy": [
+          "com.qlangtech.tis.plugin.ds.split.DefaultSplitTableStrategy"
+        ]
+      },
+      "gav": "com.qlangtech.tis.plugins:tis-split-table-strategy-plugin:4.0.0",
+      "labels": [],
+      "minimumJavaVersion": "1.8",
+      "name": "tis-split-table-strategy-plugin",
+      "pluginTags": [],
+      "popularity": 1,
+      "releaseTimestamp": "2024-03-07 09:38:41",
+      "requiredCore": "1.398",
+      "scm": "https://github.com/qlangtech/plugins/tree/master/tis-split-table-strategy-plugin",
+      "sha1": "",
+      "sha256": "",
+      "size": 9995,
+      "supportMultiClassifier": false,
+      "title": "tis-split-table-strategy-plugin",
+      "url": "http://mirror.qlangtech.com/4.0.0/tis-plugin/tis-split-table-strategy-plugin.tpi",
+      "version": "4.0.0",
+      "wiki": "https://plugins.jenkins.io/tis-split-table-strategy-plugin"
     }
   },
   "updateCenterVersion": "1",
-  "warnings": []
+  "warnings": [],
+  "generationTimestamp": "2024-03-07T01:42:09Z"
 }
