@@ -2,15 +2,7 @@ package com.qlangetch.tis;
 
 import com.google.common.collect.Maps;
 import com.qlangtech.tis.maven.plugins.tpi.PluginClassifier;
-import org.apache.commons.collections.MapUtils;
-import org.apache.maven.model.Model;
-import org.apache.maven.model.Profile;
-import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
 
-import java.io.File;
-import java.io.FileReader;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
