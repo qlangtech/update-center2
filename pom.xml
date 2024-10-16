@@ -22,6 +22,7 @@
         <project.build.outputEncoding>UTF-8</project.build.outputEncoding>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <tis.version>${project.version}</tis.version>
+        <maven-model.version>3.8.5</maven-model.version>
     </properties>
 
     <build>
@@ -347,6 +348,18 @@
             <version>4.8.0</version>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.apache.maven</groupId>
+            <artifactId>maven-model</artifactId>
+            <version>${maven-model.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.maven</groupId>
+            <artifactId>maven-model-builder</artifactId>
+            <version>${maven-model.version}</version>
+        </dependency>
+
     </dependencies>
 
     <repositories>

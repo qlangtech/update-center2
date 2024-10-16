@@ -28,6 +28,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.qlangetch.tis.AbstractTISRepository;
+import com.qlangetch.tis.ProfilesReader;
 import com.qlangetch.tis.impl.TISAliyunOSSRepositoryImpl;
 import com.qlangetch.tis.impl.TISLocalPluginContextArtifactCoordinates;
 import com.qlangtech.tis.TIS;
@@ -46,6 +47,7 @@ import com.qlangtech.tis.extension.model.UpdateCenterResource;
 import com.qlangtech.tis.extension.util.PluginExtraProps;
 import com.qlangtech.tis.extension.util.VersionNumber;
 import com.qlangtech.tis.manage.common.TisUTF8;
+import com.qlangtech.tis.maven.plugins.tpi.PluginClassifier;
 import com.qlangtech.tis.plugin.IDataXEndTypeGetter;
 import com.qlangtech.tis.plugin.IEndTypeGetter;
 import com.qlangtech.tis.plugin.IPluginVenderGetter;
@@ -299,7 +301,8 @@ public class Main {
         if (level != null) {
             PACKAGE_LOGGER.setLevel(level);
         }
-
+        // 只加载特定
+        PluginManager.targetClassifierFilter = ProfilesReader.readeProfile();
         MavenRepository repo = createRepository();
         initializeLatestPluginVersions(skipLatestPluginRelease);
 
