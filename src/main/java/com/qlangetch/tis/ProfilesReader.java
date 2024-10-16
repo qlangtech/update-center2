@@ -23,7 +23,7 @@ public class ProfilesReader {
     public static PluginClassifier readeProfile() {
 
         File mvnHome = new File("/opt/data/mvn_repository");
-        File pomFilePath = new File(mvnHome, "com/qlangtech/tis/plugins/tis-plugin-parent/pom.xml");
+        File pomFilePath = new File(mvnHome, "com/qlangtech/tis/plugins/tis-plugin-parent/4.0.1/tis-plugin-parent-4.0.1.pom");
         if (!pomFilePath.exists()) {
             throw new IllegalStateException("pomFilePath can not be exist:" + pomFilePath);
         }
