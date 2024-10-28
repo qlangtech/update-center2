@@ -9,7 +9,7 @@
 
     <artifactId>update-center2</artifactId>
 
-    <version>4.0.1</version>
+    <version>4.0.1-SNAPSHOT</version>
     <name>Jenkins Update Center Generator</name>
     <description>Generates update sites for updates.jenkins.io</description>
 
