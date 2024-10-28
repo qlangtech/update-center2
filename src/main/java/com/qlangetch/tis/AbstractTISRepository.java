@@ -10,6 +10,7 @@ import io.jenkins.update_center.MavenArtifact;
 import io.jenkins.update_center.util.Environment;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -35,6 +36,10 @@ public abstract class AbstractTISRepository extends BaseMavenRepository {
     public static final String TIS_PACKAGING_JAR = "jar";
     public static final String TIS_PACKAGE_EXTENSION = PluginManager.PACAKGE_TPI_EXTENSION;// "." + TIS_PACKAGING_TPI;
     public static final String PLUGIN_RELEASE_VERSION = System.getProperty("tis.plugin.release.version");
+
+    public static boolean isSNAPSHOTVersion() {
+        return StringUtils.endsWith(PLUGIN_RELEASE_VERSION, "SNAPSHOT");
+    }
 
     protected File cacheDirectory = new File(Environment.getString("ARTIFACTORY_CACHEDIR", "caches/artifactory"));
     private Map<String, TISArtifactCoordinates> plugins;

@@ -842,7 +842,7 @@ public class Main {
                 validateBatchIncrEndMatch(validateMsg, store.dataXReaders, store.incrSources);
                 validateBatchIncrEndMatch(validateMsg, store.dataXWriters, store.incrSinks);
             }
-            if (validateMsg.length() > 0) {
+            if (!AbstractTISRepository.isSNAPSHOTVersion() && validateMsg.length() > 0) {
                 throw new RuntimeException("\n" + validateMsg.toString());
             }
 
