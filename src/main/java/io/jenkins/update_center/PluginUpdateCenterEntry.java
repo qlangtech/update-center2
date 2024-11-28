@@ -6,6 +6,7 @@ import com.qlangtech.tis.maven.plugins.tpi.ICoord;
 import com.qlangtech.tis.maven.plugins.tpi.PluginClassifier;
 import com.qlangtech.tis.extension.util.VersionNumber;
 import io.jenkins.update_center.util.JavaSpecificationVersion;
+import org.apache.commons.lang.StringUtils;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -185,17 +186,25 @@ public abstract class PluginUpdateCenterEntry {
      *
      * @return
      */
-//    @JSONField(name = "classifier")
-//    public List<ICoord> getClassifier() {
-//        return this._classifier;
-//    }
 
-//    public void addClassifier(String val) {
-//        if (_classifier == null) {
-//            this._classifier = Lists.newArrayList();
-//        }
-//        _classifier.add(val);
-//    }
+    /**
+     * 是否是社区协作版本插件
+     *
+     * @return
+     */
+    @JSONField(name = ICoord.KEY_PLUGIN_VIP)
+    public boolean isCommunityVIP() {
+        try {
+            String vip = this.latestOffered.getManifestAttributes().getValue(ICoord.KEY_PLUGIN_VIP);
+            if (StringUtils.isEmpty(vip)) {
+                return false;
+            }
+            return Boolean.parseBoolean(vip);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
     /**
      * Historical name for the plugin documentation URL field.
@@ -330,11 +339,11 @@ public abstract class PluginUpdateCenterEntry {
         return latestOffered.getExtendpoints();
     }
 
-    public Set<String> getEndTypes(){
+    public Set<String> getEndTypes() {
         return latestOffered.getEndTypes();
     }
 
-    public Set<String> getPluginTags(){
+    public Set<String> getPluginTags() {
         return latestOffered.getPluginTags();
     }
 

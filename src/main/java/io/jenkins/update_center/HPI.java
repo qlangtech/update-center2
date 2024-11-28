@@ -728,7 +728,9 @@ public class HPI extends MavenArtifact {
                 }
 
                 if (!gitHubLabels.isEmpty()) {
-                    LOGGER.info(artifact.getArtifactName() + " got the following labels contributed from GitHub: " + org.apache.commons.lang3.StringUtils.join(gitHubLabels, ", "));
+                    LOGGER.info(artifact.getArtifactName()
+                            + " got the following labels contributed from GitHub: "
+                            + org.apache.commons.lang3.StringUtils.join(gitHubLabels, ", "));
                 }
             }
 

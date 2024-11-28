@@ -1,6 +1,7 @@
 package io.jenkins.update_center;
 
 import com.qlangtech.tis.maven.plugins.tpi.PluginClassifier;
+import org.apache.commons.lang.StringUtils;
 
 import java.util.Objects;
 import java.util.Optional;
