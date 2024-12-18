@@ -194,15 +194,16 @@ public abstract class PluginUpdateCenterEntry {
      */
     @JSONField(name = ICoord.KEY_PLUGIN_VIP)
     public boolean isCommunityVIP() {
-        try {
-            String vip = this.latestOffered.getManifestAttributes().getValue(ICoord.KEY_PLUGIN_VIP);
-            if (StringUtils.isEmpty(vip)) {
-                return false;
-            }
-            return Boolean.parseBoolean(vip);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        return this.latestOffered.isCommunityVIP();
+//        try {
+//            String vip = this.latestOffered.getManifestAttributes().getValue(ICoord.KEY_PLUGIN_VIP);
+//            if (StringUtils.isEmpty(vip)) {
+//                return false;
+//            }
+//            return Boolean.parseBoolean(vip);
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
     }
 
 

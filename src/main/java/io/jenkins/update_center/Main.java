@@ -47,7 +47,6 @@ import com.qlangtech.tis.extension.model.UpdateCenterResource;
 import com.qlangtech.tis.extension.util.PluginExtraProps;
 import com.qlangtech.tis.extension.util.VersionNumber;
 import com.qlangtech.tis.manage.common.TisUTF8;
-import com.qlangtech.tis.maven.plugins.tpi.PluginClassifier;
 import com.qlangtech.tis.plugin.IDataXEndTypeGetter;
 import com.qlangtech.tis.plugin.IEndTypeGetter;
 import com.qlangtech.tis.plugin.IPluginVenderGetter;
@@ -119,6 +118,8 @@ import java.util.stream.Collectors;
  * java -classpath ./lib/*:./update-center2.jar -Dplugin_dir_root=/tmp/release/tis-plugin -Dtis.plugin.release.version=3.4.0  io.jenkins.update_center.Main --www-dir=./dist
  */
 public class Main {
+
+    private static final String COMMUNITY_VIP_ICON = ":closed_lock_with_key:";
 
     /* Control meta-execution options */
     @Option(name = "--arguments-file", usage = "Specify invocation arguments in a file, with each line being a separate update site build. This argument cannot be re-set via arguments-file.")
@@ -341,11 +342,18 @@ public class Main {
         Collection<Plugin> artifacts = repo.listJenkinsPlugins();
         HPI latest = null;
         String excerpt = null;
+        boolean isCommunityVIP;
         for (Plugin plugin : artifacts) {
 
             latest = plugin.getLatest();
-            pluginList.append("## ").append(latest.artifact.getArtifactName() + AbstractTISRepository.TIS_PACKAGE_EXTENSION).append("\n\n");
-            pluginList.append("* **下载地址：** ").append(latest.getDownloadUrl()).append("\n\n");
+            isCommunityVIP = latest.isCommunityVIP();
+            pluginList.append("## ").append(isCommunityVIP ? COMMUNITY_VIP_ICON : StringUtils.EMPTY).append(latest.artifact.getArtifactName() + AbstractTISRepository.TIS_PACKAGE_EXTENSION).append("\n\n");
+
+            if (!latest.isCommunityVIP()) {
+                pluginList.append("* **下载地址：** ").append(latest.getDownloadUrl()).append("\n\n");
+            }
+
+
             excerpt = latest.getDescription();
             if (StringUtils.isNotBlank(excerpt)) {
                 pluginList.append("* **介绍：** \n\n");//.append(latest.getDescription()).append("\n\n");
@@ -382,10 +390,11 @@ public class Main {
             extendsList.append("## ").append(e.getKey()).append("\n\n");
 
             for (PluginExtendsionImpl extendImpl : e.getValue()) {
-
+                boolean vip = extendImpl.isCommunityVIP();
                 descriptor = extendImpl.getDesc();
                 if (descriptor != null) {
-                    extendsList.append("### ").append(descriptor.clazz.getName()).append("\n\n");
+
+                    extendsList.append("### ").append(vip ? COMMUNITY_VIP_ICON : StringUtils.EMPTY).append(descriptor.clazz.getName()).append("\n\n");
                     extendsList.append("* **显示名:** ").append(descriptor.getDisplayName()).append(" \n\n");
                     extendsList.append("* **全路径名:** [").append(extendImpl.extendImpl).append("](").append(extendImpl.getExtendImplURL()).append(") \n\n");
                     if (descriptor instanceof IPluginVenderGetter) {
@@ -395,9 +404,10 @@ public class Main {
                     }
 
                 } else {
-                    extendsList.append("### ").append(extendImpl.extendImpl).append("\n\n");
+                    extendsList.append("### ").append(vip ? COMMUNITY_VIP_ICON : StringUtils.EMPTY).append(extendImpl.extendImpl).append("\n\n");
                 }
-                extendsList.append("* **费用:** `社区版(免费)`").append("\n\n");
+                // 社区版(免费) or 社区协作
+                extendsList.append("* **费用:** `").append(vip ? (COMMUNITY_VIP_ICON + " 社区协作") : ":smile:社区版(免费)").append("`").append("\n\n");
                 extendsList.append("* **插件包:** [").append(extendImpl.getArchiveFileName())
                         .append("](./tpis#").append(extendImpl.getArchiveFileNameHtmlAnchor()).append(")").append("\n\n");
 //                md.append("* 费用:");
@@ -958,6 +968,11 @@ public class Main {
         public PluginExtendsionImpl(String extendImpl, HPI hpi) {
             this.extendImpl = extendImpl;
             this.hpi = hpi;
+
+        }
+
+        public final boolean isCommunityVIP() {
+            return hpi.isCommunityVIP();
         }
 
         public String getExtendImplURL() {

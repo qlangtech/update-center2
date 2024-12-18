@@ -32,6 +32,7 @@ import com.qlangtech.tis.TIS;
 import com.qlangtech.tis.extension.Descriptor;
 import com.qlangtech.tis.extension.impl.PluginManifest;
 import com.qlangtech.tis.extension.util.VersionNumber;
+import com.qlangtech.tis.maven.plugins.tpi.ICoord;
 import com.qlangtech.tis.maven.plugins.tpi.PluginClassifier;
 import com.qlangtech.tis.plugin.IEndTypeGetter;
 import com.qlangtech.tis.plugin.IPluginTaggable;
@@ -129,6 +130,17 @@ public class HPI extends MavenArtifact {
         return "1.398";
     }
 
+    public boolean isCommunityVIP() {
+        try {
+            String vip = this.getManifestAttributes().getValue(ICoord.KEY_PLUGIN_VIP);
+            if (StringUtils.isEmpty(vip)) {
+                return false;
+            }
+            return Boolean.parseBoolean(vip);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
     /**
      * Earlier versions of the maven-hpi-plugin put "null" string literal, so we need to treat it as real null.
      */
