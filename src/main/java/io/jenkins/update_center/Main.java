@@ -407,7 +407,7 @@ public class Main {
                     extendsList.append("### ").append(vip ? COMMUNITY_VIP_ICON : StringUtils.EMPTY).append(extendImpl.extendImpl).append("\n\n");
                 }
                 // 社区版(免费) or 社区协作
-                extendsList.append("* **费用:** `").append(vip ? (COMMUNITY_VIP_ICON + " 社区协作") : ":smile:社区版(免费)").append("`").append("\n\n");
+                extendsList.append("* **费用:** ").append(vip ? (COMMUNITY_VIP_ICON + " `社区协作") : ":smile: `社区版(免费)").append("`").append("\n\n");
                 extendsList.append("* **插件包:** [").append(extendImpl.getArchiveFileName())
                         .append("](./tpis#").append(extendImpl.getArchiveFileNameHtmlAnchor()).append(")").append("\n\n");
 //                md.append("* 费用:");
