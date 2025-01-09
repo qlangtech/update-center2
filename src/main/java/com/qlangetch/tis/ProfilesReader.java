@@ -45,9 +45,9 @@ public class ProfilesReader {
 //            throw new IllegalStateException("targetProfile:" + targetProfile + " pomfile:" + pomFilePath.getAbsolutePath() + " relevant ");
 //        }
         targetProfileProperties.put("hudi", "0.14.1");
-        targetProfileProperties.put("spark", "2.4.4");
-        targetProfileProperties.put("hive", "2.3.1");
-        targetProfileProperties.put("hadoop", "2.7.3");
+        targetProfileProperties.put("spark", "3.2.1");
+        targetProfileProperties.put("hive", "2.1.1-cdh6.3.2");
+        targetProfileProperties.put("hadoop", "3.0.0-cdh6.3.2");
         return new PluginClassifier(targetProfileProperties);
     }
 
