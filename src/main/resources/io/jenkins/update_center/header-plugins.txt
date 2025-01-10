@@ -8,4 +8,8 @@ sidebar_position: 1
 
 import TOCInline from '@theme/TOCInline';
 
+:::tip 统计
+**扩展点**：{{extnedPointCount}}，**实现插件**：{{extnedPointImplCount}}
+:::
+
 <TOCInline toc={toc} />

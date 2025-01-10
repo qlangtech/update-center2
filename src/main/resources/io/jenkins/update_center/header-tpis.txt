@@ -8,4 +8,8 @@ sidebar_position: 2
 
 import TOCInline from '@theme/TOCInline';
 
+:::tip 统计
+**社区共享版插件包数量**：{{communityEditionCount}}，**社区协作版插件包数量**：{{communityCollaborationEditionCount}}
+:::
+
 <TOCInline toc={toc} />

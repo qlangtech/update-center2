@@ -105,7 +105,9 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Properties;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
@@ -343,10 +345,17 @@ public class Main {
         HPI latest = null;
         String excerpt = null;
         boolean isCommunityVIP;
+        AtomicInteger communityVIPcountCount = new AtomicInteger();
+        AtomicInteger communityEditionCount = new AtomicInteger();
         for (Plugin plugin : artifacts) {
 
             latest = plugin.getLatest();
             isCommunityVIP = latest.isCommunityVIP();
+            if (isCommunityVIP) {
+                communityVIPcountCount.incrementAndGet();
+            } else {
+                communityEditionCount.incrementAndGet();
+            }
             pluginList.append("## ").append(isCommunityVIP ? COMMUNITY_VIP_ICON : StringUtils.EMPTY).append(latest.artifact.getArtifactName() + AbstractTISRepository.TIS_PACKAGE_EXTENSION).append("\n\n");
 
             if (!latest.isCommunityVIP()) {
@@ -380,11 +389,18 @@ public class Main {
 
         // tpis.mdx
         FileUtils.write(new File(www, PLUGIN_TPIS_MARK_DOWN_FILENAME)
-                , (new MarkdownBuilder("header-tpis.txt", pluginList)).build(), TisUTF8.get());
+                , (new MarkdownBuilder("header-tpis.txt", (headerContent) -> {
+                    // {{communityEditionCount}}，**社区协作版插件包数量**：{{communityCollaborationEditionCount}}
+                    headerContent = StringUtils.replace(headerContent, "{{communityEditionCount}}", String.valueOf(communityEditionCount.get()));
+                    headerContent = StringUtils.replace(headerContent
+                            , "{{communityCollaborationEditionCount}}", String.valueOf(communityVIPcountCount.get()));
+                    return headerContent;
+                }, pluginList)).build(), TisUTF8.get());
 
         StringBuffer extendsList = new StringBuffer();
         Descriptor descriptor = null;
         PluginFormProperties pluginFormPropertyTypes = null;
+
         for (Map.Entry<String, List<PluginExtendsionImpl>> e : extendPoints.entrySet()) {
             System.out.println(e.getKey());
             extendsList.append("## ").append(e.getKey()).append("\n\n");
@@ -472,6 +488,13 @@ public class Main {
             }
         }
 
+        AtomicInteger extendPointCount = new AtomicInteger();
+        AtomicInteger implCount = new AtomicInteger();
+        for (Map.Entry<String, List<PluginExtendsionImpl>> e : extendPoints.entrySet()) {
+            extendPointCount.incrementAndGet();
+            implCount.addAndGet(e.getValue().size());
+        }
+
         if (MapUtils.isEmpty(extendPoints)) {
             throw new IllegalStateException("extendPoints can not be null");
         }
@@ -486,7 +509,7 @@ public class Main {
         AllEndTypePluginProcess allEndTypePluginProcess = new AllEndTypePluginProcess(extendPoints);
 
         final MarkdownBuilder tabView = new MarkdownBuilder(
-                "header-source-sink.txt"
+                "header-source-sink.txt", (h) -> h
                 , allEndTypePluginProcess.drawEndTypePluginTableView()
                 , Optional.of("footer-source-sink.txt"));
 
@@ -508,7 +531,14 @@ public class Main {
         FileUtils.write(new File(www, PLUGIN_TABVIEW_MARK_DOWN_FILENAME), tabView.build(), TisUTF8.get());
         // plugins.mdx
         FileUtils.write(new File(www, PLUGIN_DESC_MARK_DOWN_FILENAME)
-                , (new MarkdownBuilder("header-plugins.txt", extendsList)).build(), TisUTF8.get());
+                , (new MarkdownBuilder("header-plugins.txt", (headerContent) -> {
+
+                    // {{extnedPointCount}}，**实现插件**：{{extnedPointImplCount}}
+                    headerContent = StringUtils.replace(headerContent, "{{extnedPointCount}}", String.valueOf(extendPointCount.get()));
+                    headerContent = StringUtils.replace(headerContent, "{{extnedPointImplCount}}", String.valueOf(implCount.get()));
+
+                    return headerContent;
+                }, extendsList)).build(), TisUTF8.get());
 
         if (generatePluginDocumentationUrls) {
             new PluginDocumentationUrlsRoot(repo).write(new File(www, PLUGIN_DOCUMENTATION_URLS_JSON_FILENAME), prettyPrint);
