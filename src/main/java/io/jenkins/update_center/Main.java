@@ -320,20 +320,17 @@ public class Main {
                 = new UpdateCenterRoot(repo, new File(Main.resourcesDir, WARNINGS_JSON_FILENAME))
                 .encodeWithSignature(signer, prettyPrint);
 
+        final File updateCenterJson = new File(www, UPDATE_CENTER_JSON_FILENAME);
+        writeToFile(updateCenterPostCallJson(signedUpdateCenterJson), updateCenterJson);
+        writeToFile(signedUpdateCenterJson, new File(www, UPDATE_CENTER_ACTUAL_JSON_FILENAME));
+        writeToFile(updateCenterPostMessageHtml(signedUpdateCenterJson), new File(www, UPDATE_CENTER_JSON_HTML_FILENAME));
+
         if (!skipUpdateCenter) {
-
-            File updateCenterJson = new File(www, UPDATE_CENTER_JSON_FILENAME);
-
-            writeToFile(updateCenterPostCallJson(signedUpdateCenterJson), updateCenterJson);
             /*******************************************
              * deploy to remote OSS repository
              *******************************************/
             String ossPath = AbstractTISRepository.PLUGIN_RELEASE_VERSION + UpdateCenterResource.KEY_UPDATE_SITE + "/" + UpdateCenterResource.KEY_DEFAULT_JSON;
             TISAliyunOSSRepositoryImpl.getOSSClient().writeFile(ossPath, updateCenterJson);
-
-
-            writeToFile(signedUpdateCenterJson, new File(www, UPDATE_CENTER_ACTUAL_JSON_FILENAME));
-            writeToFile(updateCenterPostMessageHtml(signedUpdateCenterJson), new File(www, UPDATE_CENTER_JSON_HTML_FILENAME));
         }
 
 
@@ -513,10 +510,8 @@ public class Main {
                 , allEndTypePluginProcess.drawEndTypePluginTableView()
                 , Optional.of("footer-source-sink.txt"));
 
-
+        final File pluginCategory = allEndTypePluginProcess.processCategoryPlugin();
         if (!skipUpdateCenter) {
-            File pluginCategory = allEndTypePluginProcess.processCategoryPlugin();
-
             String ossPath = AbstractTISRepository.PLUGIN_RELEASE_VERSION + UpdateCenterResource.KEY_UPDATE_SITE + "/" + UpdateCenter.PLUGIN_CATEGORIES_FILENAME;
             TISAliyunOSSRepositoryImpl.getOSSClient().writeFile(ossPath, pluginCategory);
         }
