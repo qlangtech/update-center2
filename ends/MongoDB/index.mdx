@@ -1,0 +1,209 @@
+---
+title: MongoDB
+date: 2025-03-12
+type: book
+sidebar_position: 1
+---
+
+import Link from '/src/components/Link';
+import Figure from '/src/components/Figure';
+import BZhan from '/src/components/BZhan';
+import PluginFields from '/src/components/PluginFields';
+
+## 数据源配置
+
+<Figure img={require('./datasource.png')}/>
+
+* **配置项说明:** 
+
+<PluginFields>
+
+1. 实例ID
+
+	* **类型:** 单行文本
+	* **必须:** 是
+	* **默认值:** 无
+	* **说明:** 		数据源实例名称，请起一个有意义且唯一的名称
+
+2. address
+
+	* **类型:** 富文本
+	* **必须:** 是
+	* **默认值:** host:27017[;host:27017]
+	* **说明:** 		MongoDB的数据地址信息，因为MonogDB可能是个集群，则ip端口信息需要以Json数组的形式给出,可填写多个每个address中间可用';'分隔【必填】
+
+3. dbName
+
+	* **类型:** 单行文本
+	* **必须:** 是
+	* **默认值:** 无
+	* **说明:** 		MongoDB 数据库名称
+
+4. 授权机制
+
+	* **类型:** 单选
+	* **必须:** 是
+	* **默认值:** com.qlangtech.tis.plugin.ds.mangodb.MangoDBDataSourceFactory.dftAuthMechanism()
+	* **说明:** 		the authentication mechanism
+
+5. username
+
+	* **类型:** 单行文本
+	* **必须:** 否
+	* **默认值:** 无
+	* **说明:** 		MongoDB的用户名。【选填】
+
+6. password
+
+	* **类型:** 密码
+	* **必须:** 否
+	* **默认值:** 无
+	* **说明:** 		MongoDB的密码。【选填】
+
+7. userSource
+
+	* **类型:** 单行文本
+	* **必须:** 是
+	* **默认值:** admin
+	* **说明:** 		保存用户的库
+
+8. 预读记录数
+
+	* **类型:** 整型数字
+	* **必须:** 是
+	* **默认值:** 500
+	* **说明:** 		预先读取MongoDB中一定数量的记录，通过反射的方式分析出各字段类型，可以简化MongoDB Schema定义
+
+
+</PluginFields>
+
+## 批量读
+
+<Figure img={require('./dataxReader.png')}/>
+
+* **配置项说明:** 
+
+<PluginFields>
+
+1. 数据库名
+
+	* **类型:** 单选
+	* **必须:** 是
+	* **默认值:** 无
+	* **说明:** 		无
+
+2. 所在时区
+
+	* **类型:** 单选
+	* **必须:** 是
+	* **默认值:** com.qlangtech.tis.async.message.client.consumer.impl.MQListenerFactory.dftZoneId()
+	* **说明:** 		设置所在时区
+
+3. 配置模版
+
+	* **类型:** 富文本
+	* **必须:** 是
+	* **默认值:** com.qlangtech.tis.plugin.datax.DataXMongodbReader.getDftTemplate()
+	* **说明:** 		无特殊情况请不要修改模版内容，避免不必要的错误
+
+
+</PluginFields>
+
+## 批量写
+
+<Figure img={require('./dataxWriter.png')}/>
+
+* **配置项说明:** 
+
+<PluginFields>
+
+1. 数据库名
+
+	* **类型:** 单选
+	* **必须:** 是
+	* **默认值:** 无
+	* **说明:** 		无
+
+2. 配置模版
+
+	* **类型:** 富文本
+	* **必须:** 是
+	* **默认值:** com.qlangtech.tis.plugin.datax.DataXMongodbWriter.getDftTemplate()
+	* **说明:** 		无特殊情况请不要修改模版内容，避免不必要的错误
+
+
+</PluginFields>
+
+## 实时读
+
+<Figure img={require('./mq.png')}/>
+
+* **配置项说明:** 
+
+<PluginFields>
+
+1. 起始位点
+
+	* **类型:** 单行文本
+	* **必须:** 是
+	* **默认值:** LATEST_OFFSET
+	* **说明:** 
+
+		Debezium startup options
+		
+		参数详细请参考：[https://nightlies.apache.org/flink/flink-cdc-docs-master/docs/connectors/flink-sources/mongodb-cdc/#startup-reading-position](https://nightlies.apache.org/flink/flink-cdc-docs-master/docs/connectors/flink-sources/mongodb-cdc/#startup-reading-position)
+		
+		* `Initial`:
+		  Performs an initial snapshot on the monitored database tables upon first startup, and continue to read the latest oplog.
+		
+		* `Latest`(default):
+		  Never to perform snapshot on the monitored database tables upon first startup, just read from the end of the oplog which means only have the changes since the connector was started.
+		
+		* `Timestamp`:
+		  Skip snapshot phase and start reading oplog events from a specific timestamp.
+
+2. 补全策略
+
+	* **类型:** 单行文本
+	* **必须:** 是
+	* **默认值:** UPDATE_LOOKUP
+	* **说明:** 
+
+		MongoDB 发生更新时候，before数据获取策略，目前有两种方式
+		1. FULL_CHANGE_LOG: （包括： `RowKind.UPDATE_BEFORE`,`RowKind.UPDATE_AFTER` 两种类型消息） [Full Changelog详细参考](https://nightlies.apache.org/flink/flink-cdc-docs-master/docs/connectors/flink-sources/mongodb-cdc/#full-changeloga-namefull-changelog-id003-a)
+		2. UPDATE_LOOKUP: 通过 CDC内部合并更新内容和更新之前的整条记录值（包括： 只有`RowKind.UPDATE_AFTER`一种类型消息）
+
+3. Conn Options
+
+	* **类型:** 单行文本
+	* **必须:** 否
+	* **默认值:** 无
+	* **说明:** 
+
+		The ampersand-separated connection options of MongoDB. eg: `replicaSet=test&connectTimeoutMS=300000`
+		
+		Default: none
+		
+		https://docs.mongodb.com/manual/reference/connection-string/#std-label-connections-connection-options
+
+4. copyExistingPipeline
+
+	* **类型:** 富文本
+	* **必须:** 否
+	* **默认值:** 无
+	* **说明:** 
+
+		An array of JSON objects describing the pipeline operations to run when copying existing data.
+		
+		This can improve the use of indexes by the copying manager and make copying more efficient. 
+		eg. 
+		```json
+		[{"$match": {"closed": "false"}}] 
+		```
+		ensures that only documents in which the closed field is set to false are copied.
+
+
+</PluginFields>
+
+
+

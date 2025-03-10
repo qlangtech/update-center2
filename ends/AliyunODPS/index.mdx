@@ -1,0 +1,147 @@
+---
+title: AliyunODPS
+date: 2025-03-12
+type: book
+sidebar_position: 1
+---
+
+import Link from '/src/components/Link';
+import Figure from '/src/components/Figure';
+import BZhan from '/src/components/BZhan';
+import PluginFields from '/src/components/PluginFields';
+
+## 数据源配置
+
+<Figure img={require('./datasource.png')}/>
+
+* **配置项说明:** 
+
+<PluginFields>
+
+1. 实例ID
+
+	* **类型:** 单行文本
+	* **必须:** 是
+	* **默认值:** 无
+	* **说明:** 		数据源实例名称，请起一个有意义且唯一的名称
+
+2. odpsServer
+
+	* **类型:** 单行文本
+	* **必须:** 是
+	* **默认值:** 无
+	* **说明:** 
+
+		描述：ODPS的server地址，例如，线上地址为 http://service.odps.aliyun.com/api 
+		
+		 [具体各地域Endpoint对照表](https://help.aliyun.com/document_detail/34951.html#section-f2d-51y-5db)
+
+3. tunnelServer
+
+	* **类型:** 单行文本
+	* **必须:** 是
+	* **默认值:** 无
+	* **说明:** 
+
+		ODPS的tunnelserver地址，例如，线上地址为 http://dt.odps.aliyun.com
+		
+		 [具体各地域Endpoint对照表](https://help.aliyun.com/document_detail/34951.html#section-f2d-51y-5db)
+
+4. project
+
+	* **类型:** 单行文本
+	* **必须:** 是
+	* **默认值:** 无
+	* **说明:** 		描述：ODPS表所属的project，注意:Project只能是字母+数字组合，请填写英文名称。在云端等用户看到的ODPS项目中文名只是显示名，请务必填写底层真实地Project英文标识名。
+
+5. useProjectTimeZone
+
+	* **类型:** 单选
+	* **必须:** 是
+	* **默认值:** true
+	* **说明:** 		是否使用MaxCompute项目空间的时区
+
+6. authToken
+
+	* **类型:** 单行文本
+	* **必须:** 否
+	* **默认值:** 无
+	* **说明:** 		无
+
+
+</PluginFields>
+
+## 批量写
+
+<Figure img={require('./dataxWriter.png')}/>
+
+* **配置项说明:** 
+
+<PluginFields>
+
+1. 数据库名
+
+	* **类型:** 单选
+	* **必须:** 是
+	* **默认值:** 无
+	* **说明:** 		无
+
+2. truncate
+
+	* **类型:** 单选
+	* **必须:** 是
+	* **默认值:** true
+	* **说明:** 		描述：ODPSWriter通过配置"truncate": true，保证写入的幂等性，即当出现写入失败再次运行时，ODPSWriter将清理前述数据，并导入新数据，这样可以保证每次重跑之后的数据都保持一致。 
+
+3. 生命周期
+
+	* **类型:** 整型数字
+	* **必须:** 是
+	* **默认值:** 3
+	* **说明:** 
+
+		表的生命周期，仅支持正整数。单位：天
+		
+		* `非分区表`：自最后一次修改表数据开始计算，经过days天后数据无改动，则您无需干预此表，MaxCompute会自动回收（类似drop table操作）。
+		* `分区表`：系统根据各分区的LastModifiedTime判断是否需要回收分区。不同于非分区表，分区表的最后一个分区被回收后，该表不会被删除。生命周期只能设定到表级别，不支持在分区级别设置生命周期。
+
+4. partitionFormat
+
+	* **类型:** 单选
+	* **必须:** 是
+	* **默认值:** yyyyMMddHHmmss
+	* **说明:** 		每进行一次DataX导入在Hive表中会生成一个新的分区，现在系统分区名称为'pt'格式为开始导入数据的时间戳，格式为'yyyyMMddHHmmss'或者'yyyyMMdd' 
+
+5. 自动建表
+
+	* **类型:** 单选
+	* **必须:** 是
+	* **默认值:** on
+	* **说明:** 
+
+		解析Reader的元数据，自动生成Writer create table DDL语句，有三种选择：
+		* `off`：关闭自动生成及同步目标端建表DDL语句，当目标端表实例已经存在可选择此选项。
+		* `default`：打开动生成及自动执行目标端建表DDL语句，执行任务状态由程序自动控制毋需人为干涉。
+		* `customized`：用户可自定义设置`自动执行目标端建表DDL语句逻辑`，如：是否需要生成列注释等。
+
+6. batchSize
+
+	* **类型:** 整型数字
+	* **必须:** 否
+	* **默认值:** 1000
+	* **说明:** 
+
+		* 描述：一次性批量提交的记录数大小，该值可以极大减少DataX与Mysql的网络交互次数，并提升整体吞吐量。但是该值设置过大可能会造成DataX运行进程OOM情况。
+
+7. 配置模版
+
+	* **类型:** 富文本
+	* **必须:** 是
+	* **默认值:** com.qlangtech.tis.plugin.datax.DataXOdpsWriter.getDftTemplate()
+	* **说明:** 		无特殊情况请不要修改模版内容，避免不必要的错误
+
+
+</PluginFields>
+
+
+

@@ -1,0 +1,213 @@
+---
+title: ElasticSearch
+date: 2025-03-12
+type: book
+sidebar_position: 1
+---
+
+import Link from '/src/components/Link';
+import Figure from '/src/components/Figure';
+import BZhan from '/src/components/BZhan';
+import PluginFields from '/src/components/PluginFields';
+
+## 数据端配置
+
+<Figure img={require('./params-cfg.png')}/>
+
+* **配置项说明:** 
+
+<PluginFields>
+
+1. name
+	* **类型:** 单行文本
+	* **必须:** 是
+2. endpoint
+
+	* **类型:** 单行文本
+	* **必须:** 是
+	* **默认值:** http://oss.aliyuncs.com
+	* **说明:** 		Server的EndPoint地址，例如http://oss.aliyuncs.com
+
+3. 认证方式
+
+	* **类型:** 单行文本
+	* **必须:** 否
+	* **默认值:** none
+	* **说明:** 		无
+
+
+</PluginFields>
+
+## 批量写
+
+<Figure img={require('./dataxWriter.png')}/>
+
+* **配置项说明:** 
+
+<PluginFields>
+
+1. endpoint
+
+	* **类型:** 单选
+	* **必须:** 是
+	* **默认值:** 无
+	* **说明:** 		ElasticSearch的连接地址
+
+2. index
+
+	* **类型:** 单行文本
+	* **必须:** 是
+	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@54387873
+	* **说明:** 		Elasticsearch中的index名
+
+3. cleanup
+
+	* **类型:** 单选
+	* **必须:** 否
+	* **默认值:** false
+	* **说明:** 		是否删除原表
+
+4. batchSize
+
+	* **类型:** 单行文本
+	* **必须:** 否
+	* **默认值:** 1000
+	* **说明:** 		每次批量数据的条数
+
+5. trySize
+
+	* **类型:** 单行文本
+	* **必须:** 否
+	* **默认值:** 1
+	* **说明:** 		失败后重试的次数
+
+6. timeout
+
+	* **类型:** 单行文本
+	* **必须:** 否
+	* **默认值:** 600000
+	* **说明:** 		客户端超时时间
+
+7. discovery
+
+	* **类型:** 单选
+	* **必须:** 否
+	* **默认值:** false
+	* **说明:** 		启用节点发现将(轮询)并定期更新客户机中的服务器列表
+
+8. compression
+
+	* **类型:** 单选
+	* **必须:** 否
+	* **默认值:** true
+	* **说明:** 		http请求，开启压缩
+
+9. multiThread
+
+	* **类型:** 单选
+	* **必须:** 否
+	* **默认值:** true
+	* **说明:** 		http请求，是否有多线程
+
+10. 忽略错误
+
+	* **类型:** 单选
+	* **必须:** 否
+	* **默认值:** false
+	* **说明:** 		忽略写入错误，不重试，继续写入
+
+11. ignoreParseError
+
+	* **类型:** 单选
+	* **必须:** 否
+	* **默认值:** true
+	* **说明:** 		忽略解析数据格式错误，继续写入
+
+12. alias
+
+	* **类型:** 单行文本
+	* **必须:** 否
+	* **默认值:** 无
+	* **说明:** 		数据导入完成后写入别名
+
+13. aliasMode
+
+	* **类型:** 单选
+	* **必须:** 否
+	* **默认值:** append
+	* **说明:** 		数据导入完成后增加别名的模式，append(增加模式), exclusive(只留这一个)
+
+14. settings
+
+	* **类型:** 富文本
+	* **必须:** 否
+	* **默认值:** {"index" :{"number_of_shards": 1, "number_of_replicas": 0}}
+	* **说明:** 
+
+		创建index时候的settings, 与elasticsearch官方相同，详细配置请参考：[index-modules-settings](https://www.elastic.co/guide/en/elasticsearch/reference/current/index-modules.html#index-modules-settings)
+
+15. splitter
+
+	* **类型:** 单行文本
+	* **必须:** 否
+	* **默认值:** ,
+	* **说明:** 		如果插入数据是array，就使用指定分隔符
+
+16. dynamic
+
+	* **类型:** 单选
+	* **必须:** 否
+	* **默认值:** false
+	* **说明:** 		不使用datax的mappings，使用es自己的自动mappings
+
+17. 配置模版
+
+	* **类型:** 富文本
+	* **必须:** 是
+	* **默认值:** com.qlangtech.tis.plugin.datax.DataXElasticsearchWriter.getDftTemplate()
+	* **说明:** 		无特殊情况请不要修改模版内容，避免不必要的错误
+
+
+</PluginFields>
+
+## 实时写
+
+<Figure img={require('./sinkFactory.png')}/>
+
+* **配置项说明:** 
+
+<PluginFields>
+
+1. bulkFlushIntervalMs
+
+	* **类型:** 整型数字
+	* **必须:** 是
+	* **默认值:** 10000
+	* **说明:** 
+
+		刷新的时间间隔（不论缓存操作的数量或大小如何），默认10秒自动提交一次
+
+2. bulkFlushMaxActions
+
+	* **类型:** 整型数字
+	* **必须:** 否
+	* **默认值:** 无
+	* **说明:** 
+
+		设置使 sink 在接收每个元素之后立即提交，否则这些元素将被缓存起来，官方文档：
+		[https://nightlies.apache.org/flink/flink-docs-master/zh/docs/connectors/datastream/elasticsearch/#%e9%85%8d%e7%bd%ae%e5%86%85%e9%83%a8%e6%89%b9%e9%87%8f%e5%a4%84%e7%90%86%e5%99%a8](https://nightlies.apache.org/flink/flink-docs-master/zh/docs/connectors/datastream/elasticsearch/#%e9%85%8d%e7%bd%ae%e5%86%85%e9%83%a8%e6%89%b9%e9%87%8f%e5%a4%84%e7%90%86%e5%99%a8)
+
+3. bulkFlushMaxSizeMb
+
+	* **类型:** 整型数字
+	* **必须:** 否
+	* **默认值:** 无
+	* **说明:** 
+
+		刷新前最大缓存的数据量（以兆字节为单位）
+
+
+</PluginFields>
+
+
+
