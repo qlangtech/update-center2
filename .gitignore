@@ -16,7 +16,7 @@
 
 # Standard directory names (see site/publish.sh)
 /download/
-/ends
+/ends/
 /www2/
 
 # Execution caches dirs
