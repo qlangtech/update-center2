@@ -5,4 +5,6 @@
 
 #pg params: --id default --resources-dir /opt/misc/update-center2/resources --skip-update-center
 
+# --generate-end-component-screenshot 是否生成截图
+
 # working directory: /opt/misc/update-center2

@@ -9,7 +9,7 @@ sidebar_position: 1
 import TOCInline from '@theme/TOCInline';
 
 :::tip 统计
-**扩展点**：67，**实现插件**：236
+**扩展点**：68，**实现插件**：237
 :::
 
 <TOCInline toc={toc} />
@@ -417,7 +417,7 @@ import TOCInline from '@theme/TOCInline';
 
 	* **类型:** 单选
 	* **必须:** 是
-	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@f49e81a
+	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@7a3c99f1
 	* **说明:** 		目前支持三种存储格式：Text：普通文本，一行一条用分隔符分隔，HFile：HBase使用的存储格式，Parquet：最常用的列存格式文件，ORC文件格式
 
 ## com.qlangtech.tis.plugin.datax.transformer.UDFDefinition
@@ -1931,6 +1931,13 @@ import TOCInline from '@theme/TOCInline';
 		* 如选择`on`可以包含系统授权的其他用户名下的表
 		
 		* 如选择`off`则只包含用户名下的表
+
+8. 所在时区
+
+	* **类型:** 单选
+	* **必须:** 是
+	* **默认值:** com.qlangtech.tis.async.message.client.consumer.impl.MQListenerFactory.dftZoneId()
+	* **说明:** 		设置Oracle服务端所在时区
 
 ### com.qlangtech.tis.plugin.ds.postgresql.PGDataSourceFactory
 
@@ -3617,7 +3624,7 @@ import TOCInline from '@theme/TOCInline';
 
 	* **类型:** 单行文本
 	* **必须:** 是
-	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@54387873
+	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@7c206b14
 	* **说明:** 		Elasticsearch中的index名
 
 3. cleanup
@@ -4798,6 +4805,34 @@ import TOCInline from '@theme/TOCInline';
 		</configuration>
 		```
 
+## com.qlangtech.tis.plugin.MemorySpecification
+
+### :closed_lock_with_key:com.qlangtech.tis.plugin.memory.CustomizeMemorySpecification
+
+* **显示名:** customize 
+
+* **全路径名:** [com.qlangtech.tis.plugin.memory.CustomizeMemorySpecification](https://github.com/qlangtech/tis-plugins-commercial/tree/master/tis-datax-commercial/tis-datax-common-commercial-plugin/src/main/java/com/qlangtech/tis/plugin/memory/CustomizeMemorySpecification.java) 
+
+* **费用:** :closed_lock_with_key: `社区协作`
+
+* **插件包:** [tis-datax-common-commercial-plugin.tpi](./tpis#tis-datax-common-commercial-plugintpi)
+
+* **配置项说明:** 
+
+1. request
+
+	* **类型:** 整型数字
+	* **必须:** 是
+	* **默认值:** com.qlangtech.tis.plugin.memory.CustomizeMemorySpecification.dftMemory()
+	* **说明:** 		单个DataX任务内存初始申请，单位：兆。当任务并发数目设置为：n，内存总体初始开销为'n*memoryRequest'，注意防止执行节点OOM
+
+2. limit
+
+	* **类型:** 整型数字
+	* **必须:** 是
+	* **默认值:** com.qlangtech.tis.plugin.memory.CustomizeMemorySpecification.dftMemory()
+	* **说明:** 		单个DataX任务内存最大极限申请，单位：兆。当任务并发数目设置为：n，内存总体最大极限开销为'n*memoryLimit'，注意防止执行节点OOM
+
 ## com.qlangtech.tis.plugins.incr.flink.chunjun.kafka.format.FormatFactory
 
 ### com.qlangtech.tis.plugins.incr.flink.chunjun.kafka.format.canaljson.TISCanalJsonFormatFactory
@@ -5251,7 +5286,7 @@ import TOCInline from '@theme/TOCInline';
 
 * **费用:** :smile: `社区版(免费)`
 
-* **插件包:** [tis-datax-hdfs-aliyun-emr-plugin/tis-datax-hdfs-aliyun-emr-plugin_hadoop_2.7.3.tpi](./tpis#tis-datax-hdfs-aliyun-emr-plugin/tis-datax-hdfs-aliyun-emr-plugin_hadoop_273tpi)
+* **插件包:** [tis-datax-hdfs-aliyun-emr-plugin/tis-datax-hdfs-aliyun-emr-plugin_hadoop_3.0.0-cdh6.3.2.tpi](./tpis#tis-datax-hdfs-aliyun-emr-plugin/tis-datax-hdfs-aliyun-emr-plugin_hadoop_300-cdh632tpi)
 
 * **配置项说明:** 
 
@@ -6091,7 +6126,7 @@ import TOCInline from '@theme/TOCInline';
 
 	* **类型:** 整型数字
 	* **必须:** 是
-	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@1fc5c0b2
+	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@197d5a87
 	* **说明:** 		SpringBoot配置，HTTP端口号，默认7700，不建议更改
 
 2. host
@@ -6116,7 +6151,7 @@ import TOCInline from '@theme/TOCInline';
 
 	* **类型:** 整型数字
 	* **必须:** 是
-	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@5a2f401a
+	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@4f552aa2
 	* **说明:** 		SpringBoot配置，HTTP端口号，默认7700，不建议更改
 
 ### com.qlangtech.tis.plugin.datax.powerjob.impl.serverport.NodePort
@@ -6135,7 +6170,7 @@ import TOCInline from '@theme/TOCInline';
 
 	* **类型:** 整型数字
 	* **必须:** 是
-	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@54556723
+	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@1c411474
 	* **说明:** 		SpringBoot配置，HTTP端口号，默认7700，不建议更改
 
 2. INTERNAL-IP
@@ -6843,19 +6878,19 @@ import TOCInline from '@theme/TOCInline';
 	* **默认值:** com.qlangtech.tis.datax.DataXJobSubmitParams.dftParallelism()
 	* **说明:** 		单机版中允许多个同步管道并行执行，由于单机节点内存有限，需要确保VM级别设置DataX任务并发执行数目
 
-5. memoryRequest
+5. 任务超时时间
 
 	* **类型:** 整型数字
 	* **必须:** 是
-	* **默认值:** com.qlangtech.tis.datax.DataXJobSubmitParams.dftMemory()
-	* **说明:** 		单个DataX任务内存初始申请，单位：兆。当任务并发数目设置为：n，内存总体初始开销为'n*memoryRequest'，注意防止执行节点OOM
+	* **默认值:** 6
+	* **说明:** 		执行单个DataX 表任务执行超时时间。超过设置的超时时间，TIS会主动将任务关闭。单位：小时
 
-6. memoryLimit
+6. 内存规格
 
-	* **类型:** 整型数字
+	* **类型:** 单行文本
 	* **必须:** 是
-	* **默认值:** com.qlangtech.tis.datax.DataXJobSubmitParams.dftMemory()
-	* **说明:** 		单个DataX任务内存最大极限申请，单位：兆。当任务并发数目设置为：n，内存总体最大极限开销为'n*memoryLimit'，注意防止执行节点OOM
+	* **默认值:** default
+	* **说明:** 		执行DataX任务申请内存规格,默认为1024兆，如执行大表同步任务请按照实际需求量设置自定义规格
 
 ### :closed_lock_with_key:com.qlangtech.tis.plugin.aliyun.AliyunEndpoint
 
@@ -7377,7 +7412,7 @@ import TOCInline from '@theme/TOCInline';
 		1. 下载、解压
 		
 		   ```shell script
-		     wget http://tis-release.oss-cn-beijing.aliyuncs.com/4.1.0/tis/flink-tis-1.18.1-bin.tar.gz && rm -rf flink-tis-1.18.1 && mkdir flink-tis-1.18.1 && tar xvf flink-tis-1.18.1-bin.tar.gz -C ./flink-tis-1.18.1
+		     wget http://tis-release.oss-cn-beijing.aliyuncs.com/4.2.0-SNAPSHOT/tis/flink-tis-1.18.1-bin.tar.gz && rm -rf flink-tis-1.18.1 && mkdir flink-tis-1.18.1 && tar xvf flink-tis-1.18.1-bin.tar.gz -C ./flink-tis-1.18.1
 		   ```
 		2. 修改 `$FLINK_HOME/conf/flink-conf.yaml`
 		
@@ -7614,6 +7649,13 @@ import TOCInline from '@theme/TOCInline';
 		* `Latest Offset`: (default) Start from latest offset
 		* `Timestamp Offset`: Start from the first record whose timestamp is greater than or equals a timestamp (milliseconds)
 
+3. 过滤
+
+	* **类型:** 单选
+	* **必须:** 否
+	* **默认值:** 无
+	* **说明:** 		可以将数据流中将某一种事件类型的事件过滤掉，有以下几种类型可以选择：INSERT, UPDATE_BEFORE, UPDATE_AFTER, DELETE
+
 ### com.qlangtech.plugins.incr.flink.cdc.kingbase.FlinkCDCKingBaseSourceFactory
 
 * **显示名:** Flink-CDC-KingBase 
@@ -7665,6 +7707,13 @@ import TOCInline from '@theme/TOCInline';
 		* `FULL`: 使用此值需要确保对应的表执行`ALTER TABLE your_table_name REPLICA IDENTITY FULL;`，表记录更新时会带上更新Before值，使用此方式比较耗费性能。
 		* `DEFAULT`: 默认值，更新删除操作时不会带上Before值。
 
+4. 过滤
+
+	* **类型:** 单选
+	* **必须:** 否
+	* **默认值:** 无
+	* **说明:** 		可以将数据流中将某一种事件类型的事件过滤掉，有以下几种类型可以选择：INSERT, UPDATE_BEFORE, UPDATE_AFTER, DELETE
+
 ### com.qlangtech.plugins.incr.flink.cdc.mongdb.FlinkCDCMongoDBSourceFactory
 
 * **显示名:** Flink-CDC-MongoDB 
@@ -7710,7 +7759,14 @@ import TOCInline from '@theme/TOCInline';
 		1. FULL_CHANGE_LOG: （包括： `RowKind.UPDATE_BEFORE`,`RowKind.UPDATE_AFTER` 两种类型消息） [Full Changelog详细参考](https://nightlies.apache.org/flink/flink-cdc-docs-master/docs/connectors/flink-sources/mongodb-cdc/#full-changeloga-namefull-changelog-id003-a)
 		2. UPDATE_LOOKUP: 通过 CDC内部合并更新内容和更新之前的整条记录值（包括： 只有`RowKind.UPDATE_AFTER`一种类型消息）
 
-3. Conn Options
+3. 过滤
+
+	* **类型:** 单选
+	* **必须:** 否
+	* **默认值:** 无
+	* **说明:** 		可以将数据流中将某一种事件类型的事件过滤掉，有以下几种类型可以选择：INSERT, UPDATE_BEFORE, UPDATE_AFTER, DELETE
+
+4. Conn Options
 
 	* **类型:** 单行文本
 	* **必须:** 否
@@ -7723,7 +7779,7 @@ import TOCInline from '@theme/TOCInline';
 		
 		https://docs.mongodb.com/manual/reference/connection-string/#std-label-connections-connection-options
 
-4. copyExistingPipeline
+5. copyExistingPipeline
 
 	* **类型:** 富文本
 	* **必须:** 否
@@ -7797,6 +7853,13 @@ import TOCInline from '@theme/TOCInline';
 	* **默认值:** com.qlangtech.tis.plugins.incr.flink.cdc.mysql.FlinkCDCMySQLSourceFactory.dftZoneId()
 	* **说明:** 		设置MySQL服务端所在时区
 
+4. 过滤
+
+	* **类型:** 单选
+	* **必须:** 否
+	* **默认值:** 无
+	* **说明:** 		可以将数据流中将某一种事件类型的事件过滤掉，有以下几种类型可以选择：INSERT, UPDATE_BEFORE, UPDATE_AFTER, DELETE
+
 ### com.qlangtech.tis.plugins.incr.flink.cdc.mysql.FlinkCDCMySQLSourceFactory
 
 * **显示名:** Flink-CDC-MySQL 
@@ -7855,6 +7918,13 @@ import TOCInline from '@theme/TOCInline';
 	* **默认值:** com.qlangtech.tis.plugins.incr.flink.cdc.mysql.FlinkCDCMySQLSourceFactory.dftZoneId()
 	* **说明:** 		设置MySQL服务端所在时区
 
+4. 过滤
+
+	* **类型:** 单选
+	* **必须:** 否
+	* **默认值:** 无
+	* **说明:** 		可以将数据流中将某一种事件类型的事件过滤掉，有以下几种类型可以选择：INSERT, UPDATE_BEFORE, UPDATE_AFTER, DELETE
+
 ### com.qlangtech.plugins.incr.flink.cdc.oracle.FlinkCDCOracleSourceFactory
 
 * **显示名:** Flink-CDC-Oracle 
@@ -7890,14 +7960,7 @@ import TOCInline from '@theme/TOCInline';
 		 **Note**: the mechanism of `scan.startup.mode` option relying on Debezium’s `snapshot.mode` configuration. So please do not use them together. 
 		 If you specific both `scan.startup.mode` and `debezium.snapshot.mode` options in the table DDL, it may make `scan.startup.mode` doesn’t work.
 
-2. 所在时区
-
-	* **类型:** 单选
-	* **必须:** 是
-	* **默认值:** com.qlangtech.tis.async.message.client.consumer.impl.MQListenerFactory.dftZoneId()
-	* **说明:** 		设置Oracle服务端所在时区
-
-3. Log Mining Strategy
+2. Log Mining Strategy
 
 	* **类型:** 单选
 	* **必须:** 是
@@ -7906,7 +7969,7 @@ import TOCInline from '@theme/TOCInline';
 
 		There are strategies: Online catalog with faster mining but no captured DDL. Another - with data dictionary loaded into REDO LOG files
 
-4. Supports mining LOB fields and operations
+3. Supports mining LOB fields and operations
 
 	* **类型:** 单选
 	* **必须:** 是
@@ -7915,7 +7978,7 @@ import TOCInline from '@theme/TOCInline';
 
 		When set to `false`, the default, LOB fields will not be captured nor emitted. When set to `true`, the connector will capture LOB fields and emit changes for those fields like any other column type.
 
-5. Poll interval (ms)
+4. Poll interval (ms)
 
 	* **类型:** 整型数字
 	* **必须:** 是
@@ -7924,7 +7987,7 @@ import TOCInline from '@theme/TOCInline';
 
 		Time to wait for new change events to appear after receiving no events, given in milliseconds. Defaults to 500 ms.
 
-6. Event deserialization failure handling
+5. Event deserialization failure handling
 
 	* **类型:** 单选
 	* **必须:** 是
@@ -7932,6 +7995,13 @@ import TOCInline from '@theme/TOCInline';
 	* **说明:** 
 
 		Specify how failures during processing of events (i.e. when encountering a corrupted event) should be handled, including:'fail' (the default) an exception indicating the problematic event and its position is raised, causing the connector to be stopped; 'warn' the problematic event and its position will be logged and the event will be skipped;'ignore' the problematic event will be skipped.
+
+6. 过滤
+
+	* **类型:** 单选
+	* **必须:** 否
+	* **默认值:** 无
+	* **说明:** 		可以将数据流中将某一种事件类型的事件过滤掉，有以下几种类型可以选择：INSERT, UPDATE_BEFORE, UPDATE_AFTER, DELETE
 
 7. BinLog独立监听
 
@@ -7991,6 +8061,13 @@ import TOCInline from '@theme/TOCInline';
 		* `FULL`: 使用此值需要确保对应的表执行`ALTER TABLE your_table_name REPLICA IDENTITY FULL;`，表记录更新时会带上更新Before值，使用此方式比较耗费性能。
 		* `DEFAULT`: 默认值，更新删除操作时不会带上Before值。
 
+4. 过滤
+
+	* **类型:** 单选
+	* **必须:** 否
+	* **默认值:** 无
+	* **说明:** 		可以将数据流中将某一种事件类型的事件过滤掉，有以下几种类型可以选择：INSERT, UPDATE_BEFORE, UPDATE_AFTER, DELETE
+
 ### com.qlangtech.tis.plugins.incr.flink.cdc.sqlserver.FlinkCDCSqlServerSourceFactory
 
 * **显示名:** Flink-CDC-SqlServer 
@@ -8034,6 +8111,13 @@ import TOCInline from '@theme/TOCInline';
 		
 		如开启，带来的好处是运算时资源各自独立不会相互相互影响，弊端是，上游算子与下游算子独立在两个Solt中需要额外的网络传输开销
 
+4. 过滤
+
+	* **类型:** 单选
+	* **必须:** 否
+	* **默认值:** 无
+	* **说明:** 		可以将数据流中将某一种事件类型的事件过滤掉，有以下几种类型可以选择：INSERT, UPDATE_BEFORE, UPDATE_AFTER, DELETE
+
 ## com.qlangtech.tis.plugin.datax.doplinscheduler.export.DSTISCallback
 
 ### com.qlangtech.tis.plugin.datax.doplinscheduler.export.DSTISCallback
@@ -8053,14 +8137,14 @@ import TOCInline from '@theme/TOCInline';
 	* **类型:** 单行文本
 	* **必须:** 是
 	* **默认值:** com.qlangtech.tis.plugin.datax.doplinscheduler.export.DSTISCallback.dftTISHTTPHost()
-	* **说明:** 		dolphinscheduler中会通过此地址作为REST API请求的根路径，向TIS发送数据数据管道的配置及插件资源请求，请务必取保dolphinscheduler端对此地址可用
+	* **说明:** 		dolphinscheduler中会通过此地址作为REST API请求的根路径，向TIS发送数据数据管道的配置及插件资源请求，请务必确保dolphinscheduler端对此地址可用
 
 2. tisAddress
 
 	* **类型:** 单行文本
 	* **必须:** 是
 	* **默认值:** com.qlangtech.tis.plugin.datax.doplinscheduler.export.DSTISCallback.dftTISAddress()
-	* **说明:** 		dolphinscheduler中会通过此地址访问TIS提供的日志收集服务，TIS可收集dolphinscheduler端数据管道的执行日志。请务必取保dolphinscheduler端对此地址可用
+	* **说明:** 		dolphinscheduler中会通过此地址访问TIS提供的日志收集服务，TIS可收集dolphinscheduler端数据管道的执行日志。请务必确保dolphinscheduler端对此地址可用
 
 ## com.qlangtech.tis.hive.HiveMeta
 
@@ -8171,7 +8255,7 @@ import TOCInline from '@theme/TOCInline';
 
 	* **类型:** 单行文本
 	* **必须:** 是
-	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@6c75e3bc
+	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@472719df
 	* **说明:** 		无
 
 2. incrMode
@@ -8199,7 +8283,7 @@ import TOCInline from '@theme/TOCInline';
 
 	* **类型:** 单行文本
 	* **必须:** 是
-	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@49fe0bcd
+	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@f42336c
 	* **说明:** 		无
 
 ### com.qlangtech.tis.plugins.incr.flink.chunjun.source.SelectedTabPropsExtends
@@ -8218,7 +8302,7 @@ import TOCInline from '@theme/TOCInline';
 
 	* **类型:** 单行文本
 	* **必须:** 是
-	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@a7bbdbc
+	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@a63643e
 	* **说明:** 		无
 
 2. 轮询策略
@@ -8277,7 +8361,7 @@ import TOCInline from '@theme/TOCInline';
 
 	* **类型:** 单行文本
 	* **必须:** 是
-	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@23ec63af
+	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@42ffbab6
 	* **说明:** 		无
 
 2. 过滤
@@ -8366,6 +8450,13 @@ import TOCInline from '@theme/TOCInline';
 	* **默认值:** Default
 	* **说明:** 		对应dolphinScheduler中任务组概念，用以来控制工作流中的job并发数目，可以有效防止由于大量同步任务并发执行导致业务数据库过载
 
+10. 内存规格
+
+	* **类型:** 单行文本
+	* **必须:** 是
+	* **默认值:** default
+	* **说明:** 		执行DataX任务申请内存规格,默认为1024兆，如执行大表同步任务请按照实际需求量设置自定义规格
+
 ### :closed_lock_with_key:com.qlangtech.tis.plugin.ds.manipulate.CloneDefaultDataXProcessor
 
 * **显示名:** Clone 
@@ -8415,7 +8506,7 @@ import TOCInline from '@theme/TOCInline';
 
 	* **类型:** 单选
 	* **必须:** 是
-	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@2ef913a4
+	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@5fb514c2
 	* **说明:** 		replaceKey指定了每行记录的业务主键。用来做更新时使用
 
 ## com.qlangtech.tis.plugin.datax.powerjob.PowerJobOMS
@@ -8976,7 +9067,7 @@ import TOCInline from '@theme/TOCInline';
 
 	* **类型:** 单选
 	* **必须:** 是
-	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@1d9bd1d6
+	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@3639b04
 	* **说明:** 		选择列作为表的主键
 
 3. Sequence列
@@ -9024,7 +9115,7 @@ import TOCInline from '@theme/TOCInline';
 
 	* **类型:** 单选
 	* **必须:** 是
-	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@3b66ac74
+	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@5c740c5a
 	* **说明:** 		选择列作为表的主键
 
 3. 分区字段
@@ -9068,7 +9159,7 @@ import TOCInline from '@theme/TOCInline';
 
 	* **类型:** 单选
 	* **必须:** 是
-	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@4bc21e34
+	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@5f5a33ed
 	* **说明:** 		选择列作为表的主键
 
 3. upsert
@@ -9194,7 +9285,7 @@ import TOCInline from '@theme/TOCInline';
 	* **类型:** 单行文本
 	* **必须:** 否
 	* **默认值:** 无
-	* **说明:** 		统一为目标表添加前缀，例如在构建分层数仓用于为ods层目标表统一添加“ods_erp_”前缀
+	* **说明:** 		统一为目标表添加前缀，例如在构建分层数仓用于为ods层目标表统一添加前缀,例如：`ods_erp_`
 
 ### com.qlangtech.tis.plugin.datax.dameng.writer.DaMengAutoCreateTable
 
@@ -9220,7 +9311,7 @@ import TOCInline from '@theme/TOCInline';
 	* **类型:** 单行文本
 	* **必须:** 否
 	* **默认值:** 无
-	* **说明:** 		统一为目标表添加前缀，例如在构建分层数仓用于为ods层目标表统一添加“ods_erp_”前缀
+	* **说明:** 		统一为目标表添加前缀，例如在构建分层数仓用于为ods层目标表统一添加前缀,例如：`ods_erp_`
 
 ### com.qlangtech.tis.plugin.datax.doris.DorisAutoCreateTable
 
@@ -9308,7 +9399,7 @@ import TOCInline from '@theme/TOCInline';
 	* **类型:** 单行文本
 	* **必须:** 否
 	* **默认值:** 无
-	* **说明:** 		统一为目标表添加前缀，例如在构建分层数仓用于为ods层目标表统一添加“ods_erp_”前缀
+	* **说明:** 		统一为目标表添加前缀，例如在构建分层数仓用于为ods层目标表统一添加前缀,例如：`ods_erp_`
 
 ### com.qlangtech.tis.plugin.datax.OdpsAutoCreateTable
 
@@ -9334,7 +9425,7 @@ import TOCInline from '@theme/TOCInline';
 	* **类型:** 单行文本
 	* **必须:** 否
 	* **默认值:** 无
-	* **说明:** 		统一为目标表添加前缀，例如在构建分层数仓用于为ods层目标表统一添加“ods_erp_”前缀
+	* **说明:** 		统一为目标表添加前缀，例如在构建分层数仓用于为ods层目标表统一添加前缀,例如：`ods_erp_`
 
 ### com.qlangtech.tis.plugin.datax.OracleAutoCreateTable
 
@@ -9360,7 +9451,7 @@ import TOCInline from '@theme/TOCInline';
 	* **类型:** 单行文本
 	* **必须:** 否
 	* **默认值:** 无
-	* **说明:** 		统一为目标表添加前缀，例如在构建分层数仓用于为ods层目标表统一添加“ods_erp_”前缀
+	* **说明:** 		统一为目标表添加前缀，例如在构建分层数仓用于为ods层目标表统一添加前缀,例如：`ods_erp_`
 
 ### com.qlangtech.tis.plugin.datax.PostgreSQLAutoCreateTable
 
@@ -9386,7 +9477,7 @@ import TOCInline from '@theme/TOCInline';
 	* **类型:** 单行文本
 	* **必须:** 否
 	* **默认值:** 无
-	* **说明:** 		统一为目标表添加前缀，例如在构建分层数仓用于为ods层目标表统一添加“ods_erp_”前缀
+	* **说明:** 		统一为目标表添加前缀，例如在构建分层数仓用于为ods层目标表统一添加前缀,例如：`ods_erp_`
 
 ### com.qlangtech.tis.plugin.datax.SqlServerAutoCreateTable
 
@@ -9412,7 +9503,7 @@ import TOCInline from '@theme/TOCInline';
 	* **类型:** 单行文本
 	* **必须:** 否
 	* **默认值:** 无
-	* **说明:** 		统一为目标表添加前缀，例如在构建分层数仓用于为ods层目标表统一添加“ods_erp_”前缀
+	* **说明:** 		统一为目标表添加前缀，例如在构建分层数仓用于为ods层目标表统一添加前缀,例如：`ods_erp_`
 
 ### com.qlangtech.tis.plugin.datax.starrocks.StarRocksAutoCreateTable
 
@@ -9482,7 +9573,7 @@ import TOCInline from '@theme/TOCInline';
 	* **类型:** 单行文本
 	* **必须:** 否
 	* **默认值:** 无
-	* **说明:** 		统一为目标表添加前缀，例如在构建分层数仓用于为ods层目标表统一添加“ods_erp_”前缀
+	* **说明:** 		统一为目标表添加前缀，例如在构建分层数仓用于为ods层目标表统一添加前缀,例如：`ods_erp_`
 
 ### com.qlangtech.tis.plugin.datax.KingBaseMySQLModeAutoCreateTable
 
@@ -9508,7 +9599,7 @@ import TOCInline from '@theme/TOCInline';
 	* **类型:** 单行文本
 	* **必须:** 否
 	* **默认值:** 无
-	* **说明:** 		统一为目标表添加前缀，例如在构建分层数仓用于为ods层目标表统一添加“ods_erp_”前缀
+	* **说明:** 		统一为目标表添加前缀，例如在构建分层数仓用于为ods层目标表统一添加前缀,例如：`ods_erp_`
 
 ### com.qlangtech.tis.plugin.datax.MySQLAutoCreateTable
 
@@ -9534,7 +9625,7 @@ import TOCInline from '@theme/TOCInline';
 	* **类型:** 单行文本
 	* **必须:** 否
 	* **默认值:** 无
-	* **说明:** 		统一为目标表添加前缀，例如在构建分层数仓用于为ods层目标表统一添加“ods_erp_”前缀
+	* **说明:** 		统一为目标表添加前缀，例如在构建分层数仓用于为ods层目标表统一添加前缀,例如：`ods_erp_`
 
 ### com.qlangtech.tis.plugin.datax.HiveAutoCreateTable
 
@@ -9560,7 +9651,7 @@ import TOCInline from '@theme/TOCInline';
 	* **类型:** 单行文本
 	* **必须:** 否
 	* **默认值:** 无
-	* **说明:** 		统一为目标表添加前缀，例如在构建分层数仓用于为ods层目标表统一添加“ods_erp_”前缀
+	* **说明:** 		统一为目标表添加前缀，例如在构建分层数仓用于为ods层目标表统一添加前缀,例如：`ods_erp_`
 
 ## com.qlangtech.tis.plugin.datax.common.AutoCreateTableColCommentSwitch
 

@@ -158,6 +158,11 @@
     </build>
 
     <dependencies>
+        <dependency>
+            <groupId>com.qlangtech.tis.plugins</groupId>
+            <artifactId>tis-datax-test-common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>com.microsoft.playwright</groupId>

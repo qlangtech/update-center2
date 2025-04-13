@@ -12,10 +12,13 @@ import com.microsoft.playwright.options.WaitForSelectorState;
 import com.microsoft.playwright.options.WaitUntilState;
 import com.qlangtech.tis.config.ParamsConfig;
 import com.qlangtech.tis.extension.Descriptor;
+import com.qlangtech.tis.extension.PluginFormProperties;
+import com.qlangtech.tis.extension.impl.PropertyType;
 import com.qlangtech.tis.manage.common.Option;
 import com.qlangtech.tis.plugin.IDataXEndTypeGetter;
 import com.qlangtech.tis.plugin.IEndTypeGetter;
 import com.qlangtech.tis.plugin.IEndTypeGetter.EndType;
+import com.qlangtech.tis.plugin.IdentityName;
 import com.qlangtech.tis.plugin.ds.DataSourceFactory;
 import com.qlangtech.tis.plugin.incr.TISSinkFactory;
 import com.qlangtech.tis.util.HeteroEnum;
@@ -30,6 +33,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
 
@@ -40,9 +45,24 @@ import java.util.stream.Collectors;
 public class TISEndsDocsGenerator {
     private static final Logger logger = LoggerFactory.getLogger(TISEndsDocsGenerator.class);
 
+    public interface CptConsumer {
+        public default void accept(HeteroEnum he, Descriptor desc) {
+            accept(he, he, desc);
+        }
 
+        public void accept(HeteroEnum he, IdentityName descId, Descriptor desc);
+    }
+
+    /**
+     * @param page
+     * @param endDir
+     * @param endType
+     * @param processAssistMisc 处理辅助类型的组件
+     * @param pluginStore
+     * @param cptConsumer
+     */
     public static void buildEndTypeImages(
-            Page page, File endDir, EndType endType, EndTypePluginStore pluginStore, BiConsumer<HeteroEnum, Descriptor> cptConsumer) {
+            Page page, File endDir, EndType endType, boolean processAssistMisc, EndTypePluginStore pluginStore, CptConsumer cptConsumer) {
 //        try (Playwright playwright = Playwright.create()) {
 //            Browser browser = playwright.chromium().launch();
 //            Page page = browser.newPage();
@@ -55,32 +75,43 @@ public class TISEndsDocsGenerator {
         aa:
         for (Pair<IEndTypeGetter, Descriptor> pair : pluginStore.miscPlugins) {
 
-            List<Descriptor<DataSourceFactory>> dsDescriptors = HeteroEnum.DATASOURCE.descriptors();
-            for (Descriptor<DataSourceFactory> dsDesc : dsDescriptors) {
-                if (!hasAddDataSource && pair.getValue() == dsDesc) {
+            if (processAssistMisc) {
+
+                if (true || "FlinkK8SClusterManager".equalsIgnoreCase(pair.getValue().clazz.getSimpleName())) {
+                    IdentityName descId = IdentityName.create(pair.getValue().clazz.getSimpleName());
                     paramsAndImageBuilder.add(
                             Pair.of(
-                                    new Option(HeteroEnum.DATASOURCE.getIdentity(), pair.getValue().getDisplayName())
-                                    , () -> buildPluginDivImage(pair.getValue(), HeteroEnum.DATASOURCE, endDir, page)));
-                    // 确保 datasource 只被添加一次，如mysql的dataSource mysql5，和mysql8 只会被添加一次
-                    cptConsumer.accept(HeteroEnum.DATASOURCE, pair.getValue());
-                    hasAddDataSource = true;
-                    continue aa;
+                                    new Option("desc", pair.getValue().getId())
+                                    , () -> buildPluginDivImage(pair.getValue(), descId, endDir, page)));
+                    cptConsumer.accept(null, descId, pair.getValue());
+                }
+            } else {
+                List<Descriptor<DataSourceFactory>> dsDescriptors = HeteroEnum.DATASOURCE.descriptors();
+                for (Descriptor<DataSourceFactory> dsDesc : dsDescriptors) {
+                    if (!hasAddDataSource && pair.getValue() == dsDesc) {
+                        paramsAndImageBuilder.add(
+                                Pair.of(
+                                        new Option(HeteroEnum.DATASOURCE.getIdentity(), pair.getValue().getDisplayName())
+                                        , () -> buildPluginDivImage(pair.getValue(), HeteroEnum.DATASOURCE, endDir, page)));
+                        // 确保 datasource 只被添加一次，如mysql的dataSource mysql5，和mysql8 只会被添加一次
+                        cptConsumer.accept(HeteroEnum.DATASOURCE, pair.getValue());
+                        hasAddDataSource = true;
+                        continue aa;
+                    }
+                }
+
+                List<Descriptor<ParamsConfig>> paramDescriptors = HeteroEnum.PARAMS_CONFIG.descriptors();
+                for (Descriptor<ParamsConfig> paramDesc : paramDescriptors) {
+                    if (pair.getValue() == paramDesc) {
+                        paramsAndImageBuilder.add(
+                                Pair.of(
+                                        new Option(HeteroEnum.PARAMS_CONFIG.getIdentity(), pair.getValue().getDisplayName())
+                                        , () -> buildPluginDivImage(pair.getValue(), HeteroEnum.PARAMS_CONFIG, endDir, page)));
+                        cptConsumer.accept(HeteroEnum.PARAMS_CONFIG, pair.getValue());
+                        continue aa;
+                    }
                 }
             }
-
-            List<Descriptor<ParamsConfig>> paramDescriptors = HeteroEnum.PARAMS_CONFIG.descriptors();
-            for (Descriptor<ParamsConfig> paramDesc : paramDescriptors) {
-                if (pair.getValue() == paramDesc) {
-                    paramsAndImageBuilder.add(
-                            Pair.of(
-                                    new Option(HeteroEnum.PARAMS_CONFIG.getIdentity(), pair.getValue().getDisplayName())
-                                    , () -> buildPluginDivImage(pair.getValue(), HeteroEnum.PARAMS_CONFIG, endDir, page)));
-                    cptConsumer.accept(HeteroEnum.PARAMS_CONFIG, pair.getValue());
-                    continue aa;
-                }
-            }
-
         }
 
         //Option param = null;
@@ -119,7 +150,6 @@ public class TISEndsDocsGenerator {
         }
 
 
-
         final String navUrl = "http://localhost:4200/base/cpt-list?"
                 + paramsAndImageBuilder.stream()
                 .map((pair) -> pair.getKey())
@@ -144,7 +174,7 @@ public class TISEndsDocsGenerator {
 
     public static void drawFieldIndexNumber(File imageFile, List<BoundingBox> fieldsBox, Descriptor descriptor) {
         // String inputPath = "input.png";
-        String outputPath = "output.png";
+        // String outputPath = "output.png";
         int number = 1; // 要显示的数字
         int positionX = 50;  // 圆圈中心坐标X（从右侧计算）
         int positionY = 50;  // 圆圈中心坐标Y（从顶部计算）
@@ -206,16 +236,17 @@ public class TISEndsDocsGenerator {
             //  ImageIO.write(image, "PNG", new File(imageFile.getParentFile(), outputPath));
 
             ImageIO.write(image, "PNG", imageFile);
-            System.out.println("带圈数字生成成功！");
+            System.out.println("" + imageFile.getAbsolutePath());
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private static void buildPluginDivImage(Descriptor descriptor, HeteroEnum hetero, File endDir, Page page) {
+    private static void buildPluginDivImage(Descriptor descriptor, IdentityName hetero, File endDir, Page page) {
         // 定位目标 div
+        final String descBlockElemtnXpaht = "//*[(self::div or self::nz-collapse-panel) and @id='" + hetero.identityValue() + "']";
         ElementHandle divElement
-                = page.waitForSelector("div#" + hetero.getIdentity()
+                = page.waitForSelector(descBlockElemtnXpaht //"div#" + hetero.identityValue()
                 , new WaitForSelectorOptions().setState(WaitForSelectorState.VISIBLE));
         File imageFile = null;
         if (divElement != null) {
@@ -230,7 +261,7 @@ public class TISEndsDocsGenerator {
 
                     // divElement.querySelector("xpath=//item-prop-val/child::nz-form-item");
 
-                    Locator fieldsLocator = page.locator("//div[@id='" + hetero.getIdentity() + "']//item-prop-val[not(ancestor::nz-form-item)]/child::nz-form-item");
+                    Locator fieldsLocator = page.locator(descBlockElemtnXpaht + "//item-prop-val[not(ancestor::nz-form-item)]/child::nz-form-item");
                     for (Locator elmt : fieldsLocator.all()) {
                         fieldBox = elmt.boundingBox();
                         fieldBox.x -= box.x;
@@ -240,7 +271,7 @@ public class TISEndsDocsGenerator {
 
 
                     // 截取该区域
-                    imageFile = new File(endDir, hetero.getIdentity() + ".png");
+                    imageFile = new File(endDir, hetero.identityValue() + ".png");
                     page.screenshot(new Page.ScreenshotOptions()
                             .setPath(imageFile.toPath())
                             .setClip(box.x, box.y, box.width, box.height)
@@ -256,10 +287,63 @@ public class TISEndsDocsGenerator {
                     throw new RuntimeException(e);
                 }
             }
+
+            PluginFormProperties pluginFormPropertyTypes = descriptor.getPluginFormPropertyTypes();
+            PropertyType propType = null;
+            List<? extends Descriptor> applicableFieldDescs = null;
+            ElementHandle describlePropElement = null;
+            for (Entry<String, PropertyType> prop
+                    : pluginFormPropertyTypes.getSortedUseableProperties()) {
+                propType = prop.getValue();
+                if (!propType.isDescribable()) {
+                    continue;
+                }
+                applicableFieldDescs = propType.getApplicableDescriptors();
+                // 定位到对应的describle prop上
+                describlePropElement = divElement.waitForSelector("//*[(self::nz-form-item) and @ng-reflect-name='" + prop.getKey() + "']"
+                        , new ElementHandle.WaitForSelectorOptions().setState(WaitForSelectorState.VISIBLE));
+
+                ElementHandle pluginProp = null;
+                for (Descriptor selectableProp : applicableFieldDescs) {
+
+                    if (selectableProp.getPropertyFields().size() < 1) {
+                        continue;
+                    }
+
+                    describlePropElement.querySelector("//nz-select").click();
+                    page.waitForSelector("nz-option-item:has-text('" + selectableProp.getDisplayName() + "')").click();
+                    pluginProp = describlePropElement.waitForSelector("nz-form-control");
+
+                    PluginFormProperties properties = selectableProp.getPluginFormPropertyTypes();
+                    Optional<Entry<String, PropertyType>> containAdvance
+                            = properties.getSortedUseableProperties().stream().filter((entry) -> entry.getValue().formField.advance()).findFirst();
+                    if (containAdvance.isPresent()) {
+                        ElementHandle advanceOpts = pluginProp.querySelector(".advance-opts[ng-reflect-model=\"false\"]");
+                        if(advanceOpts != null){
+                            advanceOpts.click();
+                        }
+                    }
+
+                    pluginProp.scrollIntoViewIfNeeded();
+                    box = pluginProp.boundingBox();
+                    //hetero.identityValue() + "_" + prop.getKey() + "_" + selectableProp.getDisplayName() + ".png"
+                    imageFile = new File(endDir, createPluginDescriblePropFieldImageName(hetero, prop.getValue(), selectableProp));
+                    page.screenshot(new Page.ScreenshotOptions()
+                            .setPath(imageFile.toPath())
+                            .setClip(box.x, box.y, box.width, box.height)
+                            .setAnimations(ScreenshotAnimations.DISABLED));
+                }
+            }
+
+
         } else {
-            throw new IllegalStateException("div " + hetero.getIdentity()
+            throw new IllegalStateException("div " + hetero.identityValue()
                     + ",endDir:" + endDir.getAbsolutePath() + " can not found relevant element");
         }
+    }
+
+    public static String createPluginDescriblePropFieldImageName(IdentityName pluginClazzName, PropertyType prop, Descriptor selectableProp) {
+        return pluginClazzName.identityValue() + "_" + prop.displayName + "_" + selectableProp.getDisplayName() + ".png";
     }
 
 }

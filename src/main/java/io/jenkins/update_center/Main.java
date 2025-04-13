@@ -29,11 +29,14 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.microsoft.playwright.Browser;
 import com.microsoft.playwright.Browser.NewPageOptions;
+import com.microsoft.playwright.BrowserContext;
+import com.microsoft.playwright.BrowserType;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.Playwright;
 import com.qlangetch.tis.AbstractTISRepository;
 import com.qlangetch.tis.ProfilesReader;
 import com.qlangetch.tis.TISEndsDocsGenerator;
+import com.qlangetch.tis.TISEndsDocsGenerator.CptConsumer;
 import com.qlangetch.tis.impl.TISAliyunOSSRepositoryImpl;
 import com.qlangetch.tis.impl.TISLocalPluginContextArtifactCoordinates;
 import com.qlangtech.tis.TIS;
@@ -46,7 +49,6 @@ import com.qlangtech.tis.extension.PluginFormProperties;
 import com.qlangtech.tis.extension.PluginManager;
 import com.qlangtech.tis.extension.PluginWrapper;
 import com.qlangtech.tis.extension.impl.PropertyType;
-import com.qlangtech.tis.extension.impl.RootFormProperties;
 import com.qlangtech.tis.extension.model.UpdateCenter;
 import com.qlangtech.tis.extension.model.UpdateCenterResource;
 import com.qlangtech.tis.extension.util.PluginExtraProps;
@@ -55,6 +57,7 @@ import com.qlangtech.tis.manage.common.TisUTF8;
 import com.qlangtech.tis.plugin.IDataXEndTypeGetter;
 import com.qlangtech.tis.plugin.IEndTypeGetter;
 import com.qlangtech.tis.plugin.IEndTypeGetter.EndType;
+import com.qlangtech.tis.plugin.IdentityName;
 import com.qlangtech.tis.plugin.PluginCategory;
 import com.qlangtech.tis.plugin.annotation.FormField;
 import com.qlangtech.tis.plugin.annotation.Validator;
@@ -85,6 +88,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.io.LineIterator;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.ClassUtils;
 import org.apache.commons.lang3.tuple.Pair;
@@ -197,6 +201,10 @@ public class Main {
     @Option(name = "--skip-update-center", usage = "Skip generation of update center files (mostly useful during development)")
     public boolean skipUpdateCenter;
 
+    @Option(name = "--generate-end-component-screenshot")
+    public boolean generateEndComponents = false;
+
+
     @Option(name = "--skip-latest-plugin-release", usage = "Do not include information about the latest existing plugin release (if an older release is being offered)")
     public boolean skipLatestPluginRelease;
 
@@ -234,6 +242,9 @@ public class Main {
     private MetadataWriter metadataWriter = new MetadataWriter();
     private DirectoryTreeBuilder directoryTreeBuilder = new DirectoryTreeBuilder();
 
+    static {
+        // com.qlangtech.tis.extension.util.impl.DefaultGroovyShellFactory.setInConsoleModule();
+    }
 
     public static void main(String[] args) throws Exception {
         if (!System.getProperty("file.encoding").equals("UTF-8")) {
@@ -478,8 +489,10 @@ public class Main {
             TISAliyunOSSRepositoryImpl.getOSSClient().writeFile(ossPath, pluginCategory);
         }
 
-        // 生成各个数据端的图片
-        allEndTypePluginProcess.generateEndComponents();
+        if (this.generateEndComponents) {
+            // 生成各个数据端的图片
+            allEndTypePluginProcess.generateEndComponents();
+        }
 
 
         FileUtils.write(new File(www, PLUGIN_TABVIEW_MARK_DOWN_FILENAME), tabView.build(), TisUTF8.get());
@@ -518,7 +531,7 @@ public class Main {
     }
 
     private StringBuffer buildFieldDescListByMD(Descriptor descriptor) throws IOException {
-        return buildFieldDescListByMD(false, descriptor);
+        return buildFieldDescListByMD(false, null, descriptor);
     }
 
     /**
@@ -527,7 +540,7 @@ public class Main {
      * @return
      * @throws IOException
      */
-    private StringBuffer buildFieldDescListByMD(boolean appendPluginFieldsElement, Descriptor descriptor) throws IOException {
+    private StringBuffer buildFieldDescListByMD(boolean appendPluginFieldsElement, IdentityName descId, Descriptor descriptor) throws IOException {
         MarkContentBuilder extendsList = new MarkContentBuilder();
         PluginFormProperties pluginFormPropertyTypes = descriptor.getPluginFormPropertyTypes();
 
@@ -574,6 +587,33 @@ public class Main {
                     extendsList.appendReturn(2);
                     appendRichMdContent(extendsList, 2, extraProps.getAsynHelp());
                     extendsList.appendReturn();
+                }
+                LineIterator lineIt = null;
+                if (appendPluginFieldsElement && ptype.isDescribable()) {
+                    List<? extends Descriptor> applicableDescriptors = ptype.getApplicableDescriptors();
+                    extendsList.append("\t* **可选项说明:** 可选")
+                            .append(applicableDescriptors.stream().map((desc) -> "`" + desc.getDisplayName() + "`").collect(Collectors.joining(",")))
+                            .append("以下是详细说明：").appendReturn();
+
+                    for (Descriptor propDesc : applicableDescriptors) {
+                        extendsList.append("\t\t* ").append(propDesc.getDisplayName()).appendReturn(2);
+
+                        if (propDesc.getPropertyFields().size() > 0) {
+                            extendsList.append("\t\t\t<Figure img={require('./"
+                                    + TISEndsDocsGenerator.createPluginDescriblePropFieldImageName(descId, ptype, propDesc) + "')}/>\n\n");
+
+
+                            try (StringReader propMDDoc
+                                         = new StringReader(String.valueOf(
+                                    buildFieldDescListByMD(false, descId, propDesc)))) {
+                                lineIt = IOUtils.lineIterator(propMDDoc);
+                                while (lineIt.hasNext()) {
+                                    extendsList.append("\t\t\t" + lineIt.nextLine()).appendReturn();
+                                }
+                            }
+                        }
+                    }
+
                 }
             }
             if (appendPluginFieldsElement) {
@@ -787,13 +827,22 @@ public class Main {
         public final Class<TISSinkFactory> extnedPointIncrSink = TISSinkFactory.class;
         public final Class<MQListenerFactory> extendPointIncrSources = MQListenerFactory.class;
         boolean hasInitEndTypePluginDescs;
-        Memoizer<IEndTypeGetter.EndType, EndTypePluginStore> endTypePluginDescs
+        Memoizer<IEndTypeGetter.EndType, EndTypePluginStore> dataEndTypePluginDescs
                 = new Memoizer<IEndTypeGetter.EndType, EndTypePluginStore>() {
             @Override
             public EndTypePluginStore compute(IEndTypeGetter.EndType key) {
                 return new EndTypePluginStore();
             }
         };
+        final Set<EndType> assistTypes = Sets.newHashSet(EndType.getAssistTypes());
+        Memoizer<IEndTypeGetter.EndType, EndTypePluginStore> assistEndTypePluginDescs
+                = new Memoizer<IEndTypeGetter.EndType, EndTypePluginStore>() {
+            @Override
+            public EndTypePluginStore compute(IEndTypeGetter.EndType key) {
+                return new EndTypePluginStore();
+            }
+        };
+
         final Map<String, List<PluginExtendsionImpl>> extendPoints;
 
         public AllEndTypePluginProcess(Map<String, List<PluginExtendsionImpl>> extendPoints) {
@@ -808,7 +857,7 @@ public class Main {
         public final File processCategoryPlugin() {
             Map<PluginCategory, Set<PluginClassAndDescClassPair>> pluginCategories = Maps.newConcurrentMap();
 
-            Map<IEndTypeGetter.EndType, EndTypePluginStore> snapshot = this.endTypePluginDescs.snapshot();
+            Map<IEndTypeGetter.EndType, EndTypePluginStore> snapshot = this.dataEndTypePluginDescs.snapshot();
             EndTypePluginStore endtypeStore = null;
             Set<Descriptor> processd = Sets.newHashSet();
             for (Map.Entry<IEndTypeGetter.EndType, EndTypePluginStore> entry : snapshot.entrySet()) {
@@ -912,6 +961,19 @@ public class Main {
             }
         }
 
+        private TreeSet<Map.Entry<IEndTypeGetter.EndType, EndTypePluginStore>>
+        createCaseOrderSet(Memoizer<IEndTypeGetter.EndType, EndTypePluginStore> endTypePluginDescs) {
+            final TreeSet<Map.Entry<IEndTypeGetter.EndType, EndTypePluginStore>> ends
+                    = Sets.newTreeSet(new Comparator<Entry<EndType, EndTypePluginStore>>() {
+                @Override
+                public int compare(Entry<EndType, EndTypePluginStore> o1, Entry<EndType, EndTypePluginStore> o2) {
+                    return String.CASE_INSENSITIVE_ORDER.compare(o1.getKey().name(), o2.getKey().name());
+                }
+            });
+            ends.addAll(endTypePluginDescs.snapshot().entrySet());
+            return ends;
+        }
+
         /**
          * 使用playwight产出TIS 各端说明书
          */
@@ -928,88 +990,105 @@ public class Main {
             // StringBuffer bodyContent = null;
 
             try (Playwright playwright = Playwright.create()) {
-                Browser browser = playwright.chromium().launch();
-                Page page = browser.newPage(new NewPageOptions().setViewportSize(1280, 2000));
+                Browser browser = playwright.chromium().launch(new BrowserType.LaunchOptions()
+                        .setHeadless(false));
+               // BrowserContext context = browser.newContext();
+                Page page =  browser.newPage(new NewPageOptions().setViewportSize(1680, 2000));
 
-                final TreeSet<Map.Entry<IEndTypeGetter.EndType, EndTypePluginStore>> ends
-                        = Sets.newTreeSet(new Comparator<Entry<EndType, EndTypePluginStore>>() {
-                    @Override
-                    public int compare(Entry<EndType, EndTypePluginStore> o1, Entry<EndType, EndTypePluginStore> o2) {
-                        return String.CASE_INSENSITIVE_ORDER.compare(o1.getKey().name(), o2.getKey().name());
-                    }
-                });
-                ends.addAll(endTypePluginDescs.snapshot().entrySet());
-                int position = 1;
+                final TreeSet<Map.Entry<IEndTypeGetter.EndType, EndTypePluginStore>> dataEnds
+                        = createCaseOrderSet(dataEndTypePluginDescs);
+
+                buildEndTypeDocAndShutcutImage(dataEnds, false, endsDocRoot, page);
 
 
-                for (Map.Entry<IEndTypeGetter.EndType, EndTypePluginStore> entry : ends) {
+                final TreeSet<Map.Entry<IEndTypeGetter.EndType, EndTypePluginStore>> assistEnds
+                        = createCaseOrderSet(assistEndTypePluginDescs);
 
-                    IEndTypeGetter.EndType endType = entry.getKey();
-                    EndTypePluginStore pluginStore = entry.getValue();
-                    if (entry.getKey() != EndType.KingBase) {
-                     //   continue;
-                    }
-
-                    endDir = new File(endsDocRoot, entry.getKey().name());
-                    endDoc = new File(endDir, "index.mdx");
-                    _category_ = new File(endDir, "_category_.json");
-
-                    FileUtils.write(_category_, "{\n" +
-                            "  \"label\": \"" + entry.getKey().name() + "\",\n" +
-                            "  \"position\": " + (position++) + "\n" +
-                            "}");
+                buildEndTypeDocAndShutcutImage(assistEnds, true, endsDocRoot, page);
 
 
-                    final StringBuffer bodyContent = new StringBuffer();
-
-                    TISEndsDocsGenerator.buildEndTypeImages(page, endDir, endType, entry.getValue(), (hetero, desc) -> {
-                        if (hetero.getExtensionPoint() == DATAX_READER.getExtensionPoint()) {
-                            bodyContent.append("## 批量读\n\n");
-                            bodyContent.append("<Figure img={require('./dataxReader.png')}/>\n\n");
-                        } else if (hetero.getExtensionPoint() == DATAX_WRITER.getExtensionPoint()) {
-                            bodyContent.append("## 批量写\n\n");
-                            bodyContent.append("<Figure img={require('./dataxWriter.png')}/>\n\n");
-                        } else if (hetero.getExtensionPoint() == MQ.getExtensionPoint()) {
-                            bodyContent.append("## 实时读\n\n");
-                            bodyContent.append("<Figure img={require('./mq.png')}/>\n\n");
-                        } else if (hetero.getExtensionPoint() == TISSinkFactory.sinkFactory.getExtensionPoint()) {
-                            bodyContent.append("## 实时写\n\n");
-                            bodyContent.append("<Figure img={require('./sinkFactory.png')}/>\n\n");
-                        } else if (hetero.getExtensionPoint() == DATASOURCE.getExtensionPoint()) {
-                            bodyContent.append("## 数据源配置\n\n");
-                            bodyContent.append("<Figure img={require('./datasource.png')}/>\n\n");
-                        } else if (HeteroEnum.PARAMS_CONFIG.getExtensionPoint() == hetero.getExtensionPoint()) {
-                            bodyContent.append("## 数据端配置\n\n");
-                            bodyContent.append("<Figure img={require('./params-cfg.png')}/>\n\n");
-                        } else {
-                            throw new IllegalStateException("illegal type:" + hetero.getExtensionPoint());
-                        }
-
-                        try {
-                            bodyContent.append(Main.this.buildFieldDescListByMD(true, desc)).append("\n\n");
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        }
-                    });
-
-                    tabView = new MarkdownBuilder(
-                            "plugin-component-header.txt"
-                            , (h) -> {
-                        return StringUtils.replace(h, "${title}", endType.name());
-                    }
-                            , bodyContent
-                            , Optional.of("plugin-component-footer.txt"));
-
-
-                    FileUtils.write(endDoc, tabView.build(), TisUTF8.get(), false);
-
-                    // endTypePluginStore.dataXReaders;
-//                endTypePluginStore.dataXReaders;
-//                endTypePluginStore.dataXWriters;
-//                endTypePluginStore.incrSources;
-//                endTypePluginStore.incrSinks;
-                }
                 browser.close();
+            }
+        }
+
+        private void buildEndTypeDocAndShutcutImage(
+                TreeSet<Entry<EndType, EndTypePluginStore>> dataEnds, boolean processAssistMisc, File endsDocRoot, Page page) throws IOException {
+            int position = 1;
+            File endDir;
+            File _category_;
+            File endDoc;
+            MarkdownBuilder tabView;
+            for (Entry<EndType, EndTypePluginStore> entry : dataEnds) {
+
+                EndType endType = entry.getKey();
+                EndTypePluginStore pluginStore = entry.getValue();
+                if (entry.getKey() != EndType.Flink) {
+                    //  continue;
+                }
+
+                endDir = new File(endsDocRoot, StringUtils.lowerCase(endType.category.name()) + "/" + entry.getKey().name());
+                endDoc = new File(endDir, "index.mdx");
+                _category_ = new File(endDir, "_category_.json");
+
+                FileUtils.write(_category_, "{\n" +
+                        "  \"label\": \"" + entry.getKey().name() + "\",\n" +
+                        "  \"position\": " + (position++) + "\n" +
+                        "}");
+
+
+                final StringBuffer bodyContent = new StringBuffer();
+
+
+                TISEndsDocsGenerator.buildEndTypeImages(page, endDir, endType, processAssistMisc, entry.getValue()
+                        , new CptConsumer() {
+                            @Override
+                            public void accept(HeteroEnum hetero, IdentityName descId, Descriptor desc) {
+                                if (processAssistMisc) {
+                                    if (!assistTypes.contains(endType)) {
+                                        throw new IllegalStateException("endType:" + endType + " must contain in assistTypes");
+                                    }
+                                    bodyContent.append("## ").append(desc.getDisplayName()).append("\n\n");
+                                    bodyContent.append("<Figure img={require('./" + (desc.clazz.getSimpleName()) + ".png')}/>\n\n");
+                                } else if (hetero.getExtensionPoint() == DATAX_READER.getExtensionPoint()) {
+                                    bodyContent.append("## 批量读\n\n");
+                                    bodyContent.append("<Figure img={require('./dataxReader.png')}/>\n\n");
+                                } else if (hetero.getExtensionPoint() == DATAX_WRITER.getExtensionPoint()) {
+                                    bodyContent.append("## 批量写\n\n");
+                                    bodyContent.append("<Figure img={require('./dataxWriter.png')}/>\n\n");
+                                } else if (hetero.getExtensionPoint() == MQ.getExtensionPoint()) {
+                                    bodyContent.append("## 实时读\n\n");
+                                    bodyContent.append("<Figure img={require('./mq.png')}/>\n\n");
+                                } else if (hetero.getExtensionPoint() == TISSinkFactory.sinkFactory.getExtensionPoint()) {
+                                    bodyContent.append("## 实时写\n\n");
+                                    bodyContent.append("<Figure img={require('./sinkFactory.png')}/>\n\n");
+                                } else if (hetero.getExtensionPoint() == DATASOURCE.getExtensionPoint()) {
+                                    bodyContent.append("## 数据源配置\n\n");
+                                    bodyContent.append("<Figure img={require('./datasource.png')}/>\n\n");
+                                } else if (HeteroEnum.PARAMS_CONFIG.getExtensionPoint() == hetero.getExtensionPoint()) {
+                                    bodyContent.append("## 数据端配置\n\n");
+                                    bodyContent.append("<Figure img={require('./params-cfg.png')}/>\n\n");
+                                } else {
+                                    throw new IllegalStateException("illegal type:" + hetero.getExtensionPoint());
+                                }
+
+                                try {
+                                    bodyContent.append(Main.this.buildFieldDescListByMD(true, descId, desc)).append("\n\n");
+                                } catch (IOException e) {
+                                    throw new RuntimeException(e);
+                                }
+                            }
+                        });
+
+                tabView = new MarkdownBuilder(
+                        "plugin-component-header.txt"
+                        , (h) -> {
+                    return StringUtils.replace(h, "${title}", endType.name());
+                }
+                        , bodyContent
+                        , Optional.of("plugin-component-footer.txt"));
+
+
+                FileUtils.write(endDoc, tabView.build(), TisUTF8.get(), false);
             }
         }
 
@@ -1019,6 +1098,7 @@ public class Main {
         private StringBuffer drawEndTypePluginTableView() {
             try {
                 final Set<EndType> dataEnds = Sets.newHashSet(EndType.getDataEnds());
+                // final Set<EndType> assistTypes = Sets.newHashSet(EndType.getAssistTypes());
                 /**
                  * 生成reader/writer(batch/incr) 一览视图
                  */
@@ -1032,24 +1112,24 @@ public class Main {
                         }
 
                         if (extendPointDataXReader.isAssignableFrom(pluginDesc.clazz)) {
-                            addToEndTypeStore(endTypePluginDescs, pluginDesc
+                            addToEndTypeStore(dataEndTypePluginDescs, pluginDesc
                                     , (store, typedDesc) -> store.dataXReaders.add(Pair.of((IDataXEndTypeGetter) typedDesc.getLeft(), typedDesc.getRight())));
                             continue;
                         }
 
                         if (extendPointDataXWriter.isAssignableFrom(pluginDesc.clazz)) {
-                            addToEndTypeStore(endTypePluginDescs, pluginDesc
+                            addToEndTypeStore(dataEndTypePluginDescs, pluginDesc
                                     , (store, typedDesc) -> store.dataXWriters.add(Pair.of((IDataXEndTypeGetter) typedDesc.getLeft(), typedDesc.getRight())));
                             continue;
                         }
 
                         if (extnedPointIncrSink.isAssignableFrom(pluginDesc.clazz)) {
-                            addToEndTypeStore(endTypePluginDescs, pluginDesc, (store, typedDesc) -> store.incrSinks.add(typedDesc));
+                            addToEndTypeStore(dataEndTypePluginDescs, pluginDesc, (store, typedDesc) -> store.incrSinks.add(typedDesc));
                             continue;
                         }
 
                         if (extendPointIncrSources.isAssignableFrom(pluginDesc.clazz)) {
-                            addToEndTypeStore(endTypePluginDescs, pluginDesc, (store, typedDesc) -> store.incrSources.add(typedDesc));
+                            addToEndTypeStore(dataEndTypePluginDescs, pluginDesc, (store, typedDesc) -> store.incrSources.add(typedDesc));
                             continue;
                         }
 
@@ -1057,7 +1137,13 @@ public class Main {
                             // 把plugin添加到杂项插件存储里去，改属性用于playwight写插件图流程
                             EndType endType = ((IEndTypeGetter) pluginDesc).getEndType();
                             if (dataEnds.contains(endType)) {
-                                addToEndTypeStore(endTypePluginDescs, pluginDesc, (store, typedDesc) -> {
+                                addToEndTypeStore(dataEndTypePluginDescs, pluginDesc, (store, typedDesc) -> {
+                                    store.miscPlugins.add(typedDesc);
+                                });
+                            }
+
+                            if (assistTypes.contains(endType)) {
+                                addToEndTypeStore(assistEndTypePluginDescs, pluginDesc, (store, typedDesc) -> {
                                     store.miscPlugins.add(typedDesc);
                                 });
                             }
@@ -1067,7 +1153,7 @@ public class Main {
 
                 StringBuffer validateMsg = new StringBuffer();
                 for (Map.Entry<IEndTypeGetter.EndType, EndTypePluginStore> entry
-                        : endTypePluginDescs.snapshot().entrySet()) {
+                        : dataEndTypePluginDescs.snapshot().entrySet()) {
 
                     EndTypePluginStore store = entry.getValue();
                     validateBatchIncrEndMatch(validateMsg, store.dataXReaders, store.incrSources);
@@ -1087,7 +1173,7 @@ public class Main {
                 tabView.append("</thead>");
                 tabView.append("<tbody>\n");
                 for (Map.Entry<IEndTypeGetter.EndType, EndTypePluginStore> entry
-                        : endTypePluginDescs.snapshot().entrySet()) {
+                        : dataEndTypePluginDescs.snapshot().entrySet()) {
                     endType = entry.getKey();
                     store = entry.getValue();
                     tabView.append("<tr>\n");

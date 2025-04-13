@@ -1,0 +1,1 @@
+mvn exec:java -o -Dexec.mainClass=com.microsoft.playwright.CLI -Dexec.args="codegen --target=java --browser=chromium http://localhost:4200/base/applist"
