@@ -18,6 +18,7 @@ import com.qlangtech.tis.manage.common.Option;
 import com.qlangtech.tis.plugin.IDataXEndTypeGetter;
 import com.qlangtech.tis.plugin.IEndTypeGetter;
 import com.qlangtech.tis.plugin.IEndTypeGetter.EndType;
+import com.qlangtech.tis.plugin.IEndTypeGetter.EndTypeCategory;
 import com.qlangtech.tis.plugin.IdentityName;
 import com.qlangtech.tis.plugin.ds.DataSourceFactory;
 import com.qlangtech.tis.plugin.incr.TISSinkFactory;
@@ -35,7 +36,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Optional;
-import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
 
 /**
@@ -57,12 +57,12 @@ public class TISEndsDocsGenerator {
      * @param page
      * @param endDir
      * @param endType
-     * @param processAssistMisc 处理辅助类型的组件
+     * @param endCategory 处理辅助类型的组件
      * @param pluginStore
      * @param cptConsumer
      */
     public static void buildEndTypeImages(
-            Page page, File endDir, EndType endType, boolean processAssistMisc, EndTypePluginStore pluginStore, CptConsumer cptConsumer) {
+            Page page, File endDir, EndType endType, EndTypeCategory endCategory, EndTypePluginStore pluginStore, CptConsumer cptConsumer) {
 //        try (Playwright playwright = Playwright.create()) {
 //            Browser browser = playwright.chromium().launch();
 //            Page page = browser.newPage();
@@ -75,7 +75,7 @@ public class TISEndsDocsGenerator {
         aa:
         for (Pair<IEndTypeGetter, Descriptor> pair : pluginStore.miscPlugins) {
 
-            if (processAssistMisc) {
+            if (endCategory == EndTypeCategory.Assist) {
 
                 if (true || "FlinkK8SClusterManager".equalsIgnoreCase(pair.getValue().clazz.getSimpleName())) {
                     IdentityName descId = IdentityName.create(pair.getValue().clazz.getSimpleName());
@@ -85,6 +85,14 @@ public class TISEndsDocsGenerator {
                                     , () -> buildPluginDivImage(pair.getValue(), descId, endDir, page)));
                     cptConsumer.accept(null, descId, pair.getValue());
                 }
+            } else if (endCategory == EndTypeCategory.Transformer) {
+                IdentityName descId = IdentityName.create("Transformer_UDF");
+                paramsAndImageBuilder.add(
+                        Pair.of(
+                                new Option("transformer_desc", pair.getValue().getId())
+                                , () -> buildPluginDivImage(pair.getValue(), descId
+                                        , IdentityName.create(pair.getValue().clazz.getSimpleName()), endDir, page)));
+                cptConsumer.accept(null, descId, pair.getValue());
             } else {
                 List<Descriptor<DataSourceFactory>> dsDescriptors = HeteroEnum.DATASOURCE.descriptors();
                 for (Descriptor<DataSourceFactory> dsDesc : dsDescriptors) {
@@ -243,6 +251,10 @@ public class TISEndsDocsGenerator {
     }
 
     private static void buildPluginDivImage(Descriptor descriptor, IdentityName hetero, File endDir, Page page) {
+        buildPluginDivImage(descriptor, hetero, hetero, endDir, page);
+    }
+
+    private static void buildPluginDivImage(Descriptor descriptor, IdentityName hetero, IdentityName imageName, File endDir, Page page) {
         // 定位目标 div
         final String descBlockElemtnXpaht = "//*[(self::div or self::nz-collapse-panel) and @id='" + hetero.identityValue() + "']";
         ElementHandle divElement
@@ -271,7 +283,7 @@ public class TISEndsDocsGenerator {
 
 
                     // 截取该区域
-                    imageFile = new File(endDir, hetero.identityValue() + ".png");
+                    imageFile = new File(endDir, imageName.identityValue() + ".png");
                     page.screenshot(new Page.ScreenshotOptions()
                             .setPath(imageFile.toPath())
                             .setClip(box.x, box.y, box.width, box.height)
@@ -300,7 +312,10 @@ public class TISEndsDocsGenerator {
                 }
                 applicableFieldDescs = propType.getApplicableDescriptors();
                 // 定位到对应的describle prop上
-                describlePropElement = divElement.waitForSelector("//*[(self::nz-form-item) and @ng-reflect-name='" + prop.getKey() + "']"
+//                describlePropElement = divElement.waitForSelector("//*[(self::nz-form-item) and @ng-reflect-name='" + prop.getKey() + "']"
+//                        , new ElementHandle.WaitForSelectorOptions().setState(WaitForSelectorState.VISIBLE));
+
+                describlePropElement = divElement.waitForSelector("//*[(self::nz-form-item) and @data-testid='" + prop.getKey() + "_item']"
                         , new ElementHandle.WaitForSelectorOptions().setState(WaitForSelectorState.VISIBLE));
 
                 ElementHandle pluginProp = null;
@@ -319,7 +334,7 @@ public class TISEndsDocsGenerator {
                             = properties.getSortedUseableProperties().stream().filter((entry) -> entry.getValue().formField.advance()).findFirst();
                     if (containAdvance.isPresent()) {
                         ElementHandle advanceOpts = pluginProp.querySelector(".advance-opts[ng-reflect-model=\"false\"]");
-                        if(advanceOpts != null){
+                        if (advanceOpts != null) {
                             advanceOpts.click();
                         }
                     }

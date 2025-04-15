@@ -9,7 +9,7 @@ sidebar_position: 1
 import TOCInline from '@theme/TOCInline';
 
 :::tip 统计
-**扩展点**：68，**实现插件**：237
+**扩展点**：68，**实现插件**：238
 :::
 
 <TOCInline toc={toc} />
@@ -417,10 +417,42 @@ import TOCInline from '@theme/TOCInline';
 
 	* **类型:** 单选
 	* **必须:** 是
-	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@7a3c99f1
+	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@7b332b23
 	* **说明:** 		目前支持三种存储格式：Text：普通文本，一行一条用分隔符分隔，HFile：HBase使用的存储格式，Parquet：最常用的列存格式文件，ORC文件格式
 
 ## com.qlangtech.tis.plugin.datax.transformer.UDFDefinition
+
+### com.qlangtech.tis.plugin.datax.transformer.impl.AutoGenerateBigIntIDUDF
+
+* **显示名:** Create BigInt 
+
+* **全路径名:** [com.qlangtech.tis.plugin.datax.transformer.impl.AutoGenerateBigIntIDUDF](https://github.com/qlangtech/plugins/tree/master/tis-transformer/src/main/java/com/qlangtech/tis/plugin/datax/transformer/impl/AutoGenerateBigIntIDUDF.java) 
+
+* **提供者:** [TIS](https://github.com/qlangtech/tis) 
+
+* **费用:** :smile: `社区版(免费)`
+
+* **插件包:** [tis-transformer.tpi](./tpis#tis-transformertpi)
+
+* **配置项说明:** 
+
+1. valType
+
+	* **类型:** 单选
+	* **必须:** 是
+	* **默认值:** base_on_snowflake
+	* **说明:** 		选择生成bigInt值的类型，一种是线程绑定的基于AtomicLong的自增类型，另外一种是基于Twitter snowflake algorithm的Long类型值生成
+
+2. to
+
+	* **类型:** 多选
+	* **必须:** 是
+	* **默认值:** 无
+	* **说明:** 
+
+		设置合并到的列，有两种执行模式：
+		1. 可以新添加一列: 可以选择 `Virtual Column`，设置新列的名称，并且为新列设置`类型`
+		2. 替换原有记录的值: 可以选择 `Target Column`，从下拉列表中选择原有记录中的某一列作为替换目标
 
 ### com.qlangtech.tis.plugin.datax.transformer.impl.ConcatUDF
 
@@ -1024,7 +1056,7 @@ import TOCInline from '@theme/TOCInline';
 
 	* **类型:** 单行文本
 	* **必须:** 是
-	* **默认值:** tis-flink-cluster-2
+	* **默认值:** tis-flink-cluster-1
 	* **说明:** 
 
 		The cluster-id, which should be no more than 45 characters, is used for identifying a unique Flink cluster. The id must only contain lowercase alphanumeric characters and "-". The required format is <code class="highlighter-rouge">[a-z](.)</code>. If not set, the client will automatically generate it with a random ID.
@@ -2079,7 +2111,14 @@ import TOCInline from '@theme/TOCInline';
 	* **默认值:** 无
 	* **说明:** 		无
 
-8. 附加参数
+8. 所在时区
+
+	* **类型:** 单选
+	* **必须:** 是
+	* **默认值:** com.qlangtech.tis.async.message.client.consumer.impl.MQListenerFactory.dftZoneId()
+	* **说明:** 		设置数据库服务端所在时区
+
+9. 附加参数
 
 	* **类型:** 单行文本
 	* **必须:** 否
@@ -2156,7 +2195,14 @@ import TOCInline from '@theme/TOCInline';
 	* **默认值:** false
 	* **说明:** 		支持加密传输
 
-9. 附加参数
+9. 所在时区
+
+	* **类型:** 单选
+	* **必须:** 是
+	* **默认值:** com.qlangtech.tis.async.message.client.consumer.impl.MQListenerFactory.dftZoneId()
+	* **说明:** 		设置数据库服务端所在时区
+
+10. 附加参数
 
 	* **类型:** 单行文本
 	* **必须:** 否
@@ -2431,7 +2477,24 @@ import TOCInline from '@theme/TOCInline';
 	* **类型:** 单行文本
 	* **必须:** 是
 	* **默认值:** HiveMeta
-	* **说明:** 		无
+	* **说明:** 
+
+		是Hive Metastore服务，其核心作用是管理Hive的元数据（Metadata）。
+		
+		**Hive Metastore 的作用**
+		1. **元数据存储**：
+		    - 存储所有Hive表、分区、列、数据类型、存储位置（如HDFS路径）等元数据信息。
+		    - 记录表的创建时间、所有者、权限等管理信息。
+		
+		2. **元数据共享**：
+		    - 允许多个Hive实例（或计算引擎如Spark、Impala）**共享同一份元数据**，避免重复定义表结构。
+		    - 例如：Spark可以直接通过Hive Metastore读取表结构，无需重新定义表。
+		
+		3. **解耦元数据与计算**：
+		    - Metastore服务独立于HiveServer2，使得元数据管理（9083端口）与查询执行（10000端口）分离，提高系统灵活性和可维护性。
+		
+		4. **支持多种后端存储**：
+		    - 默认使用**关系型数据库**（如MySQL、PostgreSQL）持久化元数据（而非HDFS），确保元数据的高效查询和事务支持。
 
 3. 数据库名
 
@@ -2440,12 +2503,34 @@ import TOCInline from '@theme/TOCInline';
 	* **默认值:** default
 	* **说明:** 		Hive 数据库使用的库名，请在执行任务前先创建完成
 
-4. hms
+4. HMS
 
 	* **类型:** 单行文本
 	* **必须:** 是
 	* **默认值:** HMS
-	* **说明:** 		无
+	* **说明:** 
+
+		是HiveServer2（HS2）的默认服务，其核心作用是为远程客户端提供与Hive交互，允许远程查询执行：
+		
+		1. 允许客户端（如JDBC、ODBC、Beeline等）通过TCP/IP远程提交HiveQL查询（如SELECT、JOIN等），而无需直接访问Hadoop集群节点。
+		2. 将HiveQL转换为底层计算任务（如MapReduce、Tez、Spark）并提交到集群执行。
+
+5. AliasOfSubPath
+
+	* **类型:** 单行文本
+	* **必须:** 否
+	* **默认值:** 无
+	* **说明:** 
+
+		假设当前数据库名称为 `dezhou`，有一张名称为 `test001`的表，默认hdfs上的路径为:
+		
+		`hdfs://10.8.0.10:9000/user/hive/warehouse/dezhou/test001` 
+		
+		而用户的应用场景需要为：
+		
+		`hdfs://10.8.0.10:9000/user/hive/warehouse/dezhou.db/test001`
+		
+		此时需要设置此属性为：`$1.db` ，当然也可以直接设置为： `dezhou.db`（只不过当dbName变化，此属性不会随之变化）
 
 ## com.qlangtech.tis.plugin.incr.TISSinkFactory
 
@@ -3624,7 +3709,7 @@ import TOCInline from '@theme/TOCInline';
 
 	* **类型:** 单行文本
 	* **必须:** 是
-	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@7c206b14
+	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@690ed13a
 	* **说明:** 		Elasticsearch中的index名
 
 3. cleanup
@@ -4824,14 +4909,14 @@ import TOCInline from '@theme/TOCInline';
 	* **类型:** 整型数字
 	* **必须:** 是
 	* **默认值:** com.qlangtech.tis.plugin.memory.CustomizeMemorySpecification.dftMemory()
-	* **说明:** 		单个DataX任务内存初始申请，单位：兆。当任务并发数目设置为：n，内存总体初始开销为'n*memoryRequest'，注意防止执行节点OOM
+	* **说明:** 		单个任务内存初始申请，单位：兆。当任务并发数目设置为：n，内存总体初始开销为'n*memoryRequest'，注意防止执行节点OOM
 
 2. limit
 
 	* **类型:** 整型数字
 	* **必须:** 是
 	* **默认值:** com.qlangtech.tis.plugin.memory.CustomizeMemorySpecification.dftMemory()
-	* **说明:** 		单个DataX任务内存最大极限申请，单位：兆。当任务并发数目设置为：n，内存总体最大极限开销为'n*memoryLimit'，注意防止执行节点OOM
+	* **说明:** 		单个任务内存最大极限申请，单位：兆。当任务并发数目设置为：n，内存总体最大极限开销为'n*memoryLimit'，注意防止执行节点OOM
 
 ## com.qlangtech.tis.plugins.incr.flink.chunjun.kafka.format.FormatFactory
 
@@ -6126,7 +6211,7 @@ import TOCInline from '@theme/TOCInline';
 
 	* **类型:** 整型数字
 	* **必须:** 是
-	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@197d5a87
+	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@6fbc7853
 	* **说明:** 		SpringBoot配置，HTTP端口号，默认7700，不建议更改
 
 2. host
@@ -6151,7 +6236,7 @@ import TOCInline from '@theme/TOCInline';
 
 	* **类型:** 整型数字
 	* **必须:** 是
-	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@4f552aa2
+	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@688d619c
 	* **说明:** 		SpringBoot配置，HTTP端口号，默认7700，不建议更改
 
 ### com.qlangtech.tis.plugin.datax.powerjob.impl.serverport.NodePort
@@ -6170,7 +6255,7 @@ import TOCInline from '@theme/TOCInline';
 
 	* **类型:** 整型数字
 	* **必须:** 是
-	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@1c411474
+	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@1b632442
 	* **说明:** 		SpringBoot配置，HTTP端口号，默认7700，不建议更改
 
 2. INTERNAL-IP
@@ -7356,7 +7441,7 @@ import TOCInline from '@theme/TOCInline';
 
 	* **类型:** 单行文本
 	* **必须:** 是
-	* **默认值:** tis-flink-cluster-2
+	* **默认值:** tis-flink-cluster-1
 	* **说明:** 
 
 		The cluster-id, which should be no more than 45 characters, is used for identifying a unique Flink cluster. The id must only contain lowercase alphanumeric characters and "-". The required format is <code class="highlighter-rouge">[a-z](.)</code>. If not set, the client will automatically generate it with a random ID.
@@ -8093,14 +8178,7 @@ import TOCInline from '@theme/TOCInline';
 		* `Snapshot`: Takes a snapshot of structure and data like initial but instead does not transition into streaming changes once the snapshot has completed.
 		* `LatestOffset` (default): Takes a snapshot of the structure of captured tables only; useful if only changes happening from now onwards should be propagated to topics.
 
-2. 所在时区
-
-	* **类型:** 单选
-	* **必须:** 是
-	* **默认值:** com.qlangtech.tis.plugins.incr.flink.cdc.sqlserver.FlinkCDCSqlServerSourceFactory.dftZoneId()
-	* **说明:** 		设置MySQL服务端所在时区
-
-3. BinLog独立监听
+2. BinLog独立监听
 
 	* **类型:** 单选
 	* **必须:** 是
@@ -8111,7 +8189,7 @@ import TOCInline from '@theme/TOCInline';
 		
 		如开启，带来的好处是运算时资源各自独立不会相互相互影响，弊端是，上游算子与下游算子独立在两个Solt中需要额外的网络传输开销
 
-4. 过滤
+3. 过滤
 
 	* **类型:** 单选
 	* **必须:** 否
@@ -8255,7 +8333,7 @@ import TOCInline from '@theme/TOCInline';
 
 	* **类型:** 单行文本
 	* **必须:** 是
-	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@472719df
+	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@3e9b3b3c
 	* **说明:** 		无
 
 2. incrMode
@@ -8283,7 +8361,7 @@ import TOCInline from '@theme/TOCInline';
 
 	* **类型:** 单行文本
 	* **必须:** 是
-	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@f42336c
+	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@294ebe11
 	* **说明:** 		无
 
 ### com.qlangtech.tis.plugins.incr.flink.chunjun.source.SelectedTabPropsExtends
@@ -8302,7 +8380,7 @@ import TOCInline from '@theme/TOCInline';
 
 	* **类型:** 单行文本
 	* **必须:** 是
-	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@a63643e
+	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@6b64429e
 	* **说明:** 		无
 
 2. 轮询策略
@@ -8361,7 +8439,7 @@ import TOCInline from '@theme/TOCInline';
 
 	* **类型:** 单行文本
 	* **必须:** 是
-	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@42ffbab6
+	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@3df04fa1
 	* **说明:** 		无
 
 2. 过滤
@@ -8391,7 +8469,7 @@ import TOCInline from '@theme/TOCInline';
 
 	* **类型:** 单行文本
 	* **必须:** 是
-	* **默认值:** com.qlangtech.tis.plugin.datax.doplinscheduler.export.ExportTISPipelineToDolphinscheduler.dftProcessName()
+	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@5be69f7e
 	* **说明:** 		对应的dolphinscheduler中工作流名称，确保同一项目下工作流名称唯一，不能重复
 
 2. endpoint
@@ -8506,7 +8584,7 @@ import TOCInline from '@theme/TOCInline';
 
 	* **类型:** 单选
 	* **必须:** 是
-	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@5fb514c2
+	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@31fe0ce5
 	* **说明:** 		replaceKey指定了每行记录的业务主键。用来做更新时使用
 
 ## com.qlangtech.tis.plugin.datax.powerjob.PowerJobOMS
@@ -9067,7 +9145,7 @@ import TOCInline from '@theme/TOCInline';
 
 	* **类型:** 单选
 	* **必须:** 是
-	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@3639b04
+	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@77998ea7
 	* **说明:** 		选择列作为表的主键
 
 3. Sequence列
@@ -9115,7 +9193,7 @@ import TOCInline from '@theme/TOCInline';
 
 	* **类型:** 单选
 	* **必须:** 是
-	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@5c740c5a
+	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@5dd3727c
 	* **说明:** 		选择列作为表的主键
 
 3. 分区字段
@@ -9159,7 +9237,7 @@ import TOCInline from '@theme/TOCInline';
 
 	* **类型:** 单选
 	* **必须:** 是
-	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@5f5a33ed
+	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@391dfe7c
 	* **说明:** 		选择列作为表的主键
 
 3. upsert

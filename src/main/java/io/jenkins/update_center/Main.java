@@ -57,6 +57,7 @@ import com.qlangtech.tis.manage.common.TisUTF8;
 import com.qlangtech.tis.plugin.IDataXEndTypeGetter;
 import com.qlangtech.tis.plugin.IEndTypeGetter;
 import com.qlangtech.tis.plugin.IEndTypeGetter.EndType;
+import com.qlangtech.tis.plugin.IEndTypeGetter.EndTypeCategory;
 import com.qlangtech.tis.plugin.IdentityName;
 import com.qlangtech.tis.plugin.PluginCategory;
 import com.qlangtech.tis.plugin.annotation.FormField;
@@ -835,7 +836,18 @@ public class Main {
             }
         };
         final Set<EndType> assistTypes = Sets.newHashSet(EndType.getAssistTypes());
+        final Set<EndType> transformerTypes = Sets.newHashSet(EndType.getTransformerTypes());
+
+
         Memoizer<IEndTypeGetter.EndType, EndTypePluginStore> assistEndTypePluginDescs
+                = new Memoizer<IEndTypeGetter.EndType, EndTypePluginStore>() {
+            @Override
+            public EndTypePluginStore compute(IEndTypeGetter.EndType key) {
+                return new EndTypePluginStore();
+            }
+        };
+
+        Memoizer<IEndTypeGetter.EndType, EndTypePluginStore> transformerEndTypePluginDescs
                 = new Memoizer<IEndTypeGetter.EndType, EndTypePluginStore>() {
             @Override
             public EndTypePluginStore compute(IEndTypeGetter.EndType key) {
@@ -992,19 +1004,23 @@ public class Main {
             try (Playwright playwright = Playwright.create()) {
                 Browser browser = playwright.chromium().launch(new BrowserType.LaunchOptions()
                         .setHeadless(false));
-               // BrowserContext context = browser.newContext();
-                Page page =  browser.newPage(new NewPageOptions().setViewportSize(1680, 2000));
+                // BrowserContext context = browser.newContext();
+                Page page = browser.newPage(new NewPageOptions().setViewportSize(1680, 2000));
 
                 final TreeSet<Map.Entry<IEndTypeGetter.EndType, EndTypePluginStore>> dataEnds
                         = createCaseOrderSet(dataEndTypePluginDescs);
 
-                buildEndTypeDocAndShutcutImage(dataEnds, false, endsDocRoot, page);
+                buildEndTypeDocAndShutcutImage(dataEnds, EndTypeCategory.Data, endsDocRoot, page);
 
 
                 final TreeSet<Map.Entry<IEndTypeGetter.EndType, EndTypePluginStore>> assistEnds
                         = createCaseOrderSet(assistEndTypePluginDescs);
 
-                buildEndTypeDocAndShutcutImage(assistEnds, true, endsDocRoot, page);
+                buildEndTypeDocAndShutcutImage(assistEnds, EndTypeCategory.Assist, endsDocRoot, page);
+
+                final TreeSet<Map.Entry<IEndTypeGetter.EndType, EndTypePluginStore>> transformerEnds = createCaseOrderSet(transformerEndTypePluginDescs);
+
+                buildEndTypeDocAndShutcutImage(transformerEnds, EndTypeCategory.Transformer, endsDocRoot, page);
 
 
                 browser.close();
@@ -1012,7 +1028,7 @@ public class Main {
         }
 
         private void buildEndTypeDocAndShutcutImage(
-                TreeSet<Entry<EndType, EndTypePluginStore>> dataEnds, boolean processAssistMisc, File endsDocRoot, Page page) throws IOException {
+                TreeSet<Entry<EndType, EndTypePluginStore>> dataEnds, EndTypeCategory endCategory, File endsDocRoot, Page page) throws IOException {
             int position = 1;
             File endDir;
             File _category_;
@@ -1022,8 +1038,8 @@ public class Main {
 
                 EndType endType = entry.getKey();
                 EndTypePluginStore pluginStore = entry.getValue();
-                if (entry.getKey() != EndType.Flink) {
-                    //  continue;
+                if (entry.getKey() != EndType.AutoGen) {
+                  //  continue;
                 }
 
                 endDir = new File(endsDocRoot, StringUtils.lowerCase(endType.category.name()) + "/" + entry.getKey().name());
@@ -1039,13 +1055,13 @@ public class Main {
                 final StringBuffer bodyContent = new StringBuffer();
 
 
-                TISEndsDocsGenerator.buildEndTypeImages(page, endDir, endType, processAssistMisc, entry.getValue()
+                TISEndsDocsGenerator.buildEndTypeImages(page, endDir, endType, endCategory, entry.getValue()
                         , new CptConsumer() {
                             @Override
                             public void accept(HeteroEnum hetero, IdentityName descId, Descriptor desc) {
-                                if (processAssistMisc) {
-                                    if (!assistTypes.contains(endType)) {
-                                        throw new IllegalStateException("endType:" + endType + " must contain in assistTypes");
+                                if (endCategory == EndTypeCategory.Assist || endCategory == EndTypeCategory.Transformer) {
+                                    if (!assistTypes.contains(endType) && !transformerTypes.contains(endType)) {
+                                        throw new IllegalStateException("endType:" + endType + " must contain in assistTypes or transformerTypes");
                                     }
                                     bodyContent.append("## ").append(desc.getDisplayName()).append("\n\n");
                                     bodyContent.append("<Figure img={require('./" + (desc.clazz.getSimpleName()) + ".png')}/>\n\n");
@@ -1144,6 +1160,12 @@ public class Main {
 
                             if (assistTypes.contains(endType)) {
                                 addToEndTypeStore(assistEndTypePluginDescs, pluginDesc, (store, typedDesc) -> {
+                                    store.miscPlugins.add(typedDesc);
+                                });
+                            }
+
+                            if (transformerTypes.contains(endType)) {
+                                addToEndTypeStore(transformerEndTypePluginDescs, pluginDesc, (store, typedDesc) -> {
                                     store.miscPlugins.add(typedDesc);
                                 });
                             }
