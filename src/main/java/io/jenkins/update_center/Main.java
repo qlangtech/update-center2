@@ -835,8 +835,8 @@ public class Main {
                 return new EndTypePluginStore();
             }
         };
-        final Set<EndType> assistTypes = Sets.newHashSet(EndType.getAssistTypes());
-        final Set<EndType> transformerTypes = Sets.newHashSet(EndType.getTransformerTypes());
+        final Set<EndType> assistTypes = (EndType.getAssistTypes());
+        final Set<EndType> transformerTypes = (EndType.getTransformerTypes());
 
 
         Memoizer<IEndTypeGetter.EndType, EndTypePluginStore> assistEndTypePluginDescs
@@ -1113,7 +1113,7 @@ public class Main {
          */
         private StringBuffer drawEndTypePluginTableView() {
             try {
-                final Set<EndType> dataEnds = Sets.newHashSet(EndType.getDataEnds());
+                final Set<EndType> dataEnds = EndType.getDataEnds();
                 // final Set<EndType> assistTypes = Sets.newHashSet(EndType.getAssistTypes());
                 /**
                  * 生成reader/writer(batch/incr) 一览视图
