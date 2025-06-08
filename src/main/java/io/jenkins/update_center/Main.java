@@ -1039,7 +1039,7 @@ public class Main {
                 EndType endType = entry.getKey();
                 EndTypePluginStore pluginStore = entry.getValue();
                 if (entry.getKey() != EndType.AutoGen) {
-                  //  continue;
+                    //  continue;
                 }
 
                 endDir = new File(endsDocRoot, StringUtils.lowerCase(endType.category.name()) + "/" + entry.getKey().name());
@@ -1397,6 +1397,7 @@ public class Main {
                 return "密码";
             case TEXTAREA:
                 return "富文本";
+            case JDBCColumn:
             case INPUTTEXT:
                 return "单行文本";
             case INT_NUMBER:
@@ -1408,6 +1409,16 @@ public class Main {
                 return "多选";
             case FILE:
                 return "文件";
+            case DECIMAL_NUMBER:
+                return "浮点数字";
+            case DURATION_OF_HOUR:
+            case DURATION_OF_MINUTE:
+            case DURATION_OF_SECOND:
+                return "时间跨度";
+            case MEMORY_SIZE_OF_BYTE:
+            case MEMORY_SIZE_OF_KIBI:
+            case MEMORY_SIZE_OF_MEGA:
+                return "字节规格容量";
             default:
                 throw new IllegalStateException("invalid type:" + formField.type());
         }
