@@ -9,7 +9,7 @@ sidebar_position: 1
 import TOCInline from '@theme/TOCInline';
 
 :::tip 统计
-**扩展点**：68，**实现插件**：238
+**扩展点**：82，**实现插件**：269
 :::
 
 <TOCInline toc={toc} />
@@ -221,6 +221,62 @@ import TOCInline from '@theme/TOCInline';
 	* **默认值:** 
 	* **说明:** 		JAAS login context parameters for SASL connections in the format used by JAAS configuration files.
 
+## com.qlangtech.tis.plugin.paimon.catalog.PaimonCatalog
+
+### com.qlangtech.tis.plugin.paimon.catalog.HiveCatalog
+
+* **显示名:** Hive 
+
+* **全路径名:** [com.qlangtech.tis.plugin.paimon.catalog.HiveCatalog](https://github.com/qlangtech/tis-paimon-plugin/tis-paimon-datax/tis-datax-paimonwriter-plugin/src/main/java/com/qlangtech/tis/plugin/paimon/catalog/HiveCatalog.java) 
+
+* **费用:** :smile: `社区版(免费)`
+
+* **插件包:** [tis-datax-paimonwriter-plugin/tis-datax-paimonwriter-plugin_hive_2.1.1-cdh6.3.2_hadoop_3.0.0-cdh6.3.2.tpi](./tpis#tis-datax-paimonwriter-plugin/tis-datax-paimonwriter-plugin_hive_211-cdh632_hadoop_300-cdh632tpi)
+
+* **配置项说明:** 
+
+1. hiveserver2
+
+	* **类型:** 单选
+	* **必须:** 是
+	* **默认值:** 无
+	* **说明:** 		无
+
+2. fsName
+
+	* **类型:** 单选
+	* **必须:** 是
+	* **默认值:** 无
+	* **说明:** 		描述：Hadoop hdfs文件系统namenode节点地址。格式：hdfs://ip:端口；例如：hdfs://127.0.0.1:9000
+
+3. commit.user-prefix
+
+	* **类型:** 单行文本
+	* **必须:** 是
+	* **默认值:** admin
+	* **说明:** 
+
+		Specifies the commit user prefix.
+		
+		在 Paimon 中的作用是标识提交操作的来源，虽然看似可以配置任意值，但它在分布式环境中对运维监控至关重要。
+		 以下是详细解析：
+		 1. 核心作用：提交者身份标识 
+		 2. 分布式环境追踪,在 Flink 集群中，不同 TaskManager 上的写入任务会产生各自的提交记录。通过前缀可快速区分
+
+4. Lock
+
+	* **类型:** 单行文本
+	* **必须:** 是
+	* **默认值:** off
+	* **说明:** 		Enable Catalog Lock.
+
+5. Cache
+
+	* **类型:** 单行文本
+	* **必须:** 是
+	* **默认值:** off
+	* **说明:** 		Controls whether the catalog will cache databases, tables, manifests and partitions.
+
 ## com.qlangtech.tis.plugins.incr.flink.chunjun.poll.Polling
 
 ### com.qlangtech.tis.plugins.incr.flink.chunjun.poll.RunInterval
@@ -417,7 +473,7 @@ import TOCInline from '@theme/TOCInline';
 
 	* **类型:** 单选
 	* **必须:** 是
-	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@7b332b23
+	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@26a33cf
 	* **说明:** 		目前支持三种存储格式：Text：普通文本，一行一条用分隔符分隔，HFile：HBase使用的存储格式，Parquet：最常用的列存格式文件，ORC文件格式
 
 ## com.qlangtech.tis.plugin.datax.transformer.UDFDefinition
@@ -628,6 +684,56 @@ import TOCInline from '@theme/TOCInline';
 	* **必须:** 是
 	* **默认值:** true
 	* **说明:** 		解析json过程中如发生解析错误的情况，是否直接跳过，或抛出异常最终会导致导入程序执行终止
+
+### com.qlangtech.tis.plugin.datax.transformer.impl.RegexPatternReplace
+
+* **显示名:** Regex Replace 
+
+* **全路径名:** [com.qlangtech.tis.plugin.datax.transformer.impl.RegexPatternReplace](https://github.com/qlangtech/plugins/tree/master/tis-transformer/src/main/java/com/qlangtech/tis/plugin/datax/transformer/impl/RegexPatternReplace.java) 
+
+* **提供者:** [TIS](https://github.com/qlangtech/tis) 
+
+* **费用:** :smile: `社区版(免费)`
+
+* **插件包:** [tis-transformer.tpi](./tpis#tis-transformertpi)
+
+* **配置项说明:** 
+
+1. from
+
+	* **类型:** 单选
+	* **必须:** 是
+	* **默认值:** 无
+	* **说明:** 		从下拉列表中选择记录中的某一列，作为需要转换的值来源
+
+2. 模式
+
+	* **类型:** 单行文本
+	* **必须:** 是
+	* **默认值:** 无
+	* **说明:** 
+
+		使用正则式匹配目标字段内容，例如，现有数据列为 `yyyy-MM-dd` 格式，用户希望将内容格式变成 `yyyy-MM`，则可以进行如下设置：
+		 
+		  将`模式`内容设置为`^(\d{4}-\d{2})-\d{2}$`，替换内容内容设置为`$1`
+
+3. 替换内容
+
+	* **类型:** 单行文本
+	* **必须:** 是
+	* **默认值:** 无
+	* **说明:** 
+
+		例如，现有数据列为 `yyyy-MM-dd` 格式，用户希望将内容格式变成 `yyyy-MM`，则可以进行如下设置：
+		  
+		  将`模式`内容设置为`^(\d{4}-\d{2})-\d{2}$`，替换内容内容设置为`$1`
+
+4. throwErrorNotMatch
+
+	* **类型:** 单选
+	* **必须:** 是
+	* **默认值:** false
+	* **说明:** 		如果模式没有匹配，则主动抛出异常终止处理
 
 ### com.qlangtech.tis.plugin.datax.transformer.impl.SubStrUDF
 
@@ -920,6 +1026,292 @@ import TOCInline from '@theme/TOCInline';
 	* **默认值:** 无
 	* **说明:** 		宿主应用对应的密码
 
+### :closed_lock_with_key:com.qlangtech.plugins.incr.flink.cluster.FlinkK8SClusterManager
+
+* **显示名:** flink-cluster 
+
+* **全路径名:** [com.qlangtech.plugins.incr.flink.cluster.FlinkK8SClusterManager](https://github.com/qlangtech/tis-plugins-commercial/tree/master/tis-incr-commercial/tis-flink-k8s-plugin/src/main/java/com/qlangtech/plugins/incr/flink/cluster/FlinkK8SClusterManager.java) 
+
+* **提供者:** [TIS](https://github.com/qlangtech/tis) 
+
+* **费用:** :closed_lock_with_key: `社区协作`
+
+* **插件包:** [tis-flink-k8s-plugin.tpi](./tpis#tis-flink-k8s-plugintpi)
+
+* **配置项说明:** 
+
+1. clusterId
+
+	* **类型:** 单行文本
+	* **必须:** 是
+	* **默认值:** tis-flink-cluster-1
+	* **说明:** 
+
+		The cluster-id, which should be no more than 45 characters, is used for identifying a unique Flink cluster. The id must only contain lowercase alphanumeric characters and "-". The required format is <code class="highlighter-rouge">[a-z](.)</code>. If not set, the client will automatically generate it with a random ID.
+		
+		The `cluster-id`, which should be no more than 45 characters, is used for identifying a unique Flink cluster.
+
+2. k8sImage
+
+	* **类型:** 单选
+	* **必须:** 是
+	* **默认值:** flink-cluster
+	* **说明:** 		选择一个与该执行器匹配的Docker Image实例
+
+3. 服务暴露
+
+	* **类型:** 整型数字
+	* **必须:** 是
+	* **默认值:** 无
+	* **说明:** 		Flink集群 启动之后将默认8081端口对外部暴露，可选择K8S相应暴露服务端口方式，如：NodePort，Ingress，LoadBalance
+
+4. jmMemory
+
+	* **类型:** 字节规格容量
+	* **必须:** 是
+	* **默认值:** 1600
+	* **说明:** 
+
+		Total Process Memory size for the JobManager. This includes all the memory that a JobManager JVM process consumes, consisting of Total Flink Memory, JVM Metaspace, and JVM Overhead. In containerized setups, this should be set to the container memory. See also 'jobmanager.memory.flink.size' for Total Flink Memory size configuration.
+		
+		单位：`mb`
+		
+		`Total Process Memory size for the JobManager`. 
+		
+		This includes all the memory that a JobManager JVM process consumes, consisting of Total Flink Memory, JVM Metaspace, and JVM Overhead. 
+		In containerized setups, this should be set to the container memory. 
+		See also 'jobmanager.memory.flink.size' for Total Flink Memory size configuration.
+
+5. tmMemory
+
+	* **类型:** 字节规格容量
+	* **必须:** 是
+	* **默认值:** 1728
+	* **说明:** 
+
+		Total Process Memory size for the TaskExecutors. This includes all the memory that a TaskExecutor consumes, consisting of Total Flink Memory, JVM Metaspace, and JVM Overhead. On containerized setups, this should be set to the container memory. See also 'taskmanager.memory.flink.size' for total Flink memory size configuration.
+		
+		单位：`mb`
+		
+		`Total Flink Memory size for the TaskExecutors`. 
+		
+		This includes all the memory that a TaskExecutor consumes, except for JVM Metaspace and JVM Overhead. 
+		It consists of Framework Heap Memory, Task Heap Memory, Task Off-Heap Memory, Managed Memory, and Network Memory. 
+		See also '%s' for total process memory size configuration.
+
+6. tmCPUCores
+
+	* **类型:** 整型数字
+	* **必须:** 否
+	* **默认值:** 1000
+	* **说明:** 
+
+		CPU cores for the TaskExecutors. In case of Yarn setups, this value will be rounded to the closest positive integer. If not explicitly configured, legacy config options 'yarn.containers.vcores' and 'kubernetes.taskmanager.cpu' will be used for Yarn / Kubernetes setups, and 'taskmanager.numberOfTaskSlots' will be used for standalone setups (approximate number of slots).
+		
+		*1000个单位代表一个1 CPU Core
+
+7. taskSlot
+
+	* **类型:** 整型数字
+	* **必须:** 是
+	* **默认值:** 1
+	* **说明:** 
+
+		The number of parallel operator or user function instances that a single TaskManager can run. If this value is larger than 1, a single TaskManager takes multiple instances of a function or operator. That way, the TaskManager can utilize multiple CPU cores, but at the same time, the available memory is divided between the different operator or function instances. This value is typically proportional to the number of physical CPU cores that the TaskManager's machine has (e.g., equal to the number of cores, or half the number of cores).
+
+8. svcAccount
+
+	* **类型:** 单行文本
+	* **必须:** 是
+	* **默认值:** default
+	* **说明:** 
+
+		Service account that is used by jobmanager and taskmanager within kubernetes cluster. Notice that this can be overwritten by config options 'kubernetes.jobmanager.service-account' and 'kubernetes.taskmanager.service-account' for jobmanager and taskmanager respectively.
+
+9. 授权
+
+	* **类型:** 单选
+	* **必须:** 是
+	* **默认值:** true
+	* **说明:** 
+
+		保证Flink 在Kubernetes（Session / Application）模式下拥有执行所有操作都有相应的权限，如不拥有相应权限则会报以下错误：
+		```shell script
+		io.fabric8.kubernetes.client.KubernetesClientException: pods is forbidden: 
+		User "system:serviceaccount:default:default" cannot watch resource "pods" in API group "" in the namespace "default"
+		```
+		
+		如选择：是，执行过程会查看系统是否有 rolebing：tis-flink-manager，如没有，则会在Kubernetes Cluster中执行以下等效语句：
+		```shell script
+		kubectl  create clusterrolebinding tis-flink-manager --clusterrole=cluster-admin --serviceaccount=default:default
+		```
+
+10. retryMax
+
+	* **类型:** 整型数字
+	* **必须:** 是
+	* **默认值:** 20
+	* **说明:** 
+
+		The number of retries the client will attempt if a retryable operations fails.
+
+11. retryDelay
+
+	* **类型:** 时间跨度
+	* **必须:** 是
+	* **默认值:** 3
+	* **说明:** 
+
+		The time that the client waits between retries (See also `rest.retry.max-attempts`).
+		
+		单位：`秒`
+
+12. metricReportInterval
+
+	* **类型:** 时间跨度
+	* **必须:** 是
+	* **默认值:** 10
+	* **说明:** 
+
+		The reporter interval to use for the reporter named &lt;name&gt;. Only applicable to push-based reporters.
+		
+		单位：`秒`
+
+### :closed_lock_with_key:com.qlangtech.plugins.incr.flink.cluster.KubernetesApplicationClusterConfig
+
+* **显示名:** flink-kubernetes-application-cfg 
+
+* **全路径名:** [com.qlangtech.plugins.incr.flink.cluster.KubernetesApplicationClusterConfig](https://github.com/qlangtech/tis-plugins-commercial/tree/master/tis-incr-commercial/tis-flink-k8s-plugin/src/main/java/com/qlangtech/plugins/incr/flink/cluster/KubernetesApplicationClusterConfig.java) 
+
+* **提供者:** [TIS](https://github.com/qlangtech/tis) 
+
+* **费用:** :closed_lock_with_key: `社区协作`
+
+* **插件包:** [tis-flink-k8s-plugin.tpi](./tpis#tis-flink-k8s-plugintpi)
+
+* **配置项说明:** 
+
+1. 配置编号
+
+	* **类型:** 单行文本
+	* **必须:** 是
+	* **默认值:** 无
+	* **说明:** 		可将此配置作为'kubernetes-application'部署配置模版，作为配置标识后续可供其他kubernetes-application部署类型的Flink Job引用
+
+2. k8sImage
+
+	* **类型:** 单选
+	* **必须:** 是
+	* **默认值:** flink-cluster
+	* **说明:** 		选择一个与该执行器匹配的Docker Image实例
+
+3. 服务暴露
+
+	* **类型:** 整型数字
+	* **必须:** 是
+	* **默认值:** 无
+	* **说明:** 		Flink集群 启动之后将默认8081端口对外部暴露，可选择K8S相应暴露服务端口方式，如：NodePort，Ingress，LoadBalance
+
+4. jmMemory
+
+	* **类型:** 字节规格容量
+	* **必须:** 是
+	* **默认值:** 1600
+	* **说明:** 
+
+		Total Process Memory size for the JobManager. This includes all the memory that a JobManager JVM process consumes, consisting of Total Flink Memory, JVM Metaspace, and JVM Overhead. In containerized setups, this should be set to the container memory. See also 'jobmanager.memory.flink.size' for Total Flink Memory size configuration.
+		
+		单位：`mb`
+
+5. tmMemory
+
+	* **类型:** 字节规格容量
+	* **必须:** 是
+	* **默认值:** 1728
+	* **说明:** 
+
+		Total Process Memory size for the TaskExecutors. This includes all the memory that a TaskExecutor consumes, consisting of Total Flink Memory, JVM Metaspace, and JVM Overhead. On containerized setups, this should be set to the container memory. See also 'taskmanager.memory.flink.size' for total Flink memory size configuration.
+		
+		单位：`mb`
+
+6. tmCPUCores
+
+	* **类型:** 整型数字
+	* **必须:** 否
+	* **默认值:** 1000
+	* **说明:** 
+
+		CPU cores for the TaskExecutors. In case of Yarn setups, this value will be rounded to the closest positive integer. If not explicitly configured, legacy config options 'yarn.containers.vcores' and 'kubernetes.taskmanager.cpu' will be used for Yarn / Kubernetes setups, and 'taskmanager.numberOfTaskSlots' will be used for standalone setups (approximate number of slots).
+		
+		*1000个单位代表一个1 CPU Core
+
+7. taskSlot
+
+	* **类型:** 整型数字
+	* **必须:** 是
+	* **默认值:** 1
+	* **说明:** 
+
+		The number of parallel operator or user function instances that a single TaskManager can run. If this value is larger than 1, a single TaskManager takes multiple instances of a function or operator. That way, the TaskManager can utilize multiple CPU cores, but at the same time, the available memory is divided between the different operator or function instances. This value is typically proportional to the number of physical CPU cores that the TaskManager's machine has (e.g., equal to the number of cores, or half the number of cores).
+
+8. svcAccount
+
+	* **类型:** 单行文本
+	* **必须:** 是
+	* **默认值:** default
+	* **说明:** 
+
+		Service account that is used by jobmanager and taskmanager within kubernetes cluster. Notice that this can be overwritten by config options 'kubernetes.jobmanager.service-account' and 'kubernetes.taskmanager.service-account' for jobmanager and taskmanager respectively.
+
+9. 授权
+
+	* **类型:** 单选
+	* **必须:** 是
+	* **默认值:** true
+	* **说明:** 
+
+		保证Flink 在Kubernetes（Session / Application）模式下拥有执行所有操作都有相应的权限，如不拥有相应权限则会报以下错误：
+		```shell script
+		io.fabric8.kubernetes.client.KubernetesClientException: pods is forbidden: 
+		User "system:serviceaccount:default:default" cannot watch resource "pods" in API group "" in the namespace "default"
+		```
+		
+		如选择：是，执行过程会查看系统是否有 rolebing：tis-flink-manager，如没有，则会在Kubernetes Cluster中执行以下等效语句：
+		```shell script
+		kubectl  create clusterrolebinding tis-flink-manager --clusterrole=cluster-admin --serviceaccount=default:default
+		```
+
+10. retryMax
+
+	* **类型:** 整型数字
+	* **必须:** 是
+	* **默认值:** 20
+	* **说明:** 
+
+		The number of retries the client will attempt if a retryable operations fails.
+
+11. retryDelay
+
+	* **类型:** 时间跨度
+	* **必须:** 是
+	* **默认值:** 3
+	* **说明:** 
+
+		The time that the client waits between retries (See also `rest.retry.max-attempts`).
+		
+		单位：`秒`
+
+12. metricReportInterval
+
+	* **类型:** 时间跨度
+	* **必须:** 是
+	* **默认值:** 10
+	* **说明:** 
+
+		The reporter interval to use for the reporter named &lt;name&gt;. Only applicable to push-based reporters.
+		
+		单位：`秒`
+
 ### com.qlangtech.tis.plugin.datax.powerjob.K8SDataXPowerJobServer
 
 * **显示名:** powerjob-server 
@@ -1038,216 +1430,6 @@ import TOCInline from '@theme/TOCInline';
 	* **默认值:** 10
 	* **说明:** 		worker 健康状态上报的间隔（秒）
 
-### com.qlangtech.plugins.incr.flink.cluster.FlinkK8SClusterManager
-
-* **显示名:** flink-cluster 
-
-* **全路径名:** [com.qlangtech.plugins.incr.flink.cluster.FlinkK8SClusterManager](https://github.com/qlangtech/plugins/tree/master/tis-incr/tis-realtime-flink/src/main/java/com/qlangtech/plugins/incr/flink/cluster/FlinkK8SClusterManager.java) 
-
-* **提供者:** [TIS](https://github.com/qlangtech/tis) 
-
-* **费用:** :smile: `社区版(免费)`
-
-* **插件包:** [tis-realtime-flink.tpi](./tpis#tis-realtime-flinktpi)
-
-* **配置项说明:** 
-
-1. clusterId
-
-	* **类型:** 单行文本
-	* **必须:** 是
-	* **默认值:** tis-flink-cluster-1
-	* **说明:** 
-
-		The cluster-id, which should be no more than 45 characters, is used for identifying a unique Flink cluster. The id must only contain lowercase alphanumeric characters and "-". The required format is <code class="highlighter-rouge">[a-z](.)</code>. If not set, the client will automatically generate it with a random ID.
-
-2. k8sImage
-
-	* **类型:** 单选
-	* **必须:** 是
-	* **默认值:** flink-cluster
-	* **说明:** 		选择一个与该执行器匹配的Docker Image实例
-
-3. 服务暴露
-
-	* **类型:** 整型数字
-	* **必须:** 是
-	* **默认值:** 无
-	* **说明:** 		Flink集群 启动之后将默认8081端口对外部暴露，可选择K8S相应暴露服务端口方式，如：NodePort，Ingress，LoadBalance
-
-4. jmMemory
-
-	* **类型:** 整型数字
-	* **必须:** 是
-	* **默认值:** 1638400
-	* **说明:** 
-
-		Total Process Memory size for the JobManager. This includes all the memory that a JobManager JVM process consumes, consisting of Total Flink Memory, JVM Metaspace, and JVM Overhead. In containerized setups, this should be set to the container memory. See also 'jobmanager.memory.flink.size' for Total Flink Memory size configuration.
-		
-		 单位：`kb`
-
-5. tmMemory
-
-	* **类型:** 整型数字
-	* **必须:** 是
-	* **默认值:** 1769472
-	* **说明:** 
-
-		Total Process Memory size for the TaskExecutors. This includes all the memory that a TaskExecutor consumes, consisting of Total Flink Memory, JVM Metaspace, and JVM Overhead. On containerized setups, this should be set to the container memory. See also 'taskmanager.memory.flink.size' for total Flink memory size configuration.
-		
-		 单位：`kb`
-
-6. tmCPUCores
-
-	* **类型:** 整型数字
-	* **必须:** 否
-	* **默认值:** 1000
-	* **说明:** 
-
-		CPU cores for the TaskExecutors. In case of Yarn setups, this value will be rounded to the closest positive integer. If not explicitly configured, legacy config options 'yarn.containers.vcores' and 'kubernetes.taskmanager.cpu' will be used for Yarn / Kubernetes setups, and 'taskmanager.numberOfTaskSlots' will be used for standalone setups (approximate number of slots).
-		
-		*1000个单位代表一个1 CPU Core
-
-7. taskSlot
-
-	* **类型:** 整型数字
-	* **必须:** 是
-	* **默认值:** 1
-	* **说明:** 
-
-		The number of parallel operator or user function instances that a single TaskManager can run. If this value is larger than 1, a single TaskManager takes multiple instances of a function or operator. That way, the TaskManager can utilize multiple CPU cores, but at the same time, the available memory is divided between the different operator or function instances. This value is typically proportional to the number of physical CPU cores that the TaskManager's machine has (e.g., equal to the number of cores, or half the number of cores).
-
-8. svcAccount
-
-	* **类型:** 单行文本
-	* **必须:** 是
-	* **默认值:** default
-	* **说明:** 
-
-		Service account that is used by jobmanager and taskmanager within kubernetes cluster. Notice that this can be overwritten by config options 'kubernetes.jobmanager.service-account' and 'kubernetes.taskmanager.service-account' for jobmanager and taskmanager respectively.
-
-9. 授权
-
-	* **类型:** 单选
-	* **必须:** 是
-	* **默认值:** true
-	* **说明:** 
-
-		保证Flink 在Kubernetes（Session / Application）模式下拥有执行所有操作都有相应的权限，如不拥有相应权限则会报以下错误：
-		```shell script
-		io.fabric8.kubernetes.client.KubernetesClientException: pods is forbidden: 
-		User "system:serviceaccount:default:default" cannot watch resource "pods" in API group "" in the namespace "default"
-		```
-		
-		如选择：是，执行过程会查看系统是否有 rolebing：tis-flink-manager，如没有，则会在Kubernetes Cluster中执行以下等效语句：
-		```shell script
-		kubectl  create clusterrolebinding tis-flink-manager --clusterrole=cluster-admin --serviceaccount=default:default
-		```
-
-### com.qlangtech.plugins.incr.flink.cluster.KubernetesApplicationClusterConfig
-
-* **显示名:** flink-kubernetes-application-cfg 
-
-* **全路径名:** [com.qlangtech.plugins.incr.flink.cluster.KubernetesApplicationClusterConfig](https://github.com/qlangtech/plugins/tree/master/tis-incr/tis-realtime-flink/src/main/java/com/qlangtech/plugins/incr/flink/cluster/KubernetesApplicationClusterConfig.java) 
-
-* **提供者:** [TIS](https://github.com/qlangtech/tis) 
-
-* **费用:** :smile: `社区版(免费)`
-
-* **插件包:** [tis-realtime-flink.tpi](./tpis#tis-realtime-flinktpi)
-
-* **配置项说明:** 
-
-1. 配置编号
-
-	* **类型:** 单行文本
-	* **必须:** 是
-	* **默认值:** 无
-	* **说明:** 		可将此配置作为'kubernetes-application'部署配置模版，作为配置标识后续可供其他kubernetes-application部署类型的Flink Job引用
-
-2. k8sImage
-
-	* **类型:** 单选
-	* **必须:** 是
-	* **默认值:** flink-cluster
-	* **说明:** 		选择一个与该执行器匹配的Docker Image实例
-
-3. 服务暴露
-
-	* **类型:** 整型数字
-	* **必须:** 是
-	* **默认值:** 无
-	* **说明:** 		Flink集群 启动之后将默认8081端口对外部暴露，可选择K8S相应暴露服务端口方式，如：NodePort，Ingress，LoadBalance
-
-4. jmMemory
-
-	* **类型:** 整型数字
-	* **必须:** 是
-	* **默认值:** 1638400
-	* **说明:** 
-
-		Total Process Memory size for the JobManager. This includes all the memory that a JobManager JVM process consumes, consisting of Total Flink Memory, JVM Metaspace, and JVM Overhead. In containerized setups, this should be set to the container memory. See also 'jobmanager.memory.flink.size' for Total Flink Memory size configuration.
-		
-		 单位：`kb`
-
-5. tmMemory
-
-	* **类型:** 整型数字
-	* **必须:** 是
-	* **默认值:** 1769472
-	* **说明:** 
-
-		Total Process Memory size for the TaskExecutors. This includes all the memory that a TaskExecutor consumes, consisting of Total Flink Memory, JVM Metaspace, and JVM Overhead. On containerized setups, this should be set to the container memory. See also 'taskmanager.memory.flink.size' for total Flink memory size configuration.
-		
-		 单位：`kb`
-
-6. tmCPUCores
-
-	* **类型:** 整型数字
-	* **必须:** 否
-	* **默认值:** 1000
-	* **说明:** 
-
-		CPU cores for the TaskExecutors. In case of Yarn setups, this value will be rounded to the closest positive integer. If not explicitly configured, legacy config options 'yarn.containers.vcores' and 'kubernetes.taskmanager.cpu' will be used for Yarn / Kubernetes setups, and 'taskmanager.numberOfTaskSlots' will be used for standalone setups (approximate number of slots).
-		
-		*1000个单位代表一个1 CPU Core
-
-7. taskSlot
-
-	* **类型:** 整型数字
-	* **必须:** 是
-	* **默认值:** 1
-	* **说明:** 
-
-		The number of parallel operator or user function instances that a single TaskManager can run. If this value is larger than 1, a single TaskManager takes multiple instances of a function or operator. That way, the TaskManager can utilize multiple CPU cores, but at the same time, the available memory is divided between the different operator or function instances. This value is typically proportional to the number of physical CPU cores that the TaskManager's machine has (e.g., equal to the number of cores, or half the number of cores).
-
-8. svcAccount
-
-	* **类型:** 单行文本
-	* **必须:** 是
-	* **默认值:** default
-	* **说明:** 
-
-		Service account that is used by jobmanager and taskmanager within kubernetes cluster. Notice that this can be overwritten by config options 'kubernetes.jobmanager.service-account' and 'kubernetes.taskmanager.service-account' for jobmanager and taskmanager respectively.
-
-9. 授权
-
-	* **类型:** 单选
-	* **必须:** 是
-	* **默认值:** true
-	* **说明:** 
-
-		保证Flink 在Kubernetes（Session / Application）模式下拥有执行所有操作都有相应的权限，如不拥有相应权限则会报以下错误：
-		```shell script
-		io.fabric8.kubernetes.client.KubernetesClientException: pods is forbidden: 
-		User "system:serviceaccount:default:default" cannot watch resource "pods" in API group "" in the namespace "default"
-		```
-		
-		如选择：是，执行过程会查看系统是否有 rolebing：tis-flink-manager，如没有，则会在Kubernetes Cluster中执行以下等效语句：
-		```shell script
-		kubectl  create clusterrolebinding tis-flink-manager --clusterrole=cluster-admin --serviceaccount=default:default
-		```
-
 ## com.qlangtech.tis.plugin.ds.oracle.Authorized
 
 ### com.qlangtech.tis.plugin.ds.oracle.auth.AcceptAuthorized
@@ -1349,6 +1531,40 @@ import TOCInline from '@theme/TOCInline';
 * **费用:** :smile: `社区版(免费)`
 
 * **插件包:** [tis-hive-flat-table-builder-plugin/tis-hive-flat-table-builder-plugin_hive_2.1.1-cdh6.3.2_hadoop_3.0.0-cdh6.3.2.tpi](./tpis#tis-hive-flat-table-builder-plugin/tis-hive-flat-table-builder-plugin_hive_211-cdh632_hadoop_300-cdh632tpi)
+
+## com.qlangtech.tis.plugin.paimon.datax.utils.PaimonConfig
+
+### com.qlangtech.tis.plugin.paimon.datax.utils.PaimonConfig
+
+* **显示名:** PaimonConfig 
+
+* **全路径名:** [com.qlangtech.tis.plugin.paimon.datax.utils.PaimonConfig](https://github.com/qlangtech/tis-paimon-plugin/tis-paimon-datax/tis-datax-paimonwriter-plugin/src/main/java/com/qlangtech/tis/plugin/paimon/datax/utils/PaimonConfig.java) 
+
+* **费用:** :smile: `社区版(免费)`
+
+* **插件包:** [tis-datax-paimonwriter-plugin/tis-datax-paimonwriter-plugin_hive_2.1.1-cdh6.3.2_hadoop_3.0.0-cdh6.3.2.tpi](./tpis#tis-datax-paimonwriter-plugin/tis-datax-paimonwriter-plugin_hive_211-cdh632_hadoop_300-cdh632tpi)
+
+## com.qlangtech.tis.plugin.incr.TISRateLimiter
+
+### com.qlangtech.plugins.incr.flink.cdc.NoRateLimiter
+
+* **显示名:** off 
+
+* **全路径名:** [com.qlangtech.plugins.incr.flink.cdc.NoRateLimiter](https://github.com/qlangtech/plugins/tree/master/tis-incr/tis-realtime-flink/src/main/java/com/qlangtech/plugins/incr/flink/cdc/NoRateLimiter.java) 
+
+* **费用:** :smile: `社区版(免费)`
+
+* **插件包:** [tis-realtime-flink.tpi](./tpis#tis-realtime-flinktpi)
+
+### com.qlangtech.plugins.incr.flink.cdc.PerSecondRateLimiter
+
+* **显示名:** on 
+
+* **全路径名:** [com.qlangtech.plugins.incr.flink.cdc.PerSecondRateLimiter](https://github.com/qlangtech/plugins/tree/master/tis-incr/tis-realtime-flink/src/main/java/com/qlangtech/plugins/incr/flink/cdc/PerSecondRateLimiter.java) 
+
+* **费用:** :smile: `社区版(免费)`
+
+* **插件包:** [tis-realtime-flink.tpi](./tpis#tis-realtime-flinktpi)
 
 ## com.qlangtech.tis.plugin.ds.oracle.ConnEntity
 
@@ -1743,7 +1959,14 @@ import TOCInline from '@theme/TOCInline';
 	* **默认值:** 无
 	* **说明:** 		无
 
-7. 传输压缩
+7. 所在时区
+
+	* **类型:** 单行文本
+	* **必须:** 是
+	* **默认值:** default
+	* **说明:** 		设置服务端所在时区，有两种输入方式：1. default 从下拉框中选择，2. customize：用户手动输入时区编码
+
+8. 传输压缩
 
 	* **类型:** 单选
 	* **必须:** 是
@@ -1752,7 +1975,7 @@ import TOCInline from '@theme/TOCInline';
 
 		与服务端通信时采用zlib进行压缩，效果请参考[https://blog.csdn.net/Shadow_Light/article/details/100749537](https://blog.csdn.net/Shadow_Light/article/details/100749537)
 
-8. 附加参数
+9. 附加参数
 
 	* **类型:** 单行文本
 	* **必须:** 否
@@ -1858,7 +2081,7 @@ import TOCInline from '@theme/TOCInline';
 	* **说明:** 
 
 		描述：ODPS的server地址，例如，线上地址为 http://service.odps.aliyun.com/api 
-		
+		 
 		 [具体各地域Endpoint对照表](https://help.aliyun.com/document_detail/34951.html#section-f2d-51y-5db)
 
 3. tunnelServer
@@ -1869,7 +2092,7 @@ import TOCInline from '@theme/TOCInline';
 	* **说明:** 
 
 		ODPS的tunnelserver地址，例如，线上地址为 http://dt.odps.aliyun.com
-		
+		 
 		 [具体各地域Endpoint对照表](https://help.aliyun.com/document_detail/34951.html#section-f2d-51y-5db)
 
 4. project
@@ -1966,10 +2189,10 @@ import TOCInline from '@theme/TOCInline';
 
 8. 所在时区
 
-	* **类型:** 单选
+	* **类型:** 单行文本
 	* **必须:** 是
-	* **默认值:** com.qlangtech.tis.async.message.client.consumer.impl.MQListenerFactory.dftZoneId()
-	* **说明:** 		设置Oracle服务端所在时区
+	* **默认值:** default
+	* **说明:** 		设置服务端所在时区，有两种输入方式：1. default 从下拉框中选择，2. customize：用户手动输入时区编码
 
 ### com.qlangtech.tis.plugin.ds.postgresql.PGDataSourceFactory
 
@@ -2113,10 +2336,10 @@ import TOCInline from '@theme/TOCInline';
 
 8. 所在时区
 
-	* **类型:** 单选
+	* **类型:** 单行文本
 	* **必须:** 是
-	* **默认值:** com.qlangtech.tis.async.message.client.consumer.impl.MQListenerFactory.dftZoneId()
-	* **说明:** 		设置数据库服务端所在时区
+	* **默认值:** default
+	* **说明:** 		设置服务端所在时区，有两种输入方式：1. default 从下拉框中选择，2. customize：用户手动输入时区编码
 
 9. 附加参数
 
@@ -2197,10 +2420,10 @@ import TOCInline from '@theme/TOCInline';
 
 9. 所在时区
 
-	* **类型:** 单选
+	* **类型:** 单行文本
 	* **必须:** 是
-	* **默认值:** com.qlangtech.tis.async.message.client.consumer.impl.MQListenerFactory.dftZoneId()
-	* **说明:** 		设置数据库服务端所在时区
+	* **默认值:** default
+	* **说明:** 		设置服务端所在时区，有两种输入方式：1. default 从下拉框中选择，2. customize：用户手动输入时区编码
 
 10. 附加参数
 
@@ -2342,14 +2565,21 @@ import TOCInline from '@theme/TOCInline';
 	* **默认值:** 无
 	* **说明:** 		无
 
-7. 编码
+7. 所在时区
+
+	* **类型:** 单行文本
+	* **必须:** 是
+	* **默认值:** default
+	* **说明:** 		设置服务端所在时区，有两种输入方式：1. default 从下拉框中选择，2. customize：用户手动输入时区编码
+
+8. 编码
 
 	* **类型:** 单选
 	* **必须:** 是
 	* **默认值:** 无
 	* **说明:** 		数据数据
 
-8. 传输压缩
+9. 传输压缩
 
 	* **类型:** 单选
 	* **必须:** 是
@@ -2358,7 +2588,7 @@ import TOCInline from '@theme/TOCInline';
 
 		与服务端通信时采用zlib进行压缩，效果请参考[https://blog.csdn.net/Shadow_Light/article/details/100749537](https://blog.csdn.net/Shadow_Light/article/details/100749537)
 
-9. 附加参数
+10. 附加参数
 
 	* **类型:** 单行文本
 	* **必须:** 否
@@ -2428,14 +2658,21 @@ import TOCInline from '@theme/TOCInline';
 	* **默认值:** 无
 	* **说明:** 		无
 
-7. 编码
+7. 所在时区
+
+	* **类型:** 单行文本
+	* **必须:** 是
+	* **默认值:** default
+	* **说明:** 		设置服务端所在时区，有两种输入方式：1. default 从下拉框中选择，2. customize：用户手动输入时区编码
+
+8. 编码
 
 	* **类型:** 单选
 	* **必须:** 是
 	* **默认值:** 无
 	* **说明:** 		数据数据
 
-8. 传输压缩
+9. 传输压缩
 
 	* **类型:** 单选
 	* **必须:** 是
@@ -2444,7 +2681,7 @@ import TOCInline from '@theme/TOCInline';
 
 		与服务端通信时采用zlib进行压缩，效果请参考[https://blog.csdn.net/Shadow_Light/article/details/100749537](https://blog.csdn.net/Shadow_Light/article/details/100749537)
 
-9. 附加参数
+10. 附加参数
 
 	* **类型:** 单行文本
 	* **必须:** 否
@@ -2532,6 +2769,84 @@ import TOCInline from '@theme/TOCInline';
 		
 		此时需要设置此属性为：`$1.db` ，当然也可以直接设置为： `dezhou.db`（只不过当dbName变化，此属性不会随之变化）
 
+## com.qlangtech.tis.plugin.paimon.catalog.CatalogCache
+
+### com.qlangtech.tis.plugin.paimon.catalog.cache.CatalogCacheOFF
+
+* **显示名:** off 
+
+* **全路径名:** [com.qlangtech.tis.plugin.paimon.catalog.cache.CatalogCacheOFF](https://github.com/qlangtech/tis-paimon-plugin/tis-paimon-datax/tis-datax-paimonwriter-plugin/src/main/java/com/qlangtech/tis/plugin/paimon/catalog/cache/CatalogCacheOFF.java) 
+
+* **费用:** :smile: `社区版(免费)`
+
+* **插件包:** [tis-datax-paimonwriter-plugin/tis-datax-paimonwriter-plugin_hive_2.1.1-cdh6.3.2_hadoop_3.0.0-cdh6.3.2.tpi](./tpis#tis-datax-paimonwriter-plugin/tis-datax-paimonwriter-plugin_hive_211-cdh632_hadoop_300-cdh632tpi)
+
+### com.qlangtech.tis.plugin.paimon.catalog.cache.CatalogCacheON
+
+* **显示名:** on 
+
+* **全路径名:** [com.qlangtech.tis.plugin.paimon.catalog.cache.CatalogCacheON](https://github.com/qlangtech/tis-paimon-plugin/tis-paimon-datax/tis-datax-paimonwriter-plugin/src/main/java/com/qlangtech/tis/plugin/paimon/catalog/cache/CatalogCacheON.java) 
+
+* **费用:** :smile: `社区版(免费)`
+
+* **插件包:** [tis-datax-paimonwriter-plugin/tis-datax-paimonwriter-plugin_hive_2.1.1-cdh6.3.2_hadoop_3.0.0-cdh6.3.2.tpi](./tpis#tis-datax-paimonwriter-plugin/tis-datax-paimonwriter-plugin_hive_211-cdh632_hadoop_300-cdh632tpi)
+
+* **配置项说明:** 
+
+1. expiration-interval
+
+	* **类型:** 时间跨度
+	* **必须:** 是
+	* **默认值:** 10
+	* **说明:** 
+
+		Controls the duration for which databases and tables in the catalog are cached.
+
+2. partition.max-num
+
+	* **类型:** 整型数字
+	* **必须:** 是
+	* **默认值:** 0
+	* **说明:** 
+
+		Controls the max number for which partitions in the catalog are cached.
+
+3. manifest.small-file-memory
+
+	* **类型:** 字节规格容量
+	* **必须:** 是
+	* **默认值:** 128
+	* **说明:** 
+
+		Controls the cache memory to cache small manifest files.
+
+4. manifest.small-file-threshold
+
+	* **类型:** 字节规格容量
+	* **必须:** 是
+	* **默认值:** 1
+	* **说明:** 
+
+		Controls the threshold of small manifest file.
+
+5. manifest.max-memory
+
+	* **类型:** 字节规格容量
+	* **必须:** 否
+	* **默认值:** 无
+	* **说明:** 
+
+		Controls the maximum memory to cache manifest content.
+
+6. snapshot.max-num-per-table
+
+	* **类型:** 整型数字
+	* **必须:** 是
+	* **默认值:** 20
+	* **说明:** 
+
+		Controls the max number for snapshots per table in the catalog are cached.
+
 ## com.qlangtech.tis.plugin.incr.TISSinkFactory
 
 ### com.qlangtech.plugins.incr.flink.chunjun.clickhouse.sink.ChunjunClickhouseSinkFactory
@@ -2561,7 +2876,16 @@ import TOCInline from '@theme/TOCInline';
 		    如果此参数为空，默认不开启二阶段提交，即 sink 端不支持 exactly_once 语义；
 		    当前只支持 exactly-once 和 at-least-once
 
-2. 脚本类型
+2. writeMode
+
+	* **类型:** 单选
+	* **必须:** 是
+	* **默认值:** insert
+	* **说明:** 
+
+		控制写入数据到目标表采用 `insert into` 或者 `replace into` 或者 `ON DUPLICATE KEY UPDATE` 语句
+
+3. 脚本类型
 
 	* **类型:** 单行文本
 	* **必须:** 是
@@ -2573,7 +2897,7 @@ import TOCInline from '@theme/TOCInline';
 		* `SQL`: **优点**逻辑清晰，便于用户自行修改执行逻辑
 		* `Stream API`：**优点**基于系统更底层执行逻辑执行、轻量、高性能
 
-3. batchSize
+4. batchSize
 
 	* **类型:** 整型数字
 	* **必须:** 是
@@ -2582,14 +2906,14 @@ import TOCInline from '@theme/TOCInline';
 
 		描述：一次性批量提交的记录数大小，该值可以极大减少 ChunJun 与数据库的网络交互次数，并提升整体吞吐量。但是该值设置过大可能会造成 ChunJun 运行进程 OOM 情况
 
-4. flushIntervalMills
+5. flushIntervalMills
 
 	* **类型:** 整型数字
 	* **必须:** 是
 	* **默认值:** 10000
 	* **说明:** 		"the flush interval mills, over this time, asynchronous threads will flush data. The default value is 10s.
 
-5. parallelism
+6. parallelism
 
 	* **类型:** 整型数字
 	* **必须:** 是
@@ -2623,7 +2947,16 @@ import TOCInline from '@theme/TOCInline';
 		    如果此参数为空，默认不开启二阶段提交，即 sink 端不支持 exactly_once 语义；
 		    当前只支持 exactly-once 和 at-least-once
 
-2. 脚本类型
+2. writeMode
+
+	* **类型:** 单选
+	* **必须:** 是
+	* **默认值:** insert
+	* **说明:** 
+
+		控制写入数据到目标表采用 `insert into` 或者 `replace into` 或者 `ON DUPLICATE KEY UPDATE` 语句
+
+3. 脚本类型
 
 	* **类型:** 单行文本
 	* **必须:** 是
@@ -2635,7 +2968,7 @@ import TOCInline from '@theme/TOCInline';
 		* `SQL`: **优点**逻辑清晰，便于用户自行修改执行逻辑
 		* `Stream API`：**优点**基于系统更底层执行逻辑执行、轻量、高性能
 
-3. batchSize
+4. batchSize
 
 	* **类型:** 整型数字
 	* **必须:** 是
@@ -2644,14 +2977,14 @@ import TOCInline from '@theme/TOCInline';
 
 		描述：一次性批量提交的记录数大小，该值可以极大减少 ChunJun 与数据库的网络交互次数，并提升整体吞吐量。但是该值设置过大可能会造成 ChunJun 运行进程 OOM 情况
 
-4. flushIntervalMills
+5. flushIntervalMills
 
 	* **类型:** 整型数字
 	* **必须:** 是
 	* **默认值:** 10000
 	* **说明:** 		"the flush interval mills, over this time, asynchronous threads will flush data. The default value is 10s.
 
-5. parallelism
+6. parallelism
 
 	* **类型:** 整型数字
 	* **必须:** 是
@@ -2685,7 +3018,16 @@ import TOCInline from '@theme/TOCInline';
 		    如果此参数为空，默认不开启二阶段提交，即 sink 端不支持 exactly_once 语义；
 		    当前只支持 exactly-once 和 at-least-once
 
-2. 脚本类型
+2. writeMode
+
+	* **类型:** 单选
+	* **必须:** 是
+	* **默认值:** insert
+	* **说明:** 
+
+		控制写入数据到目标表采用 `insert into` 或者 `replace into` 或者 `ON DUPLICATE KEY UPDATE` 语句
+
+3. 脚本类型
 
 	* **类型:** 单行文本
 	* **必须:** 是
@@ -2697,7 +3039,7 @@ import TOCInline from '@theme/TOCInline';
 		* `SQL`: **优点**逻辑清晰，便于用户自行修改执行逻辑
 		* `Stream API`：**优点**基于系统更底层执行逻辑执行、轻量、高性能
 
-3. batchSize
+4. batchSize
 
 	* **类型:** 整型数字
 	* **必须:** 是
@@ -2706,35 +3048,35 @@ import TOCInline from '@theme/TOCInline';
 
 		描述：一次性批量提交的记录数大小，该值可以极大减少 ChunJun 与数据库的网络交互次数，并提升整体吞吐量。但是该值设置过大可能会造成 ChunJun 运行进程 OOM 情况
 
-4. flushIntervalMills
+5. flushIntervalMills
 
 	* **类型:** 整型数字
 	* **必须:** 是
 	* **默认值:** 10000
 	* **说明:** 		"the flush interval mills, over this time, asynchronous threads will flush data. The default value is 10s.
 
-5. parallelism
+6. parallelism
 
 	* **类型:** 整型数字
 	* **必须:** 是
 	* **默认值:** 1
 	* **说明:** 		sink 并行度
 
-6. connectTimeout
+7. connectTimeout
 
 	* **类型:** 整型数字
 	* **必须:** 是
 	* **默认值:** com.qlangtech.tis.plugins.incr.flink.chunjun.doris.sink.ChunjunDorisCommon.dftConnectTimeout()
 	* **说明:** 		和服务端建立连接的超时时间，单位：ms
 
-7. socketTimeout
+8. socketTimeout
 
 	* **类型:** 整型数字
 	* **必须:** 是
 	* **默认值:** com.qlangtech.tis.plugins.incr.flink.chunjun.doris.sink.ChunjunDorisCommon.dftSocketTimeout()
 	* **说明:** 		从服务端读取数据的超时时间，单位：ms
 
-8. retries
+9. retries
 
 	* **类型:** 整型数字
 	* **必须:** 是
@@ -2777,7 +3119,16 @@ import TOCInline from '@theme/TOCInline';
 		    如果此参数为空，默认不开启二阶段提交，即 sink 端不支持 exactly_once 语义；
 		    当前只支持 exactly-once 和 at-least-once
 
-3. 脚本类型
+3. writeMode
+
+	* **类型:** 单选
+	* **必须:** 是
+	* **默认值:** insert
+	* **说明:** 
+
+		控制写入数据到目标表采用 `insert into` 或者 `replace into` 或者 `ON DUPLICATE KEY UPDATE` 语句
+
+4. 脚本类型
 
 	* **类型:** 单行文本
 	* **必须:** 是
@@ -2789,7 +3140,7 @@ import TOCInline from '@theme/TOCInline';
 		* `SQL`: **优点**逻辑清晰，便于用户自行修改执行逻辑
 		* `Stream API`：**优点**基于系统更底层执行逻辑执行、轻量、高性能
 
-4. parallelism
+5. parallelism
 
 	* **类型:** 整型数字
 	* **必须:** 是
@@ -2823,7 +3174,16 @@ import TOCInline from '@theme/TOCInline';
 		    如果此参数为空，默认不开启二阶段提交，即 sink 端不支持 exactly_once 语义；
 		    当前只支持 exactly-once 和 at-least-once
 
-2. 脚本类型
+2. writeMode
+
+	* **类型:** 单选
+	* **必须:** 是
+	* **默认值:** insert
+	* **说明:** 
+
+		控制写入数据到目标表采用 `insert into` 或者 `replace into` 或者 `ON DUPLICATE KEY UPDATE` 语句
+
+3. 脚本类型
 
 	* **类型:** 单行文本
 	* **必须:** 是
@@ -2835,7 +3195,7 @@ import TOCInline from '@theme/TOCInline';
 		* `SQL`: **优点**逻辑清晰，便于用户自行修改执行逻辑
 		* `Stream API`：**优点**基于系统更底层执行逻辑执行、轻量、高性能
 
-3. batchSize
+4. batchSize
 
 	* **类型:** 整型数字
 	* **必须:** 是
@@ -2844,14 +3204,14 @@ import TOCInline from '@theme/TOCInline';
 
 		描述：一次性批量提交的记录数大小，该值可以极大减少 ChunJun 与数据库的网络交互次数，并提升整体吞吐量。但是该值设置过大可能会造成 ChunJun 运行进程 OOM 情况
 
-4. flushIntervalMills
+5. flushIntervalMills
 
 	* **类型:** 整型数字
 	* **必须:** 是
 	* **默认值:** 10000
 	* **说明:** 		"the flush interval mills, over this time, asynchronous threads will flush data. The default value is 10s.
 
-5. parallelism
+6. parallelism
 
 	* **类型:** 整型数字
 	* **必须:** 是
@@ -2885,7 +3245,16 @@ import TOCInline from '@theme/TOCInline';
 		    如果此参数为空，默认不开启二阶段提交，即 sink 端不支持 exactly_once 语义；
 		    当前只支持 exactly-once 和 at-least-once
 
-2. 脚本类型
+2. writeMode
+
+	* **类型:** 单选
+	* **必须:** 是
+	* **默认值:** insert
+	* **说明:** 
+
+		控制写入数据到目标表采用 `insert into` 或者 `replace into` 或者 `ON DUPLICATE KEY UPDATE` 语句
+
+3. 脚本类型
 
 	* **类型:** 单行文本
 	* **必须:** 是
@@ -2897,7 +3266,7 @@ import TOCInline from '@theme/TOCInline';
 		* `SQL`: **优点**逻辑清晰，便于用户自行修改执行逻辑
 		* `Stream API`：**优点**基于系统更底层执行逻辑执行、轻量、高性能
 
-3. batchSize
+4. batchSize
 
 	* **类型:** 整型数字
 	* **必须:** 是
@@ -2906,14 +3275,14 @@ import TOCInline from '@theme/TOCInline';
 
 		描述：一次性批量提交的记录数大小，该值可以极大减少 ChunJun 与数据库的网络交互次数，并提升整体吞吐量。但是该值设置过大可能会造成 ChunJun 运行进程 OOM 情况
 
-4. flushIntervalMills
+5. flushIntervalMills
 
 	* **类型:** 整型数字
 	* **必须:** 是
 	* **默认值:** 10000
 	* **说明:** 		"the flush interval mills, over this time, asynchronous threads will flush data. The default value is 10s.
 
-5. parallelism
+6. parallelism
 
 	* **类型:** 整型数字
 	* **必须:** 是
@@ -2947,7 +3316,16 @@ import TOCInline from '@theme/TOCInline';
 		    如果此参数为空，默认不开启二阶段提交，即 sink 端不支持 exactly_once 语义；
 		    当前只支持 exactly-once 和 at-least-once
 
-2. 脚本类型
+2. writeMode
+
+	* **类型:** 单选
+	* **必须:** 是
+	* **默认值:** insert
+	* **说明:** 
+
+		控制写入数据到目标表采用 `insert into` 或者 `replace into` 或者 `ON DUPLICATE KEY UPDATE` 语句
+
+3. 脚本类型
 
 	* **类型:** 单行文本
 	* **必须:** 是
@@ -2959,7 +3337,7 @@ import TOCInline from '@theme/TOCInline';
 		* `SQL`: **优点**逻辑清晰，便于用户自行修改执行逻辑
 		* `Stream API`：**优点**基于系统更底层执行逻辑执行、轻量、高性能
 
-3. batchSize
+4. batchSize
 
 	* **类型:** 整型数字
 	* **必须:** 是
@@ -2968,14 +3346,14 @@ import TOCInline from '@theme/TOCInline';
 
 		描述：一次性批量提交的记录数大小，该值可以极大减少 ChunJun 与数据库的网络交互次数，并提升整体吞吐量。但是该值设置过大可能会造成 ChunJun 运行进程 OOM 情况
 
-4. flushIntervalMills
+5. flushIntervalMills
 
 	* **类型:** 整型数字
 	* **必须:** 是
 	* **默认值:** 10000
 	* **说明:** 		"the flush interval mills, over this time, asynchronous threads will flush data. The default value is 10s.
 
-5. parallelism
+6. parallelism
 
 	* **类型:** 整型数字
 	* **必须:** 是
@@ -3009,7 +3387,16 @@ import TOCInline from '@theme/TOCInline';
 		    如果此参数为空，默认不开启二阶段提交，即 sink 端不支持 exactly_once 语义；
 		    当前只支持 exactly-once 和 at-least-once
 
-2. 脚本类型
+2. writeMode
+
+	* **类型:** 单选
+	* **必须:** 是
+	* **默认值:** insert
+	* **说明:** 
+
+		控制写入数据到目标表采用 `insert into` 或者 `replace into` 或者 `ON DUPLICATE KEY UPDATE` 语句
+
+3. 脚本类型
 
 	* **类型:** 单行文本
 	* **必须:** 是
@@ -3021,7 +3408,7 @@ import TOCInline from '@theme/TOCInline';
 		* `SQL`: **优点**逻辑清晰，便于用户自行修改执行逻辑
 		* `Stream API`：**优点**基于系统更底层执行逻辑执行、轻量、高性能
 
-3. batchSize
+4. batchSize
 
 	* **类型:** 整型数字
 	* **必须:** 是
@@ -3030,14 +3417,14 @@ import TOCInline from '@theme/TOCInline';
 
 		描述：一次性批量提交的记录数大小，该值可以极大减少 ChunJun 与数据库的网络交互次数，并提升整体吞吐量。但是该值设置过大可能会造成 ChunJun 运行进程 OOM 情况
 
-4. flushIntervalMills
+5. flushIntervalMills
 
 	* **类型:** 整型数字
 	* **必须:** 是
 	* **默认值:** 10000
 	* **说明:** 		"the flush interval mills, over this time, asynchronous threads will flush data. The default value is 10s.
 
-5. parallelism
+6. parallelism
 
 	* **类型:** 整型数字
 	* **必须:** 是
@@ -3071,7 +3458,16 @@ import TOCInline from '@theme/TOCInline';
 		    如果此参数为空，默认不开启二阶段提交，即 sink 端不支持 exactly_once 语义；
 		    当前只支持 exactly-once 和 at-least-once
 
-2. 脚本类型
+2. writeMode
+
+	* **类型:** 单选
+	* **必须:** 是
+	* **默认值:** insert
+	* **说明:** 
+
+		控制写入数据到目标表采用 `insert into` 或者 `replace into` 或者 `ON DUPLICATE KEY UPDATE` 语句
+
+3. 脚本类型
 
 	* **类型:** 单行文本
 	* **必须:** 是
@@ -3083,7 +3479,7 @@ import TOCInline from '@theme/TOCInline';
 		* `SQL`: **优点**逻辑清晰，便于用户自行修改执行逻辑
 		* `Stream API`：**优点**基于系统更底层执行逻辑执行、轻量、高性能
 
-3. batchSize
+4. batchSize
 
 	* **类型:** 整型数字
 	* **必须:** 是
@@ -3092,14 +3488,14 @@ import TOCInline from '@theme/TOCInline';
 
 		描述：一次性批量提交的记录数大小，该值可以极大减少 ChunJun 与数据库的网络交互次数，并提升整体吞吐量。但是该值设置过大可能会造成 ChunJun 运行进程 OOM 情况
 
-4. flushIntervalMills
+5. flushIntervalMills
 
 	* **类型:** 整型数字
 	* **必须:** 是
 	* **默认值:** 10000
 	* **说明:** 		"the flush interval mills, over this time, asynchronous threads will flush data. The default value is 10s.
 
-5. parallelism
+6. parallelism
 
 	* **类型:** 整型数字
 	* **必须:** 是
@@ -3133,7 +3529,16 @@ import TOCInline from '@theme/TOCInline';
 		    如果此参数为空，默认不开启二阶段提交，即 sink 端不支持 exactly_once 语义；
 		    当前只支持 exactly-once 和 at-least-once
 
-2. 脚本类型
+2. writeMode
+
+	* **类型:** 单选
+	* **必须:** 是
+	* **默认值:** insert
+	* **说明:** 
+
+		控制写入数据到目标表采用 `insert into` 或者 `replace into` 或者 `ON DUPLICATE KEY UPDATE` 语句
+
+3. 脚本类型
 
 	* **类型:** 单行文本
 	* **必须:** 是
@@ -3145,7 +3550,7 @@ import TOCInline from '@theme/TOCInline';
 		* `SQL`: **优点**逻辑清晰，便于用户自行修改执行逻辑
 		* `Stream API`：**优点**基于系统更底层执行逻辑执行、轻量、高性能
 
-3. batchSize
+4. batchSize
 
 	* **类型:** 整型数字
 	* **必须:** 是
@@ -3154,14 +3559,14 @@ import TOCInline from '@theme/TOCInline';
 
 		描述：一次性批量提交的记录数大小，该值可以极大减少 ChunJun 与数据库的网络交互次数，并提升整体吞吐量。但是该值设置过大可能会造成 ChunJun 运行进程 OOM 情况
 
-4. flushIntervalMills
+5. flushIntervalMills
 
 	* **类型:** 整型数字
 	* **必须:** 是
 	* **默认值:** 10000
 	* **说明:** 		"the flush interval mills, over this time, asynchronous threads will flush data. The default value is 10s.
 
-5. parallelism
+6. parallelism
 
 	* **类型:** 整型数字
 	* **必须:** 是
@@ -3195,7 +3600,16 @@ import TOCInline from '@theme/TOCInline';
 		    如果此参数为空，默认不开启二阶段提交，即 sink 端不支持 exactly_once 语义；
 		    当前只支持 exactly-once 和 at-least-once
 
-2. 脚本类型
+2. writeMode
+
+	* **类型:** 单选
+	* **必须:** 是
+	* **默认值:** insert
+	* **说明:** 
+
+		控制写入数据到目标表采用 `insert into` 或者 `replace into` 或者 `ON DUPLICATE KEY UPDATE` 语句
+
+3. 脚本类型
 
 	* **类型:** 单行文本
 	* **必须:** 是
@@ -3207,7 +3621,7 @@ import TOCInline from '@theme/TOCInline';
 		* `SQL`: **优点**逻辑清晰，便于用户自行修改执行逻辑
 		* `Stream API`：**优点**基于系统更底层执行逻辑执行、轻量、高性能
 
-3. batchSize
+4. batchSize
 
 	* **类型:** 整型数字
 	* **必须:** 是
@@ -3216,19 +3630,53 @@ import TOCInline from '@theme/TOCInline';
 
 		描述：一次性批量提交的记录数大小，该值可以极大减少 ChunJun 与数据库的网络交互次数，并提升整体吞吐量。但是该值设置过大可能会造成 ChunJun 运行进程 OOM 情况
 
-4. flushIntervalMills
+5. flushIntervalMills
 
 	* **类型:** 整型数字
 	* **必须:** 是
 	* **默认值:** 10000
 	* **说明:** 		"the flush interval mills, over this time, asynchronous threads will flush data. The default value is 10s.
 
-5. parallelism
+6. parallelism
 
 	* **类型:** 整型数字
 	* **必须:** 是
 	* **默认值:** 1
 	* **说明:** 		sink 并行度
+
+### com.qlangtech.tis.plugins.incr.flink.pipeline.paimon.sink.PaimonPipelineSinkFactory
+
+* **显示名:** FlinkCDC-Pipeline-Sink-Paimon 
+
+* **全路径名:** [com.qlangtech.tis.plugins.incr.flink.pipeline.paimon.sink.PaimonPipelineSinkFactory](https://github.com/qlangtech/tis-paimon-plugin/tis-paimon-incr/tis-flink-pipeline-paimon-plugin/src/main/java/com/qlangtech/tis/plugins/incr/flink/pipeline/paimon/sink/PaimonPipelineSinkFactory.java) 
+
+* **提供者:** [FlinkCDC](https://ververica.github.io/flink-cdc-connectors) 
+
+* **费用:** :smile: `社区版(免费)`
+
+* **插件包:** [tis-flink-pipeline-paimon-plugin/tis-flink-pipeline-paimon-plugin_hive_2.1.1-cdh6.3.2_hadoop_3.0.0-cdh6.3.2.tpi](./tpis#tis-flink-pipeline-paimon-plugin/tis-flink-pipeline-paimon-plugin_hive_211-cdh632_hadoop_300-cdh632tpi)
+
+* **配置项说明:** 
+
+1. schema.change.behavior
+
+	* **类型:** 单选
+	* **必须:** 是
+	* **默认值:** IGNORE
+	* **说明:** 
+
+		Behavior for handling schema change events. <br /><ul><li>IGNORE: Drop all schema change events.</li><li>LENIENT: Apply schema changes to downstream tolerantly, and keeps executing if applying fails.</li><li>TRY_EVOLVE: Apply schema changes to downstream, but keeps executing if applying fails.</li><li>EVOLVE: Apply schema changes to downstream. This requires sink to support handling schema changes.</li><li>EXCEPTION: Throw an exception to terminate the sync pipeline.</li></ul>
+
+2. 所在时区
+
+	* **类型:** 单行文本
+	* **必须:** 是
+	* **默认值:** default
+	* **说明:** 
+
+		在 Flink CDC 同步任务中，**`timeZone` 参数的作用**是解决跨时区时间数据的一致性问题，核心要点如下：
+		
+		---
 
 ### com.qlangtech.tis.plugins.incr.flink.connector.elasticsearch7.ElasticSearchSinkFactory
 
@@ -3300,21 +3748,35 @@ import TOCInline from '@theme/TOCInline';
 		TIS平台中，提交任务前，请先创建Flink Cluster，其支持三种部署模式：
 		
 		1. Kubernetes Session: [详细请查看](https://nightlies.apache.org/flink/flink-docs-release-1.14/docs/deployment/resource-providers/native_kubernetes/#session-mode)
-		
+		   
 		   特点是多个Flink Job任务会由同一个Job Manager分配资源调度
 		
 		2. Kubernetes Application: [详细请查看](https://nightlies.apache.org/flink/flink-docs-release-1.14/docs/deployment/resource-providers/native_kubernetes/#application-mode)
 		   [Application Mode Detail](https://nightlies.apache.org/flink/flink-docs-release-1.14/docs/deployment/overview/#application-mode)
-		
+		   
 		   每个Flink Job任务独占一个JobManager ，对于运行在集群中的Job不会有资源抢占问题，
 		   >因此对于比较重要且优先级的任务，建议采用这种部署方式
-		
+		      
 		
 		3. Standalone: [详细请查看](https://nightlies.apache.org/flink/flink-docs-release-1.14/docs/deployment/resource-providers/standalone/overview/)
-		
+		    
 		   这种部署方式最简单，用户下载TIS 定制过的Flink安装包，解压，修改配置后即可启动运行，因为是单机版的，由于单机slot资源限制只可以部署有限Flink Job任务 [安装说明](https://tis.pub/docs/install/flink-cluster/standalone)
 
-2. 并行度
+2. 流控
+
+	* **类型:** 单行文本
+	* **必须:** 是
+	* **默认值:** on
+	* **说明:** 
+
+		用于运行期 **限流读取数据** 的控制实现，其主要目的是控制数据源的读取速率 ，防止反压（Backpressure），避免下游系统过载或资源耗尽，可避免因数据消费过快导致内存溢出（OOM）或 CPU/网络带宽被占满。
+		
+		打开流控开关，选择`on`就可在任务运行期，对流选择以下三种控制类型：
+		1. 任务`暂停/恢复`功能
+		2. 设置每秒消息限流数目
+		3. 取消每秒消息限流阀
+
+3. 并行度
 
 	* **类型:** 整型数字
 	* **必须:** 是
@@ -3325,7 +3787,7 @@ import TOCInline from '@theme/TOCInline';
 		
 		在 Flink 里面代表每个任务的并行度，适当的提高并行度可以大大提高 job 的执行效率，比如你的 job 消费 kafka 数据过慢，适当调大可能就消费正常了。
 
-3. 重启策略
+4. 重启策略
 
 	* **类型:** 单行文本
 	* **必须:** 是
@@ -3343,7 +3805,7 @@ import TOCInline from '@theme/TOCInline';
 		3. `failure-rate`: Failure rate restart strategy. More details can be found [here](https://nightlies.apache.org/flink/flink-docs-master/docs/ops/state/task_failure_recovery#failure-rate-restart-strategy).
 		4. `exponential-delay`: Exponential delay restart strategy. More details can be found [here](https://nightlies.apache.org/flink/flink-docs-master/docs/ops/state/task_failure_recovery#exponential-delay-restart-strategy).
 
-4. 支持意外恢复
+5. 支持意外恢复
 
 	* **类型:** 单选
 	* **必须:** 是
@@ -3357,7 +3819,7 @@ import TOCInline from '@theme/TOCInline';
 		1. 持久化stateBackend
 		2. 开启checkpoint
 
-5. checkpoint
+6. checkpoint
 
 	* **类型:** 单行文本
 	* **必须:** 是
@@ -3370,7 +3832,7 @@ import TOCInline from '@theme/TOCInline';
 		1. [https://nightlies.apache.org/flink/flink-docs-master/docs/ops/state/checkpoints/](https://nightlies.apache.org/flink/flink-docs-master/docs/ops/state/checkpoints/)
 		2. [https://nightlies.apache.org/flink/flink-docs-master/docs/dev/datastream/fault-tolerance/checkpointing/](https://nightlies.apache.org/flink/flink-docs-master/docs/dev/datastream/fault-tolerance/checkpointing/)
 
-6. stateBackend
+7. stateBackend
 
 	* **类型:** 单行文本
 	* **必须:** 是
@@ -3401,7 +3863,7 @@ import TOCInline from '@theme/TOCInline';
 
 * **配置项说明:** 
 
-1. 数据库名
+1. 目标数据库
 
 	* **类型:** 单选
 	* **必须:** 是
@@ -3435,12 +3897,18 @@ import TOCInline from '@theme/TOCInline';
 
 5. 自动建表
 
-	* **类型:** 单选
+	* **类型:** 单行文本
 	* **必须:** 是
 	* **默认值:** on
 	* **说明:** 
 
 		在开始执行DataX任务前，自动在目标数据库中创建表，目标表Engine类型为'CollapsingMergeTree' 构建原理请参考[MySQL到ClickHouse实时同步](https://www.askcug.com/topic/76/mysql%E5%88%B0clickhouse%E5%AE%9E%E6%97%B6%E5%90%8C%E6%AD%A5-cloudcanal%E5%AE%9E%E6%88%98)
+		 
+		
+		解析Reader的元数据，自动生成Writer create table DDL语句，有三种选择：
+		* `off`：关闭自动生成及同步目标端建表DDL语句，当目标端表实例已经存在可选择此选项。
+		* `default`：打开动生成及自动执行目标端建表DDL语句，执行任务状态由程序自动控制毋需人为干涉。
+		* `customized`：用户可自定义设置`自动执行目标端建表DDL语句逻辑`，如：是否需要生成列注释等。
 
 6. batchSize
 
@@ -3472,7 +3940,7 @@ import TOCInline from '@theme/TOCInline';
 
 * **配置项说明:** 
 
-1. 数据库名
+1. 目标数据库
 
 	* **类型:** 单选
 	* **必须:** 是
@@ -3499,7 +3967,7 @@ import TOCInline from '@theme/TOCInline';
 
 4. 自动建表
 
-	* **类型:** 单选
+	* **类型:** 单行文本
 	* **必须:** 是
 	* **默认值:** on
 	* **说明:** 
@@ -3554,7 +4022,7 @@ import TOCInline from '@theme/TOCInline';
 	* **说明:** 
 
 		写数据过程中会在`DFS`目录中写一份source的元数据。
-		
+		 
 		 当其他环境中需要使用TIS来导入DFS中的数据时，可以利用这份元数据快速生成目标端的数据表结构，省去手动配置元数据的流程。
 
 3. 替换规则
@@ -3565,11 +4033,11 @@ import TOCInline from '@theme/TOCInline';
 	* **说明:** 
 
 		FtpWriter写入前数据清理处理模式： 
-		
+		 
 		 1. **truncate**:  写入前清理目录下一fileName前缀的所有文件。
-		
+		 
 		 2. **append**: 写入前不做任何处理，DFS Writer直接使用filename写入，并保证文件名不冲突。
-		
+		  
 		 3. **nonConflict**: 如果目录下有fileName前缀的文件，直接报错。
 
 4. fileFormat
@@ -3602,7 +4070,7 @@ import TOCInline from '@theme/TOCInline';
 
 * **配置项说明:** 
 
-1. 数据库名
+1. 目标数据库
 
 	* **类型:** 单选
 	* **必须:** 是
@@ -3629,7 +4097,7 @@ import TOCInline from '@theme/TOCInline';
 
 4. 自动建表
 
-	* **类型:** 单选
+	* **类型:** 单行文本
 	* **必须:** 是
 	* **默认值:** on
 	* **说明:** 
@@ -3676,6 +4144,8 @@ import TOCInline from '@theme/TOCInline';
 		- 描述：单次StreamLoad导入的最大字节数。
 		- 必选：否
 		- 默认值：104857600 (100M)
+		
+		 * 描述：一次性批量提交的记录数大小，该值可以极大减少DataX与Mysql的网络交互次数，并提升整体吞吐量。但是该值设置过大可能会造成DataX运行进程OOM情况。
 
 8. 配置模版
 
@@ -3709,7 +4179,7 @@ import TOCInline from '@theme/TOCInline';
 
 	* **类型:** 单行文本
 	* **必须:** 是
-	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@690ed13a
+	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@118a4d5
 	* **说明:** 		Elasticsearch中的index名
 
 3. cleanup
@@ -4016,7 +4486,7 @@ import TOCInline from '@theme/TOCInline';
 
 * **配置项说明:** 
 
-1. 数据库名
+1. 目标数据库
 
 	* **类型:** 单选
 	* **必须:** 是
@@ -4071,7 +4541,7 @@ import TOCInline from '@theme/TOCInline';
 
 * **配置项说明:** 
 
-1. 数据库名
+1. 目标数据库
 
 	* **类型:** 单选
 	* **必须:** 是
@@ -4116,7 +4586,7 @@ import TOCInline from '@theme/TOCInline';
 
 6. 自动建表
 
-	* **类型:** 单选
+	* **类型:** 单行文本
 	* **必须:** 是
 	* **默认值:** on
 	* **说明:** 
@@ -4156,7 +4626,7 @@ import TOCInline from '@theme/TOCInline';
 
 * **配置项说明:** 
 
-1. 数据库名
+1. 目标数据库
 
 	* **类型:** 单选
 	* **必须:** 是
@@ -4184,7 +4654,7 @@ import TOCInline from '@theme/TOCInline';
 
 * **配置项说明:** 
 
-1. 数据库名
+1. 目标数据库
 
 	* **类型:** 单选
 	* **必须:** 是
@@ -4219,7 +4689,7 @@ import TOCInline from '@theme/TOCInline';
 
 5. 自动建表
 
-	* **类型:** 单选
+	* **类型:** 单行文本
 	* **必须:** 是
 	* **默认值:** on
 	* **说明:** 
@@ -4259,7 +4729,7 @@ import TOCInline from '@theme/TOCInline';
 
 * **配置项说明:** 
 
-1. 数据库名
+1. 目标数据库
 
 	* **类型:** 单选
 	* **必须:** 是
@@ -4295,7 +4765,7 @@ import TOCInline from '@theme/TOCInline';
 
 5. 自动建表
 
-	* **类型:** 单选
+	* **类型:** 单行文本
 	* **必须:** 是
 	* **默认值:** on
 	* **说明:** 
@@ -4321,6 +4791,213 @@ import TOCInline from '@theme/TOCInline';
 	* **默认值:** com.qlangtech.tis.plugin.datax.DataXOracleWriter.getDftTemplate()
 	* **说明:** 		无特殊情况请不要修改模版内容，避免不必要的错误
 
+### com.qlangtech.tis.plugin.paimon.datax.DataxPaimonWriter
+
+* **显示名:** Paimon 
+
+* **全路径名:** [com.qlangtech.tis.plugin.paimon.datax.DataxPaimonWriter](https://github.com/qlangtech/tis-paimon-plugin/tis-paimon-datax/tis-datax-paimonwriter-plugin/src/main/java/com/qlangtech/tis/plugin/paimon/datax/DataxPaimonWriter.java) 
+
+* **提供者:** [DataX](https://github.com/alibaba/DataX) 
+
+* **费用:** :smile: `社区版(免费)`
+
+* **插件包:** [tis-datax-paimonwriter-plugin/tis-datax-paimonwriter-plugin_hive_2.1.1-cdh6.3.2_hadoop_3.0.0-cdh6.3.2.tpi](./tpis#tis-datax-paimonwriter-plugin/tis-datax-paimonwriter-plugin_hive_211-cdh632_hadoop_300-cdh632tpi)
+
+* **配置项说明:** 
+
+1. catalog
+
+	* **类型:** 单行文本
+	* **必须:** 是
+	* **默认值:** Hive
+	* **说明:** 		无
+
+2. writeBuffer
+
+	* **类型:** 单行文本
+	* **必须:** 是
+	* **默认值:** default
+	* **说明:** 
+
+		在 Apache Paimon 中，控制底层（特别是 Level 0）小文件大小的核心参数直接影响着 Compaction 的触发频率。**通过适当增加单个文件中存储的记录条数（或文件大小），确实可以有效减少 L0 层小文件的数量，从而降低 Compaction 被触发的频率。**
+		
+		以下是控制 L0 层小文件大小和记录数的关键参数及其工作原理：
+		
+		 🧩 1. 核心控制参数：`write-buffer-size` 和 `target-file-size`
+		
+		*   **`write-buffer-size` (默认值: 128mb):**
+		   *   **作用：** 这是控制**内存中 Buffer** 大小的参数。当 Flink 或 Spark 任务向 Paimon 写入数据时，数据首先会缓存在内存中的一个排序缓冲区（Sorter Buffer）中。
+		   *   **原理：** 当一个 Buffer 被填满（达到 `write-buffer-size`）时，它会被排序并**刷写（Spill）到磁盘，形成一个 L0 文件**。
+		   *   **影响：** `write-buffer-size` **直接决定了单个 L0 文件的最小期望大小**。如果你期望每个 L0 文件大约是 256MB，那么就应该设置 `write-buffer-size=256mb`。Buffer 满了就刷写，自然就生成了一个 ~256MB 的文件。
+		
+		*   **`target-file-size` (默认值: 128mb):**
+		   *   **作用：** 这是 Paimon **最终期望生成的稳定数据文件（通常是经过 Compaction 合并到更高层级的文件）的目标大小**。
+		   *   **原理：** 在 **Compaction 过程**中（无论是 Universal 还是 Size-Tiered），Paimon 会尝试将输入的小文件合并，并输出大小接近 `target-file-size` 的文件到更高的层级（如 L1, L2）。
+		   *   **影响 L0 的间接方式：** 虽然 `target-file-size` 主要影响 Compaction 的输出，但它**间接影响 L0 文件的“合并潜力”**。如果 `target-file-size` 设置得很大（比如 1GB），那么 Compaction 需要积累更多的 L0 小文件（累计大小达到 ~1GB）才会触发合并操作。这相当于放宽了触发 Compaction 的“累计大小”阈值。
+		   *   **注意：** `target-file-size` **不直接控制单个 L0 文件的大小**。L0 文件大小主要由 `write-buffer-size` 和 Checkpointing 决定。
+		
+		 🧩 2. 其他影响 L0 文件大小和记录数的因素
+		
+		*   **Checkpointing / Commit Interval (Flink Streaming):**
+		   *   在 Flink 流式写入场景下，**Flink 的 Checkpoint 间隔**是决定 L0 文件大小和数量的**最关键因素之一**。
+		   *   **原理：** Paimon 的 Sink 算子通常会在 Flink Checkpoint 时执行 `snapshotState`。为了确保精确一次的语义，当前内存 Buffer 中的数据（即使未达到 `write-buffer-size`）也会在 Checkpoint 时强制刷写到磁盘，生成一个 L0 文件。
+		   *   **影响：** 如果 Flink 的 Checkpoint 间隔（`checkpoint.interval`）很短（例如 10 秒），即使 `write-buffer-size` 设置为 256MB，也可能因为每个 Checkpoint 只积累了少量数据（比如 50MB）就被强制刷出，从而导致产生大量远小于 `write-buffer-size` 的 L0 小文件。
+		   *   **结论：要减少 L0 小文件数量，在流式写入场景下，适当增加 Flink Checkpoint 间隔 (`checkpoint.interval`) 是至关重要的**，让 Buffer 有更多时间积累接近 `write-buffer-size` 的数据量再刷出。但需权衡故障恢复时间（RTO）。
+		
+		*   **`sort-spill-threshold` (默认值: 未明确设置，通常内部管理):**
+		   *   这个参数控制内存排序缓冲区在内存中最多能容纳多少行数据。当行数超过此阈值时，即使 Buffer 的内存占用未达到 `write-buffer-size`，也可能触发部分数据溢写（Spill）。这主要用于防止 OOM。
+		   *   **影响：** 如果记录非常大（例如宽表、大 JSON 对象），即使记录数不多，也可能快速占满内存 Buffer (`write-buffer-size`) 而刷写。如果记录非常小（例如计数器更新），则 `sort-spill-threshold` 可能先达到，导致按记录数刷写。**调整 `sort-spill-threshold` 主要应对特殊数据分布场景，一般优先调整 `write-buffer-size` 和 Checkpoint 间隔。**
+		
+		 ✅ 如何通过增加文件大小/记录数减少 Compaction 频率
+		
+		1.  **增大 `write-buffer-size`:**
+		   *   这是**最直接有效**的方法。例如，从默认的 `128mb` 增加到 `256mb` 或 `512mb`。
+		   *   **效果：** 每个 L0 文件平均变大（更接近新设置的 buffer size），L0 层积累到触发 Compaction 阈值（如 Universal 的 `num-sorted-run.stop-trigger`）所需的**文件数量变少**，从而降低触发频率。
+		   *   **注意：** 需要确保 TaskManager 有足够的 JVM Heap 或 Managed Memory 来容纳更大的 Buffer。否则可能导致 OOM 或频繁 GC。
+		
+		2.  **增大 Flink Checkpoint 间隔 (`checkpoint.interval`):**
+		   *   对于流式写入，这是**避免超小 L0 文件的关键**。根据业务容忍的延迟和恢复时间，尽可能增加间隔（例如从 30s 增加到 1min 或 5min）。
+		   *   **效果：** 显著减少因频繁 Checkpoint 强制刷写产生的远小于 `write-buffer-size` 的微型 L0 文件数量。让大多数 L0 文件大小接近 `write-buffer-size`。
+		
+		3.  **增大 `target-file-size`:**
+		   *   例如从 `128mb` 增加到 `256mb` 或 `512mb`。
+		   *   **效果：** 主要在 Universal Compaction 中影响较大。因为 Universal 在合并时会尽量将一组文件合并成一个接近 `target-file-size` 的大文件。增大 `target-file-size` 意味着 Compaction 需要积累更多的 L0 文件（总数据量更大）才会触发合并。对于 Size-Tiered，它定义了更高层级文件的大小目标，也间接影响合并策略。
+		   *   **注意：** 过大的 `target-file-size` 可能影响查询效率（读取大文件可能慢）和 Compaction 本身的资源消耗（合并更大量数据）。
+		
+		4.  **调整 Compaction 触发阈值 (如 Universal 的 `num-sorted-run.stop-trigger`):**
+		   *   虽然不是直接控制文件大小，但**配合增大文件大小**，调整这个阈值效果更好。例如，如果文件平均大了 2 倍，那么将 `num-sorted-run.stop-trigger` 从默认的 5 增加到 8 或 10，可能仍然能保持或延长触发间隔，同时允许 L0 积累更多文件（但总数据量更大），进一步提升读性能。
+		   *   **效果：** 直接放宽了触发 Compaction 的条件，让 L0 层可以堆积更多的文件（但每个文件更大了）才触发合并。
+		
+		 ⚠️ 总结与权衡
+		
+		*   **核心策略：** **增大 `write-buffer-size` 并适当增大 Flink Checkpoint 间隔** 是减少 L0 小文件数量、从而降低 Compaction 频率的最有效手段。这直接让每个 L0 文件包含更多记录/更大体积。
+		*   **辅助策略：** 增大 `target-file-size` 和/或 Compaction 触发阈值（如 `num-sorted-run.stop-trigger`）可以进一步减少 Compaction 频率，因为它们提高了触发合并所需的“数据量”或“文件数”门槛。
+		*   **重要权衡：**
+		   *   **内存资源：** 增大 `write-buffer-size` 会增加每个 Writer Task 的内存需求。
+		   *   **故障恢复：** 增大 Flink Checkpoint 间隔会增加故障恢复时需要重放的数据量（RTO 可能变长）。
+		   *   **读取延迟：** 过大的 L0 文件或过少的 Compaction 可能导致查询（尤其是点查）需要扫描更多的 L0 文件，增加读取延迟。需要监控读性能。
+		   *   **空间放大：** 减少 Compaction 频率可能导致短时间内存在更多冗余数据（旧版本数据、删除标记等），增加存储空间占用（空间放大）。需要配合合理的快照过期策略。
+		
+		**建议：** 从调整 `write-buffer-size` (如 256MB) 和 Flink `checkpoint.interval` (如 1-5分钟) 开始，观察 L0 文件平均大小是否显著增大、Compaction 频率是否下降。再根据效果和资源/延迟情况，考虑是否调整 `target-file-size` 或 Compaction 触发参数。务必监控集群资源（内存、CPU）、Compaction 耗时、查询延迟和存储空间变化。📊
+
+3. file.format
+
+	* **类型:** 单选
+	* **必须:** 是
+	* **默认值:** parquet
+	* **说明:** 
+
+		Specify the message format of data files, currently orc, parquet and avro are supported.
+
+4. tableBucket
+
+	* **类型:** 单行文本
+	* **必须:** 是
+	* **默认值:** Dynamic
+	* **说明:** 
+
+		`bucket` 参数定义了表数据的存储分桶策略，这是 Paimon 的核心设计之一。不同值对应完全不同的存储和写入模式：
+		
+		 🪣 三种 Bucket 模式详解
+		
+		| **模式**             | **值** | **特点**                                                                 | **适用场景**                     |
+		|--------------------|--------|--------------------------------------------------------------------------|----------------------------------|
+		| **固定桶模式(Fixed)**   | >0     | 固定数量的桶，桶数不可变                                                 | 数据分布均匀的静态表             |
+		| **动态桶模式(Dynamic)** | -1     | 桶数量自动扩展/收缩，根据数据量调整                                      | 数据量变化大的通用场景（推荐）   |
+		| **延迟桶模式(Postpone)**        | -2     | 写入时不立即分桶，先存临时文件，Compaction 时才分桶                      | 超高吞吐写入的 Append-Only 表    |
+
+5. writeMode
+
+	* **类型:** 单行文本
+	* **必须:** 是
+	* **默认值:** Stream
+	* **说明:** 
+
+		Paimon 的写入模式（`write-mode`）是影响数据写入行为的关键配置，`batch` 和 `stream` 两种模式在底层实现、数据可见性和适用场景上有本质区别：
+		
+		🔄 **核心区别对比**
+		
+		| **特性**               | **Batch 模式**                     | **Stream 模式**                   |
+		|------------------------|-----------------------------------|----------------------------------|
+		| **设计目标**           | 高吞吐批量处理                    | 低延迟实时处理                   |
+		| **数据可见性**         | 批次完成后可见                    | **实时可见**                     |
+		| **提交机制**           | 显式提交（如 Flink Checkpoint）   | 自动增量提交                     |
+		| **文件生成**           | 大文件（MB-GB级）                 | 小文件（KB-MB级）                |
+		| **写入延迟**           | 秒级~分钟级                       | **毫秒级~秒级**                  |
+		| **典型数据源**         | Hive/离线数仓                     | Kafka/CDC 流                    |
+		| **压缩效率**           | 高（大文件易压缩）                | 低（需额外小文件合并）           |
+		| **元数据开销**         | 低（单个提交点）                  | 高（频繁生成提交点）             |
+		| **Exactly-Once 保证**  | 依赖批处理框架                    | **原生支持**                     |
+		
+		🚀 **适用场景**
+		
+		✅ **Batch 模式最佳场景**
+		1. **离线数仓同步**
+		    - 每日全量同步 Hive 表：`write-mode=batch`
+		2. **大规模历史数据回填**
+		    - 初始化 TB 级历史数据
+		3. **资源敏感型环境**
+		    - 机械硬盘集群（减少 IOPS 压力）
+		4. **OLAP 分析优化**
+		
+		✅ **Stream 模式最佳场景**
+		1. **实时 CDC 管道**
+		2. **低延迟监控看板**
+		    - 实时订单看板（要求 5s 内可见）
+		3. **事件驱动型应用**
+		    - 用户行为实时分析（点击流处理）
+		4. **渐进式更新场景**
+
+6. 自动建表
+
+	* **类型:** 单行文本
+	* **必须:** 是
+	* **默认值:** on
+	* **说明:** 		无
+
+7. changelog
+
+	* **类型:** 单行文本
+	* **必须:** 是
+	* **默认值:** off
+	* **说明:** 
+
+		`changelog-producer` 的作用
+		1. **核心功能**
+		   - **生成变更日志**：将底层存储文件的物理更新（如覆盖写入）**转换为逻辑变更事件**（`+I`/`-U`/`+U`/`-D`）。
+		   - **支持流式消费**：让 Flink 等引擎能像读 Kafka 一样**增量读取 Paimon 表的变更**（类似 `SELECT * FROM table /*+ OPTIONS('scan.mode'='incremental') */`）。
+		
+		2. 为何需要它？
+		   - **湖仓痛点**：传统湖存储（如 Parquet）只存最终状态，缺少 **"行级变更记录"**，无法支持增量计算。
+		   - **流读需求**：Flink CDC 等场景需要实时捕获 `INSERT/UPDATE/DELETE` 事件。
+
+8. compaction
+
+	* **类型:** 单行文本
+	* **必须:** 是
+	* **默认值:** default
+	* **说明:** 
+
+		Apache Paimon 的 Compaction（压缩）机制是其核心功能之一，尤其在基于 LSM-Tree（Log-Structured Merge-Tree）架构的表格式中至关重要。它主要负责解决由频繁数据写入（尤其是流式写入）带来的小文件问题、读放大问题，并优化数据组织以提升查询性能。
+		
+		Apache Paimon 的 Compaction 机制是其保证高性能、低延迟查询，尤其是处理高频更新/删除和流式写入场景的基石。它通过智能地合并小文件、清理过期数据、按主键排序数据，有效解决了 LSM-Tree 架构带来的挑战。Universal Compaction 策略因其对流式写入的友好性和易用性，成为 Paimon 的默认和推荐选项。理解并合理配置 Compaction 策略和参数，对于在生产环境中高效稳定地使用 Paimon 至关重要。
+
+9. snapshot
+
+	* **类型:** 单行文本
+	* **必须:** 是
+	* **默认值:** default
+	* **说明:** 
+
+		Apache Paimon 的 Snapshot（快照）机制 是其实现多版本并发控制（MVCC）、时间旅行查询（Time Travel）、增量计算和数据一致性的核心基础。它借鉴了 Iceberg 等现代数据表格式的设计思想，为存储在 Paimon 表中的数据提供了原子性、一致性、隔离性和持久性（ACID）的保证，特别适用于流批一体和实时更新的场景。
+
+10. 配置模版
+
+	* **类型:** 富文本
+	* **必须:** 是
+	* **默认值:** com.qlangtech.tis.plugin.paimon.datax.DataxPaimonWriter.getDftTemplate()
+	* **说明:** 		无特殊情况请不要修改模版内容，避免不必要的错误
+
 ### com.qlangtech.tis.plugin.datax.DataXPostgresqlWriter
 
 * **显示名:** PostgreSQL 
@@ -4335,7 +5012,7 @@ import TOCInline from '@theme/TOCInline';
 
 * **配置项说明:** 
 
-1. 数据库名
+1. 目标数据库
 
 	* **类型:** 单选
 	* **必须:** 是
@@ -4362,7 +5039,7 @@ import TOCInline from '@theme/TOCInline';
 
 4. 自动建表
 
-	* **类型:** 单选
+	* **类型:** 单行文本
 	* **必须:** 是
 	* **默认值:** on
 	* **说明:** 
@@ -4402,7 +5079,7 @@ import TOCInline from '@theme/TOCInline';
 
 * **配置项说明:** 
 
-1. 数据库名
+1. 目标数据库
 
 	* **类型:** 单选
 	* **必须:** 是
@@ -4429,7 +5106,7 @@ import TOCInline from '@theme/TOCInline';
 
 4. 自动建表
 
-	* **类型:** 单选
+	* **类型:** 单行文本
 	* **必须:** 是
 	* **默认值:** on
 	* **说明:** 
@@ -4469,7 +5146,7 @@ import TOCInline from '@theme/TOCInline';
 
 * **配置项说明:** 
 
-1. 数据库名
+1. 目标数据库
 
 	* **类型:** 单选
 	* **必须:** 是
@@ -4496,7 +5173,7 @@ import TOCInline from '@theme/TOCInline';
 
 4. 自动建表
 
-	* **类型:** 单选
+	* **类型:** 单行文本
 	* **必须:** 是
 	* **默认值:** on
 	* **说明:** 
@@ -4543,6 +5220,8 @@ import TOCInline from '@theme/TOCInline';
 		- 描述：单次StreamLoad导入的最大字节数。
 		- 必选：否
 		- 默认值：104857600 (100M)
+		
+		 * 描述：一次性批量提交的记录数大小，该值可以极大减少DataX与Mysql的网络交互次数，并提升整体吞吐量。但是该值设置过大可能会造成DataX运行进程OOM情况。
 
 8. 配置模版
 
@@ -4565,7 +5244,7 @@ import TOCInline from '@theme/TOCInline';
 
 * **配置项说明:** 
 
-1. 数据库名
+1. 目标数据库
 
 	* **类型:** 单选
 	* **必须:** 是
@@ -4610,7 +5289,7 @@ import TOCInline from '@theme/TOCInline';
 
 6. 自动建表
 
-	* **类型:** 单选
+	* **类型:** 单行文本
 	* **必须:** 是
 	* **默认值:** on
 	* **说明:** 
@@ -4657,23 +5336,14 @@ import TOCInline from '@theme/TOCInline';
 	* **默认值:** 无
 	* **说明:** 		无
 
-2. 分区时间戳格式
-
-	* **类型:** 单选
-	* **必须:** 是
-	* **默认值:** yyyyMMddHHmmss
-	* **说明:** 
-
-		每进行一次DataX导入在Hive表中会生成一个新的分区，现在系统分区名称为'pt'格式为开始导入数据的当前时间戳，格式为`yyyyMMddHHmmss`或者`yyyyMMdd`
-
-3. fsName
+2. fsName
 
 	* **类型:** 单选
 	* **必须:** 是
 	* **默认值:** 无
 	* **说明:** 		描述：Hadoop hdfs文件系统namenode节点地址。格式：hdfs://ip:端口；例如：hdfs://127.0.0.1:9000
 
-4. 分区保留数
+3. 分区保留数
 
 	* **类型:** 整型数字
 	* **必须:** 是
@@ -4681,6 +5351,15 @@ import TOCInline from '@theme/TOCInline';
 	* **说明:** 
 
 		每进行一次DataX导入在Hive表中会生成一个新的分区，现在系统分区名称为`pt`格式为开始导入数据的时间戳
+
+4. 分区时间戳格式
+
+	* **类型:** 单选
+	* **必须:** 是
+	* **默认值:** yyyyMMddHHmmss
+	* **说明:** 
+
+		每进行一次DataX导入在Hive表中会生成一个新的分区，现在系统分区名称为'pt'格式为开始导入数据的当前时间戳，格式为`yyyyMMddHHmmss`或者`yyyyMMdd`
 
 5. 自动建表
 
@@ -4743,23 +5422,14 @@ import TOCInline from '@theme/TOCInline';
 	* **默认值:** 无
 	* **说明:** 		无
 
-2. 分区时间戳格式
-
-	* **类型:** 单选
-	* **必须:** 是
-	* **默认值:** yyyyMMddHHmmss
-	* **说明:** 
-
-		每进行一次DataX导入在Hive表中会生成一个新的分区，现在系统分区名称为'pt'格式为开始导入数据的当前时间戳，格式为`yyyyMMddHHmmss`或者`yyyyMMdd`
-
-3. fsName
+2. fsName
 
 	* **类型:** 单选
 	* **必须:** 是
 	* **默认值:** 无
 	* **说明:** 		描述：Hadoop hdfs文件系统namenode节点地址。格式：hdfs://ip:端口；例如：hdfs://127.0.0.1:9000
 
-4. 分区保留数
+3. 分区保留数
 
 	* **类型:** 整型数字
 	* **必须:** 是
@@ -4767,6 +5437,15 @@ import TOCInline from '@theme/TOCInline';
 	* **说明:** 
 
 		每进行一次DataX导入在Hive表中会生成一个新的分区，现在系统分区名称为`pt`格式为开始导入数据的时间戳
+
+4. 分区时间戳格式
+
+	* **类型:** 单选
+	* **必须:** 是
+	* **默认值:** yyyyMMddHHmmss
+	* **说明:** 
+
+		每进行一次DataX导入在Hive表中会生成一个新的分区，现在系统分区名称为'pt'格式为开始导入数据的当前时间戳，格式为`yyyyMMddHHmmss`或者`yyyyMMdd`
 
 5. 自动建表
 
@@ -4807,6 +5486,37 @@ import TOCInline from '@theme/TOCInline';
 	* **必须:** 否
 	* **默认值:** utf-8
 	* **说明:** 		描述：写文件的编码配置。
+
+## com.qlangtech.tis.plugin.paimon.datax.PaimonPartition
+
+### com.qlangtech.tis.plugin.paimon.datax.pt.OffPaimonPartition
+
+* **显示名:** off 
+
+* **全路径名:** [com.qlangtech.tis.plugin.paimon.datax.pt.OffPaimonPartition](https://github.com/qlangtech/tis-paimon-plugin/tis-paimon-datax/tis-datax-paimonwriter-plugin/src/main/java/com/qlangtech/tis/plugin/paimon/datax/pt/OffPaimonPartition.java) 
+
+* **费用:** :smile: `社区版(免费)`
+
+* **插件包:** [tis-datax-paimonwriter-plugin/tis-datax-paimonwriter-plugin_hive_2.1.1-cdh6.3.2_hadoop_3.0.0-cdh6.3.2.tpi](./tpis#tis-datax-paimonwriter-plugin/tis-datax-paimonwriter-plugin_hive_211-cdh632_hadoop_300-cdh632tpi)
+
+### com.qlangtech.tis.plugin.paimon.datax.pt.OnPaimonPartition
+
+* **显示名:** on 
+
+* **全路径名:** [com.qlangtech.tis.plugin.paimon.datax.pt.OnPaimonPartition](https://github.com/qlangtech/tis-paimon-plugin/tis-paimon-datax/tis-datax-paimonwriter-plugin/src/main/java/com/qlangtech/tis/plugin/paimon/datax/pt/OnPaimonPartition.java) 
+
+* **费用:** :smile: `社区版(免费)`
+
+* **插件包:** [tis-datax-paimonwriter-plugin/tis-datax-paimonwriter-plugin_hive_2.1.1-cdh6.3.2_hadoop_3.0.0-cdh6.3.2.tpi](./tpis#tis-datax-paimonwriter-plugin/tis-datax-paimonwriter-plugin_hive_211-cdh632_hadoop_300-cdh632tpi)
+
+* **配置项说明:** 
+
+1. 分区字段
+
+	* **类型:** 单选
+	* **必须:** 是
+	* **默认值:** 无
+	* **说明:** 		无
 
 ## com.qlangtech.tis.config.spark.SparkConnStrategy
 
@@ -4917,6 +5627,39 @@ import TOCInline from '@theme/TOCInline';
 	* **必须:** 是
 	* **默认值:** com.qlangtech.tis.plugin.memory.CustomizeMemorySpecification.dftMemory()
 	* **说明:** 		单个任务内存最大极限申请，单位：兆。当任务并发数目设置为：n，内存总体最大极限开销为'n*memoryLimit'，注意防止执行节点OOM
+
+## com.qlangtech.tis.plugin.paimon.datax.bucket.PaimonBucketKeys
+
+### com.qlangtech.tis.plugin.paimon.datax.bucket.impl.PaimonBucketKeysOFF
+
+* **显示名:** off 
+
+* **全路径名:** [com.qlangtech.tis.plugin.paimon.datax.bucket.impl.PaimonBucketKeysOFF](https://github.com/qlangtech/tis-paimon-plugin/tis-paimon-datax/tis-datax-paimonwriter-plugin/src/main/java/com/qlangtech/tis/plugin/paimon/datax/bucket/impl/PaimonBucketKeysOFF.java) 
+
+* **费用:** :smile: `社区版(免费)`
+
+* **插件包:** [tis-datax-paimonwriter-plugin/tis-datax-paimonwriter-plugin_hive_2.1.1-cdh6.3.2_hadoop_3.0.0-cdh6.3.2.tpi](./tpis#tis-datax-paimonwriter-plugin/tis-datax-paimonwriter-plugin_hive_211-cdh632_hadoop_300-cdh632tpi)
+
+### com.qlangtech.tis.plugin.paimon.datax.bucket.impl.PaimonBucketKeysON
+
+* **显示名:** on 
+
+* **全路径名:** [com.qlangtech.tis.plugin.paimon.datax.bucket.impl.PaimonBucketKeysON](https://github.com/qlangtech/tis-paimon-plugin/tis-paimon-datax/tis-datax-paimonwriter-plugin/src/main/java/com/qlangtech/tis/plugin/paimon/datax/bucket/impl/PaimonBucketKeysON.java) 
+
+* **费用:** :smile: `社区版(免费)`
+
+* **插件包:** [tis-datax-paimonwriter-plugin/tis-datax-paimonwriter-plugin_hive_2.1.1-cdh6.3.2_hadoop_3.0.0-cdh6.3.2.tpi](./tpis#tis-datax-paimonwriter-plugin/tis-datax-paimonwriter-plugin_hive_211-cdh632_hadoop_300-cdh632tpi)
+
+* **配置项说明:** 
+
+1. bucket-key
+
+	* **类型:** 单选
+	* **必须:** 是
+	* **默认值:** 无
+	* **说明:** 
+
+		Specify the paimon distribution policy. Data is assigned to each bucket according to the hash value of bucket-key.<br />If you specify multiple fields, delimiter is ','.<br />If not specified, the primary key will be used; if there is no primary key, the full row will be used.
 
 ## com.qlangtech.tis.plugins.incr.flink.chunjun.kafka.format.FormatFactory
 
@@ -5371,7 +6114,7 @@ import TOCInline from '@theme/TOCInline';
 
 * **费用:** :smile: `社区版(免费)`
 
-* **插件包:** [tis-datax-hdfs-aliyun-emr-plugin/tis-datax-hdfs-aliyun-emr-plugin_hadoop_3.0.0-cdh6.3.2.tpi](./tpis#tis-datax-hdfs-aliyun-emr-plugin/tis-datax-hdfs-aliyun-emr-plugin_hadoop_300-cdh632tpi)
+* **插件包:** [tis-datax-hdfs-aliyun-emr-plugin/tis-datax-hdfs-aliyun-emr-plugin_hadoop_2.7.3.tpi](./tpis#tis-datax-hdfs-aliyun-emr-plugin/tis-datax-hdfs-aliyun-emr-plugin_hadoop_273tpi)
 
 * **配置项说明:** 
 
@@ -5451,7 +6194,7 @@ import TOCInline from '@theme/TOCInline';
 
 * **费用:** :smile: `社区版(免费)`
 
-* **插件包:** [tis-datax-hdfs-plugin/tis-datax-hdfs-plugin_hadoop_3.0.0-cdh6.3.2.tpi](./tpis#tis-datax-hdfs-plugin/tis-datax-hdfs-plugin_hadoop_300-cdh632tpi)
+* **插件包:** [tis-datax-hdfs-plugin/tis-datax-hdfs-plugin_hadoop_2.7.3.tpi](./tpis#tis-datax-hdfs-plugin/tis-datax-hdfs-plugin_hadoop_273tpi)
 
 * **配置项说明:** 
 
@@ -5567,6 +6310,87 @@ import TOCInline from '@theme/TOCInline';
 		使用前缀匹配的样式，在flink-cdc表前缀通配匹配的场景中使用
 		* 选择`是`：在增量监听流程中使用`逻辑表`+`*`的方式对目标表监听，例如，逻辑表名为`base`,启动时使用`base*` 对数据库中 `base01`,`base02`启用增量监听，在运行期用户又增加了`base03`表则执行逻辑会自动对`base03`表开启监听
 		* 选择`否`：在增量监听流程中使用物理表全匹配的方式进行匹配。在运行期用户增加的新的分表忽略，如需对新加的分表增量监听生效，需要重启增量执行管道。
+
+## com.qlangtech.tis.plugin.paimon.datax.bucket.PaimonBucket
+
+### com.qlangtech.tis.plugin.paimon.datax.bucket.impl.DynamicPaimonBucket
+
+* **显示名:** Dynamic 
+
+* **全路径名:** [com.qlangtech.tis.plugin.paimon.datax.bucket.impl.DynamicPaimonBucket](https://github.com/qlangtech/tis-paimon-plugin/tis-paimon-datax/tis-datax-paimonwriter-plugin/src/main/java/com/qlangtech/tis/plugin/paimon/datax/bucket/impl/DynamicPaimonBucket.java) 
+
+* **费用:** :smile: `社区版(免费)`
+
+* **插件包:** [tis-datax-paimonwriter-plugin/tis-datax-paimonwriter-plugin_hive_2.1.1-cdh6.3.2_hadoop_3.0.0-cdh6.3.2.tpi](./tpis#tis-datax-paimonwriter-plugin/tis-datax-paimonwriter-plugin_hive_211-cdh632_hadoop_300-cdh632tpi)
+
+* **配置项说明:** 
+
+1. target-row-num
+
+	* **类型:** 整型数字
+	* **必须:** 是
+	* **默认值:** 2000000
+	* **说明:** 
+
+		If the bucket is -1, for primary key table, is dynamic bucket mode, this option controls the target row number for one bucket.
+
+2. initial-buckets
+
+	* **类型:** 整型数字
+	* **必须:** 否
+	* **默认值:** 无
+	* **说明:** 
+
+		Initial buckets for a partition in assigner operator for dynamic bucket mode.
+
+3. max-buckets
+
+	* **类型:** 整型数字
+	* **必须:** 否
+	* **默认值:** -1
+	* **说明:** 
+
+		Max buckets for a partition in dynamic bucket mode, It should either be equal to -1 (unlimited), or it must be greater than 0 (fixed upper bound).
+
+4. assigner-parallelism
+
+	* **类型:** 整型数字
+	* **必须:** 否
+	* **默认值:** 无
+	* **说明:** 
+
+		Parallelism of assigner operator for dynamic bucket mode, it is related to the number of initialized bucket, too small will lead to insufficient processing speed of assigner.
+
+### com.qlangtech.tis.plugin.paimon.datax.bucket.impl.FixPaimonBucket
+
+* **显示名:** Fixed 
+
+* **全路径名:** [com.qlangtech.tis.plugin.paimon.datax.bucket.impl.FixPaimonBucket](https://github.com/qlangtech/tis-paimon-plugin/tis-paimon-datax/tis-datax-paimonwriter-plugin/src/main/java/com/qlangtech/tis/plugin/paimon/datax/bucket/impl/FixPaimonBucket.java) 
+
+* **费用:** :smile: `社区版(免费)`
+
+* **插件包:** [tis-datax-paimonwriter-plugin/tis-datax-paimonwriter-plugin_hive_2.1.1-cdh6.3.2_hadoop_3.0.0-cdh6.3.2.tpi](./tpis#tis-datax-paimonwriter-plugin/tis-datax-paimonwriter-plugin_hive_211-cdh632_hadoop_300-cdh632tpi)
+
+* **配置项说明:** 
+
+1. bucket
+
+	* **类型:** 整型数字
+	* **必须:** 是
+	* **默认值:** 无
+	* **说明:** 
+
+		Bucket number for file store.<br />It should either be equal to -1 (dynamic bucket mode), -2 (postpone bucket mode), or it must be greater than 0 (fixed bucket mode).
+
+### com.qlangtech.tis.plugin.paimon.datax.bucket.impl.PostponePaimonBucket
+
+* **显示名:** Postpone 
+
+* **全路径名:** [com.qlangtech.tis.plugin.paimon.datax.bucket.impl.PostponePaimonBucket](https://github.com/qlangtech/tis-paimon-plugin/tis-paimon-datax/tis-datax-paimonwriter-plugin/src/main/java/com/qlangtech/tis/plugin/paimon/datax/bucket/impl/PostponePaimonBucket.java) 
+
+* **费用:** :smile: `社区版(免费)`
+
+* **插件包:** [tis-datax-paimonwriter-plugin/tis-datax-paimonwriter-plugin_hive_2.1.1-cdh6.3.2_hadoop_3.0.0-cdh6.3.2.tpi](./tpis#tis-datax-paimonwriter-plugin/tis-datax-paimonwriter-plugin_hive_211-cdh632_hadoop_300-cdh632tpi)
 
 ## com.qlangtech.tis.datax.impl.DataxReader
 
@@ -5768,10 +6592,10 @@ import TOCInline from '@theme/TOCInline';
 
 2. 所在时区
 
-	* **类型:** 单选
+	* **类型:** 单行文本
 	* **必须:** 是
-	* **默认值:** com.qlangtech.tis.async.message.client.consumer.impl.MQListenerFactory.dftZoneId()
-	* **说明:** 		设置所在时区
+	* **默认值:** default
+	* **说明:** 		设置服务端所在时区，有两种输入方式：1. default 从下拉框中选择，2. customize：用户手动输入时区编码
 
 3. 配置模版
 
@@ -5928,6 +6752,51 @@ import TOCInline from '@theme/TOCInline';
 * **显示名:** MySQL 
 
 * **全路径名:** [com.qlangtech.tis.plugin.datax.DataxMySQLReader](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-ds-mysql-plugin/src/main/java/com/qlangtech/tis/plugin/datax/DataxMySQLReader.java) 
+
+* **提供者:** [DataX](https://github.com/alibaba/DataX) 
+
+* **费用:** :smile: `社区版(免费)`
+
+* **插件包:** [tis-ds-mysql-plugin.tpi](./tpis#tis-ds-mysql-plugintpi)
+
+* **配置项说明:** 
+
+1. 数据库名
+
+	* **类型:** 单选
+	* **必须:** 是
+	* **默认值:** 无
+	* **说明:** 		无
+
+2. splitPk
+
+	* **类型:** 单选
+	* **必须:** 是
+	* **默认值:** false
+	* **说明:** 		进行数据抽取时，如果指定splitPk，表示用户希望使用splitPk代表的字段进行数据分片，DataX因此会启动并发任务进行数据同步，这样可以大大提供数据同步的效能。
+		推荐splitPk用户使用表主键，因为表主键通常情况下比较均匀，因此切分出来的分片也不容易出现数据热点。
+		 目前splitPk仅支持整形数据切分，不支持浮点、字符串、日期等其他类型。如果用户指定其他非支持类型，MysqlReader将报错！
+		 如果splitPk不填写，包括不提供splitPk或者splitPk值为空，DataX视作使用单通道同步该表数据。
+
+3. fetchSize
+
+	* **类型:** 整型数字
+	* **必须:** 是
+	* **默认值:** 2000
+	* **说明:** 		执行数据批量导出时单次从数据库中提取记录条数，可以有效减少网络IO次数，提升导出效率。切忌不能设置太大以免OOM发生
+
+4. 配置模版
+
+	* **类型:** 富文本
+	* **必须:** 是
+	* **默认值:** com.qlangtech.tis.plugin.datax.DataxMySQLReader.getDftTemplate()
+	* **说明:** 		无特殊情况请不要修改模版内容，避免不必要的错误
+
+### com.qlangtech.tis.plugin.doris.DataXDorisReader
+
+* **显示名:** Doris 
+
+* **全路径名:** [com.qlangtech.tis.plugin.doris.DataXDorisReader](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-ds-mysql-plugin/src/main/java/com/qlangtech/tis/plugin/doris/DataXDorisReader.java) 
 
 * **提供者:** [DataX](https://github.com/alibaba/DataX) 
 
@@ -6211,7 +7080,7 @@ import TOCInline from '@theme/TOCInline';
 
 	* **类型:** 整型数字
 	* **必须:** 是
-	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@6fbc7853
+	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@4ab86b2a
 	* **说明:** 		SpringBoot配置，HTTP端口号，默认7700，不建议更改
 
 2. host
@@ -6236,7 +7105,7 @@ import TOCInline from '@theme/TOCInline';
 
 	* **类型:** 整型数字
 	* **必须:** 是
-	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@688d619c
+	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@4ac7856f
 	* **说明:** 		SpringBoot配置，HTTP端口号，默认7700，不建议更改
 
 ### com.qlangtech.tis.plugin.datax.powerjob.impl.serverport.NodePort
@@ -6255,7 +7124,7 @@ import TOCInline from '@theme/TOCInline';
 
 	* **类型:** 整型数字
 	* **必须:** 是
-	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@1b632442
+	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@498b611e
 	* **说明:** 		SpringBoot配置，HTTP端口号，默认7700，不建议更改
 
 2. INTERNAL-IP
@@ -6294,11 +7163,11 @@ import TOCInline from '@theme/TOCInline';
 
 ## com.qlangtech.tis.plugin.datax.format.FileFormat
 
-### com.qlangtech.tis.plugin.datax.format.CSVFormat
+### com.qlangtech.tis.plugin.datax.format.CSVReaderFormat
 
 * **显示名:** CSV 
 
-* **全路径名:** [com.qlangtech.tis.plugin.datax.format.CSVFormat](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-dfs-plugin/src/main/java/com/qlangtech/tis/plugin/datax/format/CSVFormat.java) 
+* **全路径名:** [com.qlangtech.tis.plugin.datax.format.CSVReaderFormat](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-dfs-plugin/src/main/java/com/qlangtech/tis/plugin/datax/format/CSVReaderFormat.java) 
 
 * **费用:** :smile: `社区版(免费)`
 
@@ -6360,9 +7229,9 @@ import TOCInline from '@theme/TOCInline';
 		       "escapeMode": 1
 		      } 
 		      ```
-		
+		 
 		 * 读取CSV类型文件使用的CsvReader进行读取，会有很多配置，不配置则使用默认值。
-		
+		 
 		 ```json
 		{ "safetySwitch": false,  
 		  "skipEmptyRecords": false,       
@@ -6398,11 +7267,108 @@ import TOCInline from '@theme/TOCInline';
 	* **默认值:** on
 	* **说明:** 		通过TIS提供的的内部算法，尝试读取部分DFS文件内容，猜测对应列的类型，以帮助最大化提高录入表单效率。最后通过分析得到的类型不够准确，需要用户手动微调。
 
-### com.qlangtech.tis.plugin.datax.format.TextFormat
+### com.qlangtech.tis.plugin.datax.format.CSVWriterFormat
+
+* **显示名:** CSV 
+
+* **全路径名:** [com.qlangtech.tis.plugin.datax.format.CSVWriterFormat](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-dfs-plugin/src/main/java/com/qlangtech/tis/plugin/datax/format/CSVWriterFormat.java) 
+
+* **费用:** :smile: `社区版(免费)`
+
+* **插件包:** [tis-datax-dfs-plugin.tpi](./tpis#tis-datax-dfs-plugintpi)
+
+* **配置项说明:** 
+
+1. 字段分隔符
+
+	* **类型:** 单选
+	* **必须:** 是
+	* **默认值:** comma
+	* **说明:** 		描述：读取的字段分隔符，可以用'\t','\001'等字符 
+
+2. 压缩格式
+
+	* **类型:** 单选
+	* **必须:** 是
+	* **默认值:** none
+	* **说明:** 		描述：文本压缩类型，默认不填写意味着没有压缩。支持压缩类型为zip、gzip、bzip2。 
+
+3. encoding
+
+	* **类型:** 单选
+	* **必须:** 是
+	* **默认值:** utf-8
+	* **说明:** 		描述：读取文件的编码配置。
+
+4. 空值替代符
+
+	* **类型:** 单行文本
+	* **必须:** 是
+	* **默认值:** null
+	* **说明:** 		描述：文本文件中无法使用标准字符串定义null(空指针)，DataX提供nullFormat定义哪些字符串可以表示为null。例如如果用户配置: nullFormat="\N"，那么如果源头数据是"\N"，DataX视作null字段。
+
+5. 日期格式
+
+	* **类型:** 单行文本
+	* **必须:** 是
+	* **默认值:** com.qlangtech.tis.plugin.datax.format.BasicPainFormat.defaultNullFormat()
+	* **说明:** 		描述：日期类型的数据序列化到文件中时的格式，例如 "dateFormat": "yyyy-MM-dd"。
+
+6. csvConfig
+
+	* **类型:** 富文本
+	* **必须:** 否
+	* **默认值:** 无
+	* **说明:** 
+
+		描述：（读取/写入）CSV类型文件参数配置，Map类型。
+		 * 写入CSV类型文件使用的CsvWriter进行写入，会有很多配置，不配置则使用默认值。
+		      ```json
+		    { "forceQualifier": true,  
+		      "textQualifier": "\"",
+		       "useTextQualifier": true,
+		       "delimiter": ",",
+		       "recordDelimiter": 0,
+		       "comment": "#",
+		       "escapeMode": 1
+		      } 
+		      ```
+		 
+		 * 读取CSV类型文件使用的CsvReader进行读取，会有很多配置，不配置则使用默认值。
+		 
+		 ```json
+		{ "safetySwitch": false,  
+		  "skipEmptyRecords": false,       
+		  "useTextQualifier": false} 
+		 ```
+		 所有配置项及默认值,配置时 csvReaderConfig 的map中请严格按照以下字段名字进行配置：
+		 ```java
+		 boolean caseSensitive = true;
+		 char textQualifier = 34;
+		 boolean trimWhitespace = true;
+		 boolean useTextQualifier = true;//是否使用csv转义字符
+		 char delimiter = 44;//分隔符
+		 char recordDelimiter = 0;
+		 char comment = 35;
+		 boolean useComments = false;
+		 int escapeMode = 1;
+		 boolean safetySwitch = true;//单列长度是否限制100000字符
+		 boolean skipEmptyRecords = true;//是否跳过空行
+		 boolean captureRawRecord = true;
+		 ```
+
+7. header
+
+	* **类型:** 单选
+	* **必须:** 是
+	* **默认值:** true
+	* **说明:** 		描述：写出时的表头，列名(s)是否在文件头写入
+
+### com.qlangtech.tis.plugin.datax.format.TextReaderFormat
 
 * **显示名:** TEXT 
 
-* **全路径名:** [com.qlangtech.tis.plugin.datax.format.TextFormat](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-dfs-plugin/src/main/java/com/qlangtech/tis/plugin/datax/format/TextFormat.java) 
+* **全路径名:** [com.qlangtech.tis.plugin.datax.format.TextReaderFormat](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-dfs-plugin/src/main/java/com/qlangtech/tis/plugin/datax/format/TextReaderFormat.java) 
 
 * **费用:** :smile: `社区版(免费)`
 
@@ -6459,6 +7425,60 @@ import TOCInline from '@theme/TOCInline';
 	* **默认值:** on
 	* **说明:** 		通过TIS提供的的内部算法，尝试读取部分DFS文件内容，猜测对应列的类型，以帮助最大化提高录入表单效率。最后通过分析得到的类型不够准确，需要用户手动微调。
 
+### com.qlangtech.tis.plugin.datax.format.TextWriterFormat
+
+* **显示名:** TEXT 
+
+* **全路径名:** [com.qlangtech.tis.plugin.datax.format.TextWriterFormat](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-dfs-plugin/src/main/java/com/qlangtech/tis/plugin/datax/format/TextWriterFormat.java) 
+
+* **费用:** :smile: `社区版(免费)`
+
+* **插件包:** [tis-datax-dfs-plugin.tpi](./tpis#tis-datax-dfs-plugintpi)
+
+* **配置项说明:** 
+
+1. 字段分隔符
+
+	* **类型:** 单选
+	* **必须:** 是
+	* **默认值:** comma
+	* **说明:** 		描述：读取的字段分隔符，可以用'\t','\001'等字符 
+
+2. 压缩格式
+
+	* **类型:** 单选
+	* **必须:** 是
+	* **默认值:** none
+	* **说明:** 		描述：文本压缩类型，默认不填写意味着没有压缩。支持压缩类型为zip、gzip、bzip2。 
+
+3. encoding
+
+	* **类型:** 单选
+	* **必须:** 是
+	* **默认值:** utf-8
+	* **说明:** 		描述：读取文件的编码配置。
+
+4. 空值替代符
+
+	* **类型:** 单行文本
+	* **必须:** 是
+	* **默认值:** null
+	* **说明:** 		描述：文本文件中无法使用标准字符串定义null(空指针)，DataX提供nullFormat定义哪些字符串可以表示为null。例如如果用户配置: nullFormat="\N"，那么如果源头数据是"\N"，DataX视作null字段。
+
+5. 日期格式
+
+	* **类型:** 单行文本
+	* **必须:** 是
+	* **默认值:** com.qlangtech.tis.plugin.datax.format.BasicPainFormat.defaultNullFormat()
+	* **说明:** 		描述：日期类型的数据序列化到文件中时的格式，例如 "dateFormat": "yyyy-MM-dd"。
+
+6. header
+
+	* **类型:** 单选
+	* **必须:** 是
+	* **默认值:** true
+	* **说明:** 		描述：写出时的表头，列名(s)是否在文件头写入
+
 ## com.qlangtech.tis.plugin.datax.powerjob.PowerjobCoreDataSource
 
 ### com.qlangtech.tis.plugin.datax.powerjob.impl.coresource.DefaultPowerjobCoreDataSource
@@ -6492,6 +7512,76 @@ import TOCInline from '@theme/TOCInline';
 
 * **插件包:** [tis-k8s-plugin.tpi](./tpis#tis-k8s-plugintpi)
 
+## com.qlangtech.tis.plugin.paimon.datax.writemode.WriteMode
+
+### com.qlangtech.tis.plugin.paimon.datax.writemode.BatchInsertWriteMode
+
+* **显示名:** Batch 
+
+* **全路径名:** [com.qlangtech.tis.plugin.paimon.datax.writemode.BatchInsertWriteMode](https://github.com/qlangtech/tis-paimon-plugin/tis-paimon-datax/tis-datax-paimonwriter-plugin/src/main/java/com/qlangtech/tis/plugin/paimon/datax/writemode/BatchInsertWriteMode.java) 
+
+* **费用:** :smile: `社区版(免费)`
+
+* **插件包:** [tis-datax-paimonwriter-plugin/tis-datax-paimonwriter-plugin_hive_2.1.1-cdh6.3.2_hadoop_3.0.0-cdh6.3.2.tpi](./tpis#tis-datax-paimonwriter-plugin/tis-datax-paimonwriter-plugin_hive_211-cdh632_hadoop_300-cdh632tpi)
+
+### com.qlangtech.tis.plugin.paimon.datax.writemode.StreamInsertWriteMode
+
+* **显示名:** Stream 
+
+* **全路径名:** [com.qlangtech.tis.plugin.paimon.datax.writemode.StreamInsertWriteMode](https://github.com/qlangtech/tis-paimon-plugin/tis-paimon-datax/tis-datax-paimonwriter-plugin/src/main/java/com/qlangtech/tis/plugin/paimon/datax/writemode/StreamInsertWriteMode.java) 
+
+* **费用:** :smile: `社区版(免费)`
+
+* **插件包:** [tis-datax-paimonwriter-plugin/tis-datax-paimonwriter-plugin_hive_2.1.1-cdh6.3.2_hadoop_3.0.0-cdh6.3.2.tpi](./tpis#tis-datax-paimonwriter-plugin/tis-datax-paimonwriter-plugin_hive_211-cdh632_hadoop_300-cdh632tpi)
+
+* **配置项说明:** 
+
+1. batchSize
+
+	* **类型:** 整型数字
+	* **必须:** 是
+	* **默认值:** 30000
+	* **说明:** 
+
+		在 Paimon 的 Stream 写入模式下，选择最佳的单次 Commit 记录数量需要平衡 **数据延迟**、**写入效率**和**小文件问题**三大因素。
+		
+		⚠️ **必须规避的陷阱**
+		1. **过度追求低延迟**
+		   ```properties
+		   # 错误配置（导致小文件爆炸）
+		   commit.interval = 1s
+		   sink.buffer-size = 100
+		   ```
+		   **后果**：每秒生成数百小文件，NameNode 压力激增
+		
+		2. **盲目增大批次**
+		   ```properties
+		   # 错误配置（内存溢出风险）
+		   sink.buffer-size = 1000000
+		   execution.checkpointing.interval = 10min
+		   ```
+		   **后果**：Flink TM OOM，Checkpoint 超时失败
+		
+		3. **忽略数据特征**
+		    - **大对象场景**（如图片/文档）：
+		      ```properties
+		      # 改用数据体积控制
+		      sink.buffer-size = -1  # 禁用条数控制
+		      sink.max-buffer-size = 128mb  # 按体积Commit
+		      ```
+		
+		📊 性能优化对照表
+		
+		   | **单Commit条数** | 延迟         | 吞吐       | 小文件风险 | 适用场景              |
+		   |------------------|-------------|-----------|-----------|---------------------|
+		   | <1,000           | 极低(1s内)  | 低        | 极高      | 实时监控告警         |
+		   | 1,000~10,000     | 低(1~5s)    | 中等      | 高        | 实时报表/风控        |
+		   | 10,000~50,000    | 中等(5~15s) | 高        | 中        | 通用CDC同步 ✅       |
+		   | 50,000~200,000   | 较高(15~60s)| 极高      | 低        | 历史数据回填         |
+		   | >200,000         | 高(>1min)   | 超高性能  | 极低      | 批量ETL(非实时)     |
+		
+		**终极建议**：从 **25,000条/Commit** 开始（约5-10秒数据量），结合实时监控逐步调整。在精确控制延迟的场景，优先使用 `commit.interval` 时间阈值；在高吞吐场景，优先用 `sink.buffer-size` 条数控制，并始终开启自动合并防御小文件问题。
+
 ## com.qlangtech.tis.plugin.datax.meta.MetaDataWriter
 
 ### com.qlangtech.tis.plugin.datax.meta.DefaultMetaDataWriter
@@ -6515,6 +7605,32 @@ import TOCInline from '@theme/TOCInline';
 * **插件包:** [tis-datax-dfs-plugin.tpi](./tpis#tis-datax-dfs-plugintpi)
 
 ## com.qlangtech.tis.plugin.AuthToken
+
+### com.qlangtech.tis.plugin.aliyun.AccessKey
+
+* **显示名:** accessKey 
+
+* **全路径名:** [com.qlangtech.tis.plugin.aliyun.AccessKey](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-common-plugin/src/main/java/com/qlangtech/tis/plugin/aliyun/AccessKey.java) 
+
+* **费用:** :smile: `社区版(免费)`
+
+* **插件包:** [tis-datax-common-plugin.tpi](./tpis#tis-datax-common-plugintpi)
+
+* **配置项说明:** 
+
+1. keyId
+
+	* **类型:** 单行文本
+	* **必须:** 是
+	* **默认值:** 无
+	* **说明:** 		aliyun服务的accessId，用在私有云环境下，例如自建Elasticsearch，服务端如不需要连接凭证，则该项可为空
+
+2. 密码
+
+	* **类型:** 密码
+	* **必须:** 是
+	* **默认值:** 无
+	* **说明:** 		aliyun服务的accessKeySecret，用在私有云环境下，例如自建Elasticsearch，服务端如不需要连接凭证，则该项可为空
 
 ### com.qlangtech.tis.plugin.aliyun.NoneToken
 
@@ -6552,32 +7668,6 @@ import TOCInline from '@theme/TOCInline';
 	* **默认值:** 无
 	* **说明:** 		用在私有云环境下，例如自建Elasticsearch，服务端如不需要连接凭证，则该项可为空
 
-### :closed_lock_with_key:com.qlangtech.tis.plugin.aliyun.AccessKey
-
-* **显示名:** accessKey 
-
-* **全路径名:** [com.qlangtech.tis.plugin.aliyun.AccessKey](https://github.com/qlangtech/tis-plugins-commercial/tree/master/tis-datax-commercial/tis-datax-oss-plugin/src/main/java/com/qlangtech/tis/plugin/aliyun/AccessKey.java) 
-
-* **费用:** :closed_lock_with_key: `社区协作`
-
-* **插件包:** [tis-datax-oss-plugin.tpi](./tpis#tis-datax-oss-plugintpi)
-
-* **配置项说明:** 
-
-1. keyId
-
-	* **类型:** 单行文本
-	* **必须:** 是
-	* **默认值:** 无
-	* **说明:** 		aliyun服务的accessId，用在私有云环境下，例如自建Elasticsearch，服务端如不需要连接凭证，则该项可为空
-
-2. 密码
-
-	* **类型:** 密码
-	* **必须:** 是
-	* **默认值:** 无
-	* **说明:** 		aliyun服务的accessKeySecret，用在私有云环境下，例如自建Elasticsearch，服务端如不需要连接凭证，则该项可为空
-
 ## com.qlangtech.plugins.incr.flink.launch.CheckpointFactory
 
 ### com.qlangtech.plugins.incr.flink.launch.ckpt.CKOff
@@ -6609,9 +7699,9 @@ import TOCInline from '@theme/TOCInline';
 	* **默认值:** 200
 	* **说明:** 
 
-		Gets the interval in which checkpoints are periodically scheduled.<br /><br />This setting defines the base interval. Checkpoint triggering may be delayed by the settings <code class="highlighter-rouge">execution.checkpointing.max-concurrent-checkpoints</code> and <code class="highlighter-rouge">execution.checkpointing.min-pause</code>
+		Gets the interval in which checkpoints are periodically scheduled.<br /><br />This setting defines the base interval. Checkpoint triggering may be delayed by the settings <code class="highlighter-rouge">execution.checkpointing.max-concurrent-checkpoints</code>, <code class="highlighter-rouge">execution.checkpointing.min-pause</code> and <code class="highlighter-rouge">execution.checkpointing.interval-during-backlog</code>
 		
-		 单位：`秒`
+		单位：`秒`
 
 2. checkpointMode
 
@@ -6631,7 +7721,7 @@ import TOCInline from '@theme/TOCInline';
 
 		The maximum time that a checkpoint may take before being discarded.
 		
-		 单位：`秒`
+		单位：`秒`
 
 4. maxConcurrentNum
 
@@ -6651,7 +7741,7 @@ import TOCInline from '@theme/TOCInline';
 
 		The minimal pause between checkpointing attempts. This setting defines how soon thecheckpoint coordinator may trigger another checkpoint after it becomes possible to triggeranother checkpoint with respect to the maximum number of concurrent checkpoints(see <code class="highlighter-rouge">execution.checkpointing.max-concurrent-checkpoints</code>).<br /><br />If the maximum number of concurrent checkpoints is set to one, this setting makes effectively sure that a minimum amount of time passes where no checkpoint is in progress at all.
 		
-		 单位：`秒`
+		单位：`秒`
 
 6. maxFaildNum
 
@@ -6669,7 +7759,7 @@ import TOCInline from '@theme/TOCInline';
 	* **默认值:** RETAIN_ON_CANCELLATION
 	* **说明:** 
 
-		Externalized checkpoints write their meta data out to persistent storage and are not automatically cleaned up when the owning job fails or is suspended (terminating with job status <code class="highlighter-rouge">JobStatus#FAILED</code> or <code class="highlighter-rouge">JobStatus#SUSPENDED</code>). In this case, you have to manually clean up the checkpoint state, both the meta data and actual program state.<br /><br />The mode defines how an externalized checkpoint should be cleaned up on job cancellation. If you choose to retain externalized checkpoints on cancellation you have to handle checkpoint clean up manually when you cancel the job as well (terminating with job status <code class="highlighter-rouge">JobStatus#CANCELED</code>).<br /><br />The target directory for externalized checkpoints is configured via <code class="highlighter-rouge">state.checkpoints.dir</code>.
+		Externalized checkpoints write their meta data out to persistent storage and are not automatically cleaned up when the owning job fails or is suspended (terminating with job status <code class="highlighter-rouge">JobStatus#FAILED</code> or <code class="highlighter-rouge">JobStatus#SUSPENDED</code>). In this case, you have to manually clean up the checkpoint state, both the meta data and actual program state.<br /><br />The mode defines how an externalized checkpoint should be cleaned up on job cancellation. If you choose to retain externalized checkpoints on cancellation you have to handle checkpoint clean up manually when you cancel the job as well (terminating with job status <code class="highlighter-rouge">JobStatus#CANCELED</code>).<br /><br />The target directory for externalized checkpoints is configured via <code class="highlighter-rouge">execution.checkpointing.dir</code>.
 
 8. enableUnaligned
 
@@ -6718,6 +7808,35 @@ import TOCInline from '@theme/TOCInline';
 	* **类型:** 单行文本
 	* **必须:** 否
 	* **默认值:** none
+	* **说明:** 		无
+
+### com.qlangtech.tis.plugin.aliyun.AliyunEndpoint
+
+* **显示名:** aliyunToken 
+
+* **全路径名:** [com.qlangtech.tis.plugin.aliyun.AliyunEndpoint](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-common-plugin/src/main/java/com/qlangtech/tis/plugin/aliyun/AliyunEndpoint.java) 
+
+* **费用:** :smile: `社区版(免费)`
+
+* **插件包:** [tis-datax-common-plugin.tpi](./tpis#tis-datax-common-plugintpi)
+
+* **配置项说明:** 
+
+1. name
+	* **类型:** 单行文本
+	* **必须:** 是
+2. endpoint
+
+	* **类型:** 单行文本
+	* **必须:** 是
+	* **默认值:** http://oss.aliyuncs.com
+	* **说明:** 		Server的EndPoint地址，例如http://oss.aliyuncs.com
+
+3. 认证方式
+
+	* **类型:** 单行文本
+	* **必须:** 否
+	* **默认值:** accessKey
 	* **说明:** 		无
 
 ### com.qlangtech.tis.plugin.datax.DataXGlobalConfig
@@ -6883,14 +8002,18 @@ import TOCInline from '@theme/TOCInline';
 	* **类型:** 单行文本
 	* **必须:** 是
 	* **默认值:** 无
-	* **说明:** 		无
+	* **说明:** 
+
+		本地安装的Apache Dolphinscheduler服务端地址，例如：http://192.168.28.201:12345/dolphinscheduler
 
 3. serverToken
 
 	* **类型:** 单行文本
 	* **必须:** 是
 	* **默认值:** 无
-	* **说明:** 		无
+	* **说明:** 
+
+		在 Apache Dolphinscheduler服务端->安全中心->令牌管理（ http://192.168.28.201:12345/dolphinscheduler/ui/security/token-manage ），中配置的用户访问令牌。
 
 ### com.qlangtech.tis.plugin.datax.elastic.ElasticEndpoint
 
@@ -6976,35 +8099,6 @@ import TOCInline from '@theme/TOCInline';
 	* **必须:** 是
 	* **默认值:** default
 	* **说明:** 		执行DataX任务申请内存规格,默认为1024兆，如执行大表同步任务请按照实际需求量设置自定义规格
-
-### :closed_lock_with_key:com.qlangtech.tis.plugin.aliyun.AliyunEndpoint
-
-* **显示名:** aliyunToken 
-
-* **全路径名:** [com.qlangtech.tis.plugin.aliyun.AliyunEndpoint](https://github.com/qlangtech/tis-plugins-commercial/tree/master/tis-datax-commercial/tis-datax-oss-plugin/src/main/java/com/qlangtech/tis/plugin/aliyun/AliyunEndpoint.java) 
-
-* **费用:** :closed_lock_with_key: `社区协作`
-
-* **插件包:** [tis-datax-oss-plugin.tpi](./tpis#tis-datax-oss-plugintpi)
-
-* **配置项说明:** 
-
-1. name
-	* **类型:** 单行文本
-	* **必须:** 是
-2. endpoint
-
-	* **类型:** 单行文本
-	* **必须:** 是
-	* **默认值:** http://oss.aliyuncs.com
-	* **说明:** 		Server的EndPoint地址，例如http://oss.aliyuncs.com
-
-3. 认证方式
-
-	* **类型:** 单行文本
-	* **必须:** 否
-	* **默认值:** accessKey
-	* **说明:** 		无
 
 ### com.qlangtech.tis.config.spark.impl.DefaultSparkConnGetter
 
@@ -7120,7 +8214,9 @@ import TOCInline from '@theme/TOCInline';
 	* **类型:** 单行文本
 	* **必须:** 是
 	* **默认值:** 无
-	* **说明:** 		无
+	* **说明:** 
+
+		使用命令 `kubectl cluster-info` 获取当前K8S集群的根路径.
 
 3. Yaml配置内容
 
@@ -7192,9 +8288,9 @@ import TOCInline from '@theme/TOCInline';
 		1. Upload 
 		
 		   By upload a File that the content is compatible with '/etc/krb5.conf'
-		
+		    
 		2. SystemPath
-		
+		 
 		   By reference to the path of `krb5.conf` with default location of '/etc/krb5.conf'
 
 ### com.qlangtech.plugins.incr.flink.common.FlinkCluster
@@ -7236,10 +8332,12 @@ import TOCInline from '@theme/TOCInline';
 
 	* **类型:** 整型数字
 	* **必须:** 是
-	* **默认值:** 3000
+	* **默认值:** 3
 	* **说明:** 
 
-		The time in ms that the client waits between retries (See also `rest.retry.max-attempts`).
+		The time that the client waits between retries (See also `rest.retry.max-attempts`).
+		
+		单位：`秒`
 
 ## com.qlangtech.tis.plugin.tdfs.DFSResMatcher
 
@@ -7423,6 +8521,79 @@ import TOCInline from '@theme/TOCInline';
 	* **默认值:** 无
 	* **说明:** 		填写新实例名称，不能与已存在的数据源实例重名
 
+## com.qlangtech.tis.plugin.paimon.datax.writebuffer.PaimonWriteBuffer
+
+### com.qlangtech.tis.plugin.paimon.datax.writebuffer.PaimonWriteBufferCustomize
+
+* **显示名:** customize 
+
+* **全路径名:** [com.qlangtech.tis.plugin.paimon.datax.writebuffer.PaimonWriteBufferCustomize](https://github.com/qlangtech/tis-paimon-plugin/tis-paimon-datax/tis-datax-paimonwriter-plugin/src/main/java/com/qlangtech/tis/plugin/paimon/datax/writebuffer/PaimonWriteBufferCustomize.java) 
+
+* **费用:** :smile: `社区版(免费)`
+
+* **插件包:** [tis-datax-paimonwriter-plugin/tis-datax-paimonwriter-plugin_hive_2.1.1-cdh6.3.2_hadoop_3.0.0-cdh6.3.2.tpi](./tpis#tis-datax-paimonwriter-plugin/tis-datax-paimonwriter-plugin_hive_211-cdh632_hadoop_300-cdh632tpi)
+
+* **配置项说明:** 
+
+1. size
+
+	* **类型:** 字节规格容量
+	* **必须:** 是
+	* **默认值:** 256
+	* **说明:** 
+
+		Amount of data to build up in memory before converting to a sorted on-disk file.
+		
+		**`write-buffer-size` (默认值: 128mb):**
+		*   **作用：** 这是控制**内存中 Buffer** 大小的参数。当 Flink 或 Spark 任务向 Paimon 写入数据时，数据首先会缓存在内存中的一个排序缓冲区（Sorter Buffer）中。
+		*   **原理：** 当一个 Buffer 被填满（达到 `write-buffer-size`）时，它会被排序并**刷写（Spill）到磁盘，形成一个 L0 文件**。
+		*   **影响：** `write-buffer-size` **直接决定了单个 L0 文件的最小期望大小**。如果你期望每个 L0 文件大约是 256MB，那么就应该设置 `write-buffer-size=256mb`。Buffer 满了就刷写，自然就生成了一个 ~256MB 的文件。
+
+2. spillable
+
+	* **类型:** 单选
+	* **必须:** 否
+	* **默认值:** 无
+	* **说明:** 
+
+		Whether the write buffer can be spillable. Enabled by default when using object storage or when 'target-file-size' is greater than 'write-buffer-size'.
+
+3. spill.max-disk-size
+
+	* **类型:** 字节规格容量
+	* **必须:** 否
+	* **默认值:** 无
+	* **说明:** 
+
+		The max disk to use for write buffer spill. This only work when the write buffer spill is enabled
+
+4. target-file-size
+
+	* **类型:** 字节规格容量
+	* **必须:** 否
+	* **默认值:** 无
+	* **说明:** 
+
+		Target size of a file.<ul><li>primary key table: the default value is 128 MB.</li><li>append table: the default value is 256 MB.</li></ul>
+		
+		**`target-file-size` (默认值: 128mb):**
+		*   **作用：** 这是 Paimon **最终期望生成的稳定数据文件（通常是经过 Compaction 合并到更高层级的文件）的目标大小**。
+		*   **原理：** 在 **Compaction 过程**中（无论是 Universal 还是 Size-Tiered），Paimon 会尝试将输入的小文件合并，并输出大小接近 `target-file-size` 的文件到更高的层级（如 L1, L2）。
+		*   **影响 L0 的间接方式：** 虽然 `target-file-size` 主要影响 Compaction 的输出，但它**间接影响 L0 文件的“合并潜力”**。如果 `target-file-size` 设置得很大（比如 1GB），那么 Compaction 需要积累更多的 L0 小文件（累计大小达到 ~1GB）才会触发合并操作。这相当于放宽了触发 Compaction 的“累计大小”阈值。
+		*   **注意：** `target-file-size` **不直接控制单个 L0 文件的大小**。L0 文件大小主要由 `write-buffer-size` 和 Checkpointing 决定。
+		*   **效果：** 主要在 Universal Compaction 中影响较大。因为 Universal 在合并时会尽量将一组文件合并成一个接近 `target-file-size` 的大文件。增大 `target-file-size` 意味着 Compaction 需要积累更多的 L0 文件（总数据量更大）才会触发合并。对于 Size-Tiered，它定义了更高层级文件的大小目标，也间接影响合并策略。
+		*   **注意：** 过大的 `target-file-size` 可能影响查询效率（读取大文件可能慢）和 Compaction 本身的资源消耗（合并更大量数据）。
+
+### com.qlangtech.tis.plugin.paimon.datax.writebuffer.PaimonWriteBufferDefault
+
+* **显示名:** default 
+
+* **全路径名:** [com.qlangtech.tis.plugin.paimon.datax.writebuffer.PaimonWriteBufferDefault](https://github.com/qlangtech/tis-paimon-plugin/tis-paimon-datax/tis-datax-paimonwriter-plugin/src/main/java/com/qlangtech/tis/plugin/paimon/datax/writebuffer/PaimonWriteBufferDefault.java) 
+
+* **费用:** :smile: `社区版(免费)`
+
+* **插件包:** [tis-datax-paimonwriter-plugin/tis-datax-paimonwriter-plugin_hive_2.1.1-cdh6.3.2_hadoop_3.0.0-cdh6.3.2.tpi](./tpis#tis-datax-paimonwriter-plugin/tis-datax-paimonwriter-plugin_hive_211-cdh632_hadoop_300-cdh632tpi)
+
 ## com.qlangtech.plugins.incr.flink.launch.clustertype.ClusterType
 
 ### :closed_lock_with_key:com.qlangtech.plugins.incr.flink.launch.clustertype.KubernetesApplication
@@ -7492,12 +8663,12 @@ import TOCInline from '@theme/TOCInline';
 	* **说明:** 
 
 		Standalone 集群: [详细请查看](https://nightlies.apache.org/flink/flink-docs-release-1.14/docs/deployment/resource-providers/standalone/overview/)
-		
+		   
 		[安装说明](http://tis.pub/docs/install/flink-cluster/standalone/):
 		1. 下载、解压
 		
 		   ```shell script
-		     wget http://tis-release.oss-cn-beijing.aliyuncs.com/4.2.0-SNAPSHOT/tis/flink-tis-1.18.1-bin.tar.gz && rm -rf flink-tis-1.18.1 && mkdir flink-tis-1.18.1 && tar xvf flink-tis-1.18.1-bin.tar.gz -C ./flink-tis-1.18.1
+		     wget http://tis-release.oss-cn-beijing.aliyuncs.com/4.3.0/tis/flink-tis-1.18.1-bin.tar.gz && rm -rf flink-tis-1.18.1 && mkdir flink-tis-1.18.1 && tar xvf flink-tis-1.18.1-bin.tar.gz -C ./flink-tis-1.18.1
 		   ```
 		2. 修改 `$FLINK_HOME/conf/flink-conf.yaml`
 		
@@ -7512,13 +8683,13 @@ import TOCInline from '@theme/TOCInline';
 		   rest.bind-address: 0.0.0.0
 		    ```
 		   这样使Flink启动之后，可以从其他机器节点访问flink所在的节点
-		
+		   
 		   ```yaml
 		   # The number of task slots that each TaskManager offers. Each slot runs one parallel pipeline.
 		   taskmanager.numberOfTaskSlots: 1
 		   ```
 		   默认值是1，需要在单个Flink节点上运行多个Flink任务，可修改成大于1的值就行（一般情况slot代表了服务节点的资源并行处理能力，一般配置于节点CPU核数相一致即可）
-		
+		   
 		3. 启动Flink-Cluster：
 		   ```shell script
 		    ./bin/start-cluster.sh
@@ -7864,22 +9035,6 @@ import TOCInline from '@theme/TOCInline';
 		
 		https://docs.mongodb.com/manual/reference/connection-string/#std-label-connections-connection-options
 
-5. copyExistingPipeline
-
-	* **类型:** 富文本
-	* **必须:** 否
-	* **默认值:** 无
-	* **说明:** 
-
-		An array of JSON objects describing the pipeline operations to run when copying existing data.
-		
-		This can improve the use of indexes by the copying manager and make copying more efficient. 
-		eg. 
-		```json
-		[{"$match": {"closed": "false"}}] 
-		```
-		ensures that only documents in which the closed field is set to false are copied.
-
 ### com.qlangtech.tis.plugins.incr.flink.cdc.maria.FlinkCDCMariaDBSourceFactory
 
 * **显示名:** Flink-CDC-MariaDB 
@@ -7906,18 +9061,18 @@ import TOCInline from '@theme/TOCInline';
 		参数详细请参考：[https://ververica.github.io/flink-cdc-connectors/master/content/connectors/mysql-cdc.html#connector-options](https://ververica.github.io/flink-cdc-connectors/master/content/connectors/mysql-cdc.html#connector-options)
 		，[https://debezium.io/documentation/reference/1.5/connectors/mysql.html#mysql-property-snapshot-mode](https://debezium.io/documentation/reference/1.5/connectors/mysql.html#mysql-property-snapshot-mode)
 		
-		* `Initial`:
-		  Performs an initial snapshot on the monitored database tables upon first startup, and continue to read the latest binlog.
-		
-		* `Earliest`:
-		  Never to perform snapshot on the monitored database tables upon first startup, just read from the beginning of the binlog. This should be used with care, as it is only valid when the binlog is guaranteed to contain the entire history of the database.
+		* ~~`Initial`~~:
+		  ~~Performs an initial snapshot on the monitored database tables upon first startup, and continue to read the latest binlog.~~
+		     
+		* ~~`Earliest`~~:
+		  ~~Never to perform snapshot on the monitored database tables upon first startup, just read from the beginning of the binlog. This should be used with care, as it is only valid when the binlog is guaranteed to contain the entire history of the database.~~
 		
 		* `Latest`:
 		  Never to perform snapshot on the monitored database tables upon first startup, just read from the end of the binlog which means only have the changes since the connector was started.
-		
+		  
 		* `Timestamp`:
 		   Never to perform snapshot on the monitored database tables upon first startup, and directly read binlog from the specified timestamp.
-		
+		   
 		   The consumer will traverse the binlog from the beginning and ignore change events whose timestamp is smaller than the specified timestamp.
 
 2. BinLog独立监听
@@ -7931,14 +9086,7 @@ import TOCInline from '@theme/TOCInline';
 		
 		如开启，带来的好处是运算时资源各自独立不会相互相互影响，弊端是，上游算子与下游算子独立在两个Solt中需要额外的网络传输开销
 
-3. 所在时区
-
-	* **类型:** 单选
-	* **必须:** 是
-	* **默认值:** com.qlangtech.tis.plugins.incr.flink.cdc.mysql.FlinkCDCMySQLSourceFactory.dftZoneId()
-	* **说明:** 		设置MySQL服务端所在时区
-
-4. 过滤
+3. 过滤
 
 	* **类型:** 单选
 	* **必须:** 否
@@ -7971,18 +9119,18 @@ import TOCInline from '@theme/TOCInline';
 		参数详细请参考：[https://ververica.github.io/flink-cdc-connectors/master/content/connectors/mysql-cdc.html#connector-options](https://ververica.github.io/flink-cdc-connectors/master/content/connectors/mysql-cdc.html#connector-options)
 		，[https://debezium.io/documentation/reference/1.5/connectors/mysql.html#mysql-property-snapshot-mode](https://debezium.io/documentation/reference/1.5/connectors/mysql.html#mysql-property-snapshot-mode)
 		
-		* `Initial`:
-		  Performs an initial snapshot on the monitored database tables upon first startup, and continue to read the latest binlog.
-		
-		* `Earliest`:
-		  Never to perform snapshot on the monitored database tables upon first startup, just read from the beginning of the binlog. This should be used with care, as it is only valid when the binlog is guaranteed to contain the entire history of the database.
+		* ~~`Initial`~~:
+		  ~~Performs an initial snapshot on the monitored database tables upon first startup, and continue to read the latest binlog.~~
+		     
+		* ~~`Earliest`~~:
+		  ~~Never to perform snapshot on the monitored database tables upon first startup, just read from the beginning of the binlog. This should be used with care, as it is only valid when the binlog is guaranteed to contain the entire history of the database.~~
 		
 		* `Latest`:
 		  Never to perform snapshot on the monitored database tables upon first startup, just read from the end of the binlog which means only have the changes since the connector was started.
-		
+		  
 		* `Timestamp`:
 		   Never to perform snapshot on the monitored database tables upon first startup, and directly read binlog from the specified timestamp.
-		
+		   
 		   The consumer will traverse the binlog from the beginning and ignore change events whose timestamp is smaller than the specified timestamp.
 
 2. BinLog独立监听
@@ -7996,14 +9144,7 @@ import TOCInline from '@theme/TOCInline';
 		
 		如开启，带来的好处是运算时资源各自独立不会相互相互影响，弊端是，上游算子与下游算子独立在两个Solt中需要额外的网络传输开销
 
-3. 所在时区
-
-	* **类型:** 单选
-	* **必须:** 是
-	* **默认值:** com.qlangtech.tis.plugins.incr.flink.cdc.mysql.FlinkCDCMySQLSourceFactory.dftZoneId()
-	* **说明:** 		设置MySQL服务端所在时区
-
-4. 过滤
+3. 过滤
 
 	* **类型:** 单选
 	* **必须:** 否
@@ -8038,10 +9179,10 @@ import TOCInline from '@theme/TOCInline';
 		
 		* `Initial`:
 		  Performs an initial snapshot on the monitored database tables upon first startup, and continue to read the latest binlog.
-		
+		     
 		* `Latest`:
 		 Never to perform a snapshot on the monitored database tables upon first startup, just read from the change since the connector was started.
-		
+		 
 		 **Note**: the mechanism of `scan.startup.mode` option relying on Debezium’s `snapshot.mode` configuration. So please do not use them together. 
 		 If you specific both `scan.startup.mode` and `debezium.snapshot.mode` options in the table DDL, it may make `scan.startup.mode` doesn’t work.
 
@@ -8256,6 +9397,61 @@ import TOCInline from '@theme/TOCInline';
 	* **默认值:** off
 	* **说明:** 		当选择为'on', 用户需要填写用户名和密码
 
+## com.qlangtech.tis.plugin.paimon.catalog.CatalogLock
+
+### com.qlangtech.tis.plugin.paimon.catalog.lock.CatalogLockOFF
+
+* **显示名:** off 
+
+* **全路径名:** [com.qlangtech.tis.plugin.paimon.catalog.lock.CatalogLockOFF](https://github.com/qlangtech/tis-paimon-plugin/tis-paimon-datax/tis-datax-paimonwriter-plugin/src/main/java/com/qlangtech/tis/plugin/paimon/catalog/lock/CatalogLockOFF.java) 
+
+* **费用:** :smile: `社区版(免费)`
+
+* **插件包:** [tis-datax-paimonwriter-plugin/tis-datax-paimonwriter-plugin_hive_2.1.1-cdh6.3.2_hadoop_3.0.0-cdh6.3.2.tpi](./tpis#tis-datax-paimonwriter-plugin/tis-datax-paimonwriter-plugin_hive_211-cdh632_hadoop_300-cdh632tpi)
+
+### com.qlangtech.tis.plugin.paimon.catalog.lock.CatalogLockON
+
+* **显示名:** on 
+
+* **全路径名:** [com.qlangtech.tis.plugin.paimon.catalog.lock.CatalogLockON](https://github.com/qlangtech/tis-paimon-plugin/tis-paimon-datax/tis-datax-paimonwriter-plugin/src/main/java/com/qlangtech/tis/plugin/paimon/catalog/lock/CatalogLockON.java) 
+
+* **费用:** :smile: `社区版(免费)`
+
+* **插件包:** [tis-datax-paimonwriter-plugin/tis-datax-paimonwriter-plugin_hive_2.1.1-cdh6.3.2_hadoop_3.0.0-cdh6.3.2.tpi](./tpis#tis-datax-paimonwriter-plugin/tis-datax-paimonwriter-plugin_hive_211-cdh632_hadoop_300-cdh632tpi)
+
+* **配置项说明:** 
+
+1. type
+
+	* **类型:** 单选
+	* **必须:** 否
+	* **默认值:** 无
+	* **说明:** 
+
+		The Lock Type for Catalog, such as 'hive', 'zookeeper'.
+
+2. check-max-sleep
+
+	* **类型:** 时间跨度
+	* **必须:** 是
+	* **默认值:** 8
+	* **说明:** 
+
+		The maximum sleep time when retrying to check the lock.
+		
+		unit：Second
+
+3. acquire-timeout
+
+	* **类型:** 时间跨度
+	* **必须:** 是
+	* **默认值:** 8
+	* **说明:** 
+
+		The maximum time to wait for acquiring the lock.
+		
+		unit：Minute
+
 ## com.qlangtech.tis.plugin.datax.kafka.reader.subscriptionmethod.KafkaSubscriptionMethod
 
 ### com.qlangtech.tis.plugin.datax.kafka.reader.subscriptionmethod.KafkaListOfTopics
@@ -8333,7 +9529,7 @@ import TOCInline from '@theme/TOCInline';
 
 	* **类型:** 单行文本
 	* **必须:** 是
-	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@3e9b3b3c
+	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@10dbf660
 	* **说明:** 		无
 
 2. incrMode
@@ -8361,7 +9557,7 @@ import TOCInline from '@theme/TOCInline';
 
 	* **类型:** 单行文本
 	* **必须:** 是
-	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@294ebe11
+	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@311a09b2
 	* **说明:** 		无
 
 ### com.qlangtech.tis.plugins.incr.flink.chunjun.source.SelectedTabPropsExtends
@@ -8380,7 +9576,7 @@ import TOCInline from '@theme/TOCInline';
 
 	* **类型:** 单行文本
 	* **必须:** 是
-	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@6b64429e
+	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@57920d6c
 	* **说明:** 		无
 
 2. 轮询策略
@@ -8439,7 +9635,7 @@ import TOCInline from '@theme/TOCInline';
 
 	* **类型:** 单行文本
 	* **必须:** 是
-	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@3df04fa1
+	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@433b1597
 	* **说明:** 		无
 
 2. 过滤
@@ -8469,7 +9665,7 @@ import TOCInline from '@theme/TOCInline';
 
 	* **类型:** 单行文本
 	* **必须:** 是
-	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@5be69f7e
+	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@6edb1e9c
 	* **说明:** 		对应的dolphinscheduler中工作流名称，确保同一项目下工作流名称唯一，不能重复
 
 2. endpoint
@@ -8584,7 +9780,7 @@ import TOCInline from '@theme/TOCInline';
 
 	* **类型:** 单选
 	* **必须:** 是
-	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@31fe0ce5
+	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@2ca132ad
 	* **说明:** 		replaceKey指定了每行记录的业务主键。用来做更新时使用
 
 ## com.qlangtech.tis.plugin.datax.powerjob.PowerJobOMS
@@ -8681,7 +9877,7 @@ import TOCInline from '@theme/TOCInline';
 
 * **费用:** :smile: `社区版(免费)`
 
-* **插件包:** [tis-datax-hdfs-plugin/tis-datax-hdfs-plugin_hadoop_3.0.0-cdh6.3.2.tpi](./tpis#tis-datax-hdfs-plugin/tis-datax-hdfs-plugin_hadoop_300-cdh632tpi)
+* **插件包:** [tis-datax-hdfs-plugin/tis-datax-hdfs-plugin_hadoop_2.7.3.tpi](./tpis#tis-datax-hdfs-plugin/tis-datax-hdfs-plugin_hadoop_273tpi)
 
 * **配置项说明:** 
 
@@ -8714,26 +9910,6 @@ import TOCInline from '@theme/TOCInline';
 
 ## com.qlangtech.tis.plugins.incr.flink.cdc.mysql.startup.StartupOptions
 
-### com.qlangtech.tis.plugins.incr.flink.cdc.mysql.startup.EarliestStartupOptions
-
-* **显示名:** EARLIEST_OFFSET 
-
-* **全路径名:** [com.qlangtech.tis.plugins.incr.flink.cdc.mysql.startup.EarliestStartupOptions](https://github.com/qlangtech/plugins/tree/master/tis-incr/tis-flink-cdc-mysql-plugin/src/main/java/com/qlangtech/tis/plugins/incr/flink/cdc/mysql/startup/EarliestStartupOptions.java) 
-
-* **费用:** :smile: `社区版(免费)`
-
-* **插件包:** [tis-flink-cdc-mysql-plugin.tpi](./tpis#tis-flink-cdc-mysql-plugintpi)
-
-### com.qlangtech.tis.plugins.incr.flink.cdc.mysql.startup.InitialStartupOptions
-
-* **显示名:** INITIAL 
-
-* **全路径名:** [com.qlangtech.tis.plugins.incr.flink.cdc.mysql.startup.InitialStartupOptions](https://github.com/qlangtech/plugins/tree/master/tis-incr/tis-flink-cdc-mysql-plugin/src/main/java/com/qlangtech/tis/plugins/incr/flink/cdc/mysql/startup/InitialStartupOptions.java) 
-
-* **费用:** :smile: `社区版(免费)`
-
-* **插件包:** [tis-flink-cdc-mysql-plugin.tpi](./tpis#tis-flink-cdc-mysql-plugintpi)
-
 ### com.qlangtech.tis.plugins.incr.flink.cdc.mysql.startup.LatestStartupOptions
 
 * **显示名:** LATEST_OFFSET 
@@ -8762,6 +9938,100 @@ import TOCInline from '@theme/TOCInline';
 	* **必须:** 是
 	* **默认值:** 无
 	* **说明:** 		timestamp for the startup offsets, as milliseconds from epoch.
+
+## com.qlangtech.tis.plugin.paimon.datax.compact.PaimonCompaction
+
+### com.qlangtech.tis.plugin.paimon.datax.compact.PaimonCompaction
+
+* **显示名:** default 
+
+* **全路径名:** [com.qlangtech.tis.plugin.paimon.datax.compact.PaimonCompaction](https://github.com/qlangtech/tis-paimon-plugin/tis-paimon-datax/tis-datax-paimonwriter-plugin/src/main/java/com/qlangtech/tis/plugin/paimon/datax/compact/PaimonCompaction.java) 
+
+* **费用:** :smile: `社区版(免费)`
+
+* **插件包:** [tis-datax-paimonwriter-plugin/tis-datax-paimonwriter-plugin_hive_2.1.1-cdh6.3.2_hadoop_3.0.0-cdh6.3.2.tpi](./tpis#tis-datax-paimonwriter-plugin/tis-datax-paimonwriter-plugin_hive_211-cdh632_hadoop_300-cdh632tpi)
+
+* **配置项说明:** 
+
+1. min.file-num
+
+	* **类型:** 整型数字
+	* **必须:** 是
+	* **默认值:** 5
+	* **说明:** 
+
+		For file set [f_0,...,f_N], the minimum file number to trigger a compaction for append-only table.
+
+2. 放大比例
+
+	* **类型:** 整型数字
+	* **必须:** 是
+	* **默认值:** 200
+	* **说明:** 
+
+		The size amplification is defined as the amount (in percentage) of additional storage needed to store a single byte of data in the merge tree for changelog mode table.
+
+3. size-ratio
+
+	* **类型:** 整型数字
+	* **必须:** 是
+	* **默认值:** 1
+	* **说明:** 
+
+		Percentage flexibility while comparing sorted run size for changelog mode table. If the candidate sorted run(s) size is 1% smaller than the next sorted run's size, then include next sorted run into this candidate set.
+
+4. optimization-interval
+
+	* **类型:** 时间跨度
+	* **必须:** 否
+	* **默认值:** 2
+	* **说明:** 
+
+		Implying how often to perform an optimization compaction, this configuration is used to ensure the query timeliness of the read-optimized system table.
+		
+		compaction.optimization-interval 的核心是平衡后台优化开销和数据查询/管理效率。1 分钟是安全的默认起点。 最佳值需要通过仔细监控你的特定工作负载在特定环境下的表现（资源使用、文件状态、查询延迟、写入稳定性）来确定。优先解决已观察到的瓶颈（资源争用或小文件堆积），然后进行有针对性的调整。记住，它需要与 compaction.max.file-num 和 compaction.early.max.file-num 等参数协同工作。
+
+5. num.trigger
+
+	* **类型:** 整型数字
+	* **必须:** 否
+	* **默认值:** 5
+	* **说明:** 
+
+		The sorted run number to trigger compaction. Includes level0 files (one file one sorted run) and high-level runs (one level one sorted run).
+		
+		`num-sorted-run.compaction-trigger = N` 意味着：**当 Paimon 表（LSM 结构）的磁盘文件片段（Sorted Run）积累到 `N` 个时，系统会自动启动后台合并（Compaction）任务，将这些文件合并成更少、更大的文件，以优化后续的查询性能和空间利用率。** 这个参数是平衡写入吞吐量和查询性能的关键杠杆之一。
+
+6. num.stop.trigger
+
+	* **类型:** 整型数字
+	* **必须:** 否
+	* **默认值:** 无
+	* **说明:** 
+
+		The number of sorted runs that trigger the stopping of writes, the default value is 'num-sorted-run.compaction-trigger' + 3.
+		
+		以下是 `num-sorted-run.stop-trigger` 的详细解释：
+		
+		1.  **背景：写入与合并的速率差**
+		    *   数据持续写入会不断产生新的 Sorted Run。
+		    *   后台的 Compaction 任务负责合并这些 Sorted Run 以减少其数量。
+		    *   理想情况下，Compaction 的速度应该能跟上写入产生新 Sorted Run 的速度，保持 Sorted Run 数量在 `compaction-trigger` 附近波动。
+		    *   但是，如果**写入速率远远超过 Compaction 的处理能力**，Sorted Run 的数量就会持续增长。
+		
+		2.  **`num-sorted-run.stop-trigger` 的核心作用**
+		    *   这个参数定义了一个**更高的 Sorted Run 数量阈值**。
+		    *   当磁盘上的 Sorted Run 数量**达到或超过**这个 `stop-trigger` 设定的值时，Paimon 会采取**强制措施**：**暂停（或显著减慢）新的数据写入操作**。
+		    *   **简单说：它设定了“积攒的文件片段（Sorted Run）数量达到某个危险上限时，必须停止写入，优先让合并追赶上来”。**
+
+7. writeOnly
+
+	* **类型:** 单选
+	* **必须:** 是
+	* **默认值:** false
+	* **说明:** 
+
+		If set to true, compactions and snapshot expiration will be skipped. This option is used along with dedicated compact jobs.
 
 ## com.qlangtech.tis.plugin.k8s.K8sImage
 
@@ -8989,6 +10259,101 @@ import TOCInline from '@theme/TOCInline';
 		      - "bar.local"
 		 ```
 
+## com.qlangtech.tis.plugin.paimon.datax.PaimonSequenceFields
+
+### com.qlangtech.tis.plugin.paimon.datax.sequence.PaimonSequenceFieldsOff
+
+* **显示名:** off 
+
+* **全路径名:** [com.qlangtech.tis.plugin.paimon.datax.sequence.PaimonSequenceFieldsOff](https://github.com/qlangtech/tis-paimon-plugin/tis-paimon-datax/tis-datax-paimonwriter-plugin/src/main/java/com/qlangtech/tis/plugin/paimon/datax/sequence/PaimonSequenceFieldsOff.java) 
+
+* **费用:** :smile: `社区版(免费)`
+
+* **插件包:** [tis-datax-paimonwriter-plugin/tis-datax-paimonwriter-plugin_hive_2.1.1-cdh6.3.2_hadoop_3.0.0-cdh6.3.2.tpi](./tpis#tis-datax-paimonwriter-plugin/tis-datax-paimonwriter-plugin_hive_211-cdh632_hadoop_300-cdh632tpi)
+
+### com.qlangtech.tis.plugin.paimon.datax.sequence.PaimonSequenceFieldsOn
+
+* **显示名:** on 
+
+* **全路径名:** [com.qlangtech.tis.plugin.paimon.datax.sequence.PaimonSequenceFieldsOn](https://github.com/qlangtech/tis-paimon-plugin/tis-paimon-datax/tis-datax-paimonwriter-plugin/src/main/java/com/qlangtech/tis/plugin/paimon/datax/sequence/PaimonSequenceFieldsOn.java) 
+
+* **费用:** :smile: `社区版(免费)`
+
+* **插件包:** [tis-datax-paimonwriter-plugin/tis-datax-paimonwriter-plugin_hive_2.1.1-cdh6.3.2_hadoop_3.0.0-cdh6.3.2.tpi](./tpis#tis-datax-paimonwriter-plugin/tis-datax-paimonwriter-plugin_hive_211-cdh632_hadoop_300-cdh632tpi)
+
+* **配置项说明:** 
+
+1. field
+
+	* **类型:** 单选
+	* **必须:** 是
+	* **默认值:** 无
+	* **说明:** 
+
+		The field that generates the sequence number for primary key table, the sequence number determines which data is the most recent.
+		
+		 一个单调递增的字段（如时间戳、版本号），用于解决更新冲突。当主键相同时
+
+2. field.sort-order
+
+	* **类型:** 单选
+	* **必须:** 是
+	* **默认值:** ascending
+	* **说明:** 
+
+		Specify the order of sequence.field.
+
+## com.qlangtech.tis.plugin.paimon.datax.ChangelogProducer
+
+### com.qlangtech.tis.plugin.paimon.datax.changelog.ChangelogProducerON
+
+* **显示名:** on 
+
+* **全路径名:** [com.qlangtech.tis.plugin.paimon.datax.changelog.ChangelogProducerON](https://github.com/qlangtech/tis-paimon-plugin/tis-paimon-datax/tis-datax-paimonwriter-plugin/src/main/java/com/qlangtech/tis/plugin/paimon/datax/changelog/ChangelogProducerON.java) 
+
+* **费用:** :smile: `社区版(免费)`
+
+* **插件包:** [tis-datax-paimonwriter-plugin/tis-datax-paimonwriter-plugin_hive_2.1.1-cdh6.3.2_hadoop_3.0.0-cdh6.3.2.tpi](./tpis#tis-datax-paimonwriter-plugin/tis-datax-paimonwriter-plugin_hive_211-cdh632_hadoop_300-cdh632tpi)
+
+* **配置项说明:** 
+
+1. producer
+
+	* **类型:** 单选
+	* **必须:** 是
+	* **默认值:** none
+	* **说明:** 
+
+		Whether to double write to a changelog file. This changelog file keeps the details of data changes, it can be read directly during stream reads. This can be applied to tables with primary keys.
+
+2. row-deduplicate
+
+	* **类型:** 单选
+	* **必须:** 是
+	* **默认值:** false
+	* **说明:** 
+
+		Whether to generate -U, +U changelog for the same record. This configuration is only valid for the changelog-producer is lookup or full-compaction.
+
+3. deduplicate-ignore-fields
+
+	* **类型:** 单选
+	* **必须:** 是
+	* **默认值:** none
+	* **说明:** 
+
+		Fields that are ignored for comparison while generating -U, +U changelog for the same record. This configuration is only valid for the changelog-producer.row-deduplicate is true.
+
+### com.qlangtech.tis.plugin.paimon.datax.changelog.ChangelogProducerOff
+
+* **显示名:** off 
+
+* **全路径名:** [com.qlangtech.tis.plugin.paimon.datax.changelog.ChangelogProducerOff](https://github.com/qlangtech/tis-paimon-plugin/tis-paimon-datax/tis-datax-paimonwriter-plugin/src/main/java/com/qlangtech/tis/plugin/paimon/datax/changelog/ChangelogProducerOff.java) 
+
+* **费用:** :smile: `社区版(免费)`
+
+* **插件包:** [tis-datax-paimonwriter-plugin/tis-datax-paimonwriter-plugin_hive_2.1.1-cdh6.3.2_hadoop_3.0.0-cdh6.3.2.tpi](./tpis#tis-datax-paimonwriter-plugin/tis-datax-paimonwriter-plugin_hive_211-cdh632_hadoop_300-cdh632tpi)
+
 ## com.qlangtech.tis.plugins.incr.flink.cdc.sqlserver.startup.CDCStartupOptions
 
 ### com.qlangtech.tis.plugins.incr.flink.cdc.sqlserver.startup.Initial
@@ -9021,6 +10386,49 @@ import TOCInline from '@theme/TOCInline';
 
 * **插件包:** [tis-flink-cdc-sqlserver-plugin.tpi](./tpis#tis-flink-cdc-sqlserver-plugintpi)
 
+## com.qlangtech.tis.plugin.paimon.datax.utils.PaimonSnapshot
+
+### com.qlangtech.tis.plugin.paimon.datax.utils.PaimonSnapshot
+
+* **显示名:** default 
+
+* **全路径名:** [com.qlangtech.tis.plugin.paimon.datax.utils.PaimonSnapshot](https://github.com/qlangtech/tis-paimon-plugin/tis-paimon-datax/tis-datax-paimonwriter-plugin/src/main/java/com/qlangtech/tis/plugin/paimon/datax/utils/PaimonSnapshot.java) 
+
+* **费用:** :smile: `社区版(免费)`
+
+* **插件包:** [tis-datax-paimonwriter-plugin/tis-datax-paimonwriter-plugin_hive_2.1.1-cdh6.3.2_hadoop_3.0.0-cdh6.3.2.tpi](./tpis#tis-datax-paimonwriter-plugin/tis-datax-paimonwriter-plugin_hive_211-cdh632_hadoop_300-cdh632tpi)
+
+* **配置项说明:** 
+
+1. num-retained.min
+
+	* **类型:** 整型数字
+	* **必须:** 是
+	* **默认值:** 10
+	* **说明:** 
+
+		The minimum number of completed snapshots to retain. Should be greater than or equal to 1.
+
+2. num-retained.max
+
+	* **类型:** 整型数字
+	* **必须:** 是
+	* **默认值:** 2147483647
+	* **说明:** 
+
+		The maximum number of completed snapshots to retain. Should be greater than or equal to the minimum number.
+
+3. time-retained
+
+	* **类型:** 时间跨度
+	* **必须:** 是
+	* **默认值:** 1
+	* **说明:** 
+
+		The maximum time of completed snapshots to retain.
+		
+		unit：hour
+
 ## com.qlangtech.plugins.incr.flink.launch.StateBackendFactory
 
 ### com.qlangtech.plugins.incr.flink.launch.statbackend.FileSystemState
@@ -9042,7 +10450,7 @@ import TOCInline from '@theme/TOCInline';
 	* **默认值:** file:///opt/data/savepoint
 	* **说明:** 
 
-		The default directory used for storing the data files and meta data of checkpoints in a Flink supported filesystem. The storage path must be accessible from all participating processes/nodes(i.e. all TaskManagers and JobManagers).
+		The default directory used for storing the data files and meta data of checkpoints in a Flink supported filesystem. The storage path must be accessible from all participating processes/nodes(i.e. all TaskManagers and JobManagers). If the 'execution.checkpointing.storage' is set to 'jobmanager', only the meta data of checkpoints will be stored in this directory.
 		
 		The scheme (hdfs://, file://, etc) is null. Please specify the file system scheme explicitly in the URI.
 
@@ -9059,12 +10467,12 @@ import TOCInline from '@theme/TOCInline';
 
 	* **类型:** 整型数字
 	* **必须:** 是
-	* **默认值:** 20
+	* **默认值:** 0
 	* **说明:** 
 
 		The minimum size of state data files. All state chunks smaller than that are stored inline in the root checkpoint metadata file. The max memory threshold for this configuration is 1MB.
 		
-		 单位：`kb`
+		单位：`mb`
 
 4. writeBufferSize
 
@@ -9073,7 +10481,7 @@ import TOCInline from '@theme/TOCInline';
 	* **默认值:** 4096
 	* **说明:** 
 
-		The default size of the write buffer for the checkpoint streams that write to file systems. The actual write buffer size is determined to be the maximum of the value of this option and option 'state.storage.fs.memory-threshold'.
+		The default size of the write buffer for the checkpoint streams that write to file systems. The actual write buffer size is determined to be the maximum of the value of this option and option 'execution.checkpointing.data-inline-threshold'.
 
 ### com.qlangtech.plugins.incr.flink.launch.statbackend.MemoryState
 
@@ -9145,7 +10553,7 @@ import TOCInline from '@theme/TOCInline';
 
 	* **类型:** 单选
 	* **必须:** 是
-	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@77998ea7
+	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@4d0b7fd5
 	* **说明:** 		选择列作为表的主键
 
 3. Sequence列
@@ -9193,7 +10601,7 @@ import TOCInline from '@theme/TOCInline';
 
 	* **类型:** 单选
 	* **必须:** 是
-	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@5dd3727c
+	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@6338afe2
 	* **说明:** 		选择列作为表的主键
 
 3. 分区字段
@@ -9237,7 +10645,7 @@ import TOCInline from '@theme/TOCInline';
 
 	* **类型:** 单选
 	* **必须:** 是
-	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@391dfe7c
+	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@3d02ff64
 	* **说明:** 		选择列作为表的主键
 
 3. upsert
@@ -9259,6 +10667,111 @@ import TOCInline from '@theme/TOCInline';
 		 where条件可以有效地进行业务增量同步。如果不填写where语句，包括不提供where的key或者value，DataX均视作同步全量数据。
 
 5. 同步列
+
+	* **类型:** 多选
+	* **必须:** 是
+	* **默认值:** 无
+	* **说明:** 		需要同步的数据列
+
+### com.qlangtech.tis.plugin.paimon.datax.PaimonSelectedTab
+
+* **显示名:** PaimonSelectedTab 
+
+* **全路径名:** [com.qlangtech.tis.plugin.paimon.datax.PaimonSelectedTab](https://github.com/qlangtech/tis-paimon-plugin/tis-paimon-datax/tis-datax-paimonwriter-plugin/src/main/java/com/qlangtech/tis/plugin/paimon/datax/PaimonSelectedTab.java) 
+
+* **费用:** :smile: `社区版(免费)`
+
+* **插件包:** [tis-datax-paimonwriter-plugin/tis-datax-paimonwriter-plugin_hive_2.1.1-cdh6.3.2_hadoop_3.0.0-cdh6.3.2.tpi](./tpis#tis-datax-paimonwriter-plugin/tis-datax-paimonwriter-plugin_hive_211-cdh632_hadoop_300-cdh632tpi)
+
+* **配置项说明:** 
+
+1. name
+	* **类型:** 单行文本
+	* **必须:** 是
+2. 主键
+
+	* **类型:** 单选
+	* **必须:** 是
+	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@718ad3a6
+	* **说明:** 		选择列作为表的主键
+
+3. 分区键
+
+	* **类型:** 单行文本
+	* **必须:** 是
+	* **默认值:** off
+	* **说明:** 
+
+		Apache Paimon 的分区功能是其表设计中的核心特性之一，它通过**逻辑划分**数据来提高查询效率和管理便捷性。以下是分区功能的全面介绍：
+		
+		一、分区核心概念
+		
+		 1. 什么是分区？
+		    - **逻辑数据划分**：根据指定列的值将表数据分割成独立的子集
+		    - **物理存储映射**：每个分区对应文件系统上的独立目录
+		    - **查询优化基础**：实现分区剪枝（Partition Pruning）加速查询
+		
+		 2. 分区 vs 分桶
+		    
+		    | **特性**       | **分区（Partition）**               | **分桶（Bucket）**               |
+		    |----------------|-----------------------------------|---------------------------------|
+		    | **目的**       | 数据管理/查询优化                 | 并行处理/文件控制              |
+		    | **划分依据**   | 业务逻辑（日期、地区等）          | 哈希算法（主键/指定列）        |
+		    | **物理表现**   | 独立目录                          | 同一目录下的不同文件           |
+		    | **查询优化**   | 分区剪枝                          | 桶过滤                         |
+		    | **典型场景**   | 时间序列数据                      | 分布式处理                     |
+
+4. sequence
+
+	* **类型:** 单行文本
+	* **必须:** 是
+	* **默认值:** off
+	* **说明:** 
+
+		在 Apache Paimon 中配置 **Sequence ID** 主要用于处理多路写入（如 CDC 数据）时的更新顺序问题，确保在相同主键下保留最新版本的数据。以下是详细配置步骤和注意事项：
+		
+		核心概念
+		- **Sequence ID**：一个**单调递增的字段**（如时间戳、版本号），用于解决更新冲突。当主键相同时，Paimon 会保留 Sequence ID 值最大的记录。
+		- **使用场景**：适用于 CDC 数据同步（如 MySQL binlog）、多流写入等需要保证数据最终一致性的场景。
+
+5. bucketField
+
+	* **类型:** 单行文本
+	* **必须:** 是
+	* **默认值:** off
+	* **说明:** 
+
+		在 Apache Paimon 中，bucket-key 是一个关键的分桶字段配置，它决定了数据在桶内的分布方式。这个参数与 bucket 模式密切相关，但在不同桶模式下其作用和有效性有显著差异。下面我将详细解释：
+		
+		🔄 `bucket-key` 在不同桶模式下的有效性
+		1. **固定桶模式 (`bucket > 0`)** - ✅ **完全有效且推荐使用**
+		2. **动态桶模式 (`bucket = -1`)** ⚠️ **有条件有效**
+		   限制：
+		   - 仅当 **`bucket-key` = 主键（或主键子集）** 时才有效
+		   - 如果设置非主键字段，Paimon 会**静默忽略**该配置
+		3. **延迟桶模式 (`bucket = -2`)** ❌ **完全无效**
+		   原因：
+		   - 延迟桶模式写入时**不立即分桶**
+		   - 数据以临时文件存储，Compaction 时才分桶
+		   - `bucket-key` 在写入阶段无法生效
+		
+		💡 最佳实践总结
+		
+		| **桶模式**      | `bucket-key` 是否有效 | 推荐配置策略                          |
+		|----------------|---------------------|---------------------------------------|
+		| **固定桶 (>0)**  | ✅ 有效              | 设置为高频过滤/JOIN的字段              |
+		| **动态桶 (-1)**  | ⚠️ 仅当等于主键时有效 | 必须设置为表的主键字段                  |
+		| **延迟桶 (-2)**  | ❌ 无效              | 改用 `partition` + `sort-key` 替代方案 |
+
+6. where
+
+	* **类型:** 单行文本
+	* **必须:** 否
+	* **默认值:** 无
+	* **说明:** 		筛选条件，MysqlReader根据指定的column、table、where条件拼接SQL，并根据这个SQL进行数据抽取。在实际业务场景中，往往会选择当天的数据进行同步，可以将where条件指定为gmt_create > $bizdate 。注意：不可以将where条件指定为limit 10，limit不是SQL的合法where子句。
+		 where条件可以有效地进行业务增量同步。如果不填写where语句，包括不提供where的key或者value，DataX均视作同步全量数据。
+
+7. 同步列
 
 	* **类型:** 多选
 	* **必须:** 是
@@ -9531,6 +11044,32 @@ import TOCInline from '@theme/TOCInline';
 	* **默认值:** 无
 	* **说明:** 		统一为目标表添加前缀，例如在构建分层数仓用于为ods层目标表统一添加前缀,例如：`ods_erp_`
 
+### com.qlangtech.tis.plugin.paimon.datax.utils.PaimonAutoCreateTable
+
+* **显示名:** on 
+
+* **全路径名:** [com.qlangtech.tis.plugin.paimon.datax.utils.PaimonAutoCreateTable](https://github.com/qlangtech/tis-paimon-plugin/tis-paimon-datax/tis-datax-paimonwriter-plugin/src/main/java/com/qlangtech/tis/plugin/paimon/datax/utils/PaimonAutoCreateTable.java) 
+
+* **费用:** :smile: `社区版(免费)`
+
+* **插件包:** [tis-datax-paimonwriter-plugin/tis-datax-paimonwriter-plugin_hive_2.1.1-cdh6.3.2_hadoop_3.0.0-cdh6.3.2.tpi](./tpis#tis-datax-paimonwriter-plugin/tis-datax-paimonwriter-plugin_hive_211-cdh632_hadoop_300-cdh632tpi)
+
+* **配置项说明:** 
+
+1. 添加列注释
+
+	* **类型:** 单行文本
+	* **必须:** 是
+	* **默认值:** on
+	* **说明:** 		在建表DDL上添加列注释，需要依赖源端表列是否定义注释，如源端列上没有列注释，则目标端建表列DDL上也没有列注释
+
+2. 别名前缀
+
+	* **类型:** 单行文本
+	* **必须:** 否
+	* **默认值:** 无
+	* **说明:** 		统一为目标表添加前缀，例如在构建分层数仓用于为ods层目标表统一添加前缀,例如：`ods_erp_`
+
 ### com.qlangtech.tis.plugin.datax.PostgreSQLAutoCreateTable
 
 * **显示名:** on 
@@ -9778,27 +11317,7 @@ import TOCInline from '@theme/TOCInline';
 
 * **配置项说明:** 
 
-1. copyExistingMaxThreads
-
-	* **类型:** 整型数字
-	* **必须:** 否
-	* **默认值:** 无
-	* **说明:** 
-
-		The number of threads to use when performing the data copy. Defaults to the number of
-		 * processors. Default: defaults to the number of processors
-
-2. copyExistingQueueSize
-
-	* **类型:** 整型数字
-	* **必须:** 否
-	* **默认值:** 无
-	* **说明:** 
-
-		The max size of the queue to use when copying data. 
-		* Default: `10240`
-
-3. pollMaxBatchSize
+1. pollMaxBatchSize
 
 	* **类型:** 整型数字
 	* **必须:** 否
@@ -9808,7 +11327,7 @@ import TOCInline from '@theme/TOCInline';
 		Maximum number of change stream documents to include in a single batch when polling for new data. This setting can be used to limit the amount of data buffered internally in the connector.
 		* Default: `1024`
 
-4. pollAwaitTimeMillis
+2. pollAwaitTimeMillis
 
 	* **类型:** 整型数字
 	* **必须:** 否
@@ -9818,7 +11337,7 @@ import TOCInline from '@theme/TOCInline';
 		The amount of time to wait before checking for new results on the change stream.
 		* Default: `1000`
 
-5. heartbeatIntervalMillis
+3. heartbeatIntervalMillis
 
 	* **类型:** 整型数字
 	* **必须:** 否
@@ -9976,24 +11495,24 @@ import TOCInline from '@theme/TOCInline';
 
 		Starting duration between restarts if <code class="highlighter-rouge">restart-strategy.type</code> has been set to <code class="highlighter-rouge">exponential-delay</code>. It can be specified using notation: "1 min", "20 s"
 		
-		 单位：`秒`
+		单位：`秒`
 
 2. maxBackoff
 
 	* **类型:** 整型数字
 	* **必须:** 是
-	* **默认值:** 300
+	* **默认值:** 60
 	* **说明:** 
 
 		The highest possible duration between restarts if <code class="highlighter-rouge">restart-strategy.type</code> has been set to <code class="highlighter-rouge">exponential-delay</code>. It can be specified using notation: "1 min", "20 s"
 		
-		 单位：`秒`
+		单位：`秒`
 
 3. backoffMultiplier
 
 	* **类型:** 单行文本
 	* **必须:** 是
-	* **默认值:** 2.0
+	* **默认值:** 1.5
 	* **说明:** 
 
 		Backoff value is multiplied by this value after every failure,until max backoff is reached if <code class="highlighter-rouge">restart-strategy.type</code> has been set to <code class="highlighter-rouge">exponential-delay</code>.
@@ -10007,7 +11526,7 @@ import TOCInline from '@theme/TOCInline';
 
 		Threshold when the backoff is reset to its initial value if <code class="highlighter-rouge">restart-strategy.type</code> has been set to <code class="highlighter-rouge">exponential-delay</code>. It specifies how long the job must be running without failure to reset the exponentially increasing backoff to its initial value. It can be specified using notation: "1 min", "20 s"
 		
-		 单位：`秒`
+		单位：`秒`
 
 5. jitter
 
@@ -10048,7 +11567,7 @@ import TOCInline from '@theme/TOCInline';
 
 		Time interval for measuring failure rate if <code class="highlighter-rouge">restart-strategy.type</code> has been set to <code class="highlighter-rouge">failure-rate</code>. It can be specified using notation: "1 min", "20 s"
 		
-		 单位：`秒`
+		单位：`秒`
 
 3. failureRateDelay
 
@@ -10059,7 +11578,7 @@ import TOCInline from '@theme/TOCInline';
 
 		Delay between two consecutive restart attempts if <code class="highlighter-rouge">restart-strategy.type</code> has been set to <code class="highlighter-rouge">failure-rate</code>. It can be specified using notation: "1 min", "20 s"
 		
-		 单位：`秒`
+		单位：`秒`
 
 ### :closed_lock_with_key:com.qlangtech.plugins.incr.flink.launch.restart.FixedDelay
 
@@ -10091,7 +11610,7 @@ import TOCInline from '@theme/TOCInline';
 
 		Delay between two consecutive restart attempts if <code class="highlighter-rouge">restart-strategy.type</code> has been set to <code class="highlighter-rouge">fixed-delay</code>. Delaying the retries can be helpful when the program interacts with external systems where for example connections or pending transactions should reach a timeout before re-execution is attempted. It can be specified using notation: "1 min", "20 s"
 		
-		 单位：`秒`
+		单位：`秒`
 
 ### com.qlangtech.plugins.incr.flink.launch.restart.OFF
 

@@ -29,7 +29,6 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.microsoft.playwright.Browser;
 import com.microsoft.playwright.Browser.NewPageOptions;
-import com.microsoft.playwright.BrowserContext;
 import com.microsoft.playwright.BrowserType;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.Playwright;
@@ -360,7 +359,7 @@ public class Main {
         }
 
 
-        MarkContentBuilder pluginList = new MarkContentBuilder();
+        MarkContentBuilder markdown = new MarkContentBuilder();
 
         Map<String, List<PluginExtendsionImpl>> extendPoints = Maps.newHashMap();
         List<PluginExtendsionImpl> extendImpls = null;
@@ -379,32 +378,33 @@ public class Main {
             } else {
                 communityEditionCount.incrementAndGet();
             }
-            pluginList.append("## ").append(isCommunityVIP ? COMMUNITY_VIP_ICON : StringUtils.EMPTY).append(latest.artifact.getArtifactName() + AbstractTISRepository.TIS_PACKAGE_EXTENSION).append("\n\n");
+            markdown.append("## ").append(isCommunityVIP ? COMMUNITY_VIP_ICON : StringUtils.EMPTY)
+                    .append(latest.artifact.getArtifactName() + AbstractTISRepository.TIS_PACKAGE_EXTENSION).append("\n");
 
             if (!latest.isCommunityVIP()) {
-                pluginList.append("* **下载地址：** ").append(String.valueOf(latest.getDownloadUrl())).append("\n\n");
+                markdown.append("* **下载地址：** ").append(String.valueOf(latest.getDownloadUrl())).append("\n");
             }
 
 
             excerpt = latest.getDescription();
             if (StringUtils.isNotBlank(excerpt)) {
-                pluginList.append("* **介绍：** \n\n");
-                appendRichMdContent(pluginList, 1, excerpt);
+                markdown.append("* **介绍：** \n");
+                appendRichMdContent(markdown, 1, excerpt);
             }
 
-            pluginList.append("* **扩展列表：** \n\n");
+            markdown.append("* **扩展列表：** \n");
             for (Map.Entry<String, List<String>> e : latest.getExtendpoints().entrySet()) {
                 extendImpls = extendPoints.get(e.getKey());
-                pluginList.append("\t* [").append(e.getKey()).append("](./plugins#").append(getExtendPointHtmlAnchor(e.getKey())).append(")\n\n");
+                markdown.append("\t* [").append(e.getKey()).append("](./plugins#").append(getExtendPointHtmlAnchor(e.getKey())).append(")\n");
                 if (extendImpls == null) {
                     extendImpls = Lists.newArrayList();
                     extendPoints.put(e.getKey(), extendImpls);
                 }
                 extendImpls.addAll(e.getValue().stream().map((impl) -> {
                     PluginExtendsionImpl eimpl = new PluginExtendsionImpl(impl, plugin.getLatest());
-                    pluginList.append("\t\t * ");
-                    eimpl.appendExtendImplMDSsript(pluginList);
-                    pluginList.append("\n\n");
+                    markdown.append("\t\t * ");
+                    eimpl.appendExtendImplMDSsript(markdown);
+                    markdown.append("\n");
                     return eimpl;
                 }).collect(Collectors.toList()));
             }
@@ -418,7 +418,7 @@ public class Main {
                     headerContent = StringUtils.replace(headerContent
                             , "{{communityCollaborationEditionCount}}", String.valueOf(communityVIPcountCount.get()));
                     return headerContent;
-                }, pluginList.getContent())).build(), TisUTF8.get());
+                }, markdown.getContent())).build(), TisUTF8.get());
 
         StringBuffer extendsList = new StringBuffer();
         Descriptor descriptor = null;
@@ -579,8 +579,8 @@ public class Main {
                         .append((dftVal == null) ? "无" : String.valueOf(dftVal)).appendReturn();
 
                 extendsList.append("\t* **说明:** ");
-
-                if (StringUtils.isEmpty(extraProps.getAsynHelp())) {
+              //  StringUtils.isEmpty(extraProps.getAsynHelp())
+                if (!extraProps.isAsynHelp() ) {
                     // extendsList.append().append("\n\n");
                     processLine(extendsList, 2, StringUtils.defaultString(extraProps.getHelpContent(), "无"));
                     extendsList.appendReturn();
@@ -622,66 +622,6 @@ public class Main {
             }
         }
         return extendsList.getContent();
-    }
-
-    /**
-     * 需要确保每个li的最后不能有三个回车符号，不然<ol>下的<li>重新设置序号（从1开始）
-     */
-    private static class MarkContentBuilder {
-        private final StringBuffer extendsList = new StringBuffer();
-        int returnCharNumber;
-
-        public StringBuffer getContent() {
-            processTailReturnChar();
-            return this.extendsList;
-        }
-
-        public MarkContentBuilder append(String content) {
-            if (!"\t".equals(content) && StringUtils.isBlank(content)) {
-                return this;
-            }
-            int contentLastReturnNumber = 0;
-            int idx = content.length() - 1;
-            for (; idx >= 0; idx--) {
-                if ('\n' != content.charAt(idx)) {
-                    break;
-                } else {
-                    contentLastReturnNumber++;
-                }
-            }
-            if (returnCharNumber > 0) {
-                while (returnCharNumber-- > 0) {
-                    this.extendsList.append("\n");
-                }
-            }
-            this.extendsList.append(StringUtils.substring(content, 0, idx + 1));
-            returnCharNumber = contentLastReturnNumber;
-            return this;
-        }
-
-        public MarkContentBuilder appendReturn() {
-            return this.appendReturn(1);
-        }
-
-        public MarkContentBuilder appendReturn(int count) {
-            returnCharNumber += count;
-            return this;
-        }
-
-        public void appendLiBlock(int orderNum) {
-            processTailReturnChar();
-            extendsList.append(orderNum).append(". ");
-            returnCharNumber = 0;
-        }
-
-        private void processTailReturnChar() {
-            if (returnCharNumber > 0) {
-                returnCharNumber = Math.min(2, returnCharNumber);
-                while (returnCharNumber-- > 0) {
-                    this.extendsList.append("\n");
-                }
-            }
-        }
     }
 
     /**
@@ -1038,8 +978,8 @@ public class Main {
 
                 EndType endType = entry.getKey();
                 EndTypePluginStore pluginStore = entry.getValue();
-                if (entry.getKey() != EndType.AutoGen) {
-                    //  continue;
+                if (entry.getKey() != EndType.Paimon) {
+                      continue;
                 }
 
                 endDir = new File(endsDocRoot, StringUtils.lowerCase(endType.category.name()) + "/" + entry.getKey().name());
