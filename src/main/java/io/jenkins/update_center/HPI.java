@@ -217,11 +217,10 @@ public class HPI extends MavenArtifact {
     public Map<String, List<String>> getExtendpoints() {
         try {
             if (extendpoints == null) {
-                ArtifactCoordinates coordinates = ArtifactCoordinates.create(artifact, "jar");// new ArtifactCoordinates(artifact.groupId, artifact.artifactId, artifact.version, "jar", artifact.classifier, false);
-                // ref: com.qlangtech.tis.extension.TISExtendsionInterceptor
+                ArtifactCoordinates coordinates = ArtifactCoordinates.create(artifact, "jar");
                 try (InputStream is = repository.getZipFileEntry(new MavenArtifact(repository, coordinates), PluginManifest.META_PATH_EXTENDPOINTS)) {
                     if (is != null) {
-                        ObjectInputStream o = new ObjectInputStream(is);// b.toString().trim().replaceAll("\\s+", " ");
+                        ObjectInputStream o = new ObjectInputStream(is);
                         this.extendpoints = (Map<String, List<String>>) o.readObject();
                     } else {
                         this.extendpoints = Maps.newHashMap();
