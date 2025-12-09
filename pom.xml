@@ -5,6 +5,7 @@
         <groupId>org.jenkins-ci</groupId>
         <artifactId>jenkins</artifactId>
         <version>1.54</version>
+
     </parent>
 
     <artifactId>update-center2</artifactId>
