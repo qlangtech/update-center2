@@ -5,11 +5,12 @@
         <groupId>org.jenkins-ci</groupId>
         <artifactId>jenkins</artifactId>
         <version>1.54</version>
+
     </parent>
 
     <artifactId>update-center2</artifactId>
 
-    <version>4.3.0</version>
+    <version>5.0.0-SNAPSHOT</version>
     <name>Jenkins Update Center Generator</name>
     <description>Generates update sites for updates.jenkins.io</description>
 
