@@ -63,12 +63,16 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Properties;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.function.Function;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 
@@ -95,7 +99,8 @@ public class HPI extends MavenArtifact {
      * Download a plugin via more intuitive URL. This also helps us track download counts.
      */
     public URL getDownloadUrl() throws MalformedURLException {
-        //  return new URL(StringUtils.removeEnd(DOWNLOADS_ROOT_URL, "/") + "/plugins/" + artifact.artifactId + "/" + version + "/" + artifact.artifactId + ".hpi");
+        //  return new URL(StringUtils.removeEnd(DOWNLOADS_ROOT_URL, "/") + "/plugins/" + artifact.artifactId + "/" +
+        //  version + "/" + artifact.artifactId + ".hpi");
         return new URL(StringUtils.removeEnd(DOWNLOADS_ROOT_URL, "/") + "/" + version + "/tis-plugin/" + getArchiveFileName());
     }
 
@@ -111,7 +116,8 @@ public class HPI extends MavenArtifact {
 
     public String getRequiredJenkinsVersion() throws IOException {
         String v = getManifestAttributes().getValue("Jenkins-Version");
-        if (v != null) return v;
+        if (v != null)
+            return v;
 
         v = getManifestAttributes().getValue("Hudson-Version");
         if (fixNull(v) != null) {
@@ -141,11 +147,13 @@ public class HPI extends MavenArtifact {
             throw new RuntimeException(e);
         }
     }
+
     /**
      * Earlier versions of the maven-hpi-plugin put "null" string literal, so we need to treat it as real null.
      */
     private static String fixNull(String v) {
-        if ("null".equals(v)) return null;
+        if ("null".equals(v))
+            return null;
         return v;
     }
 
@@ -172,7 +180,8 @@ public class HPI extends MavenArtifact {
 
     public List<Dependency> getDependencies() throws IOException {
         String deps = getManifestAttributes().getValue("Plugin-Dependencies");
-        if (deps == null) return Collections.emptyList();
+        if (deps == null)
+            return Collections.emptyList();
 
         List<Dependency> r = new ArrayList<>();
         for (String token : deps.split(","))
@@ -192,10 +201,10 @@ public class HPI extends MavenArtifact {
     private static final Properties ALLOWED_GITHUB_LABELS = new Properties();
 
     static {
-        try (
-                InputStream overridesStream = Files.newInputStream(new File(Main.resourcesDir, "wiki-overrides.properties").toPath());
-                InputStream labelStream = Files.newInputStream(new File(Main.resourcesDir, "label-definitions.properties").toPath());
-                InputStream allowedTopicsStream = Files.newInputStream(new File(Main.resourcesDir, "allowed-github-topics.properties").toPath())) {
+        try (InputStream overridesStream = Files.newInputStream(new File(Main.resourcesDir, "wiki-overrides" +
+                ".properties").toPath()); InputStream labelStream = Files.newInputStream(new File(Main.resourcesDir,
+                "label-definitions.properties").toPath()); InputStream allowedTopicsStream =
+                Files.newInputStream(new File(Main.resourcesDir, "allowed-github-topics.properties").toPath())) {
             URL_OVERRIDES.load(overridesStream);
             LABEL_DEFINITIONS.load(labelStream);
             ALLOWED_GITHUB_LABELS.load(allowedTopicsStream);
@@ -215,25 +224,52 @@ public class HPI extends MavenArtifact {
      * @return
      */
     public Map<String, List<String>> getExtendpoints() {
-        try {
-            if (extendpoints == null) {
-                ArtifactCoordinates coordinates = ArtifactCoordinates.create(artifact, "jar");
-                try (InputStream is = repository.getZipFileEntry(new MavenArtifact(repository, coordinates), PluginManifest.META_PATH_EXTENDPOINTS)) {
-                    if (is != null) {
-                        ObjectInputStream o = new ObjectInputStream(is);
-                        this.extendpoints = (Map<String, List<String>>) o.readObject();
-                    } else {
-                        this.extendpoints = Maps.newHashMap();
-                    }
+        //  try {
+        if (extendpoints == null) {
+            ArtifactCoordinates coordinates = ArtifactCoordinates.create(artifact, "jar");
+            //                try (InputStream is = repository.getZipFileEntry(new MavenArtifact(repository,
+            //                coordinates),
+            //                        PluginManifest.META_PATH_EXTENDPOINTS)) {
+            //                    if (is != null) {
+            //                        ObjectInputStream o = new ObjectInputStream(is);
+            //                        this.extendpoints = (Map<String, List<String>>) o.readObject();
+            //                    } else {
+            //                        this.extendpoints = Maps.newHashMap();
+            //                    }
+            //                } catch (IOException e) {
+            //                    LOGGER.info("Failed to read description from index.jelly: " + e.getMessage());
+            //                }
+
+            this.extendpoints = createExtendpoints((extendpointsPath) -> {
+                try {
+                    return repository.getZipFileEntry(new MavenArtifact(repository, coordinates),
+                            PluginManifest.META_PATH_EXTENDPOINTS);
                 } catch (IOException e) {
-                    LOGGER.info("Failed to read description from index.jelly: " + e.getMessage());
+                    throw new RuntimeException(e);
                 }
+            });
+        }
+        return this.extendpoints;
+        //        } catch (ClassNotFoundException e) {
+        //            throw new RuntimeException(e);
+        //        }
+    }
+
+    public static Map<String, List<String>> createExtendpoints(Function<String, InputStream> inputStreamSupplier) {
+        try (InputStream is = inputStreamSupplier.apply(PluginManifest.META_PATH_EXTENDPOINTS)) {
+            if (is != null) {
+                ObjectInputStream o = new ObjectInputStream(is);
+                return (Map<String, List<String>>) o.readObject();
             }
-            return this.extendpoints;
+        } catch (IOException e) {
+            LOGGER.info("Failed to read description from index.jelly: " + e.getMessage());
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
+        return Maps.newHashMap();
     }
+
+
 
     private PluginPayloads payloads;
 
@@ -262,11 +298,12 @@ public class HPI extends MavenArtifact {
                     try {
                         TIS.get().getPluginManager().uberClassLoader.findClass(extendImpl);
                     } catch (ClassNotFoundException e) {
-                        throw new RuntimeException("plugim impl:" + extendImpl + " relevant Desc plugin can not be null", e);
+                        throw new RuntimeException("plugim impl:" + extendImpl + " relevant Desc plugin can not be " + "null", e);
                     }
                     desc = TIS.get().getDescriptor(extendImpl);
                     if (desc == null) {
-                        // throw new NullPointerException("plugim impl:" + extendImpl + " relevant Desc plugin can not be null");
+                        // throw new NullPointerException("plugim impl:" + extendImpl + " relevant Desc plugin can
+                        // not be null");
                         continue;
                     }
                     try {
@@ -298,24 +335,30 @@ public class HPI extends MavenArtifact {
         if (description == null) {
             String description = plainText2html(readSingleValueFromXmlFile(resolvePOM(), "/project/description"));
 
-            ArtifactCoordinates coordinates
-                    = ArtifactCoordinates.create(artifact, "jar");
-//                    new ArtifactCoordinates(
-//                    artifact.groupId, artifact.artifactId, artifact.version, "jar", artifact.classifier, false);
+            ArtifactCoordinates coordinates = ArtifactCoordinates.create(artifact, "jar");
+            //                    new ArtifactCoordinates(
+            //                    artifact.groupId, artifact.artifactId, artifact.version, "jar", artifact
+            //                    .classifier, false);
 
-            try (InputStream is = repository.getZipFileEntry(new MavenArtifact(repository, coordinates), "description.md")) {
-//                StringBuilder b = new StringBuilder();
-//                HtmlStreamRenderer renderer = HtmlStreamRenderer.create(b, Throwable::printStackTrace, html -> LOGGER.log(Level.INFO, "Bad HTML: '" + html + "' in " + artifact.getGav()));
-//                HtmlSanitizer.sanitize(IOUtils.toString(is, StandardCharsets.UTF_8), HTML_POLICY.apply(renderer), PRE_PROCESSOR);
+            try (InputStream is = repository.getZipFileEntry(new MavenArtifact(repository, coordinates), "description"
+                    + ".md")) {
+                //                StringBuilder b = new StringBuilder();
+                //                HtmlStreamRenderer renderer = HtmlStreamRenderer.create(b,
+                //                Throwable::printStackTrace, html -> LOGGER.log(Level.INFO, "Bad HTML: '" + html +
+                //                "' in " + artifact.getGav()));
+                //                HtmlSanitizer.sanitize(IOUtils.toString(is, StandardCharsets.UTF_8), HTML_POLICY
+                //                .apply(renderer), PRE_PROCESSOR);
                 if (is != null) {
-                    description = IOUtils.toString(is, StandardCharsets.UTF_8);// b.toString().trim().replaceAll("\\s+", " ");
+                    description = IOUtils.toString(is, StandardCharsets.UTF_8);// b.toString().trim().replaceAll
+                    // ("\\s+", " ");
                 }
             } catch (IOException e) {
                 LOGGER.info("Failed to read description from index.jelly: " + e.getMessage());
             }
-//            if (isAlphaOrBeta()) {
-//                description = "<b>(This version is experimental and may change in backward-incompatible ways)</b><br><br>" + description;
-//            }
+            //            if (isAlphaOrBeta()) {
+            //                description = "<b>(This version is experimental and may change in backward-incompatible
+            //                ways)</b><br><br>" + description;
+            //            }
             this.description = description;
         }
         return description;
@@ -364,7 +407,8 @@ public class HPI extends MavenArtifact {
     private String name;
 
     /**
-     * @return The plugin name defined in the POM &lt;name&gt; modified by simplification rules (no 'Jenkins', no 'Plugin'); then artifact ID.
+     * @return The plugin name defined in the POM &lt;name&gt; modified by simplification rules (no 'Jenkins', no
+     * 'Plugin'); then artifact ID.
      * @throws IOException if an exception occurs while accessing metadata
      */
     public String getName() throws IOException {
@@ -430,8 +474,7 @@ public class HPI extends MavenArtifact {
 
     private static SAXReader createXmlReader() {
         DocumentFactory factory = new DocumentFactory();
-        factory.setXPathNamespaceURIs(
-                Collections.singletonMap("m", "http://maven.apache.org/POM/4.0.0"));
+        factory.setXPathNamespaceURIs(Collections.singletonMap("m", "http://maven.apache.org/POM/4.0.0"));
         final SAXReader reader = new SAXReader(factory);
         try {
             reader.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
@@ -543,22 +586,23 @@ public class HPI extends MavenArtifact {
             if (scm == null) {
                 LOGGER.info("No SCM URL found in POM for " + this.artifact.getGav());
                 scm = this.getManifestAttributes().getValue("Plugin-ScmUrl");
-//                Element parent = (Element) selectSingleNode(getPom(), "/project/parent");
-//                if (parent != null) {
-//                    try {
-//                        File parentPomFile = repository.resolve(
-//                                new ArtifactCoordinates(parent.element("groupId").getTextTrim(),
-//                                        parent.element("artifactId").getTextTrim(),
-//                                        parent.element("version").getTextTrim(), "pom", true));
-//                        scm = readSingleValueFromXmlFile(parentPomFile, "/project/scm/url");
-//                        if (scm == null) {
-//                            LOGGER.info("No SCM URL found in parent POM for " + this.artifact.getGav());
-//                            // grandparent is pointless, no additional hits
-//                        }
-//                    } catch (Exception ex) {
-//                        LOGGER.info("Failed to read parent POM for " + this.artifact.getGav(), ex);
-//                    }
-//                }
+                //                Element parent = (Element) selectSingleNode(getPom(), "/project/parent");
+                //                if (parent != null) {
+                //                    try {
+                //                        File parentPomFile = repository.resolve(
+                //                                new ArtifactCoordinates(parent.element("groupId").getTextTrim(),
+                //                                        parent.element("artifactId").getTextTrim(),
+                //                                        parent.element("version").getTextTrim(), "pom", true));
+                //                        scm = readSingleValueFromXmlFile(parentPomFile, "/project/scm/url");
+                //                        if (scm == null) {
+                //                            LOGGER.info("No SCM URL found in parent POM for " + this.artifact
+                //                            .getGav());
+                //                            // grandparent is pointless, no additional hits
+                //                        }
+                //                    } catch (Exception ex) {
+                //                        LOGGER.info("Failed to read parent POM for " + this.artifact.getGav(), ex);
+                //                    }
+                //                }
             }
             if (scm == null) {
                 return null;
@@ -583,8 +627,8 @@ public class HPI extends MavenArtifact {
                 Element parent = (Element) selectSingleNode(getPom(), "/project/parent");
                 if (parent != null) {
                     try {
-                        File parentPomFile = repository.resolve(
-                                new ArtifactCoordinates(parent.element("groupId").getTextTrim(),
+                        File parentPomFile =
+                                repository.resolve(new ArtifactCoordinates(parent.element("groupId").getTextTrim(),
                                         parent.element("artifactId").getTextTrim(),
                                         parent.element("version").getTextTrim(), "pom", Optional.empty(), true));
                         scm = readSingleValueFromXmlFile(parentPomFile, "/project/scm/developerConnection");
@@ -624,7 +668,8 @@ public class HPI extends MavenArtifact {
             return null;
         }
         if (url.contains("github.com:jenkinsci/") || url.contains("github.com/qlangtech/")) {
-            // We're only doing weird thing for GitHub URLs that map somewhat cleanly from developerConnection to browsable URL.
+            // We're only doing weird thing for GitHub URLs that map somewhat cleanly from developerConnection to
+            // browsable URL.
             // Also limit to jenkinsci because that's what people should be using anyway.
             String githubUrl = url.substring(url.indexOf("github.com"));
             githubUrl = githubUrl.replace(":", "/");
@@ -653,7 +698,8 @@ public class HPI extends MavenArtifact {
      * Get the SCM URL of this component.
      * This tries to determine the URL from the POM and from GitHub (based on repo naming convention).
      *
-     * @return a string representing a user-accessible SCM URL, like https://github.com/org/repo, or {code null} if the repo wasn't found or is considered invalid.
+     * @return a string representing a user-accessible SCM URL, like https://github.com/org/repo, or {code null} if
+     * the repo wasn't found or is considered invalid.
      * @throws IOException if an error occurs while accessing plugin metadata or GitHub
      */
     public String getScmUrl() throws IOException {
@@ -675,16 +721,19 @@ public class HPI extends MavenArtifact {
                 }
 
                 if (scm == null) {
-//                    // Last resort: check whether a ${artifactId}-plugin repo in jenkinsci exists, if so, use that
-//                    scm = "https://github.com/jenkinsci/" + artifact.artifactId + "-plugin";
-//                    LOGGER.info("Falling back to default pattern repo for " + this.artifact.getGav() + ": " + scm);
-//
-//                    String checkedScm = scm;
-//                    // Check whether the fallback repo actually exists, if not, don't publish the repo name
-//                    scm = requireGitHubRepoExistence(scm);
-//                    if (scm == null) {
-//                        LOGGER.info("Repository does not actually exist: " + checkedScm);
-//                    }
+                    //                    // Last resort: check whether a ${artifactId}-plugin repo in jenkinsci
+                    //                    exists, if so, use that
+                    //                    scm = "https://github.com/jenkinsci/" + artifact.artifactId + "-plugin";
+                    //                    LOGGER.info("Falling back to default pattern repo for " + this.artifact
+                    //                    .getGav() + ": " + scm);
+                    //
+                    //                    String checkedScm = scm;
+                    //                    // Check whether the fallback repo actually exists, if not, don't publish
+                    //                    the repo name
+                    //                    scm = requireGitHubRepoExistence(scm);
+                    //                    if (scm == null) {
+                    //                        LOGGER.info("Repository does not actually exist: " + checkedScm);
+                    //                    }
                     throw new IllegalStateException("scm can not be null,artifactId:" + this.artifact.getArtifactName());
                 }
                 scmUrl = scm;
@@ -705,19 +754,20 @@ public class HPI extends MavenArtifact {
 
     private OrgAndRepo getOrgAndRepo(String scmUrl) {
         // FIXME baisui comment for temp
-//        if (scmUrl == null || !scmUrl.startsWith("https://github.com/")) {
-//            return null;
-//        }
-//        String[] parts = scmUrl.replaceFirst("https://github.com/", "").split("[/]");
-//        if (parts.length >= 2) {
-//            return new OrgAndRepo(parts[0], parts[1]);
-//        }
+        //        if (scmUrl == null || !scmUrl.startsWith("https://github.com/")) {
+        //            return null;
+        //        }
+        //        String[] parts = scmUrl.replaceFirst("https://github.com/", "").split("[/]");
+        //        if (parts.length >= 2) {
+        //            return new OrgAndRepo(parts[0], parts[1]);
+        //        }
         return null;
     }
 
     private List<String> labels;
 
-    public List<String> getLabels() throws IOException { // TODO this would be better in a different class, doesn't fit HPI type
+    public List<String> getLabels() throws IOException { // TODO this would be better in a different class, doesn't
+        // fit HPI type
         if (labels == null) {
             String scm = getScmUrl();
 
@@ -725,8 +775,9 @@ public class HPI extends MavenArtifact {
             OrgAndRepo orgAndRepo = getOrgAndRepo(scm);
             if (orgAndRepo != null) {
 
-                List<String> unsanitizedLabels = new ArrayList<>(Arrays.asList(
-                        GitHubSource.getInstance().getRepositoryTopics(orgAndRepo.org, orgAndRepo.repo).toArray(new String[0])));
+                List<String> unsanitizedLabels =
+                        new ArrayList<>(Arrays.asList(GitHubSource.getInstance().getRepositoryTopics(orgAndRepo.org,
+                                orgAndRepo.repo).toArray(new String[0])));
 
                 for (String label : unsanitizedLabels) {
                     if (label.startsWith("jenkins-")) {
@@ -739,9 +790,7 @@ public class HPI extends MavenArtifact {
                 }
 
                 if (!gitHubLabels.isEmpty()) {
-                    LOGGER.info(artifact.getArtifactName()
-                            + " got the following labels contributed from GitHub: "
-                            + org.apache.commons.lang3.StringUtils.join(gitHubLabels, ", "));
+                    LOGGER.info(artifact.getArtifactName() + " got the following labels contributed from GitHub: " + org.apache.commons.lang3.StringUtils.join(gitHubLabels, ", "));
                 }
             }
 
@@ -755,7 +804,8 @@ public class HPI extends MavenArtifact {
 
     private String defaultBranch;
 
-    public String getDefaultBranch() throws IOException { // TODO this would be better in a different class, doesn't fit HPI type
+    public String getDefaultBranch() throws IOException { // TODO this would be better in a different class, doesn't
+        // fit HPI type
         if (defaultBranch == null) {
             String scm = getScmUrl();
 
@@ -769,17 +819,18 @@ public class HPI extends MavenArtifact {
 
     // declared type is generic here because return value of com.google.common.base.Function::apply
     // (and hence PolicyFactory) is considered nullable, triggering SpotBugs warnings
-//    @VisibleForTesting
-//    public static final Function<HtmlStreamEventReceiver, HtmlSanitizer.Policy> HTML_POLICY
-//            = Sanitizers.FORMATTING.and(Sanitizers.LINKS)
-//            .and(new HtmlPolicyBuilder().allowElements("a")
-//                    .requireRelsOnLinks("noopener", "noreferrer")
-//                    .allowAttributes("target")
-//                    .matching(false, "_blank")
-//                    .onElements("a").toFactory());
+    //    @VisibleForTesting
+    //    public static final Function<HtmlStreamEventReceiver, HtmlSanitizer.Policy> HTML_POLICY
+    //            = Sanitizers.FORMATTING.and(Sanitizers.LINKS)
+    //            .and(new HtmlPolicyBuilder().allowElements("a")
+    //                    .requireRelsOnLinks("noopener", "noreferrer")
+    //                    .allowAttributes("target")
+    //                    .matching(false, "_blank")
+    //                    .onElements("a").toFactory());
 
     @VisibleForTesting
-    public static final HtmlStreamEventProcessor PRE_PROCESSOR = receiver -> new HtmlStreamEventReceiverWrapper(receiver) {
+    public static final HtmlStreamEventProcessor PRE_PROCESSOR =
+            receiver -> new HtmlStreamEventReceiverWrapper(receiver) {
         @Override
         public void openTag(String elementName, List<String> attrs) {
             if ("a".equals(elementName)) {

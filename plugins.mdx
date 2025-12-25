@@ -9,7 +9,7 @@ sidebar_position: 1
 import TOCInline from '@theme/TOCInline';
 
 :::tip 统计
-**扩展点**：82，**实现插件**：269
+**扩展点**：83，**实现插件**：277
 :::
 
 <TOCInline toc={toc} />
@@ -75,6 +75,8 @@ import TOCInline from '@theme/TOCInline';
 
 * **全路径名:** [com.qlangtech.tis.plugin.datax.DataFlowDataXProcessor](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-common-plugin/src/main/java/com/qlangtech/tis/plugin/datax/DataFlowDataXProcessor.java) 
 
+* **提供者:** [TIS](https://github.com/qlangtech/tis) 
+
 * **费用:** :smile: `社区版(免费)`
 
 * **插件包:** [tis-datax-common-plugin.tpi](./tpis#tis-datax-common-plugintpi)
@@ -101,6 +103,8 @@ import TOCInline from '@theme/TOCInline';
 
 * **全路径名:** [com.qlangtech.tis.plugin.datax.DefaultDataxProcessor](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-common-plugin/src/main/java/com/qlangtech/tis/plugin/datax/DefaultDataxProcessor.java) 
 
+* **提供者:** [TIS](https://github.com/qlangtech/tis) 
+
 * **费用:** :smile: `社区版(免费)`
 
 * **插件包:** [tis-datax-common-plugin.tpi](./tpis#tis-datax-common-plugintpi)
@@ -125,15 +129,15 @@ import TOCInline from '@theme/TOCInline';
 
 	* **类型:** 单选
 	* **必须:** 是
-	* **默认值:** 无
+	* **默认值:** com.qlangtech.tis.manage.biz.dal.pojo.Department.dftDepartmentId()
 	* **说明:** 		无
 
 4. 接口人
 
 	* **类型:** 单行文本
 	* **必须:** 是
-	* **默认值:** 无
-	* **说明:** 		无
+	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@1a8b22b5
+	* **说明:** 		数据通道的业务联系人，如运行生命周期内有任何问题可以向他咨询
 
 ## com.qlangtech.tis.plugin.datax.doris.CreateTable
 
@@ -337,6 +341,39 @@ import TOCInline from '@theme/TOCInline';
 
 ## com.qlangtech.tis.plugin.tdfs.TDFSLinker
 
+### com.qlangtech.tis.plugin.datax.aliyunoss.AliyunOSSTDFSLinker
+
+* **显示名:** AlyiunOSS 
+
+* **全路径名:** [com.qlangtech.tis.plugin.datax.aliyunoss.AliyunOSSTDFSLinker](https://github.com/qlangtech/plugins/tree/master/tis-aliyun-fs-plugin/src/main/java/com/qlangtech/tis/plugin/datax/aliyunoss/AliyunOSSTDFSLinker.java) 
+
+* **费用:** :smile: `社区版(免费)`
+
+* **插件包:** [tis-aliyun-fs-plugin.tpi](./tpis#tis-aliyun-fs-plugintpi)
+
+* **配置项说明:** 
+
+1. 远端连接
+
+	* **类型:** 单选
+	* **必须:** 是
+	* **默认值:** 无
+	* **说明:** 		无
+
+2. bucket
+
+	* **类型:** 单行文本
+	* **必须:** 是
+	* **默认值:** 无
+	* **说明:** 		描述：OSS的bucket  
+
+3. rootPath
+
+	* **类型:** 单行文本
+	* **必须:** 是
+	* **默认值:** 无
+	* **说明:** 		描述：TIS 查找可用资源文件会从该路径下遍历查找 
+
 ### com.qlangtech.tis.plugin.datax.tdfs.impl.FtpTDFSLinker
 
 * **显示名:** FTP 
@@ -410,39 +447,6 @@ import TOCInline from '@theme/TOCInline';
 	* **默认值:** 无
 	* **说明:** 		数据文件保存的路径位置
 
-### :closed_lock_with_key:com.qlangtech.tis.plugin.datax.aliyunoss.AliyunOSSTDFSLinker
-
-* **显示名:** AlyiunOSS 
-
-* **全路径名:** [com.qlangtech.tis.plugin.datax.aliyunoss.AliyunOSSTDFSLinker](https://github.com/qlangtech/tis-plugins-commercial/tree/master/tis-datax-commercial/tis-datax-oss-plugin/src/main/java/com/qlangtech/tis/plugin/datax/aliyunoss/AliyunOSSTDFSLinker.java) 
-
-* **费用:** :closed_lock_with_key: `社区协作`
-
-* **插件包:** [tis-datax-oss-plugin.tpi](./tpis#tis-datax-oss-plugintpi)
-
-* **配置项说明:** 
-
-1. 远端连接
-
-	* **类型:** 单选
-	* **必须:** 是
-	* **默认值:** 无
-	* **说明:** 		无
-
-2. bucket
-
-	* **类型:** 单行文本
-	* **必须:** 是
-	* **默认值:** 无
-	* **说明:** 		描述：OSS的bucket  
-
-3. rootPath
-
-	* **类型:** 单行文本
-	* **必须:** 是
-	* **默认值:** 无
-	* **说明:** 		描述：TIS 查找可用资源文件会从该路径下遍历查找 
-
 ### com.qlangtech.tis.hive.reader.HiveDFSLinker
 
 * **显示名:** Hive 
@@ -473,7 +477,7 @@ import TOCInline from '@theme/TOCInline';
 
 	* **类型:** 单选
 	* **必须:** 是
-	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@26a33cf
+	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@62c53685
 	* **说明:** 		目前支持三种存储格式：Text：普通文本，一行一条用分隔符分隔，HFile：HBase使用的存储格式，Parquet：最常用的列存格式文件，ORC文件格式
 
 ## com.qlangtech.tis.plugin.datax.transformer.UDFDefinition
@@ -557,6 +561,38 @@ import TOCInline from '@theme/TOCInline';
 		设置合并到的列，有两种执行模式：
 		 1. 可以新添加一列: 可以选择 `Virtual Column`，设置新列的名称，并且为新列设置`类型`
 		 2. 替换原有记录的值: 可以选择 `Target Column`，从下拉列表中选择原有记录中的某一列作为替换目标
+
+### com.qlangtech.tis.plugin.datax.transformer.impl.CopyConstantValUDF
+
+* **显示名:** Copy Constant 
+
+* **全路径名:** [com.qlangtech.tis.plugin.datax.transformer.impl.CopyConstantValUDF](https://github.com/qlangtech/plugins/tree/master/tis-transformer/src/main/java/com/qlangtech/tis/plugin/datax/transformer/impl/CopyConstantValUDF.java) 
+
+* **提供者:** [TIS](https://github.com/qlangtech/tis) 
+
+* **费用:** :smile: `社区版(免费)`
+
+* **插件包:** [tis-transformer.tpi](./tpis#tis-transformertpi)
+
+* **配置项说明:** 
+
+1. 常量值
+
+	* **类型:** 单行文本
+	* **必须:** 是
+	* **默认值:** 无
+	* **说明:** 		用户设置常量内容，数据同步阶段会直接将该常量值同步到目标列中
+
+2. to
+
+	* **类型:** 多选
+	* **必须:** 是
+	* **默认值:** 无
+	* **说明:** 
+
+		设置拷贝到的列，有两种执行模式：
+		1. 可以新添加一列: 可以选择 `Virtual Column`，设置新列的名称，并且为新列设置`类型`
+		2. 替换原有记录的值: 可以选择 `Target Column`，从下拉列表中选择原有记录中的某一列作为替换目标
 
 ### com.qlangtech.tis.plugin.datax.transformer.impl.CopyValUDF
 
@@ -1726,7 +1762,14 @@ import TOCInline from '@theme/TOCInline';
 	* **默认值:** 无
 	* **说明:** 		无
 
-7. 附加参数
+7. 所在时区
+
+	* **类型:** 单行文本
+	* **必须:** 是
+	* **默认值:** default
+	* **说明:** 		设置服务端所在时区，有两种输入方式：1. default 从下拉框中选择，2. customize：用户手动输入时区编码
+
+8. 附加参数
 
 	* **类型:** 单行文本
 	* **必须:** 否
@@ -1805,7 +1848,7 @@ import TOCInline from '@theme/TOCInline';
 
 ### com.qlangtech.tis.plugin.ds.kingbase.KingBaseDataSourceFactory
 
-* **显示名:** KingBase 
+* **显示名:** KingBase-V9x 
 
 * **全路径名:** [com.qlangtech.tis.plugin.ds.kingbase.KingBaseDataSourceFactory](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-kingbase-plugin/src/main/java/com/qlangtech/tis/plugin/ds/kingbase/KingBaseDataSourceFactory.java) 
 
@@ -1835,7 +1878,7 @@ import TOCInline from '@theme/TOCInline';
 
 	* **类型:** 整型数字
 	* **必须:** 是
-	* **默认值:** 无
+	* **默认值:** 4321
 	* **说明:** 		无
 
 4. 数据库名
@@ -1886,7 +1929,7 @@ import TOCInline from '@theme/TOCInline';
 
 	* **类型:** 单选
 	* **必须:** 是
-	* **默认值:** 无
+	* **默认值:** utf8
 	* **说明:** 		数据数据
 
 11. 附加参数
@@ -2261,7 +2304,7 @@ import TOCInline from '@theme/TOCInline';
 
 	* **类型:** 单选
 	* **必须:** 是
-	* **默认值:** 无
+	* **默认值:** utf8
 	* **说明:** 		数据数据
 
 9. 附加参数
@@ -2576,100 +2619,7 @@ import TOCInline from '@theme/TOCInline';
 
 	* **类型:** 单选
 	* **必须:** 是
-	* **默认值:** 无
-	* **说明:** 		数据数据
-
-9. 传输压缩
-
-	* **类型:** 单选
-	* **必须:** 是
-	* **默认值:** true
-	* **说明:** 
-
-		与服务端通信时采用zlib进行压缩，效果请参考[https://blog.csdn.net/Shadow_Light/article/details/100749537](https://blog.csdn.net/Shadow_Light/article/details/100749537)
-
-10. 附加参数
-
-	* **类型:** 单行文本
-	* **必须:** 否
-	* **默认值:** 无
-	* **说明:** 		无
-
-### :closed_lock_with_key:com.qlangtech.tis.plugin.ds.mysql.MySQLV8DataSourceFactory
-
-* **显示名:** MySQL-V8 
-
-* **全路径名:** [com.qlangtech.tis.plugin.ds.mysql.MySQLV8DataSourceFactory](https://github.com/qlangtech/tis-plugins-commercial/tree/master/tis-datax-commercial/tis-ds-mysql-v8-plugin/src/main/java/com/qlangtech/tis/plugin/ds/mysql/MySQLV8DataSourceFactory.java) 
-
-* **提供者:** [TIS](https://github.com/qlangtech/tis) 
-
-* **费用:** :closed_lock_with_key: `社区协作`
-
-* **插件包:** [tis-ds-mysql-v8-plugin.tpi](./tpis#tis-ds-mysql-v8-plugintpi)
-
-* **配置项说明:** 
-
-1. 实例ID
-
-	* **类型:** 单行文本
-	* **必须:** 是
-	* **默认值:** 无
-	* **说明:** 		数据源实例名称，请起一个有意义且唯一的名称
-
-2. 分库分表
-
-	* **类型:** 单行文本
-	* **必须:** 是
-	* **默认值:** off
-	* **说明:** 
-
-		如数据库中采用分表存放，可以开启此选项，默认为： `off`(不启用)
-		
-		`on`: 分表策略支持海量数据存放，每张表的数据结构需要保证相同，且有规则的后缀作为物理表的分区规则，逻辑层面视为同一张表。
-		如逻辑表`order` 对应的物理分表为：  `order_01`,`order_02`,`order_03`,`order_04`
-		
-		[详细说明](https://tis.pub/docs/guide/datasource/multi-table-rule/)
-
-3. 端口
-
-	* **类型:** 整型数字
-	* **必须:** 是
-	* **默认值:** 3306
-	* **说明:** 		无
-
-4. 数据库名
-
-	* **类型:** 单行文本
-	* **必须:** 是
-	* **默认值:** 无
-	* **说明:** 		数据库名,创建JDBC实例时用
-
-5. 用户名
-
-	* **类型:** 单行文本
-	* **必须:** 是
-	* **默认值:** root
-	* **说明:** 		无
-
-6. 密码
-
-	* **类型:** 密码
-	* **必须:** 是
-	* **默认值:** 无
-	* **说明:** 		无
-
-7. 所在时区
-
-	* **类型:** 单行文本
-	* **必须:** 是
-	* **默认值:** default
-	* **说明:** 		设置服务端所在时区，有两种输入方式：1. default 从下拉框中选择，2. customize：用户手动输入时区编码
-
-8. 编码
-
-	* **类型:** 单选
-	* **必须:** 是
-	* **默认值:** 无
+	* **默认值:** utf8
 	* **说明:** 		数据数据
 
 9. 传输压缩
@@ -4179,7 +4129,7 @@ import TOCInline from '@theme/TOCInline';
 
 	* **类型:** 单行文本
 	* **必须:** 是
-	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@118a4d5
+	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@7474196
 	* **说明:** 		Elasticsearch中的index名
 
 3. cleanup
@@ -4823,60 +4773,60 @@ import TOCInline from '@theme/TOCInline';
 		
 		以下是控制 L0 层小文件大小和记录数的关键参数及其工作原理：
 		
-		 🧩 1. 核心控制参数：`write-buffer-size` 和 `target-file-size`
+		🧩 1. 核心控制参数：`write-buffer-size` 和 `target-file-size`
 		
 		*   **`write-buffer-size` (默认值: 128mb):**
-		   *   **作用：** 这是控制**内存中 Buffer** 大小的参数。当 Flink 或 Spark 任务向 Paimon 写入数据时，数据首先会缓存在内存中的一个排序缓冲区（Sorter Buffer）中。
-		   *   **原理：** 当一个 Buffer 被填满（达到 `write-buffer-size`）时，它会被排序并**刷写（Spill）到磁盘，形成一个 L0 文件**。
-		   *   **影响：** `write-buffer-size` **直接决定了单个 L0 文件的最小期望大小**。如果你期望每个 L0 文件大约是 256MB，那么就应该设置 `write-buffer-size=256mb`。Buffer 满了就刷写，自然就生成了一个 ~256MB 的文件。
+		*   **作用：** 这是控制**内存中 Buffer** 大小的参数。当 Flink 或 Spark 任务向 Paimon 写入数据时，数据首先会缓存在内存中的一个排序缓冲区（Sorter Buffer）中。
+		*   **原理：** 当一个 Buffer 被填满（达到 `write-buffer-size`）时，它会被排序并**刷写（Spill）到磁盘，形成一个 L0 文件**。
+		*   **影响：** `write-buffer-size` **直接决定了单个 L0 文件的最小期望大小**。如果你期望每个 L0 文件大约是 256MB，那么就应该设置 `write-buffer-size=256mb`。Buffer 满了就刷写，自然就生成了一个 ~256MB 的文件。
 		
 		*   **`target-file-size` (默认值: 128mb):**
-		   *   **作用：** 这是 Paimon **最终期望生成的稳定数据文件（通常是经过 Compaction 合并到更高层级的文件）的目标大小**。
-		   *   **原理：** 在 **Compaction 过程**中（无论是 Universal 还是 Size-Tiered），Paimon 会尝试将输入的小文件合并，并输出大小接近 `target-file-size` 的文件到更高的层级（如 L1, L2）。
-		   *   **影响 L0 的间接方式：** 虽然 `target-file-size` 主要影响 Compaction 的输出，但它**间接影响 L0 文件的“合并潜力”**。如果 `target-file-size` 设置得很大（比如 1GB），那么 Compaction 需要积累更多的 L0 小文件（累计大小达到 ~1GB）才会触发合并操作。这相当于放宽了触发 Compaction 的“累计大小”阈值。
-		   *   **注意：** `target-file-size` **不直接控制单个 L0 文件的大小**。L0 文件大小主要由 `write-buffer-size` 和 Checkpointing 决定。
+		*   **作用：** 这是 Paimon **最终期望生成的稳定数据文件（通常是经过 Compaction 合并到更高层级的文件）的目标大小**。
+		*   **原理：** 在 **Compaction 过程**中（无论是 Universal 还是 Size-Tiered），Paimon 会尝试将输入的小文件合并，并输出大小接近 `target-file-size` 的文件到更高的层级（如 L1, L2）。
+		*   **影响 L0 的间接方式：** 虽然 `target-file-size` 主要影响 Compaction 的输出，但它**间接影响 L0 文件的“合并潜力”**。如果 `target-file-size` 设置得很大（比如 1GB），那么 Compaction 需要积累更多的 L0 小文件（累计大小达到 ~1GB）才会触发合并操作。这相当于放宽了触发 Compaction 的“累计大小”阈值。
+		*   **注意：** `target-file-size` **不直接控制单个 L0 文件的大小**。L0 文件大小主要由 `write-buffer-size` 和 Checkpointing 决定。
 		
-		 🧩 2. 其他影响 L0 文件大小和记录数的因素
+		🧩 2. 其他影响 L0 文件大小和记录数的因素
 		
 		*   **Checkpointing / Commit Interval (Flink Streaming):**
-		   *   在 Flink 流式写入场景下，**Flink 的 Checkpoint 间隔**是决定 L0 文件大小和数量的**最关键因素之一**。
-		   *   **原理：** Paimon 的 Sink 算子通常会在 Flink Checkpoint 时执行 `snapshotState`。为了确保精确一次的语义，当前内存 Buffer 中的数据（即使未达到 `write-buffer-size`）也会在 Checkpoint 时强制刷写到磁盘，生成一个 L0 文件。
-		   *   **影响：** 如果 Flink 的 Checkpoint 间隔（`checkpoint.interval`）很短（例如 10 秒），即使 `write-buffer-size` 设置为 256MB，也可能因为每个 Checkpoint 只积累了少量数据（比如 50MB）就被强制刷出，从而导致产生大量远小于 `write-buffer-size` 的 L0 小文件。
-		   *   **结论：要减少 L0 小文件数量，在流式写入场景下，适当增加 Flink Checkpoint 间隔 (`checkpoint.interval`) 是至关重要的**，让 Buffer 有更多时间积累接近 `write-buffer-size` 的数据量再刷出。但需权衡故障恢复时间（RTO）。
+		*   在 Flink 流式写入场景下，**Flink 的 Checkpoint 间隔**是决定 L0 文件大小和数量的**最关键因素之一**。
+		*   **原理：** Paimon 的 Sink 算子通常会在 Flink Checkpoint 时执行 `snapshotState`。为了确保精确一次的语义，当前内存 Buffer 中的数据（即使未达到 `write-buffer-size`）也会在 Checkpoint 时强制刷写到磁盘，生成一个 L0 文件。
+		*   **影响：** 如果 Flink 的 Checkpoint 间隔（`checkpoint.interval`）很短（例如 10 秒），即使 `write-buffer-size` 设置为 256MB，也可能因为每个 Checkpoint 只积累了少量数据（比如 50MB）就被强制刷出，从而导致产生大量远小于 `write-buffer-size` 的 L0 小文件。
+		*   **结论：要减少 L0 小文件数量，在流式写入场景下，适当增加 Flink Checkpoint 间隔 (`checkpoint.interval`) 是至关重要的**，让 Buffer 有更多时间积累接近 `write-buffer-size` 的数据量再刷出。但需权衡故障恢复时间（RTO）。
 		
 		*   **`sort-spill-threshold` (默认值: 未明确设置，通常内部管理):**
-		   *   这个参数控制内存排序缓冲区在内存中最多能容纳多少行数据。当行数超过此阈值时，即使 Buffer 的内存占用未达到 `write-buffer-size`，也可能触发部分数据溢写（Spill）。这主要用于防止 OOM。
-		   *   **影响：** 如果记录非常大（例如宽表、大 JSON 对象），即使记录数不多，也可能快速占满内存 Buffer (`write-buffer-size`) 而刷写。如果记录非常小（例如计数器更新），则 `sort-spill-threshold` 可能先达到，导致按记录数刷写。**调整 `sort-spill-threshold` 主要应对特殊数据分布场景，一般优先调整 `write-buffer-size` 和 Checkpoint 间隔。**
+		*   这个参数控制内存排序缓冲区在内存中最多能容纳多少行数据。当行数超过此阈值时，即使 Buffer 的内存占用未达到 `write-buffer-size`，也可能触发部分数据溢写（Spill）。这主要用于防止 OOM。
+		*   **影响：** 如果记录非常大（例如宽表、大 JSON 对象），即使记录数不多，也可能快速占满内存 Buffer (`write-buffer-size`) 而刷写。如果记录非常小（例如计数器更新），则 `sort-spill-threshold` 可能先达到，导致按记录数刷写。**调整 `sort-spill-threshold` 主要应对特殊数据分布场景，一般优先调整 `write-buffer-size` 和 Checkpoint 间隔。**
 		
-		 ✅ 如何通过增加文件大小/记录数减少 Compaction 频率
+		✅ 如何通过增加文件大小/记录数减少 Compaction 频率
 		
 		1.  **增大 `write-buffer-size`:**
-		   *   这是**最直接有效**的方法。例如，从默认的 `128mb` 增加到 `256mb` 或 `512mb`。
-		   *   **效果：** 每个 L0 文件平均变大（更接近新设置的 buffer size），L0 层积累到触发 Compaction 阈值（如 Universal 的 `num-sorted-run.stop-trigger`）所需的**文件数量变少**，从而降低触发频率。
-		   *   **注意：** 需要确保 TaskManager 有足够的 JVM Heap 或 Managed Memory 来容纳更大的 Buffer。否则可能导致 OOM 或频繁 GC。
+		*   这是**最直接有效**的方法。例如，从默认的 `128mb` 增加到 `256mb` 或 `512mb`。
+		*   **效果：** 每个 L0 文件平均变大（更接近新设置的 buffer size），L0 层积累到触发 Compaction 阈值（如 Universal 的 `num-sorted-run.stop-trigger`）所需的**文件数量变少**，从而降低触发频率。
+		*   **注意：** 需要确保 TaskManager 有足够的 JVM Heap 或 Managed Memory 来容纳更大的 Buffer。否则可能导致 OOM 或频繁 GC。
 		
 		2.  **增大 Flink Checkpoint 间隔 (`checkpoint.interval`):**
-		   *   对于流式写入，这是**避免超小 L0 文件的关键**。根据业务容忍的延迟和恢复时间，尽可能增加间隔（例如从 30s 增加到 1min 或 5min）。
-		   *   **效果：** 显著减少因频繁 Checkpoint 强制刷写产生的远小于 `write-buffer-size` 的微型 L0 文件数量。让大多数 L0 文件大小接近 `write-buffer-size`。
+		*   对于流式写入，这是**避免超小 L0 文件的关键**。根据业务容忍的延迟和恢复时间，尽可能增加间隔（例如从 30s 增加到 1min 或 5min）。
+		*   **效果：** 显著减少因频繁 Checkpoint 强制刷写产生的远小于 `write-buffer-size` 的微型 L0 文件数量。让大多数 L0 文件大小接近 `write-buffer-size`。
 		
 		3.  **增大 `target-file-size`:**
-		   *   例如从 `128mb` 增加到 `256mb` 或 `512mb`。
-		   *   **效果：** 主要在 Universal Compaction 中影响较大。因为 Universal 在合并时会尽量将一组文件合并成一个接近 `target-file-size` 的大文件。增大 `target-file-size` 意味着 Compaction 需要积累更多的 L0 文件（总数据量更大）才会触发合并。对于 Size-Tiered，它定义了更高层级文件的大小目标，也间接影响合并策略。
-		   *   **注意：** 过大的 `target-file-size` 可能影响查询效率（读取大文件可能慢）和 Compaction 本身的资源消耗（合并更大量数据）。
+		*   例如从 `128mb` 增加到 `256mb` 或 `512mb`。
+		*   **效果：** 主要在 Universal Compaction 中影响较大。因为 Universal 在合并时会尽量将一组文件合并成一个接近 `target-file-size` 的大文件。增大 `target-file-size` 意味着 Compaction 需要积累更多的 L0 文件（总数据量更大）才会触发合并。对于 Size-Tiered，它定义了更高层级文件的大小目标，也间接影响合并策略。
+		*   **注意：** 过大的 `target-file-size` 可能影响查询效率（读取大文件可能慢）和 Compaction 本身的资源消耗（合并更大量数据）。
 		
 		4.  **调整 Compaction 触发阈值 (如 Universal 的 `num-sorted-run.stop-trigger`):**
-		   *   虽然不是直接控制文件大小，但**配合增大文件大小**，调整这个阈值效果更好。例如，如果文件平均大了 2 倍，那么将 `num-sorted-run.stop-trigger` 从默认的 5 增加到 8 或 10，可能仍然能保持或延长触发间隔，同时允许 L0 积累更多文件（但总数据量更大），进一步提升读性能。
-		   *   **效果：** 直接放宽了触发 Compaction 的条件，让 L0 层可以堆积更多的文件（但每个文件更大了）才触发合并。
+		*   虽然不是直接控制文件大小，但**配合增大文件大小**，调整这个阈值效果更好。例如，如果文件平均大了 2 倍，那么将 `num-sorted-run.stop-trigger` 从默认的 5 增加到 8 或 10，可能仍然能保持或延长触发间隔，同时允许 L0 积累更多文件（但总数据量更大），进一步提升读性能。
+		*   **效果：** 直接放宽了触发 Compaction 的条件，让 L0 层可以堆积更多的文件（但每个文件更大了）才触发合并。
 		
-		 ⚠️ 总结与权衡
+		⚠️ 总结与权衡
 		
 		*   **核心策略：** **增大 `write-buffer-size` 并适当增大 Flink Checkpoint 间隔** 是减少 L0 小文件数量、从而降低 Compaction 频率的最有效手段。这直接让每个 L0 文件包含更多记录/更大体积。
 		*   **辅助策略：** 增大 `target-file-size` 和/或 Compaction 触发阈值（如 `num-sorted-run.stop-trigger`）可以进一步减少 Compaction 频率，因为它们提高了触发合并所需的“数据量”或“文件数”门槛。
 		*   **重要权衡：**
-		   *   **内存资源：** 增大 `write-buffer-size` 会增加每个 Writer Task 的内存需求。
-		   *   **故障恢复：** 增大 Flink Checkpoint 间隔会增加故障恢复时需要重放的数据量（RTO 可能变长）。
-		   *   **读取延迟：** 过大的 L0 文件或过少的 Compaction 可能导致查询（尤其是点查）需要扫描更多的 L0 文件，增加读取延迟。需要监控读性能。
-		   *   **空间放大：** 减少 Compaction 频率可能导致短时间内存在更多冗余数据（旧版本数据、删除标记等），增加存储空间占用（空间放大）。需要配合合理的快照过期策略。
+		*   **内存资源：** 增大 `write-buffer-size` 会增加每个 Writer Task 的内存需求。
+		*   **故障恢复：** 增大 Flink Checkpoint 间隔会增加故障恢复时需要重放的数据量（RTO 可能变长）。
+		*   **读取延迟：** 过大的 L0 文件或过少的 Compaction 可能导致查询（尤其是点查）需要扫描更多的 L0 文件，增加读取延迟。需要监控读性能。
+		*   **空间放大：** 减少 Compaction 频率可能导致短时间内存在更多冗余数据（旧版本数据、删除标记等），增加存储空间占用（空间放大）。需要配合合理的快照过期策略。
 		
 		**建议：** 从调整 `write-buffer-size` (如 256MB) 和 Flink `checkpoint.interval` (如 1-5分钟) 开始，观察 L0 文件平均大小是否显著增大、Compaction 频率是否下降。再根据效果和资源/延迟情况，考虑是否调整 `target-file-size` 或 Compaction 触发参数。务必监控集群资源（内存、CPU）、Compaction 耗时、查询延迟和存储空间变化。📊
 
@@ -4898,7 +4848,7 @@ import TOCInline from '@theme/TOCInline';
 
 		`bucket` 参数定义了表数据的存储分桶策略，这是 Paimon 的核心设计之一。不同值对应完全不同的存储和写入模式：
 		
-		 🪣 三种 Bucket 模式详解
+		🪣 三种 Bucket 模式详解
 		
 		| **模式**             | **值** | **特点**                                                                 | **适用场景**                     |
 		|--------------------|--------|--------------------------------------------------------------------------|----------------------------------|
@@ -4964,12 +4914,12 @@ import TOCInline from '@theme/TOCInline';
 
 		`changelog-producer` 的作用
 		1. **核心功能**
-		   - **生成变更日志**：将底层存储文件的物理更新（如覆盖写入）**转换为逻辑变更事件**（`+I`/`-U`/`+U`/`-D`）。
-		   - **支持流式消费**：让 Flink 等引擎能像读 Kafka 一样**增量读取 Paimon 表的变更**（类似 `SELECT * FROM table /*+ OPTIONS('scan.mode'='incremental') */`）。
+		    - **生成变更日志**：将底层存储文件的物理更新（如覆盖写入）**转换为逻辑变更事件**（`+I`/`-U`/`+U`/`-D`）。
+		    - **支持流式消费**：让 Flink 等引擎能像读 Kafka 一样**增量读取 Paimon 表的变更**（类似 `SELECT * FROM table /*+ OPTIONS('scan.mode'='incremental') */`）。
 		
 		2. 为何需要它？
-		   - **湖仓痛点**：传统湖存储（如 Parquet）只存最终状态，缺少 **"行级变更记录"**，无法支持增量计算。
-		   - **流读需求**：Flink CDC 等场景需要实时捕获 `INSERT/UPDATE/DELETE` 事件。
+		    - **湖仓痛点**：传统湖存储（如 Parquet）只存最终状态，缺少 **"行级变更记录"**，无法支持增量计算。
+		    - **流读需求**：Flink CDC 等场景需要实时捕获 `INSERT/UPDATE/DELETE` 事件。
 
 8. compaction
 
@@ -5756,7 +5706,10 @@ import TOCInline from '@theme/TOCInline';
 	* **类型:** 单行文本
 	* **必须:** 否
 	* **默认值:** 无
-	* **说明:** 		导入流实体名称，目标端以此作为表名，多个表以逗号分隔
+	* **说明:** 
+
+		导入流实体名称，目标端以此作为表名，多个表以逗号分隔。支持wildcard样式
+		，当消息体中表名为 `order_detail_001`,`order_detail_002`,`order_detail_003` 则可以用 wildcard表达式`order_detail*`匹配，最终将多个匹配的物理表名归并成`order_detail`逻辑表名
 
 2. ignoreParseErrors
 
@@ -5897,7 +5850,10 @@ import TOCInline from '@theme/TOCInline';
 	* **类型:** 单行文本
 	* **必须:** 否
 	* **默认值:** 无
-	* **说明:** 		导入流实体名称，目标端以此作为表名，多个表以逗号分隔
+	* **说明:** 
+
+		导入流实体名称，目标端以此作为表名，多个表以逗号分隔。支持wildcard样式
+		，当消息体中表名为 `order_detail_001`,`order_detail_002`,`order_detail_003` 则可以用 wildcard表达式`order_detail*`匹配，最终将多个匹配的物理表名归并成`order_detail`逻辑表名
 
 2. ignoreParseErrors
 
@@ -6038,7 +5994,10 @@ import TOCInline from '@theme/TOCInline';
 	* **类型:** 单行文本
 	* **必须:** 否
 	* **默认值:** 无
-	* **说明:** 		导入流实体名称，目标端以此作为表名
+	* **说明:** 
+
+		导入流实体名称，目标端以此作为表名，多个表以逗号分隔。支持wildcard样式
+		，当消息体中表名为 `order_detail_001`,`order_detail_002`,`order_detail_003` 则可以用 wildcard表达式`order_detail*`匹配，最终将多个匹配的物理表名归并成`order_detail`逻辑表名
 
 2. ignoreParseErrors
 
@@ -6114,7 +6073,7 @@ import TOCInline from '@theme/TOCInline';
 
 * **费用:** :smile: `社区版(免费)`
 
-* **插件包:** [tis-datax-hdfs-aliyun-emr-plugin/tis-datax-hdfs-aliyun-emr-plugin_hadoop_2.7.3.tpi](./tpis#tis-datax-hdfs-aliyun-emr-plugin/tis-datax-hdfs-aliyun-emr-plugin_hadoop_273tpi)
+* **插件包:** [tis-datax-hdfs-aliyun-emr-plugin/tis-datax-hdfs-aliyun-emr-plugin_hadoop_3.0.0-cdh6.3.2.tpi](./tpis#tis-datax-hdfs-aliyun-emr-plugin/tis-datax-hdfs-aliyun-emr-plugin_hadoop_300-cdh632tpi)
 
 * **配置项说明:** 
 
@@ -6194,7 +6153,7 @@ import TOCInline from '@theme/TOCInline';
 
 * **费用:** :smile: `社区版(免费)`
 
-* **插件包:** [tis-datax-hdfs-plugin/tis-datax-hdfs-plugin_hadoop_2.7.3.tpi](./tpis#tis-datax-hdfs-plugin/tis-datax-hdfs-plugin_hadoop_273tpi)
+* **插件包:** [tis-datax-hdfs-plugin/tis-datax-hdfs-plugin_hadoop_3.0.0-cdh6.3.2.tpi](./tpis#tis-datax-hdfs-plugin/tis-datax-hdfs-plugin_hadoop_300-cdh632tpi)
 
 * **配置项说明:** 
 
@@ -7080,7 +7039,7 @@ import TOCInline from '@theme/TOCInline';
 
 	* **类型:** 整型数字
 	* **必须:** 是
-	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@4ab86b2a
+	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@6d9ee75a
 	* **说明:** 		SpringBoot配置，HTTP端口号，默认7700，不建议更改
 
 2. host
@@ -7105,7 +7064,7 @@ import TOCInline from '@theme/TOCInline';
 
 	* **类型:** 整型数字
 	* **必须:** 是
-	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@4ac7856f
+	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@2befb16f
 	* **说明:** 		SpringBoot配置，HTTP端口号，默认7700，不建议更改
 
 ### com.qlangtech.tis.plugin.datax.powerjob.impl.serverport.NodePort
@@ -7124,7 +7083,7 @@ import TOCInline from '@theme/TOCInline';
 
 	* **类型:** 整型数字
 	* **必须:** 是
-	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@498b611e
+	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@cd93621
 	* **说明:** 		SpringBoot配置，HTTP端口号，默认7700，不建议更改
 
 2. INTERNAL-IP
@@ -7670,25 +7629,15 @@ import TOCInline from '@theme/TOCInline';
 
 ## com.qlangtech.plugins.incr.flink.launch.CheckpointFactory
 
-### com.qlangtech.plugins.incr.flink.launch.ckpt.CKOff
+### :closed_lock_with_key:com.qlangtech.plugins.incr.flink.launch.ckpt.CKOn
 
-* **显示名:** off 
+* **显示名:** customize 
 
-* **全路径名:** [com.qlangtech.plugins.incr.flink.launch.ckpt.CKOff](https://github.com/qlangtech/plugins/tree/master/tis-incr/tis-realtime-flink/src/main/java/com/qlangtech/plugins/incr/flink/launch/ckpt/CKOff.java) 
+* **全路径名:** [com.qlangtech.plugins.incr.flink.launch.ckpt.CKOn](https://github.com/qlangtech/tis-plugins-commercial/tree/master/tis-incr-commercial/tis-flink-k8s-plugin/src/main/java/com/qlangtech/plugins/incr/flink/launch/ckpt/CKOn.java) 
 
-* **费用:** :smile: `社区版(免费)`
+* **费用:** :closed_lock_with_key: `社区协作`
 
-* **插件包:** [tis-realtime-flink.tpi](./tpis#tis-realtime-flinktpi)
-
-### com.qlangtech.plugins.incr.flink.launch.ckpt.CKOn
-
-* **显示名:** on 
-
-* **全路径名:** [com.qlangtech.plugins.incr.flink.launch.ckpt.CKOn](https://github.com/qlangtech/plugins/tree/master/tis-incr/tis-realtime-flink/src/main/java/com/qlangtech/plugins/incr/flink/launch/ckpt/CKOn.java) 
-
-* **费用:** :smile: `社区版(免费)`
-
-* **插件包:** [tis-realtime-flink.tpi](./tpis#tis-realtime-flinktpi)
+* **插件包:** [tis-flink-k8s-plugin.tpi](./tpis#tis-flink-k8s-plugintpi)
 
 * **配置项说明:** 
 
@@ -7779,7 +7728,194 @@ import TOCInline from '@theme/TOCInline';
 
 		Forces unaligned checkpoints, particularly allowing them for iterative jobs.
 
+### com.qlangtech.plugins.incr.flink.launch.ckpt.CKOff
+
+* **显示名:** off 
+
+* **全路径名:** [com.qlangtech.plugins.incr.flink.launch.ckpt.CKOff](https://github.com/qlangtech/plugins/tree/master/tis-incr/tis-realtime-flink/src/main/java/com/qlangtech/plugins/incr/flink/launch/ckpt/CKOff.java) 
+
+* **费用:** :smile: `社区版(免费)`
+
+* **插件包:** [tis-realtime-flink.tpi](./tpis#tis-realtime-flinktpi)
+
+### com.qlangtech.plugins.incr.flink.launch.ckpt.DefaultCK
+
+* **显示名:** on 
+
+* **全路径名:** [com.qlangtech.plugins.incr.flink.launch.ckpt.DefaultCK](https://github.com/qlangtech/plugins/tree/master/tis-incr/tis-realtime-flink/src/main/java/com/qlangtech/plugins/incr/flink/launch/ckpt/DefaultCK.java) 
+
+* **费用:** :smile: `社区版(免费)`
+
+* **插件包:** [tis-realtime-flink.tpi](./tpis#tis-realtime-flinktpi)
+
+* **配置项说明:** 
+
+1. ckpointInterval
+
+	* **类型:** 整型数字
+	* **必须:** 是
+	* **默认值:** 200
+	* **说明:** 
+
+		Gets the interval in which checkpoints are periodically scheduled.<br /><br />This setting defines the base interval. Checkpoint triggering may be delayed by the settings <code class="highlighter-rouge">execution.checkpointing.max-concurrent-checkpoints</code>, <code class="highlighter-rouge">execution.checkpointing.min-pause</code> and <code class="highlighter-rouge">execution.checkpointing.interval-during-backlog</code>
+		
+		单位：`秒`
+
 ## com.qlangtech.tis.config.ParamsConfig
+
+### :closed_lock_with_key:com.qlangtech.tis.plugin.alert.impl.DingTalkAlertChannel
+
+* **显示名:** DingTalk_Chan 
+
+* **全路径名:** [com.qlangtech.tis.plugin.alert.impl.DingTalkAlertChannel](https://github.com/qlangtech/tis-plugins-commercial/tree/master/tis-alert-channel-plugin/src/main/java/com/qlangtech/tis/plugin/alert/impl/DingTalkAlertChannel.java) 
+
+* **提供者:** [TIS](https://github.com/qlangtech/tis) 
+
+* **费用:** :closed_lock_with_key: `社区协作`
+
+* **插件包:** [tis-alert-channel-plugin.tpi](./tpis#tis-alert-channel-plugintpi)
+
+* **配置项说明:** 
+
+1. name
+
+	* **类型:** 单行文本
+	* **必须:** 是
+	* **默认值:** 无
+	* **说明:** 		实例的唯一性名称，取一个方便记忆的名称
+
+2. Access Token
+
+	* **类型:** 密码
+	* **必须:** 是
+	* **默认值:** 无
+	* **说明:** 		钉钉机器人的Webhook URL中的access_token参数值。创建机器人后在Webhook地址中获取
+
+3. 加签密钥
+
+	* **类型:** 密码
+	* **必须:** 是
+	* **默认值:** 无
+	* **说明:** 		钉钉机器人的加签密钥(Secret)，用于验证请求合法性。如果机器人启用了加签功能则必填
+
+4. @所有人
+
+	* **类型:** 单选
+	* **必须:** 否
+	* **默认值:** false
+	* **说明:** 		是否在消息中@所有群成员
+
+5. @指定成员
+
+	* **类型:** 单行文本
+	* **必须:** 否
+	* **默认值:** 无
+	* **说明:** 		需要@的成员手机号，多个手机号用英文逗号分隔。被@的人会收到额外的消息提醒
+
+6. 模版
+
+	* **类型:** 富文本
+	* **必须:** 是
+	* **默认值:** com.qlangtech.tis.plugin.alert.impl.DingTalkAlertChannel.loadDefaultTpl()
+	* **说明:** 		报警信息模版(velocity)，请谨慎修改避免不必要的错误。可用变量: title, subject, jobName, status, startTime, endTime, duration, link, restart, restartIndex, totalRestart等
+
+### :closed_lock_with_key:com.qlangtech.tis.plugin.alert.impl.LarkAlertChannel
+
+* **显示名:** Lark_Chan 
+
+* **全路径名:** [com.qlangtech.tis.plugin.alert.impl.LarkAlertChannel](https://github.com/qlangtech/tis-plugins-commercial/tree/master/tis-alert-channel-plugin/src/main/java/com/qlangtech/tis/plugin/alert/impl/LarkAlertChannel.java) 
+
+* **提供者:** [TIS](https://github.com/qlangtech/tis) 
+
+* **费用:** :closed_lock_with_key: `社区协作`
+
+* **插件包:** [tis-alert-channel-plugin.tpi](./tpis#tis-alert-channel-plugintpi)
+
+* **配置项说明:** 
+
+1. name
+
+	* **类型:** 单行文本
+	* **必须:** 是
+	* **默认值:** 无
+	* **说明:** 		实例的唯一性名称，取一个方便记忆的名称
+
+2. Webhook URL
+
+	* **类型:** 单行文本
+	* **必须:** 是
+	* **默认值:** 无
+	* **说明:** 		飞书群机器人的Webhook完整地址。在群设置中添加自定义机器人后获取
+
+3. 签名密钥
+
+	* **类型:** 密码
+	* **必须:** 是
+	* **默认值:** 无
+	* **说明:** 		飞书机器人的签名密钥(Secret)，用于验证请求合法性。如果机器人启用了签名验证则必填
+
+4. @所有人
+
+	* **类型:** 单选
+	* **必须:** 是
+	* **默认值:** false
+	* **说明:** 		是否在消息中@所有群成员
+
+5. 模版
+
+	* **类型:** 富文本
+	* **必须:** 是
+	* **默认值:** com.qlangtech.tis.plugin.alert.impl.LarkAlertChannel.loadDefaultTpl()
+	* **说明:** 		报警信息模版(velocity)，请谨慎修改避免不必要的错误。可用变量: title, subject, jobName, status, startTime, endTime, duration, link, restart, restartIndex, totalRestart等
+
+### :closed_lock_with_key:com.qlangtech.tis.plugin.alert.impl.WeComAlertChannel
+
+* **显示名:** WeCom_Chan 
+
+* **全路径名:** [com.qlangtech.tis.plugin.alert.impl.WeComAlertChannel](https://github.com/qlangtech/tis-plugins-commercial/tree/master/tis-alert-channel-plugin/src/main/java/com/qlangtech/tis/plugin/alert/impl/WeComAlertChannel.java) 
+
+* **提供者:** [TIS](https://github.com/qlangtech/tis) 
+
+* **费用:** :closed_lock_with_key: `社区协作`
+
+* **插件包:** [tis-alert-channel-plugin.tpi](./tpis#tis-alert-channel-plugintpi)
+
+* **配置项说明:** 
+
+1. name
+
+	* **类型:** 单行文本
+	* **必须:** 是
+	* **默认值:** 无
+	* **说明:** 		实例的唯一性名称，取一个方便记忆的名称
+
+2. Webhook URL
+
+	* **类型:** 单行文本
+	* **必须:** 是
+	* **默认值:** 无
+	* **说明:** 		企业微信群机器人的Webhook完整地址。在群设置中添加机器人后获取
+
+3. @成员UserID
+
+	* **类型:** 单行文本
+	* **必须:** 否
+	* **默认值:** 无
+	* **说明:** 		需要@的成员UserID列表，多个用英文逗号分隔。使用@all可以@所有人
+
+4. @成员手机号
+
+	* **类型:** 单行文本
+	* **必须:** 否
+	* **默认值:** 无
+	* **说明:** 		需要@的成员手机号列表，多个用英文逗号分隔。仅在群内成员手机号在企业通讯录中时有效
+
+5. 模版
+
+	* **类型:** 富文本
+	* **必须:** 是
+	* **默认值:** com.qlangtech.tis.plugin.alert.impl.WeComAlertChannel.loadDefaultTpl()
+	* **说明:** 		报警信息模版(velocity)，请谨慎修改避免不必要的错误。可用变量: title, subject, jobName, status, startTime, endTime, duration, link, restart, restartIndex, totalRestart等
 
 ### com.qlangtech.tis.plugin.HttpEndpoint
 
@@ -7815,6 +7951,8 @@ import TOCInline from '@theme/TOCInline';
 * **显示名:** aliyunToken 
 
 * **全路径名:** [com.qlangtech.tis.plugin.aliyun.AliyunEndpoint](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-common-plugin/src/main/java/com/qlangtech/tis/plugin/aliyun/AliyunEndpoint.java) 
+
+* **提供者:** [TIS](https://github.com/qlangtech/tis) 
 
 * **费用:** :smile: `社区版(免费)`
 
@@ -8339,6 +8477,71 @@ import TOCInline from '@theme/TOCInline';
 		
 		单位：`秒`
 
+### com.qlangtech.plugins.incr.flink.launch.clustertype.StandaloneFlinkDeployingAIAssistSupport
+
+* **显示名:** Deploy Local Flink 
+
+* **全路径名:** [com.qlangtech.plugins.incr.flink.launch.clustertype.StandaloneFlinkDeployingAIAssistSupport](https://github.com/qlangtech/plugins/tree/master/tis-incr/tis-realtime-flink/src/main/java/com/qlangtech/plugins/incr/flink/launch/clustertype/StandaloneFlinkDeployingAIAssistSupport.java) 
+
+* **费用:** :smile: `社区版(免费)`
+
+* **插件包:** [tis-realtime-flink.tpi](./tpis#tis-realtime-flinktpi)
+
+* **配置项说明:** 
+
+1. name
+
+	* **类型:** 单行文本
+	* **必须:** 是
+	* **默认值:** flink_standalone_deploy_ai_assist
+	* **说明:** 		无
+
+2. Flink部署目录
+
+	* **类型:** 单行文本
+	* **必须:** 是
+	* **默认值:** /opt/misc
+	* **说明:** 		设置本地Flink部署目录
+
+3. 插件目录
+
+	* **类型:** 单行文本
+	* **必须:** 是
+	* **默认值:** com.qlangtech.tis.manage.common.Config.getDataDir().getAbsolutePath()
+	* **说明:** 		无
+
+4. slot
+
+	* **类型:** 整型数字
+	* **必须:** 是
+	* **默认值:** 1
+	* **说明:** 		默认Standalone部署方式slot数量，TaskManager需要的内存=tmMemory * slot（请慎重设置slot数量）
+
+5. tmMemory
+
+	* **类型:** 字节规格容量
+	* **必须:** 是
+	* **默认值:** 1728
+	* **说明:** 
+
+		Total Process Memory size for the TaskExecutors. This includes all the memory that a TaskExecutor consumes, consisting of Total Flink Memory, JVM Metaspace, and JVM Overhead. On containerized setups, this should be set to the container memory. See also 'taskmanager.memory.flink.size' for total Flink memory size configuration.
+		
+		单位：`mb`
+
+6. 主机地址
+
+	* **类型:** 单行文本
+	* **必须:** 是
+	* **默认值:** com.qlangtech.tis.realtime.utils.NetUtils.getHost()
+	* **说明:** 		部署flink所在的地址，需要是与TIS控制台同一个主机节点地址
+
+7. Flink Port
+
+	* **类型:** 整型数字
+	* **必须:** 是
+	* **默认值:** 8081
+	* **说明:** 		Flink 暴露的的REST API Http 端口
+
 ## com.qlangtech.tis.plugin.tdfs.DFSResMatcher
 
 ### com.qlangtech.tis.plugin.datax.resmatcher.MetaAwareDFSResMatcher
@@ -8664,13 +8867,13 @@ import TOCInline from '@theme/TOCInline';
 
 		Standalone 集群: [详细请查看](https://nightlies.apache.org/flink/flink-docs-release-1.14/docs/deployment/resource-providers/standalone/overview/)
 		   
-		[安装说明](http://tis.pub/docs/install/flink-cluster/standalone/):
+		[安装说明](https://tis.pub/docs/install/flink-cluster/standalone/):
 		1. 下载、解压
 		
 		   ```shell script
-		     wget http://tis-release.oss-cn-beijing.aliyuncs.com/4.3.0/tis/flink-tis-1.18.1-bin.tar.gz && rm -rf flink-tis-1.18.1 && mkdir flink-tis-1.18.1 && tar xvf flink-tis-1.18.1-bin.tar.gz -C ./flink-tis-1.18.1
+		     wget http://tis-release.oss-cn-beijing.aliyuncs.com/5.0.0/tis/flink-tis-1.20.1-bin.tar.gz && rm -rf flink-tis-1.20.1 && mkdir flink-tis-1.20.1 && tar xvf flink-tis-1.20.1-bin.tar.gz -C ./flink-tis-1.20.1
 		   ```
-		2. 修改 `$FLINK_HOME/conf/flink-conf.yaml`
+		2. 修改 `$FLINK_HOME/conf/config.yaml`
 		
 		   ```yaml
 		   # The address that the REST & web server binds to
@@ -8686,7 +8889,8 @@ import TOCInline from '@theme/TOCInline';
 		   
 		   ```yaml
 		   # The number of task slots that each TaskManager offers. Each slot runs one parallel pipeline.
-		   taskmanager.numberOfTaskSlots: 1
+		   taskmanager:
+		     numberOfTaskSlots: 1
 		   ```
 		   默认值是1，需要在单个Flink节点上运行多个Flink任务，可修改成大于1的值就行（一般情况slot代表了服务节点的资源并行处理能力，一般配置于节点CPU核数相一致即可）
 		   
@@ -8933,7 +9137,25 @@ import TOCInline from '@theme/TOCInline';
 	* **默认值:** decoderbufs
 	* **说明:** 		The name of the KingBase logical decoding plug-in installed on the server. Supported values are decoderbufs
 
-2. 起始位点
+2. Slot
+
+	* **类型:** 单行文本
+	* **必须:** 是
+	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@3e89f5bc
+	* **说明:** 
+
+		The name of the Postgres logical decoding slot created for streaming changes from a plugin.Defaults to 'debezium
+
+3. Drop slot on stop
+
+	* **类型:** 单选
+	* **必须:** 是
+	* **默认值:** false
+	* **说明:** 
+
+		Whether or not to drop the logical replication slot when the connector finishes orderlyBy default the replication is kept so that on restart progress can resume from the last recorded location
+
+4. 起始位点
 
 	* **类型:** 单选
 	* **必须:** 是
@@ -8950,11 +9172,11 @@ import TOCInline from '@theme/TOCInline';
 		* `Latest`:
 		  Never to perform snapshot on the monitored database tables upon first startup, just read from the end of the binlog which means only have the changes since the connector was started.
 
-3. REPLICA IDENTITY
+5. Replica Rule
 
-	* **类型:** 单选
+	* **类型:** 单行文本
 	* **必须:** 是
-	* **默认值:** DEFAULT
+	* **默认值:** FULL
 	* **说明:** 
 
 		在 PostgreSQL 中，ALTER TABLE ... REPLICA IDENTITY 命令用于指定在逻辑复制或行级触发器中如何标识已更新或删除的行。https://developer.aliyun.com/ask/575334
@@ -8962,8 +9184,10 @@ import TOCInline from '@theme/TOCInline';
 		可选项有以下两个
 		* `FULL`: 使用此值需要确保对应的表执行`ALTER TABLE your_table_name REPLICA IDENTITY FULL;`，表记录更新时会带上更新Before值，使用此方式比较耗费性能。
 		* `DEFAULT`: 默认值，更新删除操作时不会带上Before值。
+		
+		如目标端需要实现`物理删除`，必须选择`FULL`
 
-4. 过滤
+6. 过滤
 
 	* **类型:** 单选
 	* **必须:** 否
@@ -9257,7 +9481,25 @@ import TOCInline from '@theme/TOCInline';
 	* **默认值:** decoderbufs
 	* **说明:** 		The name of the Postgres logical decoding plug-in installed on the server. Supported values are decoderbufs, wal2json, wal2json_rds, wal2json_streaming, wal2json_rds_streaming and pgoutput.
 
-2. 起始位点
+2. Slot
+
+	* **类型:** 单行文本
+	* **必须:** 是
+	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@225ac5e7
+	* **说明:** 
+
+		The name of the Postgres logical decoding slot created for streaming changes from a plugin.Defaults to 'debezium
+
+3. Drop slot on stop
+
+	* **类型:** 单选
+	* **必须:** 是
+	* **默认值:** false
+	* **说明:** 
+
+		Whether or not to drop the logical replication slot when the connector finishes orderlyBy default the replication is kept so that on restart progress can resume from the last recorded location
+
+4. 起始位点
 
 	* **类型:** 单选
 	* **必须:** 是
@@ -9274,11 +9516,11 @@ import TOCInline from '@theme/TOCInline';
 		* `Latest`:
 		  Never to perform snapshot on the monitored database tables upon first startup, just read from the end of the binlog which means only have the changes since the connector was started.
 
-3. REPLICA IDENTITY
+5. Replica Rule
 
-	* **类型:** 单选
+	* **类型:** 单行文本
 	* **必须:** 是
-	* **默认值:** DEFAULT
+	* **默认值:** FULL
 	* **说明:** 
 
 		在 PostgreSQL 中，ALTER TABLE ... REPLICA IDENTITY 命令用于指定在逻辑复制或行级触发器中如何标识已更新或删除的行。https://developer.aliyun.com/ask/575334
@@ -9286,8 +9528,10 @@ import TOCInline from '@theme/TOCInline';
 		可选项有以下两个
 		* `FULL`: 使用此值需要确保对应的表执行`ALTER TABLE your_table_name REPLICA IDENTITY FULL;`，表记录更新时会带上更新Before值，使用此方式比较耗费性能。
 		* `DEFAULT`: 默认值，更新删除操作时不会带上Before值。
+		
+		如目标端需要实现`物理删除`，必须选择`FULL`
 
-4. 过滤
+6. 过滤
 
 	* **类型:** 单选
 	* **必须:** 否
@@ -9529,7 +9773,7 @@ import TOCInline from '@theme/TOCInline';
 
 	* **类型:** 单行文本
 	* **必须:** 是
-	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@10dbf660
+	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@a1d926b
 	* **说明:** 		无
 
 2. incrMode
@@ -9557,7 +9801,7 @@ import TOCInline from '@theme/TOCInline';
 
 	* **类型:** 单行文本
 	* **必须:** 是
-	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@311a09b2
+	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@1b800a11
 	* **说明:** 		无
 
 ### com.qlangtech.tis.plugins.incr.flink.chunjun.source.SelectedTabPropsExtends
@@ -9576,7 +9820,7 @@ import TOCInline from '@theme/TOCInline';
 
 	* **类型:** 单行文本
 	* **必须:** 是
-	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@57920d6c
+	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@25172993
 	* **说明:** 		无
 
 2. 轮询策略
@@ -9635,7 +9879,7 @@ import TOCInline from '@theme/TOCInline';
 
 	* **类型:** 单行文本
 	* **必须:** 是
-	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@433b1597
+	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@23ea3853
 	* **说明:** 		无
 
 2. 过滤
@@ -9646,6 +9890,41 @@ import TOCInline from '@theme/TOCInline';
 	* **说明:** 		遍历MongoDB Collection只读取部分记录集，需要填写合适的查询条件
 
 ## com.qlangtech.tis.datax.DefaultDataXProcessorManipulate
+
+### com.qlangtech.plugins.incr.flink.alert.AddMonitorForEvents
+
+* **显示名:** Add Monitor for Alert 
+
+* **全路径名:** [com.qlangtech.plugins.incr.flink.alert.AddMonitorForEvents](https://github.com/qlangtech/plugins/tree/master/tis-datax/tis-datax-common-plugin/src/main/java/com/qlangtech/plugins/incr/flink/alert/AddMonitorForEvents.java) 
+
+* **提供者:** [TIS](https://github.com/qlangtech/tis) 
+
+* **费用:** :smile: `社区版(免费)`
+
+* **插件包:** [tis-datax-common-plugin.tpi](./tpis#tis-datax-common-plugintpi)
+
+* **配置项说明:** 
+
+1. name
+
+	* **类型:** 单行文本
+	* **必须:** 是
+	* **默认值:** alert
+	* **说明:** 		一个数据管道只能定义一个监控
+
+2. 启用
+
+	* **类型:** 单选
+	* **必须:** 是
+	* **默认值:** true
+	* **说明:** 		配置完成之后，使用过程中可以控制报警渠道暂时失效，可选择‘否’
+
+3. 报警渠道
+
+	* **类型:** 单选
+	* **必须:** 是
+	* **默认值:** 无
+	* **说明:** 		选择需要的报警发送渠道
 
 ### com.qlangtech.tis.plugin.datax.doplinscheduler.export.ExportTISPipelineToDolphinscheduler
 
@@ -9665,7 +9944,7 @@ import TOCInline from '@theme/TOCInline';
 
 	* **类型:** 单行文本
 	* **必须:** 是
-	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@6edb1e9c
+	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@5a99543b
 	* **说明:** 		对应的dolphinscheduler中工作流名称，确保同一项目下工作流名称唯一，不能重复
 
 2. endpoint
@@ -9780,7 +10059,7 @@ import TOCInline from '@theme/TOCInline';
 
 	* **类型:** 单选
 	* **必须:** 是
-	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@2ca132ad
+	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@7646c9f5
 	* **说明:** 		replaceKey指定了每行记录的业务主键。用来做更新时使用
 
 ## com.qlangtech.tis.plugin.datax.powerjob.PowerJobOMS
@@ -9867,6 +10146,28 @@ import TOCInline from '@theme/TOCInline';
 
 * **插件包:** [tis-chunjun-base-plugin.tpi](./tpis#tis-chunjun-base-plugintpi)
 
+## com.qlangtech.plugins.incr.flink.cdc.pglike.PGLikeReplicaIdentity
+
+### com.qlangtech.plugins.incr.flink.cdc.pglike.replica.DefaultPGLikeReplicaIdentity
+
+* **显示名:** DEFAULT 
+
+* **全路径名:** [com.qlangtech.plugins.incr.flink.cdc.pglike.replica.DefaultPGLikeReplicaIdentity](https://github.com/qlangtech/plugins/tree/master/tis-incr/tis-flink-cdc-common/src/main/java/com/qlangtech/plugins/incr/flink/cdc/pglike/replica/DefaultPGLikeReplicaIdentity.java) 
+
+* **费用:** :smile: `社区版(免费)`
+
+* **插件包:** [tis-flink-cdc-common.tpi](./tpis#tis-flink-cdc-commontpi)
+
+### com.qlangtech.plugins.incr.flink.cdc.pglike.replica.FullPGLikeReplicaIdentity
+
+* **显示名:** FULL 
+
+* **全路径名:** [com.qlangtech.plugins.incr.flink.cdc.pglike.replica.FullPGLikeReplicaIdentity](https://github.com/qlangtech/plugins/tree/master/tis-incr/tis-flink-cdc-common/src/main/java/com/qlangtech/plugins/incr/flink/cdc/pglike/replica/FullPGLikeReplicaIdentity.java) 
+
+* **费用:** :smile: `社区版(免费)`
+
+* **插件包:** [tis-flink-cdc-common.tpi](./tpis#tis-flink-cdc-commontpi)
+
 ## com.qlangtech.tis.plugin.datax.FSFormat
 
 ### com.qlangtech.tis.plugin.datax.impl.TextFSFormat
@@ -9877,7 +10178,7 @@ import TOCInline from '@theme/TOCInline';
 
 * **费用:** :smile: `社区版(免费)`
 
-* **插件包:** [tis-datax-hdfs-plugin/tis-datax-hdfs-plugin_hadoop_2.7.3.tpi](./tpis#tis-datax-hdfs-plugin/tis-datax-hdfs-plugin_hadoop_273tpi)
+* **插件包:** [tis-datax-hdfs-plugin/tis-datax-hdfs-plugin_hadoop_3.0.0-cdh6.3.2.tpi](./tpis#tis-datax-hdfs-plugin/tis-datax-hdfs-plugin_hadoop_300-cdh632tpi)
 
 * **配置项说明:** 
 
@@ -10553,7 +10854,7 @@ import TOCInline from '@theme/TOCInline';
 
 	* **类型:** 单选
 	* **必须:** 是
-	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@4d0b7fd5
+	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@46fdfaeb
 	* **说明:** 		选择列作为表的主键
 
 3. Sequence列
@@ -10601,7 +10902,7 @@ import TOCInline from '@theme/TOCInline';
 
 	* **类型:** 单选
 	* **必须:** 是
-	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@6338afe2
+	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@eebd983
 	* **说明:** 		选择列作为表的主键
 
 3. 分区字段
@@ -10645,7 +10946,7 @@ import TOCInline from '@theme/TOCInline';
 
 	* **类型:** 单选
 	* **必须:** 是
-	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@3d02ff64
+	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@7a71ebf1
 	* **说明:** 		选择列作为表的主键
 
 3. upsert
@@ -10692,7 +10993,7 @@ import TOCInline from '@theme/TOCInline';
 
 	* **类型:** 单选
 	* **必须:** 是
-	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@718ad3a6
+	* **默认值:** com.qlangtech.tis.trigger.util.UnCacheString@403cff1c
 	* **说明:** 		选择列作为表的主键
 
 3. 分区键
@@ -10706,20 +11007,20 @@ import TOCInline from '@theme/TOCInline';
 		
 		一、分区核心概念
 		
-		 1. 什么是分区？
+		1. 什么是分区？
 		    - **逻辑数据划分**：根据指定列的值将表数据分割成独立的子集
 		    - **物理存储映射**：每个分区对应文件系统上的独立目录
 		    - **查询优化基础**：实现分区剪枝（Partition Pruning）加速查询
 		
-		 2. 分区 vs 分桶
-		    
-		    | **特性**       | **分区（Partition）**               | **分桶（Bucket）**               |
-		    |----------------|-----------------------------------|---------------------------------|
-		    | **目的**       | 数据管理/查询优化                 | 并行处理/文件控制              |
-		    | **划分依据**   | 业务逻辑（日期、地区等）          | 哈希算法（主键/指定列）        |
-		    | **物理表现**   | 独立目录                          | 同一目录下的不同文件           |
-		    | **查询优化**   | 分区剪枝                          | 桶过滤                         |
-		    | **典型场景**   | 时间序列数据                      | 分布式处理                     |
+		2. 分区 vs 分桶
+		
+		   | **特性**       | **分区（Partition）**               | **分桶（Bucket）**               |
+		   |----------------|-----------------------------------|---------------------------------|
+		   | **目的**       | 数据管理/查询优化                 | 并行处理/文件控制              |
+		   | **划分依据**   | 业务逻辑（日期、地区等）          | 哈希算法（主键/指定列）        |
+		   | **物理表现**   | 独立目录                          | 同一目录下的不同文件           |
+		   | **查询优化**   | 分区剪枝                          | 桶过滤                         |
+		   | **典型场景**   | 时间序列数据                      | 分布式处理                     |
 
 4. sequence
 
@@ -10747,13 +11048,13 @@ import TOCInline from '@theme/TOCInline';
 		1. **固定桶模式 (`bucket > 0`)** - ✅ **完全有效且推荐使用**
 		2. **动态桶模式 (`bucket = -1`)** ⚠️ **有条件有效**
 		   限制：
-		   - 仅当 **`bucket-key` = 主键（或主键子集）** 时才有效
-		   - 如果设置非主键字段，Paimon 会**静默忽略**该配置
+		    - 仅当 **`bucket-key` = 主键（或主键子集）** 时才有效
+		    - 如果设置非主键字段，Paimon 会**静默忽略**该配置
 		3. **延迟桶模式 (`bucket = -2`)** ❌ **完全无效**
 		   原因：
-		   - 延迟桶模式写入时**不立即分桶**
-		   - 数据以临时文件存储，Compaction 时才分桶
-		   - `bucket-key` 在写入阶段无法生效
+		    - 延迟桶模式写入时**不立即分桶**
+		    - 数据以临时文件存储，Compaction 时才分桶
+		    - `bucket-key` 在写入阶段无法生效
 		
 		💡 最佳实践总结
 		

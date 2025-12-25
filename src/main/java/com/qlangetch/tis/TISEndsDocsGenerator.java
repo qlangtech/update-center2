@@ -61,11 +61,11 @@ public class TISEndsDocsGenerator {
      * @param pluginStore
      * @param cptConsumer
      */
-    public static void buildEndTypeImages(
-            Page page, File endDir, EndType endType, EndTypeCategory endCategory, EndTypePluginStore pluginStore, CptConsumer cptConsumer) {
-//        try (Playwright playwright = Playwright.create()) {
-//            Browser browser = playwright.chromium().launch();
-//            Page page = browser.newPage();
+    public static void buildEndTypeImages(Page page, File endDir, EndType endType, EndTypeCategory endCategory,
+                                          EndTypePluginStore pluginStore, CptConsumer cptConsumer) {
+        //        try (Playwright playwright = Playwright.create()) {
+        //            Browser browser = playwright.chromium().launch();
+        //            Page page = browser.newPage();
         //  page.navigate("http://192.168.28.201:8080/");
 
 
@@ -75,32 +75,27 @@ public class TISEndsDocsGenerator {
         aa:
         for (Pair<IEndTypeGetter, Descriptor> pair : pluginStore.miscPlugins) {
 
-            if (endCategory == EndTypeCategory.Assist) {
+            if (endCategory == EndTypeCategory.Assist || endCategory == EndTypeCategory.Alert) {
 
-                if (true || "FlinkK8SClusterManager".equalsIgnoreCase(pair.getValue().clazz.getSimpleName())) {
-                    IdentityName descId = IdentityName.create(pair.getValue().clazz.getSimpleName());
-                    paramsAndImageBuilder.add(
-                            Pair.of(
-                                    new Option("desc", pair.getValue().getId())
-                                    , () -> buildPluginDivImage(pair.getValue(), descId, endDir, page)));
-                    cptConsumer.accept(null, descId, pair.getValue());
-                }
+                // if (true || "FlinkK8SClusterManager".equalsIgnoreCase(pair.getValue().clazz.getSimpleName())) {
+                IdentityName descId = IdentityName.create(pair.getValue().clazz.getSimpleName());
+                paramsAndImageBuilder.add(Pair.of(new Option("desc", pair.getValue().getId()),
+                        () -> buildPluginDivImage(pair.getValue(), descId, endDir, page)));
+                cptConsumer.accept(null, descId, pair.getValue());
+                //}
             } else if (endCategory == EndTypeCategory.Transformer) {
                 IdentityName descId = IdentityName.create("Transformer_UDF");
-                paramsAndImageBuilder.add(
-                        Pair.of(
-                                new Option("transformer_desc", pair.getValue().getId())
-                                , () -> buildPluginDivImage(pair.getValue(), descId
-                                        , IdentityName.create(pair.getValue().clazz.getSimpleName()), endDir, page)));
+                paramsAndImageBuilder.add(Pair.of(new Option("transformer_desc", pair.getValue().getId()),
+                        () -> buildPluginDivImage(pair.getValue(), descId,
+                                IdentityName.create(pair.getValue().clazz.getSimpleName()), endDir, page)));
                 cptConsumer.accept(null, descId, pair.getValue());
             } else {
                 List<Descriptor<DataSourceFactory>> dsDescriptors = HeteroEnum.DATASOURCE.descriptors();
                 for (Descriptor<DataSourceFactory> dsDesc : dsDescriptors) {
                     if (!hasAddDataSource && pair.getValue() == dsDesc) {
-                        paramsAndImageBuilder.add(
-                                Pair.of(
-                                        new Option(HeteroEnum.DATASOURCE.getIdentity(), pair.getValue().getDisplayName())
-                                        , () -> buildPluginDivImage(pair.getValue(), HeteroEnum.DATASOURCE, endDir, page)));
+                        paramsAndImageBuilder.add(Pair.of(new Option(HeteroEnum.DATASOURCE.getIdentity(),
+                                pair.getValue().getDisplayName()), () -> buildPluginDivImage(pair.getValue(),
+                                HeteroEnum.DATASOURCE, endDir, page)));
                         // 确保 datasource 只被添加一次，如mysql的dataSource mysql5，和mysql8 只会被添加一次
                         cptConsumer.accept(HeteroEnum.DATASOURCE, pair.getValue());
                         hasAddDataSource = true;
@@ -111,10 +106,9 @@ public class TISEndsDocsGenerator {
                 List<Descriptor<ParamsConfig>> paramDescriptors = HeteroEnum.PARAMS_CONFIG.descriptors();
                 for (Descriptor<ParamsConfig> paramDesc : paramDescriptors) {
                     if (pair.getValue() == paramDesc) {
-                        paramsAndImageBuilder.add(
-                                Pair.of(
-                                        new Option(HeteroEnum.PARAMS_CONFIG.getIdentity(), pair.getValue().getDisplayName())
-                                        , () -> buildPluginDivImage(pair.getValue(), HeteroEnum.PARAMS_CONFIG, endDir, page)));
+                        paramsAndImageBuilder.add(Pair.of(new Option(HeteroEnum.PARAMS_CONFIG.getIdentity(),
+                                pair.getValue().getDisplayName()), () -> buildPluginDivImage(pair.getValue(),
+                                HeteroEnum.PARAMS_CONFIG, endDir, page)));
                         cptConsumer.accept(HeteroEnum.PARAMS_CONFIG, pair.getValue());
                         continue aa;
                     }
@@ -124,44 +118,40 @@ public class TISEndsDocsGenerator {
 
         //Option param = null;
         for (Pair<IDataXEndTypeGetter, Descriptor> pair : pluginStore.dataXReaders) {
-            paramsAndImageBuilder.add(
-                    Pair.of(new Option(HeteroEnum.DATAX_READER.getIdentity(), pair.getValue().getDisplayName())
-                            , () -> buildPluginDivImage(pair.getValue(), HeteroEnum.DATAX_READER, endDir, page)));
+            paramsAndImageBuilder.add(Pair.of(new Option(HeteroEnum.DATAX_READER.getIdentity(),
+                    pair.getValue().getDisplayName()), () -> buildPluginDivImage(pair.getValue(),
+                    HeteroEnum.DATAX_READER, endDir, page)));
             cptConsumer.accept(HeteroEnum.DATAX_READER, pair.getValue());
             break;
         }
 
         for (Pair<IDataXEndTypeGetter, Descriptor> pair : pluginStore.dataXWriters) {
-            paramsAndImageBuilder.add(
-                    Pair.of(new Option(HeteroEnum.DATAX_WRITER.getIdentity(), pair.getValue().getDisplayName()),
-                            () -> buildPluginDivImage(pair.getValue(), HeteroEnum.DATAX_WRITER, endDir, page)));
+            paramsAndImageBuilder.add(Pair.of(new Option(HeteroEnum.DATAX_WRITER.getIdentity(),
+                    pair.getValue().getDisplayName()), () -> buildPluginDivImage(pair.getValue(),
+                    HeteroEnum.DATAX_WRITER, endDir, page)));
             cptConsumer.accept(HeteroEnum.DATAX_WRITER, pair.getValue());
             break;
         }
 
         for (Pair<IEndTypeGetter, Descriptor> pair : pluginStore.incrSources) {
-            paramsAndImageBuilder.add(
-                    Pair.of(
-                            new Option(HeteroEnum.MQ.getIdentity(), pair.getValue().getDisplayName()),
-                            () -> buildPluginDivImage(pair.getValue(), HeteroEnum.MQ, endDir, page)));
+            paramsAndImageBuilder.add(Pair.of(new Option(HeteroEnum.MQ.getIdentity(),
+                    pair.getValue().getDisplayName()), () -> buildPluginDivImage(pair.getValue(), HeteroEnum.MQ,
+                    endDir, page)));
             cptConsumer.accept(HeteroEnum.MQ, pair.getValue());
             break;
         }
 
         for (Pair<IEndTypeGetter, Descriptor> pair : pluginStore.incrSinks) {
-            paramsAndImageBuilder.add(
-                    Pair.of(
-                            new Option(TISSinkFactory.sinkFactory.getIdentity(), pair.getValue().getDisplayName())
-                            , () -> buildPluginDivImage(pair.getValue(), TISSinkFactory.sinkFactory, endDir, page)));
+            paramsAndImageBuilder.add(Pair.of(new Option(TISSinkFactory.sinkFactory.getIdentity(),
+                    pair.getValue().getDisplayName()), () -> buildPluginDivImage(pair.getValue(),
+                    TISSinkFactory.sinkFactory, endDir, page)));
             cptConsumer.accept(TISSinkFactory.sinkFactory, pair.getValue());
             break;
         }
 
 
-        final String navUrl = "http://localhost:4200/base/cpt-list?"
-                + paramsAndImageBuilder.stream()
-                .map((pair) -> pair.getKey())
-                .map((param) -> param.getName() + "=" + param.getValue()).collect(Collectors.joining("&"));
+        final String navUrl =
+                "http://localhost:4200/base/cpt-list?" + paramsAndImageBuilder.stream().map((pair) -> pair.getKey()).map((param) -> param.getName() + "=" + param.getValue()).collect(Collectors.joining("&"));
         logger.info(navUrl);
         page.navigate(navUrl, new NavigateOptions().setWaitUntil(WaitUntilState.NETWORKIDLE));
 
@@ -194,8 +184,8 @@ public class TISEndsDocsGenerator {
             int width = image.getWidth();
             int height = image.getHeight();
 
-//        PluginFormProperties pluginFormPropertyTypes = descriptor.getPluginFormPropertyTypes();
-//        List<Entry<String, PropertyType>> kvTuples = pluginFormPropertyTypes.getSortedUseableProperties();
+            //        PluginFormProperties pluginFormPropertyTypes = descriptor.getPluginFormPropertyTypes();
+            //        List<Entry<String, PropertyType>> kvTuples = pluginFormPropertyTypes.getSortedUseableProperties();
             // 2. 创建绘图上下文
             Graphics2D g = image.createGraphics();
             g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -254,11 +244,12 @@ public class TISEndsDocsGenerator {
         buildPluginDivImage(descriptor, hetero, hetero, endDir, page);
     }
 
-    private static void buildPluginDivImage(Descriptor descriptor, IdentityName hetero, IdentityName imageName, File endDir, Page page) {
+    private static void buildPluginDivImage(Descriptor descriptor, IdentityName hetero, IdentityName imageName,
+                                            File endDir, Page page) {
         // 定位目标 div
-        final String descBlockElemtnXpaht = "//*[(self::div or self::nz-collapse-panel) and @id='" + hetero.identityValue() + "']";
-        ElementHandle divElement
-                = page.waitForSelector(descBlockElemtnXpaht //"div#" + hetero.identityValue()
+        final String descBlockElemtnXpaht =
+                "//*[(self::div or self::nz-collapse-panel) and @id='" + hetero.identityValue() + "']";
+        ElementHandle divElement = page.waitForSelector(descBlockElemtnXpaht //"div#" + hetero.identityValue()
                 , new WaitForSelectorOptions().setState(WaitForSelectorState.VISIBLE));
         File imageFile = null;
         if (divElement != null) {
@@ -273,7 +264,8 @@ public class TISEndsDocsGenerator {
 
                     // divElement.querySelector("xpath=//item-prop-val/child::nz-form-item");
 
-                    Locator fieldsLocator = page.locator(descBlockElemtnXpaht + "//item-prop-val[not(ancestor::nz-form-item)]/child::nz-form-item");
+                    Locator fieldsLocator = page.locator(descBlockElemtnXpaht + "//item-prop-val[not"
+                            + "(ancestor::nz-form-item)]/child::nz-form-item");
                     for (Locator elmt : fieldsLocator.all()) {
                         fieldBox = elmt.boundingBox();
                         fieldBox.x -= box.x;
@@ -284,17 +276,15 @@ public class TISEndsDocsGenerator {
 
                     // 截取该区域
                     imageFile = new File(endDir, imageName.identityValue() + ".png");
-                    page.screenshot(new Page.ScreenshotOptions()
-                            .setPath(imageFile.toPath())
-                            .setClip(box.x, box.y, box.width, box.height)
-                            .setAnimations(ScreenshotAnimations.DISABLED));
+                    page.screenshot(new Page.ScreenshotOptions().setPath(imageFile.toPath()).setClip(box.x, box.y,
+                            box.width, box.height).setAnimations(ScreenshotAnimations.DISABLED));
 
                     drawFieldIndexNumber(imageFile, fieldsBox, descriptor);
                 }
             } catch (Exception e) {
                 if (box != null) {
-                    throw new RuntimeException("Clipped area:x="
-                            + box.x + ",y=" + box.y + ",width:" + box.width + ",height:" + box.height, e);
+                    throw new RuntimeException("Clipped area:x=" + box.x + ",y=" + box.y + ",width:" + box.width + ","
+                            + "height:" + box.height, e);
                 } else {
                     throw new RuntimeException(e);
                 }
@@ -304,19 +294,22 @@ public class TISEndsDocsGenerator {
             PropertyType propType = null;
             List<? extends Descriptor> applicableFieldDescs = null;
             ElementHandle describlePropElement = null;
-            for (Entry<String, PropertyType> prop
-                    : pluginFormPropertyTypes.getSortedUseableProperties()) {
+            for (Entry<String, PropertyType> prop : pluginFormPropertyTypes.getSortedUseableProperties()) {
                 propType = prop.getValue();
                 if (!propType.isDescribable()) {
                     continue;
                 }
                 applicableFieldDescs = propType.getApplicableDescriptors();
                 // 定位到对应的describle prop上
-//                describlePropElement = divElement.waitForSelector("//*[(self::nz-form-item) and @ng-reflect-name='" + prop.getKey() + "']"
-//                        , new ElementHandle.WaitForSelectorOptions().setState(WaitForSelectorState.VISIBLE));
+                //                describlePropElement = divElement.waitForSelector("//*[(self::nz-form-item) and
+                //                @ng-reflect-name='" + prop.getKey() + "']"
+                //                        , new ElementHandle.WaitForSelectorOptions().setState(WaitForSelectorState
+                //                        .VISIBLE));
 
-                describlePropElement = divElement.waitForSelector("//*[(self::nz-form-item) and @data-testid='" + prop.getKey() + "_item']"
-                        , new ElementHandle.WaitForSelectorOptions().setState(WaitForSelectorState.VISIBLE));
+                describlePropElement =
+                        divElement.waitForSelector("//*[(self::nz-form-item) and @data-testid='" + prop.getKey() +
+                                "_item']",
+                                new ElementHandle.WaitForSelectorOptions().setState(WaitForSelectorState.VISIBLE));
 
                 ElementHandle pluginProp = null;
                 for (Descriptor selectableProp : applicableFieldDescs) {
@@ -330,10 +323,11 @@ public class TISEndsDocsGenerator {
                     pluginProp = describlePropElement.waitForSelector("nz-form-control");
 
                     PluginFormProperties properties = selectableProp.getPluginFormPropertyTypes();
-                    Optional<Entry<String, PropertyType>> containAdvance
-                            = properties.getSortedUseableProperties().stream().filter((entry) -> entry.getValue().formField.advance()).findFirst();
+                    Optional<Entry<String, PropertyType>> containAdvance =
+                            properties.getSortedUseableProperties().stream().filter((entry) -> entry.getValue().formField.advance()).findFirst();
                     if (containAdvance.isPresent()) {
-                        ElementHandle advanceOpts = pluginProp.querySelector(".advance-opts[ng-reflect-model=\"false\"]");
+                        ElementHandle advanceOpts = pluginProp.querySelector(".advance-opts[ng-reflect-model=\"false"
+                                + "\"]");
                         if (advanceOpts != null) {
                             advanceOpts.click();
                         }
@@ -342,23 +336,23 @@ public class TISEndsDocsGenerator {
                     pluginProp.scrollIntoViewIfNeeded();
                     box = pluginProp.boundingBox();
                     //hetero.identityValue() + "_" + prop.getKey() + "_" + selectableProp.getDisplayName() + ".png"
-                    imageFile = new File(endDir, createPluginDescriblePropFieldImageName(hetero, prop.getValue(), selectableProp));
-                    page.screenshot(new Page.ScreenshotOptions()
-                            .setPath(imageFile.toPath())
-                            .setClip(box.x, box.y, box.width, box.height)
-                            .setAnimations(ScreenshotAnimations.DISABLED));
+                    imageFile = new File(endDir, createPluginDescriblePropFieldImageName(hetero, prop.getValue(),
+                            selectableProp));
+                    page.screenshot(new Page.ScreenshotOptions().setPath(imageFile.toPath()).setClip(box.x, box.y,
+                            box.width, box.height).setAnimations(ScreenshotAnimations.DISABLED));
                 }
             }
 
 
         } else {
-            throw new IllegalStateException("div " + hetero.identityValue()
-                    + ",endDir:" + endDir.getAbsolutePath() + " can not found relevant element");
+            throw new IllegalStateException("div " + hetero.identityValue() + ",endDir:" + endDir.getAbsolutePath() + " can not found relevant element");
         }
     }
 
-    public static String createPluginDescriblePropFieldImageName(IdentityName pluginClazzName, PropertyType prop, Descriptor selectableProp) {
-        return pluginClazzName.identityValue() + "_" + prop.displayName + "_" + selectableProp.getDisplayName() + ".png";
+    public static String createPluginDescriblePropFieldImageName(IdentityName pluginClazzName, PropertyType prop,
+                                                                 Descriptor selectableProp) {
+        return pluginClazzName.identityValue() + "_" + prop.displayName + "_" + selectableProp.getDisplayName() +
+                ".png";
     }
 
 }

@@ -47,6 +47,7 @@ import com.qlangtech.tis.extension.Descriptor;
 import com.qlangtech.tis.extension.PluginFormProperties;
 import com.qlangtech.tis.extension.PluginManager;
 import com.qlangtech.tis.extension.PluginWrapper;
+import com.qlangtech.tis.extension.impl.PluginManifest;
 import com.qlangtech.tis.extension.impl.PropertyType;
 import com.qlangtech.tis.extension.model.UpdateCenter;
 import com.qlangtech.tis.extension.model.UpdateCenterResource;
@@ -107,8 +108,10 @@ import java.io.PrintWriter;
 import java.io.StringReader;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
@@ -133,41 +136,50 @@ import static com.qlangtech.tis.util.HeteroEnum.DATASOURCE;
 import static com.qlangtech.tis.util.HeteroEnum.DATAX_READER;
 import static com.qlangtech.tis.util.HeteroEnum.DATAX_WRITER;
 import static com.qlangtech.tis.util.HeteroEnum.MQ;
+import static io.jenkins.update_center.HPI.createExtendpoints;
 
 /**
- * java -classpath ./lib/*:./update-center2.jar -Dplugin_dir_root=/tmp/release/tis-plugin -Dtis.plugin.release.version=3.4.0  io.jenkins.update_center.Main --www-dir=./dist
+ * java -classpath ./lib/*:./update-center2.jar -Dplugin_dir_root=/tmp/release/tis-plugin -Dtis.plugin.release
+ * .version=3.4.0  io.jenkins.update_center.Main --www-dir=./dist
  */
 public class Main {
 
     private static final String COMMUNITY_VIP_ICON = ":closed_lock_with_key:";
 
     /* Control meta-execution options */
-    @Option(name = "--arguments-file", usage = "Specify invocation arguments in a file, with each line being a separate update site build. This argument cannot be re-set via arguments-file.")
+    @Option(name = "--arguments-file", usage = "Specify invocation arguments in a file, with each line being a " +
+            "separate update site build. This argument cannot be re-set via arguments-file.")
     @SuppressFBWarnings
     @CheckForNull
     public static File argumentsFile;
 
-    @Option(name = "--resources-dir", usage = "Specify the path to the resources directory containing warnings.json, artifact-ignores.properties, etc. This argument cannot be re-set via arguments-file.")
+    @Option(name = "--resources-dir", usage = "Specify the path to the resources directory containing warnings.json, "
+            + "artifact-ignores.properties, etc. This argument cannot be re-set via arguments-file.")
     @SuppressFBWarnings
     @NonNull
-    public static File resourcesDir = new File("resources"); // Default value for tests -- TODO find a better way to set a value for tests
+    public static File resourcesDir = new File("resources"); // Default value for tests -- TODO find a better way to
+    // set a value for tests
 
-    @Option(name = "--log-level", usage = "A java.util.logging.Level name. Use CONFIG, FINE, FINER, or FINEST to log more output.", handler = LevelOptionHandler.class)
+    @Option(name = "--log-level", usage = "A java.util.logging.Level name. Use CONFIG, FINE, FINER, or FINEST to log "
+            + "more output.", handler = LevelOptionHandler.class)
     @SuppressFBWarnings
     @CheckForNull
     public static Level level = Level.INFO;
 
 
     /* Configure repository source */
-    @Option(name = "--limit-plugin-core-dependency", usage = "Cap the core dependency and only include plugins that are compatible with this core (or older)")
+    @Option(name = "--limit-plugin-core-dependency", usage =
+            "Cap the core dependency and only include plugins that " + "are compatible with this core (or older)")
     @CheckForNull
     public String capPlugin;
 
-    @Option(name = "--limit-core-release", usage = "Cap the version number of Jenkins core offered. Not generally useful.")
+    @Option(name = "--limit-core-release", usage =
+            "Cap the version number of Jenkins core offered. Not generally " + "useful.")
     @CheckForNull
     public String capCore; // TODO remove
 
-    @Option(name = "--only-stable-core", usage = "Limit core releases to stable (LTS) releases (those with three component version numbers)")
+    @Option(name = "--only-stable-core", usage = "Limit core releases to stable (LTS) releases (those with three " +
+            "component version numbers)")
     public boolean stableCore;
 
     @Option(name = "--only-experimental", usage = "Only include experimental alpha/beta releases")
@@ -176,21 +188,26 @@ public class Main {
     @Option(name = "--with-experimental", usage = "Include experimental alpha/beta releases")
     public boolean includeExperimental;
 
-    @Option(name = "--java-version", usage = "Target Java version for the update center. Plugins will be excluded if their minimum Java version does not match. If not set, required Java version will be ignored")
+    @Option(name = "--java-version", usage = "Target Java version for the update center. Plugins will be excluded if "
+            + "their minimum Java version does not match. If not set, required Java version will be ignored")
     @CheckForNull
     public String javaVersion;
 
-    @Option(name = "--max-plugins", usage = "For testing purposes: Limit the number of plugins included to the specified number.")
+    @Option(name = "--max-plugins", usage = "For testing purposes: Limit the number of plugins included to the " +
+            "specified number.")
     @CheckForNull
     public Integer maxPlugins;
 
-    @Option(name = "--allowed-artifacts-file", usage = "For testing purposes: A Java properties file whose keys are artifactIds and values are space separated lists of versions to allow, or '*' to allow all")
+    @Option(name = "--allowed-artifacts-file", usage =
+            "For testing purposes: A Java properties file whose keys are " + "artifactIds and values are space " +
+                    "separated lists of versions to allow, or '*' to allow all")
     @CheckForNull
     public File allowedArtifactsListFile;
 
 
     /* Configure what kinds of output to generate */
-    @Option(name = "--dynamic-tier-list-file", usage = "Generate tier list JSON file at the specified path. If this option is set, we skip generating all other output.")
+    @Option(name = "--dynamic-tier-list-file", usage =
+            "Generate tier list JSON file at the specified path. If this " + "option is set, we skip generating all " + "other output.")
     @CheckForNull
     public File tierListFile;
 
@@ -198,14 +215,16 @@ public class Main {
     @CheckForNull
     public File www;
 
-    @Option(name = "--skip-update-center", usage = "Skip generation of update center files (mostly useful during development)")
+    @Option(name = "--skip-update-center", usage = "Skip generation of update center files (mostly useful during " +
+            "development)")
     public boolean skipUpdateCenter;
 
     @Option(name = "--generate-end-component-screenshot")
     public boolean generateEndComponents = false;
 
 
-    @Option(name = "--skip-latest-plugin-release", usage = "Do not include information about the latest existing plugin release (if an older release is being offered)")
+    @Option(name = "--skip-latest-plugin-release", usage = "Do not include information about the latest existing " +
+            "plugin release (if an older release is being offered)")
     public boolean skipLatestPluginRelease;
 
     @Option(name = "--generate-release-history", usage = "Generate release history")
@@ -214,13 +233,16 @@ public class Main {
     @Option(name = "--generate-plugin-versions", usage = "Generate plugin versions")
     public boolean generatePluginVersions;
 
-    @Option(name = "--generate-plugin-documentation-urls", usage = "Generate plugin documentation URL mapping (for plugins.jenkins.io)")
+    @Option(name = "--generate-plugin-documentation-urls", usage =
+            "Generate plugin documentation URL mapping (for " + "plugins.jenkins.io)")
     public boolean generatePluginDocumentationUrls;
 
-    @Option(name = "--generate-recent-releases", usage = "Generate recent releases file (as input to targeted rsync etc.)")
+    @Option(name = "--generate-recent-releases", usage =
+            "Generate recent releases file (as input to targeted rsync " + "etc.)")
     public boolean generateRecentReleases;
 
-    @Option(name = "--generate-platform-plugins", usage = "Generate platform-plugins.json (to override wizard suggestions)")
+    @Option(name = "--generate-platform-plugins", usage = "Generate platform-plugins.json (to override wizard " +
+            "suggestions)")
     public boolean generatePlatformPlugins;
 
 
@@ -228,11 +250,14 @@ public class Main {
     @Option(name = "--pretty-json", usage = "Pretty-print JSON files")
     public boolean prettyPrint;
 
-    @Option(name = "--id", usage = "Uniquely identifies this update center. We recommend you use a dot-separated name like \"com.sun.wts.jenkins\". This value is not exposed to users, but instead internally used by Jenkins.")
+    @Option(name = "--id", usage = "Uniquely identifies this update center. We recommend you use a dot-separated " +
+            "name" + " like \"com.sun.wts.jenkins\". This value is not exposed to users, but instead internally " +
+            "used by " + "Jenkins.")
     @CheckForNull
     public String id;
 
-    @Option(name = "--connection-check-url", usage = "Specify an URL of the 'always up' server for performing connection check.")
+    @Option(name = "--connection-check-url", usage = "Specify an URL of the 'always up' server for performing " +
+            "connection check.")
     @CheckForNull
     public String connectionCheckUrl;
 
@@ -275,10 +300,12 @@ public class Main {
             if (argumentsFile == null) {
                 run();
             } else {
-                List<String> invocations = IOUtils.readLines(Files.newBufferedReader(argumentsFile.toPath(), StandardCharsets.UTF_8));
+                List<String> invocations = IOUtils.readLines(Files.newBufferedReader(argumentsFile.toPath(),
+                        StandardCharsets.UTF_8));
                 int executions = 0;
                 for (String line : invocations) {
-                    if (!line.trim().startsWith("#") && !line.trim().isEmpty()) { // TODO more flexible comments support, e.g. end-of-line
+                    if (!line.trim().startsWith("#") && !line.trim().isEmpty()) { // TODO more flexible comments
+                        // support, e.g. end-of-line
 
                         LOGGER.log(Level.INFO, "Running with args: " + line);
                         // TODO combine args array and this list
@@ -291,7 +318,8 @@ public class Main {
                         executions++;
                     }
                 }
-                LOGGER.log(Level.INFO, "Finished " + executions + " executions found in parameters file " + argumentsFile);
+                LOGGER.log(Level.INFO,
+                        "Finished " + executions + " executions found in parameters file " + argumentsFile);
             }
 
             return 0;
@@ -341,20 +369,21 @@ public class Main {
 
         metadataWriter.writeMetadataFiles(repo, www);
 
-        final String signedUpdateCenterJson
-                = new UpdateCenterRoot(repo, new File(Main.resourcesDir, WARNINGS_JSON_FILENAME))
-                .encodeWithSignature(signer, prettyPrint);
+        final String signedUpdateCenterJson = new UpdateCenterRoot(repo, new File(Main.resourcesDir,
+                WARNINGS_JSON_FILENAME)).encodeWithSignature(signer, prettyPrint);
 
         final File updateCenterJson = new File(www, UPDATE_CENTER_JSON_FILENAME);
         writeToFile(updateCenterPostCallJson(signedUpdateCenterJson), updateCenterJson);
         writeToFile(signedUpdateCenterJson, new File(www, UPDATE_CENTER_ACTUAL_JSON_FILENAME));
-        writeToFile(updateCenterPostMessageHtml(signedUpdateCenterJson), new File(www, UPDATE_CENTER_JSON_HTML_FILENAME));
+        writeToFile(updateCenterPostMessageHtml(signedUpdateCenterJson), new File(www,
+                UPDATE_CENTER_JSON_HTML_FILENAME));
 
         if (!skipUpdateCenter) {
             /*******************************************
              * deploy to remote OSS repository
              *******************************************/
-            String ossPath = AbstractTISRepository.PLUGIN_RELEASE_VERSION + UpdateCenterResource.KEY_UPDATE_SITE + "/" + UpdateCenterResource.KEY_DEFAULT_JSON;
+            String ossPath = AbstractTISRepository.PLUGIN_RELEASE_VERSION + UpdateCenterResource.KEY_UPDATE_SITE +
+                    "/" + UpdateCenterResource.KEY_DEFAULT_JSON;
             TISAliyunOSSRepositoryImpl.getOSSClient().writeFile(ossPath, updateCenterJson);
         }
 
@@ -378,8 +407,7 @@ public class Main {
             } else {
                 communityEditionCount.incrementAndGet();
             }
-            markdown.append("## ").append(isCommunityVIP ? COMMUNITY_VIP_ICON : StringUtils.EMPTY)
-                    .append(latest.artifact.getArtifactName() + AbstractTISRepository.TIS_PACKAGE_EXTENSION).append("\n");
+            markdown.append("## ").append(isCommunityVIP ? COMMUNITY_VIP_ICON : StringUtils.EMPTY).append(latest.artifact.getArtifactName() + AbstractTISRepository.TIS_PACKAGE_EXTENSION).append("\n");
 
             if (!latest.isCommunityVIP()) {
                 markdown.append("* **下载地址：** ").append(String.valueOf(latest.getDownloadUrl())).append("\n");
@@ -411,14 +439,15 @@ public class Main {
         }
 
         // tpis.mdx
-        FileUtils.write(new File(www, PLUGIN_TPIS_MARK_DOWN_FILENAME)
-                , (new MarkdownBuilder("header-tpis.txt", (headerContent) -> {
-                    // {{communityEditionCount}}，**社区协作版插件包数量**：{{communityCollaborationEditionCount}}
-                    headerContent = StringUtils.replace(headerContent, "{{communityEditionCount}}", String.valueOf(communityEditionCount.get()));
-                    headerContent = StringUtils.replace(headerContent
-                            , "{{communityCollaborationEditionCount}}", String.valueOf(communityVIPcountCount.get()));
-                    return headerContent;
-                }, markdown.getContent())).build(), TisUTF8.get());
+        FileUtils.write(new File(www, PLUGIN_TPIS_MARK_DOWN_FILENAME), (new MarkdownBuilder("header-tpis.txt",
+                (headerContent) -> {
+            // {{communityEditionCount}}，**社区协作版插件包数量**：{{communityCollaborationEditionCount}}
+            headerContent = StringUtils.replace(headerContent, "{{communityEditionCount}}",
+                    String.valueOf(communityEditionCount.get()));
+            headerContent = StringUtils.replace(headerContent, "{{communityCollaborationEditionCount}}",
+                    String.valueOf(communityVIPcountCount.get()));
+            return headerContent;
+        }, markdown.getContent())).build(), TisUTF8.get());
 
         StringBuffer extendsList = new StringBuffer();
         Descriptor descriptor = null;
@@ -446,12 +475,11 @@ public class Main {
                 }
                 // 社区版(免费) or 社区协作
                 extendsList.append("* **费用:** ").append(vip ? (COMMUNITY_VIP_ICON + " `社区协作") : ":smile: `社区版(免费)").append("`").append("\n\n");
-                extendsList.append("* **插件包:** [").append(extendImpl.getArchiveFileName())
-                        .append("](./tpis#").append(extendImpl.getArchiveFileNameHtmlAnchor()).append(")").append("\n\n");
-//                md.append("* 费用:");
-//                md.append("* 版本:");
-//                md.append("* 包大小:");
-//                md.append("* 打包时间:");
+                extendsList.append("* **插件包:** [").append(extendImpl.getArchiveFileName()).append("](./tpis#").append(extendImpl.getArchiveFileNameHtmlAnchor()).append(")").append("\n\n");
+                //                md.append("* 费用:");
+                //                md.append("* 版本:");
+                //                md.append("* 包大小:");
+                //                md.append("* 打包时间:");
                 if (descriptor == null) {
                     continue;
                 }
@@ -469,26 +497,28 @@ public class Main {
         if (MapUtils.isEmpty(extendPoints)) {
             throw new IllegalStateException("extendPoints can not be null");
         }
-//        Memoizer<IEndTypeGetter.EndType, EndTypePluginStore> endTypePluginDescs
-//                = new Memoizer<IEndTypeGetter.EndType, EndTypePluginStore>() {
-//            @Override
-//            public EndTypePluginStore compute(IEndTypeGetter.EndType key) {
-//                return new EndTypePluginStore();
-//            }
-//        };
+
+        /**
+         * 将tis-plugin jar 包中的插件扩展信息加入到`extendPoints`
+         */
+        for (Map.Entry<String, List<String>> entry : generateExtendpointsFromTISPluginDependency().entrySet()) {
+            List<PluginExtendsionImpl> pluginExtendsions = extendPoints.computeIfAbsent(entry.getKey(),
+                    k -> new ArrayList<>());
+            pluginExtendsions.addAll(entry.getValue().stream().map((impl) -> new PluginExtendsionImpl(impl, null)).collect(Collectors.toList()));
+        }
 
         AllEndTypePluginProcess allEndTypePluginProcess = new AllEndTypePluginProcess(extendPoints);
 
-        final MarkdownBuilder tabView = new MarkdownBuilder(
-                "header-source-sink.txt", (h) -> h
-                , allEndTypePluginProcess.drawEndTypePluginTableView()
-                , Optional.of("footer-source-sink.txt"));
+        final MarkdownBuilder tabView = new MarkdownBuilder("header-source-sink.txt", (h) -> h,
+                allEndTypePluginProcess.drawEndTypePluginTableView(), Optional.of("footer-source-sink.txt"));
 
         final File pluginCategory = allEndTypePluginProcess.processCategoryPlugin();
         if (!skipUpdateCenter) {
-            String ossPath = AbstractTISRepository.PLUGIN_RELEASE_VERSION + UpdateCenterResource.KEY_UPDATE_SITE + "/" + UpdateCenter.PLUGIN_CATEGORIES_FILENAME;
+            String ossPath = AbstractTISRepository.PLUGIN_RELEASE_VERSION + UpdateCenterResource.KEY_UPDATE_SITE +
+                    "/" + UpdateCenter.PLUGIN_CATEGORIES_FILENAME;
             TISAliyunOSSRepositoryImpl.getOSSClient().writeFile(ossPath, pluginCategory);
         }
+
 
         if (this.generateEndComponents) {
             // 生成各个数据端的图片
@@ -498,22 +528,26 @@ public class Main {
 
         FileUtils.write(new File(www, PLUGIN_TABVIEW_MARK_DOWN_FILENAME), tabView.build(), TisUTF8.get());
         // plugins.mdx
-        FileUtils.write(new File(www, PLUGIN_DESC_MARK_DOWN_FILENAME)
-                , (new MarkdownBuilder("header-plugins.txt", (headerContent) -> {
+        FileUtils.write(new File(www, PLUGIN_DESC_MARK_DOWN_FILENAME), (new MarkdownBuilder("header-plugins.txt",
+                (headerContent) -> {
 
-                    // {{extnedPointCount}}，**实现插件**：{{extnedPointImplCount}}
-                    headerContent = StringUtils.replace(headerContent, "{{extnedPointCount}}", String.valueOf(extendPointCount.get()));
-                    headerContent = StringUtils.replace(headerContent, "{{extnedPointImplCount}}", String.valueOf(implCount.get()));
+            // {{extnedPointCount}}，**实现插件**：{{extnedPointImplCount}}
+            headerContent = StringUtils.replace(headerContent, "{{extnedPointCount}}",
+                    String.valueOf(extendPointCount.get()));
+            headerContent = StringUtils.replace(headerContent, "{{extnedPointImplCount}}",
+                    String.valueOf(implCount.get()));
 
-                    return headerContent;
-                }, extendsList)).build(), TisUTF8.get());
+            return headerContent;
+        }, extendsList)).build(), TisUTF8.get());
 
         if (generatePluginDocumentationUrls) {
-            new PluginDocumentationUrlsRoot(repo).write(new File(www, PLUGIN_DOCUMENTATION_URLS_JSON_FILENAME), prettyPrint);
+            new PluginDocumentationUrlsRoot(repo).write(new File(www, PLUGIN_DOCUMENTATION_URLS_JSON_FILENAME),
+                    prettyPrint);
         }
 
         if (generatePluginVersions) {
-            new PluginVersionsRoot("1", repo).writeWithSignature(new File(www, PLUGIN_VERSIONS_JSON_FILENAME), signer, prettyPrint);
+            new PluginVersionsRoot("1", repo).writeWithSignature(new File(www, PLUGIN_VERSIONS_JSON_FILENAME), signer
+                    , prettyPrint);
         }
 
         if (generateReleaseHistory) {
@@ -531,6 +565,24 @@ public class Main {
         directoryTreeBuilder.build(repo);
     }
 
+    public static Map<String, List<String>> generateExtendpointsFromTISPluginDependency() {
+        URL resource = TIS.class.getResource("/" + PluginManifest.META_PATH_EXTENDPOINTS);
+
+        //        for (Map.Entry<String, List<String>> entry : extendPoints.entrySet()) {
+        //            for (String impl : entry.getValue()) {
+        //                System.out.println(impl);
+        //            }
+        //        }
+        return createExtendpoints((extendpointsPath) -> {
+            try {
+                return resource.openStream();
+            } catch (IOException e) {
+                throw new RuntimeException("resource:" + resource, e);
+            }
+        });
+
+    }
+
     private StringBuffer buildFieldDescListByMD(Descriptor descriptor) throws IOException {
         return buildFieldDescListByMD(false, null, descriptor);
     }
@@ -541,18 +593,19 @@ public class Main {
      * @return
      * @throws IOException
      */
-    private StringBuffer buildFieldDescListByMD(boolean appendPluginFieldsElement, IdentityName descId, Descriptor descriptor) throws IOException {
+    private StringBuffer buildFieldDescListByMD(boolean appendPluginFieldsElement, IdentityName descId,
+                                                Descriptor descriptor) throws IOException {
         MarkContentBuilder extendsList = new MarkContentBuilder();
         PluginFormProperties pluginFormPropertyTypes = descriptor.getPluginFormPropertyTypes();
 
-        final List<Map.Entry<String, PropertyType>> props
-                = pluginFormPropertyTypes.getSortedUseableProperties();//.accept(new PluginFormProperties.IVisitor() {
+        final List<Map.Entry<String, PropertyType>> props = pluginFormPropertyTypes.getSortedUseableProperties();//
+        // .accept(new PluginFormProperties.IVisitor() {
         PropertyType ptype = null;
         PluginExtraProps.Props extraProps = null;
         if (CollectionUtils.isNotEmpty(props)) {
             extendsList.append("* **配置项说明:** ").appendReturn(2);
-//                    md.append("|  配置项    | 类型    | 必须     | 说明    |").append("\n\n");
-//                    md.append("|  :-----   | :-----  | :-----  | :-----  |").append("\n\n");
+            //                    md.append("|  配置项    | 类型    | 必须     | 说明    |").append("\n\n");
+            //                    md.append("|  :-----   | :-----  | :-----  | :-----  |").append("\n\n");
             if (appendPluginFieldsElement) {
                 extendsList.append("<PluginFields>").appendReturn(2);
             }
@@ -575,12 +628,11 @@ public class Main {
                     continue;
                 }
                 Object dftVal = extraProps.getDftVal();
-                extendsList.append("\t* **默认值:** ")
-                        .append((dftVal == null) ? "无" : String.valueOf(dftVal)).appendReturn();
+                extendsList.append("\t* **默认值:** ").append((dftVal == null) ? "无" : String.valueOf(dftVal)).appendReturn();
 
                 extendsList.append("\t* **说明:** ");
-              //  StringUtils.isEmpty(extraProps.getAsynHelp())
-                if (!extraProps.isAsynHelp() ) {
+                //  StringUtils.isEmpty(extraProps.getAsynHelp())
+                if (!extraProps.isAsynHelp()) {
                     // extendsList.append().append("\n\n");
                     processLine(extendsList, 2, StringUtils.defaultString(extraProps.getHelpContent(), "无"));
                     extendsList.appendReturn();
@@ -592,21 +644,18 @@ public class Main {
                 LineIterator lineIt = null;
                 if (appendPluginFieldsElement && ptype.isDescribable()) {
                     List<? extends Descriptor> applicableDescriptors = ptype.getApplicableDescriptors();
-                    extendsList.append("\t* **可选项说明:** 可选")
-                            .append(applicableDescriptors.stream().map((desc) -> "`" + desc.getDisplayName() + "`").collect(Collectors.joining(",")))
-                            .append("以下是详细说明：").appendReturn();
+                    extendsList.append("\t* **可选项说明:** 可选").append(applicableDescriptors.stream().map((desc) -> "`" + desc.getDisplayName() + "`").collect(Collectors.joining(","))).append("以下是详细说明：").appendReturn();
 
                     for (Descriptor propDesc : applicableDescriptors) {
                         extendsList.append("\t\t* ").append(propDesc.getDisplayName()).appendReturn(2);
 
                         if (propDesc.getPropertyFields().size() > 0) {
-                            extendsList.append("\t\t\t<Figure img={require('./"
-                                    + TISEndsDocsGenerator.createPluginDescriblePropFieldImageName(descId, ptype, propDesc) + "')}/>\n\n");
+                            extendsList.append("\t\t\t<Figure img={require('./" + TISEndsDocsGenerator.createPluginDescriblePropFieldImageName(descId, ptype, propDesc) + "')}/>\n\n");
 
 
-                            try (StringReader propMDDoc
-                                         = new StringReader(String.valueOf(
-                                    buildFieldDescListByMD(false, descId, propDesc)))) {
+                            try (StringReader propMDDoc =
+                                         new StringReader(String.valueOf(buildFieldDescListByMD(false, descId,
+                                                 propDesc)))) {
                                 lineIt = IOUtils.lineIterator(propMDDoc);
                                 while (lineIt.hasNext()) {
                                     extendsList.append("\t\t\t" + lineIt.nextLine()).appendReturn();
@@ -629,21 +678,18 @@ public class Main {
      * @param batchs
      * @param incrs
      */
-    private void validateBatchIncrEndMatch(StringBuffer validateMsg
-            , List<Pair<IDataXEndTypeGetter, Descriptor>> batchs, List<Pair<IEndTypeGetter, Descriptor>> incrs) {
+    private void validateBatchIncrEndMatch(StringBuffer validateMsg,
+                                           List<Pair<IDataXEndTypeGetter, Descriptor>> batchs,
+                                           List<Pair<IEndTypeGetter, Descriptor>> incrs) {
         for (Pair<IDataXEndTypeGetter, Descriptor> p : batchs) {
             if (p.getLeft().isSupportIncr() ^ CollectionUtils.isNotEmpty(incrs)) {
-                validateMsg.append(p.getRight().clazz.getName())
-                        .append(",supportIncr:").append(p.getLeft().isSupportIncr())
-                        .append(",incr end size:" + incrs.size()).append("\n");
+                validateMsg.append(p.getRight().clazz.getName()).append(",supportIncr:").append(p.getLeft().isSupportIncr()).append(",incr end size:" + incrs.size()).append("\n");
             }
         }
     }
 
-    private void addToEndTypeStore(Memoizer<IEndTypeGetter.EndType
-            , EndTypePluginStore> endTypePluginDescs
-            , Descriptor pluginDesc
-            , PluginDescConsumer consumer) {
+    private void addToEndTypeStore(Memoizer<IEndTypeGetter.EndType, EndTypePluginStore> endTypePluginDescs,
+                                   Descriptor pluginDesc, PluginDescConsumer consumer) {
 
         IEndTypeGetter endTypeGetter = (IEndTypeGetter) pluginDesc;
 
@@ -661,16 +707,18 @@ public class Main {
 
     private static final String CHECK_ICON = "<i className={clsx('tis-check')}></i>";
 
-    final static String[] colors = new String[]{"tomato", "orange", "dodgerblue", "MediumSeaGreen", "Gray", "SlateBlue", "Violet", "LightGray"};
+    final static String[] colors = new String[]{"tomato", "orange", "dodgerblue", "MediumSeaGreen", "Gray",
+            "SlateBlue", "Violet", "LightGray"};
 
-//    private Memoizer<IEndTypeGetter.PluginVender, String> venderColor = new Memoizer<IEndTypeGetter.PluginVender, String>() {
-//        int index = 0;
-//
-//        @Override
-//        public String compute(IEndTypeGetter.PluginVender key) {
-//            return colors[index++];
-//        }
-//    };
+    //    private Memoizer<IEndTypeGetter.PluginVender, String> venderColor = new Memoizer<IEndTypeGetter
+    //    .PluginVender, String>() {
+    //        int index = 0;
+    //
+    //        @Override
+    //        public String compute(IEndTypeGetter.PluginVender key) {
+    //            return colors[index++];
+    //        }
+    //    };
 
 
     private void drawPluginCell(StringBuffer tabView, List<Pair<IEndTypeGetter, Descriptor>> plugins) {
@@ -691,7 +739,8 @@ public class Main {
         tabView.append("</td>");
     }
 
-    private void buildPluginLink(StringBuffer script, IEndTypeGetter.PluginVender vender, Consumer<StringBuffer> titleAppender) {
+    private void buildPluginLink(StringBuffer script, IEndTypeGetter.PluginVender vender,
+                                 Consumer<StringBuffer> titleAppender) {
         script.append("<i className='plugin-link ").append(vender.getTokenId()).append("-color'>");
         titleAppender.accept(script);
         script.append("</i>");
@@ -733,7 +782,8 @@ public class Main {
 
         boolean describleMatched = false;
 
-        public PluginClassAndDescClassPair(Class<? extends Describable> pluginParentClazz, Class<? extends Descriptor> descPlugin) {
+        public PluginClassAndDescClassPair(Class<? extends Describable> pluginParentClazz,
+                                           Class<? extends Descriptor> descPlugin) {
             this.pluginParentClazz = pluginParentClazz;
             this.descPlugin = descPlugin;
         }
@@ -748,11 +798,12 @@ public class Main {
 
         @Override
         public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
+            if (this == o)
+                return true;
+            if (o == null || getClass() != o.getClass())
+                return false;
             PluginClassAndDescClassPair that = (PluginClassAndDescClassPair) o;
-            return com.google.common.base.Objects.equal(pluginParentClazz, that.pluginParentClazz) &&
-                    com.google.common.base.Objects.equal(descPlugin, that.descPlugin);
+            return com.google.common.base.Objects.equal(pluginParentClazz, that.pluginParentClazz) && com.google.common.base.Objects.equal(descPlugin, that.descPlugin);
         }
 
         @Override
@@ -768,8 +819,8 @@ public class Main {
         public final Class<TISSinkFactory> extnedPointIncrSink = TISSinkFactory.class;
         public final Class<MQListenerFactory> extendPointIncrSources = MQListenerFactory.class;
         boolean hasInitEndTypePluginDescs;
-        Memoizer<IEndTypeGetter.EndType, EndTypePluginStore> dataEndTypePluginDescs
-                = new Memoizer<IEndTypeGetter.EndType, EndTypePluginStore>() {
+        Memoizer<IEndTypeGetter.EndType, EndTypePluginStore> dataEndTypePluginDescs =
+                new Memoizer<IEndTypeGetter.EndType, EndTypePluginStore>() {
             @Override
             public EndTypePluginStore compute(IEndTypeGetter.EndType key) {
                 return new EndTypePluginStore();
@@ -777,18 +828,27 @@ public class Main {
         };
         final Set<EndType> assistTypes = (EndType.getAssistTypes());
         final Set<EndType> transformerTypes = (EndType.getTransformerTypes());
+        final Set<EndType> alertTypes = (EndType.getAlertTypes());
 
 
-        Memoizer<IEndTypeGetter.EndType, EndTypePluginStore> assistEndTypePluginDescs
-                = new Memoizer<IEndTypeGetter.EndType, EndTypePluginStore>() {
+        Memoizer<IEndTypeGetter.EndType, EndTypePluginStore> assistEndTypePluginDescs =
+                new Memoizer<IEndTypeGetter.EndType, EndTypePluginStore>() {
             @Override
             public EndTypePluginStore compute(IEndTypeGetter.EndType key) {
                 return new EndTypePluginStore();
             }
         };
 
-        Memoizer<IEndTypeGetter.EndType, EndTypePluginStore> transformerEndTypePluginDescs
-                = new Memoizer<IEndTypeGetter.EndType, EndTypePluginStore>() {
+        Memoizer<IEndTypeGetter.EndType, EndTypePluginStore> alertEndTypePluginDescs =
+                new Memoizer<IEndTypeGetter.EndType, EndTypePluginStore>() {
+            @Override
+            public EndTypePluginStore compute(IEndTypeGetter.EndType key) {
+                return new EndTypePluginStore();
+            }
+        };
+
+        Memoizer<IEndTypeGetter.EndType, EndTypePluginStore> transformerEndTypePluginDescs =
+                new Memoizer<IEndTypeGetter.EndType, EndTypePluginStore>() {
             @Override
             public EndTypePluginStore compute(IEndTypeGetter.EndType key) {
                 return new EndTypePluginStore();
@@ -815,20 +875,20 @@ public class Main {
             for (Map.Entry<IEndTypeGetter.EndType, EndTypePluginStore> entry : snapshot.entrySet()) {
                 endtypeStore = entry.getValue();
 
-                ((List<Pair<IDataXEndTypeGetter, Descriptor>>) CollectionUtils.union(endtypeStore.dataXReaders, endtypeStore.dataXWriters))
-                        .forEach((p) -> {
-                            //Sets.newHashSet(extendPointDataXReader, extendPointDataXWriter)
-                            processd.add(p.getRight());
-                            parseCategoryPlugin(PluginCategory.BATCH, pluginCategories, p.getRight());
-                        });
+                ((List<Pair<IDataXEndTypeGetter, Descriptor>>) CollectionUtils.union(endtypeStore.dataXReaders,
+                        endtypeStore.dataXWriters)).forEach((p) -> {
+                    //Sets.newHashSet(extendPointDataXReader, extendPointDataXWriter)
+                    processd.add(p.getRight());
+                    parseCategoryPlugin(PluginCategory.BATCH, pluginCategories, p.getRight());
+                });
 
 
-                ((List<Pair<IEndTypeGetter, Descriptor>>) CollectionUtils.union(endtypeStore.incrSinks, endtypeStore.incrSources))
-                        .forEach((p) -> {
-                            // Sets.newHashSet(extnedPointIncrSink, extendPointIncrSources)
-                            processd.add(p.getRight());
-                            parseCategoryPlugin(PluginCategory.INCR, pluginCategories, p.getRight());
-                        });
+                ((List<Pair<IEndTypeGetter, Descriptor>>) CollectionUtils.union(endtypeStore.incrSinks,
+                        endtypeStore.incrSources)).forEach((p) -> {
+                    // Sets.newHashSet(extnedPointIncrSink, extendPointIncrSources)
+                    processd.add(p.getRight());
+                    parseCategoryPlugin(PluginCategory.INCR, pluginCategories, p.getRight());
+                });
             }
 
             TIS.get().extensionLists.snapshot().forEach((key, entry) -> {
@@ -848,9 +908,8 @@ public class Main {
                     List<PluginClass> pluginClas = entry.getValue().stream().map((pair) -> {
                         Class clazz = pair.getPluginParentClazz();
                         PluginWrapper pluginWrapper = pluginManager.whichPlugin(clazz);
-                        return new PluginClass(pair, pluginWrapper != null
-                                ? TISLocalPluginContextArtifactCoordinates.create(pluginWrapper.manifest, null).getGav()
-                                : null);
+                        return new PluginClass(pair, pluginWrapper != null ?
+                                TISLocalPluginContextArtifactCoordinates.create(pluginWrapper.manifest, null).getGav() : null);
                     }).collect(Collectors.toList());
                     categoryContent.put(entry.getKey().getToken(), pluginClas);
                 }
@@ -863,9 +922,10 @@ public class Main {
 
         }
 
-        private void parseCategoryPlugin(PluginCategory category, Map<PluginCategory
-                , Set<PluginClassAndDescClassPair>> pluginCategories, Descriptor desc) {
-            Set<PluginClassAndDescClassPair> categoryPlugin = pluginCategories.computeIfAbsent(category, (key) -> Sets.newHashSet());
+        private void parseCategoryPlugin(PluginCategory category, Map<PluginCategory,
+                Set<PluginClassAndDescClassPair>> pluginCategories, Descriptor desc) {
+            Set<PluginClassAndDescClassPair> categoryPlugin = pluginCategories.computeIfAbsent(category,
+                    (key) -> Sets.newHashSet());
 
 
             List<PluginClassAndDescClassPair> superDescPairs = Lists.newArrayList();
@@ -874,8 +934,7 @@ public class Main {
                 if (superDescClazz == Descriptor.class) {
                     break;
                 }
-                superDescPairs.add(new PluginClassAndDescClassPair(
-                        (Class<? extends Describable>) superDescClazz.getEnclosingClass(), (Class<? extends Descriptor>) superDescClazz));
+                superDescPairs.add(new PluginClassAndDescClassPair((Class<? extends Describable>) superDescClazz.getEnclosingClass(), (Class<? extends Descriptor>) superDescClazz));
 
             }
             //desc.getT()
@@ -886,14 +945,15 @@ public class Main {
                 if (sper == Object.class) {
                     break;
                 }
-                categoryPlugin.add(findPluginClassAndDescClassPair(superDescPairs, (Class<? extends Describable>) sper));
+                categoryPlugin.add(findPluginClassAndDescClassPair(superDescPairs,
+                        (Class<? extends Describable>) sper));
                 if (sper.getSuperclass() == Object.class) {
                     break;
                 }
 
-//                if (categoryPluginClasses.contains(sper)) {
-//                    break;
-//                }
+                //                if (categoryPluginClasses.contains(sper)) {
+                //                    break;
+                //                }
             }
         }
 
@@ -908,15 +968,16 @@ public class Main {
                 // 说明继承路径上没有中间 parent descriptor class 可用
                 return new PluginClassAndDescClassPair(sperDescribleClazz, null);
             } else {
-                Optional<PluginClassAndDescClassPair> first = superDescPairs.stream().filter((superPair) -> !superPair.describleMatched).findFirst();
-                return new PluginClassAndDescClassPair(sperDescribleClazz, (first.isPresent() ? first.get().getDescParentPlugin() : null));
+                Optional<PluginClassAndDescClassPair> first =
+                        superDescPairs.stream().filter((superPair) -> !superPair.describleMatched).findFirst();
+                return new PluginClassAndDescClassPair(sperDescribleClazz, (first.isPresent() ?
+                        first.get().getDescParentPlugin() : null));
             }
         }
 
-        private TreeSet<Map.Entry<IEndTypeGetter.EndType, EndTypePluginStore>>
-        createCaseOrderSet(Memoizer<IEndTypeGetter.EndType, EndTypePluginStore> endTypePluginDescs) {
-            final TreeSet<Map.Entry<IEndTypeGetter.EndType, EndTypePluginStore>> ends
-                    = Sets.newTreeSet(new Comparator<Entry<EndType, EndTypePluginStore>>() {
+        private TreeSet<Map.Entry<IEndTypeGetter.EndType, EndTypePluginStore>> createCaseOrderSet(Memoizer<IEndTypeGetter.EndType, EndTypePluginStore> endTypePluginDescs) {
+            final TreeSet<Map.Entry<IEndTypeGetter.EndType, EndTypePluginStore>> ends =
+                    Sets.newTreeSet(new Comparator<Entry<EndType, EndTypePluginStore>>() {
                 @Override
                 public int compare(Entry<EndType, EndTypePluginStore> o1, Entry<EndType, EndTypePluginStore> o2) {
                     return String.CASE_INSENSITIVE_ORDER.compare(o1.getKey().name(), o2.getKey().name());
@@ -934,41 +995,44 @@ public class Main {
                 this.drawEndTypePluginTableView();
             }
             File endsDocRoot = new File(www, "ends");
-            File endDoc = null;
-            File _category_ = null;
-            File endDir = null;
-            // EndTypePluginStore endTypePluginStore = null;
-            MarkdownBuilder tabView = null;
+            //            File endDoc = null;
+            //            File _category_ = null;
+            //            File endDir = null;
+            //            // EndTypePluginStore endTypePluginStore = null;
+            //            MarkdownBuilder tabView = null;
             // StringBuffer bodyContent = null;
 
             try (Playwright playwright = Playwright.create()) {
-                Browser browser = playwright.chromium().launch(new BrowserType.LaunchOptions()
-                        .setHeadless(false));
+                Browser browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(false));
                 // BrowserContext context = browser.newContext();
                 Page page = browser.newPage(new NewPageOptions().setViewportSize(1680, 2000));
 
-                final TreeSet<Map.Entry<IEndTypeGetter.EndType, EndTypePluginStore>> dataEnds
-                        = createCaseOrderSet(dataEndTypePluginDescs);
-
+                final TreeSet<Map.Entry<IEndTypeGetter.EndType, EndTypePluginStore>> dataEnds =
+                        createCaseOrderSet(dataEndTypePluginDescs);
                 buildEndTypeDocAndShutcutImage(dataEnds, EndTypeCategory.Data, endsDocRoot, page);
 
 
-                final TreeSet<Map.Entry<IEndTypeGetter.EndType, EndTypePluginStore>> assistEnds
-                        = createCaseOrderSet(assistEndTypePluginDescs);
+                final TreeSet<Map.Entry<IEndTypeGetter.EndType, EndTypePluginStore>> assistEnds =
+                        createCaseOrderSet(assistEndTypePluginDescs);
 
                 buildEndTypeDocAndShutcutImage(assistEnds, EndTypeCategory.Assist, endsDocRoot, page);
 
-                final TreeSet<Map.Entry<IEndTypeGetter.EndType, EndTypePluginStore>> transformerEnds = createCaseOrderSet(transformerEndTypePluginDescs);
-
+                final TreeSet<Map.Entry<IEndTypeGetter.EndType, EndTypePluginStore>> transformerEnds =
+                        createCaseOrderSet(transformerEndTypePluginDescs);
                 buildEndTypeDocAndShutcutImage(transformerEnds, EndTypeCategory.Transformer, endsDocRoot, page);
+
+                final TreeSet<Map.Entry<IEndTypeGetter.EndType, EndTypePluginStore>> alertEnds =
+                        createCaseOrderSet(alertEndTypePluginDescs);
+
+                buildEndTypeDocAndShutcutImage(alertEnds, EndTypeCategory.Alert, endsDocRoot, page);
 
 
                 browser.close();
             }
         }
 
-        private void buildEndTypeDocAndShutcutImage(
-                TreeSet<Entry<EndType, EndTypePluginStore>> dataEnds, EndTypeCategory endCategory, File endsDocRoot, Page page) throws IOException {
+        private void buildEndTypeDocAndShutcutImage(TreeSet<Entry<EndType, EndTypePluginStore>> dataEnds,
+                                                    EndTypeCategory endCategory, File endsDocRoot, Page page) throws IOException {
             int position = 1;
             File endDir;
             File _category_;
@@ -978,70 +1042,68 @@ public class Main {
 
                 EndType endType = entry.getKey();
                 EndTypePluginStore pluginStore = entry.getValue();
-                if (entry.getKey() != EndType.Paimon) {
-                      continue;
-                }
+                //                if (entry.getKey() != EndType.Paimon) {
+                //                      continue;
+                //                }
 
-                endDir = new File(endsDocRoot, StringUtils.lowerCase(endType.category.name()) + "/" + entry.getKey().name());
+                endDir = new File(endsDocRoot,
+                        StringUtils.lowerCase(endType.category.name()) + "/" + entry.getKey().name());
                 endDoc = new File(endDir, "index.mdx");
                 _category_ = new File(endDir, "_category_.json");
 
-                FileUtils.write(_category_, "{\n" +
-                        "  \"label\": \"" + entry.getKey().name() + "\",\n" +
-                        "  \"position\": " + (position++) + "\n" +
-                        "}");
+                FileUtils.write(_category_, "{\n" + "  \"label\": \"" + entry.getKey().name() + "\",\n" + "  " +
+                        "\"position\": " + (position++) + "\n" + "}");
 
 
                 final StringBuffer bodyContent = new StringBuffer();
 
 
-                TISEndsDocsGenerator.buildEndTypeImages(page, endDir, endType, endCategory, entry.getValue()
-                        , new CptConsumer() {
-                            @Override
-                            public void accept(HeteroEnum hetero, IdentityName descId, Descriptor desc) {
-                                if (endCategory == EndTypeCategory.Assist || endCategory == EndTypeCategory.Transformer) {
-                                    if (!assistTypes.contains(endType) && !transformerTypes.contains(endType)) {
-                                        throw new IllegalStateException("endType:" + endType + " must contain in assistTypes or transformerTypes");
-                                    }
-                                    bodyContent.append("## ").append(desc.getDisplayName()).append("\n\n");
-                                    bodyContent.append("<Figure img={require('./" + (desc.clazz.getSimpleName()) + ".png')}/>\n\n");
-                                } else if (hetero.getExtensionPoint() == DATAX_READER.getExtensionPoint()) {
-                                    bodyContent.append("## 批量读\n\n");
-                                    bodyContent.append("<Figure img={require('./dataxReader.png')}/>\n\n");
-                                } else if (hetero.getExtensionPoint() == DATAX_WRITER.getExtensionPoint()) {
-                                    bodyContent.append("## 批量写\n\n");
-                                    bodyContent.append("<Figure img={require('./dataxWriter.png')}/>\n\n");
-                                } else if (hetero.getExtensionPoint() == MQ.getExtensionPoint()) {
-                                    bodyContent.append("## 实时读\n\n");
-                                    bodyContent.append("<Figure img={require('./mq.png')}/>\n\n");
-                                } else if (hetero.getExtensionPoint() == TISSinkFactory.sinkFactory.getExtensionPoint()) {
-                                    bodyContent.append("## 实时写\n\n");
-                                    bodyContent.append("<Figure img={require('./sinkFactory.png')}/>\n\n");
-                                } else if (hetero.getExtensionPoint() == DATASOURCE.getExtensionPoint()) {
-                                    bodyContent.append("## 数据源配置\n\n");
-                                    bodyContent.append("<Figure img={require('./datasource.png')}/>\n\n");
-                                } else if (HeteroEnum.PARAMS_CONFIG.getExtensionPoint() == hetero.getExtensionPoint()) {
-                                    bodyContent.append("## 数据端配置\n\n");
-                                    bodyContent.append("<Figure img={require('./params-cfg.png')}/>\n\n");
-                                } else {
-                                    throw new IllegalStateException("illegal type:" + hetero.getExtensionPoint());
-                                }
-
-                                try {
-                                    bodyContent.append(Main.this.buildFieldDescListByMD(true, descId, desc)).append("\n\n");
-                                } catch (IOException e) {
-                                    throw new RuntimeException(e);
-                                }
+                TISEndsDocsGenerator.buildEndTypeImages(page, endDir, endType, endCategory, entry.getValue(),
+                        new CptConsumer() {
+                    @Override
+                    public void accept(HeteroEnum hetero, IdentityName descId, Descriptor desc) {
+                        if (endCategory == EndTypeCategory.Assist //
+                                || endCategory == EndTypeCategory.Transformer //
+                                || endCategory == EndTypeCategory.Alert) {
+                            if (!assistTypes.contains(endType) && !transformerTypes.contains(endType) && !alertTypes.contains(endType)) {
+                                throw new IllegalStateException("endType:" + endType + " must contain in assistTypes "
+                                        + "or transformerTypes");
                             }
-                        });
+                            bodyContent.append("## ").append(desc.getDisplayName()).append("\n\n");
+                            bodyContent.append("<Figure img={require('./" + (desc.clazz.getSimpleName()) + ".png')" + "}/>\n\n");
+                        } else if (hetero.getExtensionPoint() == DATAX_READER.getExtensionPoint()) {
+                            bodyContent.append("## 批量读\n\n");
+                            bodyContent.append("<Figure img={require('./dataxReader.png')}/>\n\n");
+                        } else if (hetero.getExtensionPoint() == DATAX_WRITER.getExtensionPoint()) {
+                            bodyContent.append("## 批量写\n\n");
+                            bodyContent.append("<Figure img={require('./dataxWriter.png')}/>\n\n");
+                        } else if (hetero.getExtensionPoint() == MQ.getExtensionPoint()) {
+                            bodyContent.append("## 实时读\n\n");
+                            bodyContent.append("<Figure img={require('./mq.png')}/>\n\n");
+                        } else if (hetero.getExtensionPoint() == TISSinkFactory.sinkFactory.getExtensionPoint()) {
+                            bodyContent.append("## 实时写\n\n");
+                            bodyContent.append("<Figure img={require('./sinkFactory.png')}/>\n\n");
+                        } else if (hetero.getExtensionPoint() == DATASOURCE.getExtensionPoint()) {
+                            bodyContent.append("## 数据源配置\n\n");
+                            bodyContent.append("<Figure img={require('./datasource.png')}/>\n\n");
+                        } else if (HeteroEnum.PARAMS_CONFIG.getExtensionPoint() == hetero.getExtensionPoint()) {
+                            bodyContent.append("## 数据端配置\n\n");
+                            bodyContent.append("<Figure img={require('./params-cfg.png')}/>\n\n");
+                        } else {
+                            throw new IllegalStateException("illegal type:" + hetero.getExtensionPoint());
+                        }
 
-                tabView = new MarkdownBuilder(
-                        "plugin-component-header.txt"
-                        , (h) -> {
+                        try {
+                            bodyContent.append(Main.this.buildFieldDescListByMD(true, descId, desc)).append("\n\n");
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                });
+
+                tabView = new MarkdownBuilder("plugin-component-header.txt", (h) -> {
                     return StringUtils.replace(h, "${title}", endType.name());
-                }
-                        , bodyContent
-                        , Optional.of("plugin-component-footer.txt"));
+                }, bodyContent, Optional.of("plugin-component-footer.txt"));
 
 
                 FileUtils.write(endDoc, tabView.build(), TisUTF8.get(), false);
@@ -1068,24 +1130,26 @@ public class Main {
                         }
 
                         if (extendPointDataXReader.isAssignableFrom(pluginDesc.clazz)) {
-                            addToEndTypeStore(dataEndTypePluginDescs, pluginDesc
-                                    , (store, typedDesc) -> store.dataXReaders.add(Pair.of((IDataXEndTypeGetter) typedDesc.getLeft(), typedDesc.getRight())));
+                            addToEndTypeStore(dataEndTypePluginDescs, pluginDesc,
+                                    (store, typedDesc) -> store.dataXReaders.add(Pair.of((IDataXEndTypeGetter) typedDesc.getLeft(), typedDesc.getRight())));
                             continue;
                         }
 
                         if (extendPointDataXWriter.isAssignableFrom(pluginDesc.clazz)) {
-                            addToEndTypeStore(dataEndTypePluginDescs, pluginDesc
-                                    , (store, typedDesc) -> store.dataXWriters.add(Pair.of((IDataXEndTypeGetter) typedDesc.getLeft(), typedDesc.getRight())));
+                            addToEndTypeStore(dataEndTypePluginDescs, pluginDesc,
+                                    (store, typedDesc) -> store.dataXWriters.add(Pair.of((IDataXEndTypeGetter) typedDesc.getLeft(), typedDesc.getRight())));
                             continue;
                         }
 
                         if (extnedPointIncrSink.isAssignableFrom(pluginDesc.clazz)) {
-                            addToEndTypeStore(dataEndTypePluginDescs, pluginDesc, (store, typedDesc) -> store.incrSinks.add(typedDesc));
+                            addToEndTypeStore(dataEndTypePluginDescs, pluginDesc,
+                                    (store, typedDesc) -> store.incrSinks.add(typedDesc));
                             continue;
                         }
 
                         if (extendPointIncrSources.isAssignableFrom(pluginDesc.clazz)) {
-                            addToEndTypeStore(dataEndTypePluginDescs, pluginDesc, (store, typedDesc) -> store.incrSources.add(typedDesc));
+                            addToEndTypeStore(dataEndTypePluginDescs, pluginDesc,
+                                    (store, typedDesc) -> store.incrSources.add(typedDesc));
                             continue;
                         }
 
@@ -1109,13 +1173,21 @@ public class Main {
                                     store.miscPlugins.add(typedDesc);
                                 });
                             }
+
+                            if (alertTypes.contains(endType)) {
+                                addToEndTypeStore(alertEndTypePluginDescs, pluginDesc, (store, typedDesc) -> {
+                                    store.miscPlugins.add(typedDesc);
+                                });
+                            }
+
+
                         }
                     }
                 }
 
                 StringBuffer validateMsg = new StringBuffer();
-                for (Map.Entry<IEndTypeGetter.EndType, EndTypePluginStore> entry
-                        : dataEndTypePluginDescs.snapshot().entrySet()) {
+                for (Map.Entry<IEndTypeGetter.EndType, EndTypePluginStore> entry :
+                        dataEndTypePluginDescs.snapshot().entrySet()) {
 
                     EndTypePluginStore store = entry.getValue();
                     validateBatchIncrEndMatch(validateMsg, store.dataXReaders, store.incrSources);
@@ -1130,12 +1202,13 @@ public class Main {
                 StringBuffer tabView = new StringBuffer();
                 tabView.append("<table style={{width: '100%', display: 'table'}}  border='1'>\n");
                 tabView.append("<thead>");
-                tabView.append("<tr><th rowspan='2'>类型</th><th colspan='2'>批量(DataX)</th><th colspan='2'>实时</th></tr>\n");
-                tabView.append("<tr><th width='20%'>读</th><th width='20%'>写</th><th width='20%'>Source</th><th width='20%'>Sink</th></tr>\n");
+                tabView.append("<tr><th rowspan='2'>类型</th><th colspan='2'>批量(DataX)</th><th " + "colspan='2'>实时</th" + "></tr>\n");
+                tabView.append("<tr><th width='20%'>读</th><th width='20%'>写</th><th width='20%'>Source</th><th " +
+                        "width='20%'>Sink</th></tr>\n");
                 tabView.append("</thead>");
                 tabView.append("<tbody>\n");
-                for (Map.Entry<IEndTypeGetter.EndType, EndTypePluginStore> entry
-                        : dataEndTypePluginDescs.snapshot().entrySet()) {
+                for (Map.Entry<IEndTypeGetter.EndType, EndTypePluginStore> entry :
+                        dataEndTypePluginDescs.snapshot().entrySet()) {
                     endType = entry.getKey();
                     store = entry.getValue();
                     tabView.append("<tr>\n");
@@ -1190,21 +1263,17 @@ public class Main {
         }
 
 
-        private List<Pair<IEndTypeGetter, Descriptor>> convert(
-                List<Pair<IDataXEndTypeGetter, Descriptor>> dataxComponents) {
-            return dataxComponents.stream()
-                    .map((pair) ->
-                            Pair.of((IEndTypeGetter) pair.getLeft(), pair.getRight()))
-                    .collect(Collectors.toList());
+        private List<Pair<IEndTypeGetter, Descriptor>> convert(List<Pair<IDataXEndTypeGetter, Descriptor>> dataxComponents) {
+            return dataxComponents.stream().map((pair) -> Pair.of((IEndTypeGetter) pair.getLeft(), pair.getRight())).collect(Collectors.toList());
         }
 
 
-//        public final boolean isChecked() {
-//            return CollectionUtils.isNotEmpty(dataXReaders)
-//                    || CollectionUtils.isNotEmpty(dataXWriters)
-//                    || CollectionUtils.isNotEmpty(incrSources)
-//                    || CollectionUtils.isNotEmpty(incrSinks);
-//        }
+        //        public final boolean isChecked() {
+        //            return CollectionUtils.isNotEmpty(dataXReaders)
+        //                    || CollectionUtils.isNotEmpty(dataXWriters)
+        //                    || CollectionUtils.isNotEmpty(incrSources)
+        //                    || CollectionUtils.isNotEmpty(incrSinks);
+        //        }
     }
 
     private String getExtendPointHtmlAnchor(String key) {
@@ -1250,7 +1319,7 @@ public class Main {
     }
 
     private static class PluginExtendsionImpl {
-        private final String extendImpl;
+        public final String extendImpl;
         private final HPI hpi;
 
         private Descriptor descriptor;
@@ -1269,8 +1338,7 @@ public class Main {
             try {
                 final String scmUrl = hpi.getScmUrl();
                 boolean endWithSlash = StringUtils.endsWith(scmUrl, "/");
-                return scmUrl + (endWithSlash ? StringUtils.EMPTY : "/") + "src/main/java/"
-                        + StringUtils.replace(extendImpl, ".", "/") + ".java";
+                return scmUrl + (endWithSlash ? StringUtils.EMPTY : "/") + "src/main/java/" + StringUtils.replace(extendImpl, ".", "/") + ".java";
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -1291,7 +1359,8 @@ public class Main {
         public void appendExtendImplMDSsript(String linkTitle, boolean html, StringBuffer md) {
 
             if (html) {
-                md.append("<Link to={plugins.metadata.permalink+'").append("#").append(this.getHtmlAnchor()).append("'}>").append(linkTitle).append("</Link>");
+                md.append("<Link to={plugins.metadata.permalink+'").append("#").append(this.getHtmlAnchor()).append(
+                        "'}>").append(linkTitle).append("</Link>");
             } else {
                 md.append("[").append(linkTitle).append("](./plugins#").append(this.getHtmlAnchor()).append(")");
             }
@@ -1366,7 +1435,7 @@ public class Main {
 
     private String updateCenterPostMessageHtml(String updateCenterJson) {
         // needs the DOCTYPE to make JSON.stringify work on IE8
-        return "\uFEFF<!DOCTYPE html><html><head><meta http-equiv='Content-Type' content='text/html;charset=UTF-8' /></head><body><script>window.onload = function () { window.parent.postMessage(JSON.stringify(" + EOL + updateCenterJson + EOL + "),'*'); };</script></body></html>";
+        return "\uFEFF<!DOCTYPE html><html><head><meta http-equiv='Content-Type' content='text/html;charset=UTF-8' " + "/></head><body><script>window.onload = function () { window.parent.postMessage(JSON.stringify(" + EOL + updateCenterJson + EOL + "),'*'); };</script></body></html>";
     }
 
     private static void writeToFile(String string, final File file) throws IOException {
